@@ -16,7 +16,7 @@
       <div id="pageIndex" class="pageIndex" exec="server">
          <div extends="ArticleIndex" title="StrataCode Introduction" url="strataCodeIntro.html"/>
          <div extends="ArticleIndex" title="Motivation for Layers" url="aboutLayers.html"/>
-         <div extends="ArticleIndex" title="Copy or Not?" url="copyOrNot.html"/>
+         <div extends="ArticleIndex" title="Copied code, plugins and IOC" url="copyOrNot.html"/>
          <div extends="ArticleIndex" title="Layered Build and Packaging System" url="buildAndPackaging.html"/>
          <div extends="ArticleIndex" title="Java to Javascript" url="javaToJavascript.html"/>
          <div extends="ArticleIndex" title="Synchronization Using Layers" url="syncWithLayers.html"/>

@@ -1,5 +1,5 @@
 <html extends="ArticlePage">
-<head title="Copy or Not"/>
+<head title="Copy or Not - The Future of Plugins"/>
 
 <body>
    <div id="content">
@@ -36,6 +36,8 @@ In the Java world, the most common and powerful factory pattern is an IOC contai
 To customize with an IOC container, only the configuration is copied and updated for each new type of use.  As long as you maintain the compatibility of the published APIs (which includes any APIs used in your configuration) you won't break applications that use your code as you go.  When you get a new version of the configuration you copied, you need to merge in any changes which are now required by the contract.  
 
 That's a lot to think about on each code change so it's no wonder that rigorous O/O design with IOC component configuration does not work well when your major corporate goal is "time to market".  It takes careful planning for customization hooks.  You need to refactor as new requirements emerge in the planning process which involves a lot of code rewriting.  Features move from code to configuration and back again.  The developers of those components must take care with each change to maintain compatibility for old configuration files or upgrades are not seamless.  It's in particular very difficult to seamlessly add new features - usually, the developer must modify their copy to add configuration required by the new feature. 
+
+There's another problem with inversion of control when used in plugin-frameworks.  When you replace a class, you've just introduced a conflict with other plugins that remove the same class.  Whichever one of you deploys last will continue working and the other breaks badly without warning.  What's needed is a way for each new plugin to layer itself into the previous model, but in a statically typed way to ensure compatibility of the type system at least.
 
 ## StrataCode Layers
 

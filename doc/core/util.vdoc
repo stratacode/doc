@@ -39,7 +39,7 @@
 <div id="content">
 
 <% } 
-   public String loadScripts() {} %>
+   public String loadScripts() { return ""; } %>
 
 <%! public String footer(String title, String fromFile) { %>
 

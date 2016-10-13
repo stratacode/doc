@@ -78,12 +78,16 @@ Here's the definition of that method and that annotation:
 %>//...
 @BindSettings(reverseMethod="numberToString")
 public double stringToNumber(String value) {
-   //...
+   //... error handling errors
+   try {
+       return Double.valueOf(value); 
+   }
+   catch (NumberFormatException exc) { // ... }
 }
  
 @BindSettings(reverseMethod="stringToNumber")
 public String numberToString(double number) {
-    //...
+   return format("#.##", number);
 }
 <% ) %>
 

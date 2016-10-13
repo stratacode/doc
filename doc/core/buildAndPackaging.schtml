@@ -22,7 +22,13 @@ StrataCode has a simple command-line integration with git for managing layers.  
 
 Some branches in git can be avoided by creating layers which patch or replace code, then merged when they no longer are needed.  You might copy some files or just add fields and override methods, create new types, etc.  It can be a nice way to build a new feature because your changes are kept separate and together for easier navigation.  You reduce conflicts with others changing different aspects of the same types - which would mean the same files if you did not use layers.
 
-Use of a layer requires that a particular set of contracts are defined - without saying whether those contracts are delivered in source or binary form.  As long as the layer supplies those contracts, upstream code works.  When you can isolate how dependencies affect developers or other members of the team, you can optimize workflows - minimizing merge conflicts and making it easier to maintain compatibility over the lifetime of the project.  
+## Layers and Contracts
+
+Each layer can be thought of as supplying a set of API contracts - classes, properties, and types.  They can be delivered in source or binary form, as long as these types are available to upstream code.  When you can isolate how dependencies affect developers or other members of the team, you can optimize workflows - minimizing merge conflicts and making it easier to maintain compatibility over the lifetime of the project.  Layers let you separate contracts from classes, processes, and git-repositories.  They let you manage contracts between dependencies better.  Mix and match, move and reassemble, plug and play.  Some simple use cases:
+
+* have one version of a layer retrieve a package as source, the other via a maven artifact - switch back and forth based on the need to debug the artifact, versus need for faster compiles
+* layers which do not modify contracts act just like filters - options, you can turn on/off
+* use layers to build code quickly, then refactor into shared, client and server layers - where the overlap defines the synchronization layer
 
 ## Options for Module Packaging
 
@@ -42,7 +48,7 @@ Anyone who has worked in a big Java application is aware of how difficult it can
 
 Maven provides a flexible but intricate system to specify, inherit, exclude and resolve conflicts between the versions you inherit from transitive dependencies.  The order in which modules are sorted is determined by the order in which the dependency graph is traversed.  That's based on the order of dependencies in the pom.xml file essentially.   
 
-Layers do essentially the same thing, but open up a couple of extra design strategies that are interesting.  First the stacking order of your layers determines the precedence when there are conflicts.  This order is basically what maven would do with the same modules, but there's more flexibility in controlling that order at the framework level.  Layers are organized into framework, application, and configuration stacks which are independently sorted and can set priorities and exchange info over init, start, validate cycles to work out the best configuration.   It's easy to trace that order in the IDE. If necessary, you just add a new dependencies to change the order of how you include transitive dependencies.
+Layers do essentially the same thing, but open up a couple of extra design strategies that are interesting.  First the stacking order of your layers determines the precedence when there are conflicts.  This order is basically what maven would do with the same modules, but there's more flexibility in controlling that order at the framework level as StrataCode offers options for sorting layers beyond dependencies.  Layers are organized into framework, application, and configuration stacks which are independently sorted and can set priorities and exchange info over init, start, validate cycles to work out the best configuration.  It's easy to trace that order in the IDE.  If necessary, you just add a new dependencies to change the order of how you include transitive dependencies.
 
 It's also easy to separate the transitive depenencies into a new layer - so you can include a package, but not include it's dependencies.  Or switch transitive dependencies by switching a layer.  That's a better alternative than excluding dependencies, since who knows when those will actually be required rules on your dependencies.  This way, a required dependency is always included but these packages of dependencies can be included optionally.  Dependencies are themselves just new, trivial modules without any code.  With maven, you need always get the dependencyManagement whether you want it or not.  
 
