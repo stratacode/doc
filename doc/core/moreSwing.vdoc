@@ -82,7 +82,9 @@ public double stringToNumber(String value) {
    try {
        return Double.valueOf(value); 
    }
-   catch (NumberFormatException exc) { // ... }
+   catch (NumberFormatException exc) { 
+       // ...  
+   }
 }
  
 @BindSettings(reverseMethod="stringToNumber")
