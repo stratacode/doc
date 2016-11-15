@@ -10,18 +10,28 @@
 
 ## Status
 
-The IntelliJ plugin for StrataCode supports the most important features which make IntelliJ so powerful for Java programmers.  These features are supported on all of the major StrataCode language formats: .sc, .scj, .schtml, and sct.  IntelliJ plugins are easy to create for Parselets-based languages because all features are moved down to the lowest-level possible - i.e. shared in shared base-classes, annotations made to the grammar, etc.
+The IntelliJ plugin for StrataCode supports the most important features which make IntelliJ so powerful for Java programmers.  These features are supported on all of the major StrataCode language formats: .sc, .scj, .schtml, and sct.  IntelliJ plugins are fairly easy to create for Parselets-based languages because features are moved down to the lowest-level possible - i.e. contained in base classes for specific types of nodes which can be shared or customized as needed for each language element.
 
 ## Installation Instructions 
 
 * Download the sc4idea.jar file
 * Go to IntelliJ's Preferences, Plugin tab and choose "Install from disk"
 * Create a directory inside of your ~/IdeaProjects for the project.  Instead of that directory put 
-a directory for your main scLayers module and inside of that in a directory called "layers" check out the git layers repository.
+a directory for your main scLayers module and inside of that in a directory called "bundles" check out the git repositories for the coreFramework into this directory
 
- ~/IdeaProjects/scTestProject/scLayers/layers
+ ~/IdeaProjects/scTestProject/bundles/coreFramework
 
-* Create a new Empty project (here called "scTestProject")
+* Create a new Empty project (here called "scTestProject") that points to ~/IdeaProjects/scTestProject
+
+* If you want, you can additionally check out the examples bundle here:
+
+ ~/IdeaProjects/scTestProject/bundles/example
+
+* To create simple layers of your own without creating a new bundle, place your layer directories into:
+
+ ~/IdeaProjects/scTestProject/layers/
+
+Each directory in the layers directory can contain a layer definition file, or it can be a layer group which is a directory containing other layer groups or layer directories.
 
 ## Option #1: Installation With StrataCode Source 
 
@@ -46,6 +56,14 @@ The sc4idea plugin also will usually be bundled with the sc.jar file so you do n
 Just create your StrataCode module in the EmptyProject or create a StrataCode project in one step.
 
 In this case, StrataCode will find the sc.jar in the plugin, it will create a library for this jar in the configuration and add a dependency on that library to each StrataCode module. 
+
+## Manually Adding StrataCode Source Dependency
+
+If you create a module without the StrataCode source and later change your mind, edit the module's dependencies and remove the SCLib library.  Create three module's from existing sources - the coreRuntime, fullRuntime and system(sc) modules.  Then add a dependency on the sc module in your project.  
+
+NOTE: it's important that fullRuntime be ahead of coreRuntime in the dependency list for IntelliJ.
+
+Also add a dependency on the JLine library.  If necessary, add the Jline library (version 2.x) from Maven or from the jar file included in the SC distribution.
 
 ## Creating a StrataCode Module
 
