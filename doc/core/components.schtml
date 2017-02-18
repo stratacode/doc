@@ -67,7 +67,7 @@ Framework layers can use inner objects for the parent/child relationship by addi
 
 ## Properties
 
-Java programmers are advised to avoid exposing fields directly in APIs.  Instead the convention uses getX and setX methods to implement a property called X.  You explicitly call the getX or setX method instead of directly manipulating the field so that the implementation can adapt down the road without breaking your code.   The result is functional and well tested but it's more code to write both to implement and use a property and worse the code is harder to read and use. 
+Java programmers are advised to avoid exposing fields directly in APIs.  Instead the convention used in Java is to define two methods called getX and setX to implement a property called "x".  Programmers have to then call the getX or setX method instead of directly manipulating the field.  Later, the implementation of the property can change without affecting the calling code.  The result is functional and well tested but it's more code to write both to implement and use a property and worse the code is harder to read and use. 
 
 StrataCode simplifies your life by formalizing the Java convention.  It generates getX and setX methods as needed and converts simple identifiers and assignments to getX and setX method calls as needed in your generated code.  You can define properties and use them as you would Java fields.  StrataCode handles any necessary code-generation and conversion for you automatically.  Your code looks simpler, cleaner and is more efficient.  Use fields knowing that you can write custom getX and setX methods, or have them generated for you later without breaking code.
 
@@ -75,19 +75,21 @@ Frameworks can customize the getX and setX code generated for properties to inte
 
 The data binding system detect when properties are used in data binding expressions and generates getX and setX methods with the proper code to implement the binding.  The setX method will trigger a change event typically, or the getX method may force the lazy-evaluation of the binding.  The details of how this happens are managed in framework layers so application programmers and business users only see properties that may be attached to data binding rules.  They are provided efficient and powerful abstractions over properties which can adapt from framework to framework. 
 
+In most cases, the default is what you need but there are ways to override the automatic getX/setX conversion.  You can use the @GetSet annotation on a field to force getX/setX method for that property.  You can use @ManualGetSet on a method to disable the automatic get/set conversion for that method.  You can refer to a field with the "this." prefix to avoid a getX conversion for that expression.  The conversion is disabled automatically for a field in it's own getX and setX methods.
+
 ## Recursive References using @Component
 
-When you initialize fields in a Java class you can only refer to fully initialized objects.  If the state of your object in any way refers to values which refer back to you, your code will either not compile or just not work.  These are called recursive references.  Component frameworks support them by using a multi-step initialization process.  Objects are created and registered in the name space, then references are resolved, then initialization hooks are run. 
+When you initialize a field in a Java class the initializing expression can only refer to fully initialized objects.  If the state of your object in any way refers to values which refer back to you, your code will either not compile or just not work.  These are called recursive references.  Component frameworks support them by using a multi-step initialization process.  Objects are created and registered in the name space, then references are resolved, then initialization hooks are run. 
 
-Programmers try to avoid recursive references because they create less modular code, the multi-step init process is more complex at runtime.  But when you need to add one, it can be very hard to refactor code to remove that need.  In the real world, data sometimes flows upstream.  To move these references from Java to the component framework involves rewriting code, configuration, and breaks code using the affected published APIs or configuration hooks.
+Programmers try to avoid recursive references because they create less modular code, the multi-step init process is more complex at runtime.  But when you need to add one, it can be very hard to refactor code to remove that need.  In the real world, data sometimes flows upstream.  Declarative languages like HTML support recursive references because it's much more intuitive and less error prone to wire together your components this way.  But to move these references from Java to the component framework involves rewriting code, configuration, and breaks code using the affected published APIs or configuration hooks.  You are forced in implement a tricky design barrier - what's code, what's configuration.
 
-StrataCode offers a nice alternative.  Add the @Component annotation to your StrataCode class to change the generated Java code to allow that class to use recursive references.  StrataCode transforms your Java code to use a multi-step initialization sequence.  First it creates all instances in the reference graph and sets their member variables so the getX methods work.  Then the instance variables are assigned.  
-
-TODO: Currently the constructor code is run before these complex instance variables are assigned.  Should this be fixed?  It would be nice if by the time constructor code is run, all instance variables are at least assigned.  
+StrataCode offers a nice alternative.  Add the @Component annotation to your StrataCode class to change the generated Java code to allow that class to use recursive references.  StrataCode transforms your Java code to use a multi-step initialization sequence.  First it creates all instances in the reference graph and sets their member variables so the getX methods work.  Then the instance variables are assigned.  Then initialization code is run. 
 
 You cannot guarantee that all referenced constructors have been run as there's no way to do that in a recursive reference graph.  Instead, you can move code dependent on that into an init method that is called later.  There's also a start method called after all referenced components have been initialized. 
 
-TODO: It would be nice to configure the list of stages required for a given component class (e.g. init, start, validate, etc.)
+Note: Currently the constructor code is run before these reference instance variables are assigned.  Should this be fixed?  It would be nice if by the time constructor code is run, all instance variables are at least assigned.  
+
+It would be nice to be able to configure the list of stages required for a given component class (e.g. init, start, validate, etc.)
 
 ## Customizing Object Lifecycle
 

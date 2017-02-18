@@ -5,15 +5,13 @@
    <div id="content">
        <div id="pageContent" exec="server">
 
-<img style="margin:0px auto;display:block;width:100%" src="images/layerSep1.png" alt="Rock layers"/>
-
 <%= MarkDownPage.markDown(%>
 
 ## StrataCode: Leverage Your Code for Everyone's Productivity
 
 by Jeff Vroom
 
-Are you a programmer looking to increase your leverage with code?  If so, should you choose the most powerful programming language, or will you get more leverage by coding in a way that improves the productivity of everyone else?  For applications which are customized by end users, to me the choice is clear.  Clients and users of these applications are happier and more productive when they can make the changes they need without programmers.  Programmers can accomplish more in the long term when they code in a way that improves the readability and flexibility of their code, so it continues to evolve even when they are building something new.  
+Are you a programmer looking to increase your leverage with code?  If so, should you choose the most powerful programming language, or will you get more leverage by coding in a way that improves the productivity of everyone else?  For applications which needs to be customized, to me the choice is clear.  Clients and users of these applications are happier and more productive when they can make the changes they need without programmers.  Programmers can accomplish more in the long term when they code in a way that improves the readability and flexibility of their code, so it continues to evolve even when they are building something new.  
 
 With that goal in mind, I've focused my career on building systems that allow:
 
@@ -21,15 +19,13 @@ With that goal in mind, I've focused my career on building systems that allow:
 * programmers to build and maintain frameworks which support application code that can be written and managed by diverse teams 
 * frameworks to adapt to new requirements with less friction - improving the quantity of these changes which occur in framework layers, rather than application code.
 
-This search started more than 20 years ago when I led the design of a reactive, declarative application framework geared for scientists ([AVS](http://www.avs.com)).  The applications built on AVS were more concise, more declarative and easier to manage for scientists so it was relatively successful despite the high price tag.  Through the experience of watching applications built on that system, I learned how quickly applications built in this declarative model grew to be hard to navigate, even when built on the most flexible object-oriented framework.  Though there were larger reusable chunks of code in there, it was difficult to create larger resuable parts.  You could customize fine-grained components easily but medium-scale customizations required copying the application, then making changes to the copy.  Copying the application is fine for some cases in the short-term but often too difficult to manage in the long run.  Object-oriented patterns for reusing code were not enough to permit these common, intermediate level customizations in a maintainable way.
+This search started more than 20 years ago when I led the design of a reactive, declarative application framework geared for scientists ([AVS](http://www.avs.com)).  The applications built on AVS were more concise, more declarative and easier to manage for scientists so it was relatively successful despite the high price tag.  Through the experience of watching applications built on that system, I learned how quickly applications built in this declarative model grew to be hard to navigate, even when built on the most flexible object-oriented framework.  Though there were larger reusable chunks of code in there, it was difficult to create larger resuable parts.  You could customize the applications pretty easily but it required copying the entire application, then making changes to the copy.  Copying the application is fine for some cases in the short-term but often too difficult to manage these copies in the long run.  Object-oriented patterns for reusing code were not enough to permit independent customizations which could be combined in a more flexible way. 
 
-That experience inspired the design of the layered component configuration for the [ATG Commerce Platform](http://www.oracle.com/commerce) (aka Dynamo).  By merging layers of component configuration, [Dynamo's nucleus](https://docs.oracle.com/cd/E23095_01/Platform.93/ATGProgGuide/html/s0201nucleusorganizingjavabeancompone01.html) breaks complex applications into manageable slices of medium sized features, making it easier to configure families of application environments and maintain complex software systems.  
+That experience inspired my contribution to the design of the layered component configuration for the [ATG Commerce Platform](http://www.oracle.com/commerce) (aka Dynamo).  By merging layers of component configuration, [Dynamo's nucleus](https://docs.oracle.com/cd/E23095_01/Platform.93/ATGProgGuide/html/s0201nucleusorganizingjavabeancompone01.html) breaks complex applications into manageable slices of medium sized features, making it easier to configure families of application environments and maintain complex software systems.  
 
 The lessons learned from watching hundreds of enterprise applications built on ATG inspired the design of StrataCode layers.  The more I thought about organizing systems in layers, the more potential I saw.  It felt like a fundamental missing organizational abstraction for information systems.  In nature you can't help but see the fundamental way layers and layered processes are embedded in everything.  We use layered structures all of the time in computing as well, and even as a way of organizing executables with the system path, and classes in your class path.  What if layers were the fundamental way to organize code and assemble programs?  When Photoshop added layers as a organizational abstraction for image editing, it changed everything.  Can layers in code do the same thing for programming?
 
 <% ) %>
-
-<img style="margin:0px auto;display:block;width:100%" src="images/layerSep2.png" alt="Rock layers"/>
 
 <%= MarkDownPage.markDown(%>
 
@@ -45,8 +41,6 @@ When you use code-generation in this way, application source code can stay indep
 
 <% ) %>
 
-<img style="margin:0px auto;display:block;width:100%" src="images/layerSep3.png" alt="Rock layers"/>
-
 <%= MarkDownPage.markDown(%>
 
 ## Learning to Code with Layers
@@ -57,8 +51,6 @@ The StrataCode IDE helps by providing wizards for the common operations, edit-ti
 
 <% ) %>
 
-<img style="margin:0px auto;display:block;width:100%" src="images/layerSep4.png" alt="Rock layers"/>
-
 <%= MarkDownPage.markDown(%>
 
 ## Refactoring
@@ -67,7 +59,7 @@ As the needs for your system become more complicated, instead of refactoring obj
 
 <% ) %>
 
-<img style="margin:0px auto;display:block;width:75%" src="images/layersByDep.png" alt="Dependencies between Modules and Layers"/>
+<img id="layersByDep" style="margin:0px auto;display:block;width:75%" src="images/layersByDep.png" alt="Dependencies between Modules and Layers"/>
 
 <%= MarkDownPage.markDown(%>
 
@@ -77,11 +69,11 @@ For example, let's say you have a class called UserAccount which both defines th
 
 Additionally, with layers you can eliminate recursive references that might develop, even without changing the APIs.  
 
-<img style="margin:0px auto;display:block;width:75%" src="images/moduleDeps.png" alt="Dependencies with Modules"/>
+<img id="depsWithModules" style="margin:0px auto;display:block;width:75%" src="images/moduleDeps.png" alt="Dependencies with Modules"/>
 
 Code that adds the recursive dependency is put in a new layer that modifies types:
 
-<img style="margin:0px auto;display:block;width:75%" src="images/layerDeps.png" alt="Dependencies with Layers"/>
+<img id="depsWithLayers" style="margin:0px auto;display:block;width:75%" src="images/layerDeps.png" alt="Dependencies with Layers"/>
 
 <%= MarkDownPage.markDown(%>
 
