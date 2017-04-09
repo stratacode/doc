@@ -14,7 +14,6 @@ doc.core extends servlet.options.globalScope, doc.tag, jetty.schtml, js.schtml {
       docLang.prependLayerPackage = false;
       docLang.evalToString = true; // Support <%= templateName %> - template will implement toString by evaluating itself
       docLang.resultSuffix = "html";
-      docLang.templatePrefix = "web";
 
       // Write output to the layer directory
       //docLang.outputDir = layerPathName;
@@ -25,6 +24,9 @@ doc.core extends servlet.options.globalScope, doc.tag, jetty.schtml, js.schtml {
 
       // Only layers after this one will see this extension
       docLang.definedInLayer = this;  
+      // Put these in the web directory
+      docLang.srcPathTypes = new String[] {"web"};
+
       registerLanguage(docLang, "vdoc");
 
       sc.layer.LayeredSystem sys = getLayeredSystem();
