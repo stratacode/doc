@@ -225,15 +225,12 @@
 
    <div class="defaultDetailBox">
    <p>
-<a href="about.html">Jeff Vroom</a> (jeff@jvroom.com) began realizing his vision for StrataCode seven years ago.  It's now just under 120K lines of readable, easy-to-follow code with no core dependencies, soon available for download.  StrataCode works as a standalone build and configuration management tool, core-runtime jar file for data binding, or a dynamic runtime used by the build system, dynamic Java and the IDE.   There's built-in git and maven support to get started quickly.  StrataCode's test-suite compiles code from dozens of standard Java projects with complete code intelligence and very good accuracy with errors.  
+<a href="about.html">Jeff Vroom</a> (jeff@jvroom.com) began realizing the vision for StrataCode seven years ago.  It's now just under 140K lines of readable, easy-to-follow code with no core dependencies, soon available for download.  StrataCode works as a standalone build and configuration management tool, core-runtime jar file for data binding, or a dynamic runtime used by the build system, dynamic Java and the IDE.   There's built-in git and maven support to get started quickly.  StrataCode's test-suite compiles code from dozens of standard Java projects with complete code intelligence and very good accuracy with errors.  
    <p>
  Easily integrated with <a href="webFramework.html">Javascript</a>, <a href="webFramework.html">HTML</a>, <a href="swingCommandLine.html">Swing</a>, <a href="gettingStartedAndroid.html">Android</a>, OpenGL, <a href="moreFrameworks.html">JUnit, Servlets, Jetty</a>, OpenJPA, Hibernate, <a href="gwt.html">GWT</a>, and <a href="wicket.html">Wicket</a>.  
    <p>
   <a href="contact.html">Contact us</a> if you'd take it for a test spin and provide feedback - we'd really appreciate it.  Hopefully we'll be able to open source any components which you find useful and at this point are very flexible with providing individual licenses for testing and feedback.   Maybe you'd like to be an early adopter and contributor?
    </div>
-
-## Status 
-
 
 
 </div>

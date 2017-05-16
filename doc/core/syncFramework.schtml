@@ -71,13 +71,13 @@ If no @Sync annotation is found for a property, type, or layer that property is 
 
 By default you are synchronizing to the default destination - the server if you are on the client and the client if you are on the server.  To sync between servers, there is a way to configure destinations.  In this case, the server will generate different sync profiles for each destination and manage different sync states.
 
-### Scopes
+### Scopes: managing object lifecycle
 
-Scopes are a feature of the StrataCode code generation system that let you manage an object's lifecycle - i.e. how it is created, how references are resolved, and when it is stopped.  They let you use declarative models, using a single name space, even when the instances in that name-space are created and deleted at different times (e.g. per-request, per-user, per-session, etc), and perhaps driven by additional runtime parameters (e.g. per-merchant, per-store, per entry in a list).
+Scopes are a feature of the StrataCode code generation system that let you manage an object's lifecycle - i.e. how it is created, how references are resolved, and when it is stopped.  They let you use declarative that can do more.   You have a single name space of objects, even when the instances in that name-space are created and deleted at different times (e.g. per-request, per-user, per-session, etc), and perhaps driven by additional runtime parameters (e.g. per-merchant, per-store, per entry in a list).  StrataCode manages the object lifecycle using code generation, so your code is consistently run in a context that makes sense with minimal awareness of when objects are being created and destroyed.
 
 Scopes make StrataCode's synchronization system very flexible and powerful.
 
-The default scope is called "global" and is equivalent to using static variables in Java.  In the web server context, the session scope manages objects which are per client browser.  Request scope disposes of instances after each request for stateless applications (TODO: request scope is not implemented yet).
+The default scope is called "global" and is equivalent to using static variables in Java.  In the web server context, the session scope manages objects which are per client browser.  Request scope disposes of instances after each request for stateless applications. 
 
 You can use scopes for even more dynamic lifecycles such as per-list item.  In that case, you can inject additional variables for the list index and current list item. 
 
@@ -87,15 +87,13 @@ Scopes are a safe name-space sandbox for the current context to access all of th
 
 To implement a scope, framework code has the necessary hooks available so they do not require much code at all.  A new scope can use thread-local state to pass parameters to code placed into the generated getX methods to lookup the right instance.  A scope can add variables to the object's creation.  In this case, you frequently generate a method to create a new instance passing those variables (e.g. the current list index, the current item).  The framework manages creating new items, updating those properties, etc. behind the scenes so your code is simple and declarative and always reflecting the current context.
 
-When using scopes there are two types of nesting of inner objects, just like in Java: static and instance.  In this case, static instances might not be "one-per-class" like in Java but instead you can obtain a reference to one globally.   In contract, inner instances are defined in the context of their parent object.   In this case, scopes may just separate out one group of children from another, or might provide a way to resolve children which are not directly stored with the parent, but instead are just associated with it.
+When using scopes there are two types of nesting of inner objects, just like in Java: static and instance.  In this case, static instances might not be "one-per-class" like in Java but instead you can obtain a reference to one globally.   In constrast, inner instances are defined in the context of their parent object.   In this case, scopes may just separate out one group of children from another, or might provide a way to resolve children which are not directly stored with the parent, but instead are just associated with it.
 
-At runtime, the framework extends the scope apis to control the scope.  These APIs include the registry for scopes.  A method to resolve an object instance given it's type name (for a global object reference).  You also can find all of the child objects of a particular parent that have a given scope.
+At runtime, framework code or code generated from framework code can use the scope apis to control the objects in each scope.  These APIs include the registry for which scope exist.  There's a method to resolve an object instance given it's type name (for a global object reference).  You also can find all of the child objects of a particular parent that have a given scope.
 
-Scopes can force the use of static inner objects so the system generates static getX methods.  That lets you nest objects with scopes inside each other without fear of dependencies or data leakage - e.g. if you accidentally store a per-user value in a global property, letting other users see that property.
+Scopes can force the use of static inner objects so the system generates static getX methods.  That lets you nest objects with scopes inside each other without fear of dependencies or data leakage - e.g. if you embed a per-user instance as a child of a global instance, as long as the global instance is only accessed in the context of a user's session, this works properly without data being stored in the global instance itself that belongs to the user.
 
-When you use inner instance objects, the inner object must have no scope, live in the same scope or be a nested scope of the parent.  That's enforced at compile time. 
-
-Objects and classes can be assigned a scope via the @Scope annotation or the scope&lt;scopeName&gt; operator.  Some scopes will add additional fields to the current context which you can use in your object definitions.  Just as with other objects, the framework manages the create and destroy calls for you.
+Objects and classes can be assigned a scope via the @Scope annotation or the scope&lt;scopeName&gt; operator.  Some scopes will add additional fields to the current context which you can use in your object definitions.  Just as with other objects, the framework manages the create and destroy calls for you.  Framework developers can attach default scopes for classes with a specific base type, or defined in a specific layer.  In this way, a framework can isolate a sandbox for a specific type of application code, and use that code in very flexible ways, all using simple declarative code.
 
 ### SyncContext
 
@@ -136,17 +134,22 @@ The SyncManager also manages adding of synchronized instances.  As instances are
 
 ### Synchronization Format
 
-The SyncLayer serializes itself into a stream using the StrataCode language.  The client sends down a layer of changes, the server responds with its own layer of changes.  
+The SyncLayer serializes itself using a SerializationFormat which is enables serialization of the sync layer, and the "applySyncLayer" process which deserializes the sync layer and applies it in a SyncContext.
+
+Currently two SerializationFormats are supported: stratacode and json.  
+
+In both formats, the client sends down a layer of changes, the server responds with its own layer of changes.  
 
 This format uses a package declaration, modify definitions, property assignments, field definitions for new objects when there are constructor args, otherwise object statements.   
 
-Frameworks can customize the handling of a particular instance type by registering a SyncHandler for an instance.  The SyncHandler can substitute a different instance or override how the value is turned into a string in the language format.  The SyncHandler can generate code to add or remove an element from a list. 
+Frameworks can customize the handling of a particular instance type by registering a SyncHandler for an instance.  The SyncHandler can substitute a different instance or override how the value is turned into a string in the language format.  The SyncHandler can generate code to add or remove an element from a list or use the built-in features provided in the SerializationFormat. 
 
-This format makes it easy to read the changes going over the wire.  When you enable trace and verbose on the SyncManager you can easily detect properties getting synchronized that should not or vice versa.  You also have diagnostics up front as which types and properties are synchronized and with what options.
+Using the stratacode format makes it easier to read the changes going over the wire because the serialization format is readable (though generated) StrataCode.  
+When you enable trace and verbose on the SyncManager you can easily detect properties getting synchronized that should not or vice versa.  You also have diagnostics up front as which types and properties are synchronized and with what options.
 
-When the server has changes to send to the client, it first puts them into the same serialization format, then parses that format into a JavaModel, then converts that into JS code to merge the changes into the JS runtime.  This produces a format which is very efficient for the client to apply.  It can simply eval the resulting code, preventing parsing of the code in Javascript itself.  It's also nice for debugging because you can set breakpoints in the generated code while it's being applied.  The downside is that the parsing and formatting of the JS code is not fast for large data sets.  The format generated by synchronization can be parsed in JS almost as quickly as JSON or soon a binary version that will be easier to maintain and faster at runtime. 
+When the server has changes to send to the client it can either use JSON, or it convert the StrataCode language into Javascript where you can just eval the JS.  In general, the JSON format will a lot faster for the server but perhaps the javascript version will in some cases be faster for the client.
 
-When your updates include code changes, as detected by the StrataCode refresh process, those are processed with the same system.
+When your updates include code changes, as detected by the StrataCode refresh process, those are processed with the same system.  In this way, your client application can stay in sync, even as you are making updates to the code on both the client and server (as long as the frameworks support updating the classes which are modified).
 
 ### Sync Groups
 

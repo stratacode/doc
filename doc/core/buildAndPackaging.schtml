@@ -8,7 +8,15 @@
 <%= MarkDownPage.markDown(%>
 ## Layered Build and Packaging 
 
-Layers are a great way to manage builds, packages, versions, tests, deployment configurations, etc.  Like Gradle, using a language that's object oriented and supports components makes project management easier than XML.  If you are not comfortable with the Groovy syntax, and prefer Java you can use StrataCode to do the same things.  The layered, component framework in StrataCode reduces copying while improving customization potential for your builds.  Layers make it easy to define simple modules - organized by file type or dependency rather than using a lot of project scaffolding.  Modules are usually already organized by type so why not make them simpler?  You'll end up with more modules that can be managed by more people.
+Layers are a great way to manage builds, packages, versions, tests, deployment configurations, etc.  Like Gradle, StrataCode supports object oriented operations using an interpreted language, providing more readable and maintainble files than XML.  But StrataCode uses it's extended version of Java as the language so you do not have to learn Groovy and can leverage all of the built-in Java libraries you already know.  The layered, component framework in StrataCode reduces copying while improving customization potential for your builds.  Layers make it easy to define simple modules - organized by file type or dependency rather than using a lot of project scaffolding.  Modules are usually already organized by type so why not make them simpler?  You'll end up with more modules that can be managed by more people.
+
+## Complete Control Over Your Code
+
+StrataCode is more than just a build tool though.  It's a complete code-processing environment with the ability to read and make incremental changes to your code.  Unlike tools which manipulate your application's byte-code on-the-fly, you can debug the generated code and so can do more without creating crazy debugging scenarios.  You have all of the runtime safety benefits of compiled Java code and avoid "untraceable code" side-effects created by some uses of aspect-oriented programming.
+
+## Full IDE For Editing Build Files
+
+StrataCode build files are written in StrataCode and can be built and maintained using the same IDE.
 
 ## Maven 
 
