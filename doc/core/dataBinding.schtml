@@ -66,7 +66,7 @@ Here's how data binding works in StrataCode.  A data binding expressions can be 
 
 <%= MarkDownPage.markDown(%>
 
-Changes are propagated along the equals sign in the direction of the colon(:) in an assignment.  When you say := the left side updates when the right side is changed.  So in the example above, when b is changed, a is set to 2 times b.  
+Changes are propagated along the equals sign in the direction of the colon(:) in an assignment.  When you use the := operator, the left side updates when the right side changes.  So in the example above, when b is changed, a is set to 2 times b.  
 
 There are two other data binding operators.  When you use =: the right side of the Java expressions is updated or evaluated when the left hand side changes.  When you use :=: the change goes both ways.  In this case, the expression must have an inverse expression which StrataCode can evaluate when the left hand side changes or an error is generated.
 

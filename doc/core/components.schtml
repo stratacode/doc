@@ -75,7 +75,13 @@ Frameworks can customize the getX and setX code generated for properties to inte
 
 The data binding system detect when properties are used in data binding expressions and generates getX and setX methods with the proper code to implement the binding.  The setX method will trigger a change event typically, or the getX method may force the lazy-evaluation of the binding.  The details of how this happens are managed in framework layers so application programmers and business users only see properties that may be attached to data binding rules.  They are provided efficient and powerful abstractions over properties which can adapt from framework to framework. 
 
-In most cases, the default is what you need but there are ways to override the automatic getX/setX conversion.  You can use the @GetSet annotation on a field to force getX/setX method for that property.  You can use @ManualGetSet on a method to disable the automatic get/set conversion for that method.  You can refer to a field with the "this." prefix to avoid a getX conversion for that expression.  The conversion is disabled automatically for a field in it's own getX and setX methods.
+In most cases, the default is what you need but there are ways to override the automatic getX/setX conversion.  You can:
+
+* use @GetSet on a field to force getX/setX method for that property (or @Bindable to force get/set and add data binding) 
+* use @ManualGetSet on a method to disable the automatic get/set conversion for expressions in that method that would ordinarily be converted.  
+* refer to a field with the "this." prefix to avoid a getX conversion for a single expression.  
+
+Additionally, the conversion is disabled automatically for a field in it's own getX and setX methods.
 
 ## Recursive References using @Component
 

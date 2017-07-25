@@ -113,6 +113,11 @@ NOTE:
 * There are cases where you need to clean out this directory, like if you rename the module - the one for the old module
    might still get loaded into the classpath and precede the one you are building.
 
+## Additional settings
+
+* In preferences, add "*.dbgidx;*.rdps;*.dep" to the Ignore files and folders in the Editor group's File Types dialog box.
+
+* Under Editor, General, Smart Keys, disable "Reformat block on typing '}'"
 
      </div>
    </div>
