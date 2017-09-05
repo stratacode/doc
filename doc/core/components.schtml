@@ -107,9 +107,9 @@ For example, the HTML framework provides these scopes:
 
 * session: per browser session 
 * window: per browser window 
-* request: per request (TODO: not yet implemented but should not be difficult.  App's built using the sync framework will still work, but will require the complete reset sync to happen essentially on each request, like we do when there's a failover using session scoped today).
+* request: per request 
 * global: like static instances on the server
-* application: per separate application id, typically the page's URL unless your application is built from more than one page. (TODO not yet implemented)
+* application: per separate application id, typically the page's URL unless your application is built from more than one page. 
 
 Framework developers have simple hooks for implementing a new scope.  They can override the contents of the getX method generated for a particular base class, class marked with an annotation, or in a layer.  This is controlled both by annotations set on the class, base-class or layer.  Framework layers provide code templates for generating the right getX method for a given type.  For a session scoped type, they find the object in the current session using a thread-local variables to find the current session.  
 
