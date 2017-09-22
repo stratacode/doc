@@ -34,7 +34,7 @@ or
  
     scc foo/bar
 
-That list maps to layers in your layerPath.  By default the layer path includes the current directory or you can set it via the -lp option.
+That list maps to layers in your layerPath.  By default the layer path includes the current directory or you can set it via the -lp option.  Or if you are running scc from the standard project directory which contains a 'bundles' directory, each of these directories in the bundles is added to the layerPath automatically.
 
 As a convenience, you can also run a specific layer when you are in that layer's directory using . as the name of the layer.
 
@@ -65,29 +65,29 @@ Note that a layer with no package is effectively global and can customize any ty
 
 StrataCode supports multiple runtimes - 'java', 'js', 'android', and 'gwt'.   Some layers are suitable for any runtime but some have restrictions.   Layers can set constraints by including or exclude runtimes.  By default a layer picks up the constraints from it's base layers unless those constraints conflict - in which case it's put in any runtime allowed by one of it's base layers.  So if a layer extends both 'js' and 'java' base layers, without including or excluding runtimes on its own, it's put in both runtimes. 
 
-In some cases a given runtime will have more than one process.  For example "Desktop_Java" versus "Server_Java".  Just as a layer specified runtime constraints, it can specify process constraints.  
+In some cases a given runtime will have more than one process.  For example "Desktop\_Java" versus "Server\_Java".  Just as a layer specified runtime constraints, it can specify process constraints.  
 
 Once a block of layers are activated, StrataCode determines the set of separate processes/runtimes required and generates a list of separate layer stacks, one for each including the appropriate layers.
 
-For the most part application layers will establish their constraints by extending the framework layers they require.  When it's necessary to customize placement in a runtime,  you can add an includeRuntime or excludeRuntime method call to the layer definition file.  It's important to run this in the initialize method (or it's also ok to put it in an instance scoped statement block).  
+For the most part application layers will establish their constraints by extending the framework layers they require.  When it's necessary to customize placement in a runtime,  you can add an includeRuntime or excludeRuntime method call to the layer definition file.  It's important to put this in the init method (or it's also ok to put it in an instance scoped statement block).  
 
 Because StrataCode needs to create and initialize the layer to determine its constraints, each layer will get initialized at least once in the default runtime.  If it does not belong in that runtime, it's marked with "excluded = true".  That layer instance is used to determine which other runtimes it's included in and new Layer instances are created for each of those runtimes.
 
-The Layer.start method will never be called on an excluded layer.
+The Layer.start method will never be called on an excluded layer.  After being initialized, excluded layers are removed from the list of layers in that runtime.
 
 ## Configuring Builds
 
-In StrataCode, layer definition files also specify build and other properties but typically only for framework layers.  They are interpreted Java files, run in the order in which the layers are present in the system.  They are initialized in three phases, via initialize, start and validate methods which lets them set and override properties in a layered order.
+In StrataCode, layer definition files also specify build and other properties that control how the project is built for a given runtime.  This is especially true for framework layers which control how the generated project is constructed.  Layer definition files are interpreted StrataCode files, so you can customize them with plain old Java or you can use StrataCode features like objects, components, and data binding.  Methods in the layer (e.g. init, start, and validate) are run in the order in which the layers are added to the layered system.  They are initialized in the three phases.  First all of the init methods are called, then for non-excluded layers, all of the start methods are called.  Finally, before files are used in that layer, the validate methods are called. 
 
-These layer definition files configure the file types which are processed by the system, add to the classpath, add src folders, specify inherited imports, and set defaults for the code that run in the layers: e.g. public, and enable/disable system features per-layer.
+These layer definition files configure the file types which are processed by the system, add to the classpath, add src folders, specify inherited imports, and set defaults for the code that run in the layers.  For example, by marking the layer type itself as public, any definition in that layer which does not specify protected or private is automatically made public.  If you add the @Sync annotation for the layer type, it's added by default to all types which do not specify one as well. 
 
-Most systems require that you copy complex build and project setups into your environment that you must manage.  With layers, you only store your customizations, even for project configuration.
+Most frameworks for building software require that you structure your projects in an explicit way with lots of sub-directories.  Projects become large, nested directory trees with lots of boilerplate.  There's no easy way to incrementally customize an existing project beyond setting new environment properties.  With layers, you only store your customizations, even for project configuration.  When you need to customize something, the layer always retains the "customization intent" - i.e. only includes the values, files, etc. that you intended to customize.  Different layers can have different levels of complexity... one layer might have only a few files in the top-level directory, the other might define a more traditional software project.
 
 ## Activating Layers
 
-Layers are loaded either in the inactive or active state.  An inactive layer is used for code navigation and editing operations in the IDE or to style code for producing the documenetation.
+Layers are loaded either in the inactive or active state.  An inactive layer is used for code navigation and editing operations in the IDE or to style code for producing the documentation.
 
-Inactive layers are started like regular active layers but the activated flag is set to false.  Do register file processors and class path entries for inactive layers but do not adjust properties of the LayeredSystem that apply to build or your inactive layer will have unwanted side effects.
+Inactive layers are started like regular active layers but the activated flag is set to false.  An inactive layer will register file processors and class path entries, so the code can be found, and dependent libraries loaded.  Inactive layers do not do not adjust properties of the LayeredSystem that apply to build or they will have unwanted side effects if that same layered system is used for building an active set of layers.
 
 For more info, see the documentation on the [build and runtime system](runtime.html);
 
