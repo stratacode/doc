@@ -27,7 +27,7 @@ The synchronization framework lets you build rich, interative apps, with complex
 
 For ease of debugging and richness of features, the serialization format today is a StrataCode layer.  Before being sent to the browser, the layer is converted to JS so it loads and executes quickly.  It takes more time to generate the JS on the server however so it's not fast for large data sets.  We will build adapters to various serialization formats so you can choose JSON, or a more efficient binary protocol.
 
-Read more in the [documenttion](http://localhost:8080/syncFramework.html).
+Read more in the [documentation](/syncFramework.html).
 
 <% ) %>
    </div>
