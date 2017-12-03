@@ -39,7 +39,7 @@ To build and debug StrataCode itself from source, along with the apps built on i
 
 Import three IntelliJ modules into your project:  coreRuntime/coreRuntime.iml, fullRuntime/fullRuntime.iml, and system/sc.iml intelliJ modules from the sc source distribution.  This will let you debug into the StrataCode source and change StrataCode itself seamlessly when debugging your application code.
 
-In your project, select a Java SDK with version 1.6.
+In your project, select a Java SDK with version 1.6, 1.7 or 1.8
 
 After importing all three modules, click "Ok" on the Project Structure dialog to save those modules before you try to create an SC module.  Otherwise, it won't find the 'sc' module and create the dependency on that.  
 
