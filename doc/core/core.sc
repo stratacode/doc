@@ -6,7 +6,7 @@ package sc.doc;
 import sc.doc.templateSnippets;
 
 //doc extends example.unitConverter.adjust, jetty.examp, example.extendedHelloWorld, example.extendedHelloWorld2, js.schtml {
-doc.core extends servlet.options.globalScope, doc.tag, jetty.schtml, js.schtml {
+doc.core extends servlet.options.globalScope, doc.tag, jetty.schtml, js.schtml, js.sync {
    {
       // Add documentation format
       sc.lang.TemplateLanguage docLang = new sc.lang.TemplateLanguage();
