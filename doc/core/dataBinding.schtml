@@ -179,11 +179,19 @@ To implement this pattern most effectively StrataCode uses code injection and co
 
 In StrataCode a data binding is simply an instance of an event listener created when that property is initialized.  It's registered with it's owning object so there's only one binding that defines the value for each property on the object.  The process of sending an event and firing a binding allocates no memory.
 
+## Multi-threading
+
+The general strategy for multi-threading is for framework developers to provide, safe single-threaded environments for domain model objects.  This includes acquiring the locks for all of the scopes involved in the proper order.  By default, all scopes are locked for write-access which makes things safe but not highly concurrent.  To enable that, you can change the locking mode for the shared-scopes into a read-only lock.  But this requires that you ensure there are no writes to state in those scopes.  
+
+When you need to use a binding expression which delivers change events to a different "CurrentScopeContext" (a list of all of the available ScopeContexts) - you must set the @Bindable(crossScope=true) annotation on the binding.   When a cross-scope binding is initialized, it's CurrentScopeContext is saved as the "initialization context".  Before applying the binding, the code will check if the CurrentScopeContext matches the "initialization context".  If not, it's put into a queue for that context.  If there's a waiter for that context, it will wake up and process it with the right locks.  If not, it waits till the next request with that context.
+
+Currently this is all pretty manual and not enough testing has been done.  It would be nice to have a warning for when @CrossScope is not set and will be adding a debug mode to validate when bindings are used in a cross-scope way without the annotation.
+
 ## Debugging Problems
 
-You can enable tracing of all binding events to figure out what's happening.  It's possible for conflicting binding rules to be defined which generate infinite loops.  StrataCode catches those errors hopefully at compile time but if necessary at runtime.  It reports the list of bindings involved, whether in Java or Javascript and deactivates them.  When you enable tracing, it's easy to track down which bindings are at fault, as you trace the flow of values.  Currently this requires that you are the kind of programmer who can read log files.  
+You can enable tracing of all binding events to figure out what's happening at the fine-grained level.  It's best though to set @Bindable(trace=true) or @Bindable(verbose=true) on the properties you need to follow.  If you use -vb, you see a lot out output and have to search for the properties you need.  If you enable -vba, you get all setX traffic for all bindable properties which is a real lot, but maybe yields some insight if there's an error at the end.
 
-Better tools could make it easier to trace down logic errors of all kinds in data binding expressions, capturing the log files for selected properties, providing both the organization and access to stack traces for specific changes.
+It's possible for conflicting binding rules to be defined which generate infinite loops.  StrataCode catches those errors hopefully at compile time but if necessary at runtime.  It reports the list of bindings involved, whether in Java or Javascript and deactivates them.  When you enable tracing, it's easy to track down which bindings are at fault, as you trace the flow of values.  Currently this requires that you are the kind of programmer who can read log files.  
 
 See [debugging](debugging.html) for details.
 

@@ -66,15 +66,13 @@ There are two types of source files in a Layer - those which prefix the package 
 
 ### Mixing Two Styles of Source Organization
 
-Layer can be used with standard projects directory trees, but also offer new ways of organizing files to elimiate extra directories and organize modules based on features.
+Layer can be used with a typical java project directory organization (i.e. src/main/java/...), but also offer new ways of organizing files to eliminate unnecessary directories and organize modules based on features.
 
-Most Java projects are known for having lots of nearly empty directories.  The packagePrefix prefix can be used to eliminate many of them, making directories easier to navigate.  
+Most Java projects are known for having lots of nearly empty directories.  When you set a packagePrefix prefix on a layer, the layer directory contains files already in that package.   This makes source trees easier to navigate.
 
-Most Java projects suffer from overly using type-specific organization of assets.  This is where you break apart the storage of a file so you keep "likes with likes".  The classic overuse of type-specific organization is the windows registry which makes it very hard to find and manage assets for a particular application.
+Most Java projects use a heavily type-specific organization of assets - e.g. separating java from component and build configuration, and document root files.  Even files that are part of the same feature are no where near each other.  This also increases the overhead of creating new modules so Java modules tend to be more coarse grained. 
 
-In Java projects, build assets, configuration, document root files, and java files are no where near each other, even if they implement the same feature.  You could create a new module for a new feature but features commonly cut across types so this requires more code.  The more types you have, the more complex the contracts you make visible to clients.   So we largely accept coarse grained modules and give up locality of reference for features.
-
-Locality of reference however is a great way to make code easier to navigate and read, especially when you are extending or patching an existing system but often long-term as well.  StrataCode's ability to distribute files that are in the same directory to different remote directories based on their type, let's you take maximum advantage of locality of reference without compromising security or control in the production system.  It's ability to merge directories and later merge layers, let's you evolve code in a way that keeps it separate while it's in development, and easily merged later when it's "part of the core" and no longer changing. 
+Locality of reference - keeping all assets of a feature together - however is a great way to make code easier to navigate and read, especially when you are extending or patching an existing system but often long-term as well.  StrataCode's ability to distribute files that are in the same directory to different remote directories based on their type, let's you take maximum advantage of locality of reference without compromising security or control in the production system.  It's ability to merge directories and later merge layers, let's you evolve code in a way that keeps it separate while it's in development, and easily merged later when it's "part of the core" and no longer changing. 
 
 ## Active Layers
 
@@ -164,9 +162,10 @@ Using the -dyn option helps you temporarily run the system with one or more laye
 
 ## Running StrataCode Applications With the Interpreter
 
-To run any StrataCode application, just run scc with the relative path name of the layers involved.  You set the -lp (layer path) option to include the layer root directories.  StrataCode searches for the first layer definition file which matches the layer name you provide.  It then figures out what needs to be compiled, compiles it if necessary and then runs the main all in the same JVM.  If you specify the -dyn option, any layer names you provide are treated as dynamic layers even if they do not have the dynamic keyword.
+To run any StrataCode application, just run scc with the relative path name of the layers involved.  You set the -lp (layer path) option to include the layer root directories.  StrataCode searches for the first layer definition file which matches the layer name you provide.  It then figures out what needs to be compiled, compiles it if necessary and then runs the main.  This usually takes place all in one process - the same Java virtual machine.  Any layers names you specify after -dyn option are treated as 'dynamic layers', even if they do not specify the 'dynamic' keyword.  Layers they extend are also treated as dynamic, unless they specify compiledOnly=true in their layer definition file.   This is a quick way to run a feature in dynamic mode when you intend to make live customizations to the code.  You can change the source files, and do 'cmd.refresh();' or run with the program editor and press refresh there.
 
-Be careful when you save changes using either the editor or the command line interpreter.  It's possible that you've just changed source files in your layers folder.  If you run scc with the -i option, by default all changes go into a new temporary layer, a safe sandbox for making any change.
+The command-line interpreter runs in two different modes: script, and edit.  Use edit mode when you are building a program and script mode when you do not intend to change the existing program, but instead just want to change or examie its state.  
+The main difference is that in script mode, a property assignment is not recorded as a change to the type, but instead is just treated as a call to change the value of that property.
 
 ## The StrataCode Classpath
 
@@ -183,6 +182,10 @@ Complex system development requires building systems which span more than one pr
 StrataCode layers let you make the process of developing in such environments relatively seamless.  You can use the scc command to compile and run all processes in your application in one step.  Each layer of code in your application specifies the framework layers it depends upon.  That organization naturally helps StrataCode partition the layers into separate stacks, one for each process.  Sometimes an application layer needs to declare whether it is included or excluded from a process or runtime to create the proper stacking of the layers.
 
 StrataCode takes care of building and running all processes to ease development workflows, all from a single command: scc list-of-layers  .
+
+## Command Line and Multiple Processes/Runtimes
+
+The command interpreter by default will run all statements on all applicable runtimes or processes.  When a method or property only exists in one runtime or process, it's only sent to that runtime/process.  You can set the cmd.targetRuntime property to specify a specific runtime or process name for subsequent commands.
 
 ## StrataCode Initialization
 
