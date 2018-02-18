@@ -272,9 +272,9 @@ The tag classes match the DOM hierarchy and tag names.  They live in the sc.lang
 
 ## Tag Bindable Properties
 
-StrataCode tag objects are very powerful when used with data binding on these properties:
+StrataCode tag objects support special properties to control the tag's behavior in the page.  You can set this to constant values, expressions, or data binding expressions.
 
-* visible: when false, this element is removed from the parent's body.  When set back to true again, it's reinserted.  When the tag is invisible, it's useful to specify a substitute in some cases.  To support this, you can add a child tag with the id="alt".  When the parent is invisible, this tag is visible and vice versa.  The tag is given the id "parentId_alt" so it's unique and easily identifiable with the parent.
+* visible: when false, this element is removed from the parent's body.  When set back to true again, it's reinserted.  When the tag is invisible, it's useful to specify a substitute in some cases.  To support this, you can add a child tag with the id="alt".  When the parent is invisible, this tag is visible and vice versa.  At runtime, the tag's id is: "parentId_alt" so it's unique and easily identifiable with the parent.
 
 * visibility with styles: Of course since it's reactive HTML, you can also set display: none using a binding expression with the style attribute.   
 
@@ -287,7 +287,7 @@ TODO: Currently when your tag is not visible, the bindings still run which means
 * repeat. Lets you create repeating tags in the document, one for each element in a List (java.util.List).  Performs incremental update so that inserts just append the DOM element, removes remove it, reordering, just reorders it.  When you use repeat, you also use repeatVarName to define a new property whose type is the type of the list element.  If you don't use repeatVarName, you can refer to the value using repeatVar - typed as an Object.  Each tag using repeat generates two classes in the generated Java class - an outer class or "repeatWrapper" and a class used as the base class for each repeated item.  The tag with the repeat element itself is used as the definition of each repeated element.  So if you use repeat with an li tag, you'll end up with a list of li tags.  By default, the repeatWrapper outer class just renders the repeated tags and so is not visible when the page is rendered, so it's not common to need to customize it.  But it's visible in the inner object hierarchy generated.  So if you have a tag with id="foo" that uses repeat, to refer to the tag class "foo", you'll need to use "foo_Repeat.foo".  The inner object "foo_Repeat" is the repeatWrapper class.
 * repeatWrapper.  Let's you specify the base class for the generated repeatWrapper class (see above).  You use this to control the mapping of the element in the repeat array/list to the specific tag object used to render that element in the list.  See the interface sc.lang.html.IRepeatWrapper
 
-For the select tag:
+Exra properties supported by the select tag:
 
 * selectedIndex - reflects the selected index and usable in forward or reverse bindings.
 * selectedValue - also usable in forward or reverse directions, as an alternative to selectedIndex.  Set this to point to a value in the array or List for optionDataSource.  It will select that item by default.  When the value changes, it points to the currently selected value.
@@ -334,11 +334,11 @@ See the [tag objects](tagObjects.html) doc for more details on merging and exec.
 
 See these classes in the javadoc: [java doc](/javadoc/c/lang/html/package-summary.html)]
 
-There are Java classes which work on both client and server, letting you use some of the features of these Java objects.  For example, manipulating the current request's URL.  Some of the features exposed in the Java API are only available on the client.  For example, the Window.window.innerWidth and innerHeight properties are only set on the client, where they are bindable.
+There are Java classes which work on both client and server that mirror the brower's versions of these objects.  Using these APIs, your Java code can manipulate the current request's URL.  Some of the features exposed in the Java API are only available on Java code that runs on the client.  For example, the Window.window.innerWidth and innerHeight properties are only set on the client, where they are bindable.
 
 ### Imports 
 
-Just like JSP, you do imports and annotations using the &lt;%@ annotation as the first thing in the file.  
+Just like JSP, you can add imports for the page and annotations on the top-level class object using the &lt;%@ annotation as the first thing in the file.  
 
     <%= templateSnippets.annotationsOp %>
          import myClass;
