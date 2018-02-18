@@ -274,7 +274,12 @@ The tag classes match the DOM hierarchy and tag names.  They live in the sc.lang
 
 StrataCode tag objects are very powerful when used with data binding on these properties:
 
-* visible: when false, this element is removed from the page.  when true, it's reinserted.  You can also set display: none using the style attribute.   TODO: Currently when your tag is not visible, the bindings still run which means you have to do more work to be sure they behave even when maybe they are not applicable.  Soon this will be fixed either by activating/de-activating the bindings, or perhaps conditionally creating/destroying the object.  A 'switch' option might be nice so you can have one instance which morphs into different implementations based on binding expressions.
+* visible: when false, this element is removed from the parent's body.  When set back to true again, it's reinserted.  When the tag is invisible, it's useful to specify a substitute in some cases.  To support this, you can add a child tag with the id="alt".  When the parent is invisible, this tag is visible and vice versa.  The tag is given the id "parentId_alt" so it's unique and easily identifiable with the parent.
+
+* visibility with styles: Of course since it's reactive HTML, you can also set display: none using a binding expression with the style attribute.   
+
+TODO: Currently when your tag is not visible, the bindings still run which means you have to do more work to be sure they behave even when maybe they are not applicable.  TODO: should fix by activating/de-activating the bindings, or even better conditionally creating/destroying the object.  A 'switch' option might be nice so you can have one instance which morphs into different implementations based on binding expressions.
+
 * hovered: set to true when your mouse is over an element
 * style - Specify dynamic styles.  When you use attributeName=":= expression" your style will update when the expression changes.
 * class - Specify a dynamic class attribute.  When styling using CSS, its common to want to define a conditional styling rule.  You may use the question mark operator to add a class:   class=':= hovered ? "highlight" : ""'
