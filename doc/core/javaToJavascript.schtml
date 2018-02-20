@@ -15,7 +15,7 @@ Since layers can run on the client, server or both, StrataCode supports [isomorp
 
 StrataCode provides schtml and scss formats which extend html and css to allow dynamic updates.  Some pages are fully reactive - i.e. generated entirely from data binding, and others generate HTML from a mix of data binding and code.  If necessary, you can mix Java and HTML using the full power of Java.  You have inheritance, layers, data binding, tag macros, and java when you need it.  
 
-The test suite contains over 50K lines of unmodified Java (i.e. no working around translation bugs).  This includes about 15K lines of unmodified Java code from the Apache java.lang and java.util packages.  We do not have Java 8 libraries for JS yet but theoretically lambda expressions and more should work in JS, possibly with some bugs to fix. 
+The test suite consists of over 100K lines of unmodified Java (i.e. no working around translation bugs).  Currently using the old Apache library for java utilities which is only at 1.6.  Java 1.8 Lambdas have been implemented but not tested due to the missing libraries.
 
 No optimization has been done yet to remove unused code though we can make improvements to download size with some work.  There's a flexible library system and the class emulation is higher than other Java to JS implementations so footprint is reduced that way.
 

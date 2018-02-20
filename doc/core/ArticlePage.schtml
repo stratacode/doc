@@ -21,7 +21,7 @@
          <div extends="ArticleIndex" title="Java to Javascript" url="javaToJavascript.html"/>
          <div extends="ArticleIndex" title="Synchronization Using Layers" url="syncWithLayers.html"/>
          <div extends="ArticleIndex" title="Persistence Using Layers" url="persistWithLayers.html"/>
-         <div extends="ArticleIndex" title="Dynamic Java" url="dynamicJava.html"/>
+         <div extends="ArticleIndex" title="Dynamic Runtime" url="dynamicRuntime.html"/>
          <div extends="ArticleIndex" title="Parsing and Modifying Code" url="parseletsIntro.html"/>
          <div extends="ArticleIndex" title="Microservices with Layers" url="microservices.html"/>
          <div extends="ArticleIndex" title="Customizable Enterprise Systems" url="enterprise.html"/>

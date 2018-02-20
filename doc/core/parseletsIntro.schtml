@@ -12,13 +12,13 @@ Parsing code is a well understood problem.  Grammar rules match the input text a
 
 But when it comes to taking the AST and turning it back into code, with most parsers you start from scratch and write new code that expresses the inverse of those rules.  That process produces a new file which works the same but looks different since it omits comments, and whitespace - information not preserved in the AST. 
 
-Parselets grammars contain a mapping between the grammar and the model objects, so it is able to produce the AST directly from the code.  Additionally, it listens for changes made to the AST and updates the code incrementally.  Since parselets was written, the paper on [Object Grammars](http://www.cs.utexas.edu/~wcook/Drafts/2012/ensogrammars.pdf) was published which uses a similar approach for generating the AST directly from the grammar.  Object grammars does not appear to be incremental in how it does the formatting.
+StrataCode approach to parsing is pretty standard, but the grammer nodes have more features than just parsing.  You can also use them to go in the reverse direction to take an AST and produce the code - all from the same grammar.  This is particularly powerful when you are making incremental changes to the AST - as through code-processing as it keeps changes localized (e.g. adding or replacing a statement won't affect the code around it).
 
 Parselets additionally supports error recovery which is robust enough to be used in an IDE for partial file parsing and completion with reasonable error highlighting.
 
-It also includes the ability to take diffs between one version of a file and the next and to patch the AST with only the changes (needed for fast editing of large files).
+It also includes the ability to take diffs between one version of a file and the next and to do a fast 'reparse' of the AST - useful for fast editing of large files in the IDE.
 
-The features behind parselets power a good deal of the IntelliJ plugin.  Any language written in parselets can use those features making it much easier to build IDEs for new languages.  Because these features exist in StrataCode, they can be ported to other Java-based IDE frameworks such as Eclipse or NetBeans in the future.
+The features behind parselets power a good deal of the IntelliJ plugin.  Any language written in parselets can use those features making it much easier to build IDEs for new languages.  Unlike most plugins, the most challenging IDE features were built in StrataCode, not using the IDEs plugin language tools so they can be more easily ported to other Java-based IDE frameworks such as Eclipse or NetBeans in the future.
 
 <% ) %>
    </div>

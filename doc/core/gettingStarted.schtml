@@ -8,15 +8,15 @@
 
 <%= MarkDownPage.markDown(%>
 
-If you're interested in hands on, contact Jeff Vroom for access.
+If you're interested in hands on, contact Jeff Vroom for more info.
 
-To learn more, watch the [demo videos](videos.html).  
+There are some old videos that might still be helpful but lots of names have changed [demo videos](videos.html).  
 
 Prerequisites: Java, Git, Unix (linux or mac)
 
-Get the StrataCode (scc) command and runtime libraries from Jeff 
+Get the StrataCode (scc) command and runtime libraries from Jeff
 
-Run the command bin/scc in the directory you downloaded.  Follow the command line prompt to install the standard StrataCode layers directory using git.
+Run the command bin/scc from the directory you downloaded.  Follow the command line prompt to install the standard StrataCode layers directory using git.
 
 Some examples you can run:
 
