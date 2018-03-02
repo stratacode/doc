@@ -10,27 +10,33 @@
 
 # StrataCode Build and Packaging System 
 
-Layers make a great way to manage your projects build configuration and allow you to build and run your applications in one step.  The user specifies one or more layers.   Those layers refer to other layers which are organized into an ordered stack.  The stack defines the source code, and class path required by the application.  
+Layers make a great way to manage your project's build configuration and allow you to build and run your applications in one step.  While you may initially just wrap an existing project in a layer, over time you'll probably find it helpful to move towards using 'scc' as your primarily build and configuration tool.  That's because in this approach, everything can be specified and updated incrementally without breaking existing published contracts.  You have more flexible ways of specifying dependencies, and managing 'transitive dependencies' using the layer stack.  And you'll have more flexible ways to manage different build/run configurations.   
 
-Layers contain customizable components which declaratively specify typical build and project settings.  Components in a sub-layer can override features in a base-layer in the same way that StrataCode lets you override features in application classes.
+With the layered approach, to build or run anything, the scc command is run with one or more layers.   Those layers may extend other layers which forces them to be included and are organized into an ordered stack.  The stack is then separated into one or more overlapping stacks, one per process or separate runtime.  The classPath for each of these is generated and all of the source files in the stack are processed, generating any code, compiling it and running it, and/or generating a script to run it without the dynamic runtime.  
+
+All layers have a [layer definition file](layerDefinition.html), written in 'dynamic StrataCode' which specifies the 'extends' layers it requires to be below it in the stack.   This file can define components to add maven artifacts, add new file processors, adjust build/project settings, add to the classPath or source path, or import types for code in the layer and sub-layers.  Components in a sub-layer can override features in a base-layer in the same way that StrataCode lets you override features in application classes.
 
 With layers as your build and packaging system, you can:
 
 * Share code and configuration in different environments without copying.
-* Use one syntax for all types of modularization, code and configuration controlled by the same IDE .
+* One system for all ways we need to modularize things
+* Use one syntax for all types of code, and configuration, controlled by the same IDE.
 * Use one set of tools to manage the entire product lifecycle: developent, testing, deployment.
-* Choose to compile in values (and eliminate the dependency on the dynamic runtime) or make your layers dynamic and apply them at runtime .
+* Choose when to compile in values (and eliminate the dependency on the dynamic runtime) or when to use runtime configuration for more flexibility.
 
-Any new build system needs rich features to be sufficient for this task.  StrataCode can:
+Any new build system needs to do a lot to be sufficient for this task.  StrataCode has the core capabilities and many of the needed integrations:
 
 * Work with standard Java tools (e.g. git, ant, maven) or incrementally replace them. 
 * Easily support different runtime environments (e.g. servlets, android, javascript client/server, desktop, gwt)
-* Universal one step build/run 
+* Easily support different deployment environments (dev, stage, prod)
+* Universal one step build/run or multi-process deployments
 * Apply simple changes on the fly without a recompile restart
 * Rebuild only changed files for fast recompile, restart
 * Generate customized scripts to run or deploy code in production with few or no StrataCode dependencies
 * Update the generated application on the fly through setting properties, change code in dynamic layers, reloading classes in compiled layers (where possible without a restart), and detecting when a process restart is needed.
 * Manage multiple runtimes: java desktop and server, javascript, and android.  Share code between them easily.  
+* Easily add command line hooks for various phases
+* Rich command line interface to run code on all processes, or selectively choose a process for easy test-script and admin-scripts.
 
 ## Layered System - Dynamic Java Code Processing
 
@@ -56,7 +62,7 @@ Layers are defined with layer definition files which are coded in interpreted St
 
 Layer definition files can add new file types to be processed of two different types: languages, and file processors.  Languages add new types of files that are parsed and transformed during the build.   File processors are applied in layer order to merge the directory trees found in layers into the one build directory, letting you build up any resulting project by picking the "latest" file.  By defining a new file in a new layer, you can override a file in the previous directory tree when generating the build directory.
 
-When you need to evaluate variables or insert or modify a section of a file in a layer snippets, you can define a new language for your format based on the [TemplateLanguage](/javadoc/sc/lang/TemplateLanguage.html)].  StrataCode defines scxml, schtml, scsh, etc.  New formats you can use to generate xml, html, and sh files.  You can build one of these formats from a couple of lines of code in your layer definition file, or by customizing the TemplateLanguage grammar and model objects like HTMLLanguage in a few hundred to a couple of thousand lines of code. 
+When you need to evaluate variables or insert or modify a section of a file in a layer snippets, you can define a new language for your format based on the [TemplateLanguage](/javadoc/sc/lang/TemplateLanguage.html).  StrataCode defines scxml, schtml, scsh, etc.  New formats you can use to generate xml, html, and sh files.  You can build one of these formats from a couple of lines of code in your layer definition file, or by customizing the TemplateLanguage grammar and model objects like HTMLLanguage in a few hundred to a couple of thousand lines of code. 
 
 ## Layer srcPath
 

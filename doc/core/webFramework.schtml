@@ -84,7 +84,7 @@ You can also control what URLs map to which pages via the @URL annotation.  This
 
 ### Synchronization
 
-When your layers extend both jetty.schtml and js.schtml, you can also enable StrataCode synchronization.
+When your layers extend both jetty.schtml and js.schtml, you can also enable the JS to Java StrataCode synchronization support by extending js.sync.
 
 You can set the @Sync(syncMode=SyncMode.Automatic) annotation on the layer type in your layer definition file for any layers which are included in more than one process or runtime.  Types and properties defined in that layer are all registered with the synchronization system using the same get/set conversion and data binding logic.   Rather than writing marshalling and unmarshalling code using explicit client/server APIs, most of your application can be moved seamlessly between the client and server, or both based on how you want the data to flow.  
 
@@ -92,9 +92,9 @@ You can augment the automatic synchronization by annotation driven synchronizati
 
 Using StrataCode synchronization provides you with high-end application behavior from your domain model in a pure form.  You get immediate page loads by rendering pages on the server and can refresh the page at any point without losing any browser state.  You have the efficiency of sticky-session load balancing, and the robustness of stateless operation - where all server-side state can be recovered from the client when the server process restarts.  All of this happens transparently when you properly partition your code into layers and turn on automatic synchronization.
 
-Here's how this works.  The server renders an initial HTML page is delivered to the browser based on the URL request.  After the initial HTML is displayed to the user, the client starts downloading the Javascript code to incrementally update the page and perform the synchronization.  This includes the JS code from your schtml templates, your domain model layers included on the client, and the synchronization hooks injected into your code for firing change events as well as the JS code for implementing the SC web framework.  It then downloads a Javascript code snippet to initialize the state of any synchronized object.  This is called a "sync layer", representing the changes for the first sync from the server to the client.
+Here's how this works.  The server renders an initial HTML page is delivered to the browser based on the URL request.  After the initial HTML is displayed to the user, the client starts downloading the Javascript code to incrementally update the page and perform the synchronization.  This includes the JS code from your schtml templates, your domain model layers included on the client, and the synchronization hooks injected into your code for firing change events as well as the JS code for implementing the SC web framework.  It then downloads a Javascript code snippet to initialize the 'initial sync state' for that page.  This is called a "sync layer", representing the changes for the first sync from the server to the client.
 
- As changes are made on the client those changes are recorded in a runtime layer of data called a "sync layer".  When necessary, the client sends its current sync layer to the server.  This sync layer works like a JSON file though it can supports any kind of change you might make to the server.  It can include method calls, new instance creation, etc.
+ As changes are made on the client those changes are recorded in a runtime layer of data called a "sync layer".  When necessary, the client sends its current sync layer to the server.  This sync layer can either be formatted as 'scn' or 'json'.  The sync layer may include pending remote method calls - i.e. one or more explicit calls to "invokeRemote" or when a remote method is used in a data binding expression.  You can avoid chatty or otherwise bloated protocols by having multiple methods all called on the same batch.
 
 The server applies that layer of changes and records any subsequent changes made in response.  Commonly you will change properties which trigger data binding expressions on the server.  These rules produce new property changes, or may call methods which create an entire object graph.  The changes made on the server are recorded just like on the client and then sent back as the response to this request.  This natural batching of changes gives you nice seamless client/server communication with good performance characteristics based on the batching that occurs naturally.  
 
@@ -164,7 +164,7 @@ StrataCode templates generate code in two different ways depending on the config
     chunk1 := variable1 + "constant1" + variable2 + "constant2";
     chunk1 =: invalidateStartTag(); // or invalidateBody if the expression is in the body
 
-As the data values change, only the affected portions of the template are rendered.  This provides super efficient caching on the server and incremental refresh for interactivity on the client.
+As the data values change, only the affected portions of the template are rendered.  This provides efficient caching on the server and incremental refresh for interactivity on the client.
 
 When you use any non-declarative constructs in your tag, that tag cannot use this mode for its content.  It falls back to generating an output method which appends to a StringBuilder using the values in the expression.  When you use this mode, these regions of template must be refreshed manually using the tag API.  
 
@@ -229,11 +229,11 @@ Here's an example:
 
 ## Images, Static HTML Etc.
 
-You put images, .html files and other static resource files in your layer directory as the top-level and they are copied into the web foler automatically.  Unlike source files, the layer's package is not prepended onto the generated file.
+You put images, .html files and other static resource files in your layer directory as the top-level and they are copied into the web folder automatically.  Unlike source files, the layer's package is not prepended onto the generated file.
 
 This lets you replace any file by just defining a file with the same name in the same path in a subsequent layer.
 
-An html file can replace an schtml file and vice versa.
+Files replace each other based on the resulting output file suffix.  This means that an html file can replace an schtml file and vice versa.
 
 ## Reusable Tags 
 

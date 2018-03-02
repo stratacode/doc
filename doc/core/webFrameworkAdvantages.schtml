@@ -19,9 +19,10 @@ The StrataCode web framework supports an extended form of HTML that gives you th
 
 ## Advantages
 
-* Runs on client, server or both with synchronization.  One code base.  The initial page load will return HTML showing the initial screen for speed, search etc.  Declarative client/server model with:  incremental UI refresh, sync server sync, and eventually offline.  Changes synchronized to the server so that refresh works preserving all state.
-* Layer templates and code.  Layer changes to an HTML document: replace, append, prepend DOM elements, override properties, or methods in a layer to behavior: A/B testing, or general customization. 
-* Strongly typed for compile time errors, runtime speed and tooling.
+* Runs on client, server or both with or without synchronization.  One code base - different ways to run the same logic.  
+* Fast initial page loads of complex, dynamic pages, followed by incremental page updates. 
+* Layer templates and code - incrementally customize pages: replace, append, prepend DOM elements, override properties, or methods in a layer to behavior: A/B testing, or general customization. 
+* Statically typed for compile time errors, runtime speed and IDE support for all assets.
 
 ## Tag APIs
 
@@ -79,15 +80,13 @@ This same framework could similarly build very efficient .NET and IOS integratio
 
 StrataCode templates can run in three different ways:
 
-* After the system has been built, for static templates, an html file is generated.
-* In response to a request the server evaluates the template.  The template may either be compiled or interpreted.  The template object can be session-scoped, and stored as a smart-cache for the content.  As properties change, the cache is invalidated, and changes incrementally sync'd back to the server.  When nothing has changed, the template can be served directly from memory as one long string.  When the browser refreshes, all session state that has been synchronized is preserved.
-* After being converted to Javascript, the template is evaluated when the Javascript file is loaded.On the client side, the template wires itself to the DOM elements.  Any changes made to the template objects are reflected in the DOM and vice versa, incrementally.
-
-By evaluating templates on the server, search engines can index them with search engines and the browser can display them faster.  By incrementally updating them on the client, you can improve the interactivity, even for content that should be generated on the server for security reasons.
+* After the system has been built, for static templates, an html file is generated.  This works great for static websites where all of the info is defined at compile-time.
+* Dynamic templates are evaluated in response to a URL being requested which matches the PageTemplate.  The template may either be represented as a compiled Java class or can be evaluated as a dynamic class.   The template object can be session-scoped, and stored as a smart-cache for the content should the client refresh the application, or window-scoped, to represent a stateful dialog with this specific browser window that would not survive a browser refresh, or request-scoped and only kept around for the duration of this request.  As properties change, the cache is invalidated, and changes incrementally sync'd back to the server.  When nothing has changed, the template can be served directly from memory as one long string.  When the browser refreshes, all session state that has been synchronized is preserved.
+* After being converted to Javascript, the template is evaluated when the Javascript file is loaded.  On the client side, the template tag objects map onto DOM elements.  Any changes made to the template objects are reflected in the DOM and vice versa, incrementally.  By evaluating templates on the server, search engines can index them and the browser can display the initial page load faster, and using less bandwidth.  By incrementally updating the same template on the client, websites improve their interactivity. 
 
 ## StrataCode's Java to Javascript Engine
 
-StrataCode's has a unique Java to Javascript conversion engine.  Built on the powerful StrataCode language framework, it is simple, flexible, customizable, and produces readable, usable Javascript code with intuitive type, method and property names.  Unlike GWT, you can use this Javascript code from other Javascript easily as it exposes Java types directly as Javascript types, using predictable rules.  You keep your code in Java or StrataCode using maintainable, strongly typed APIs.  
+StrataCode's has a unique Java to Javascript conversion capability.  Built on the powerful StrataCode language framework, it is simple, flexible, customizable, and produces readable, usable Javascript code with intuitive type, method and property names.  Unlike GWT, you can use this Javascript code from other Javascript easily as it exposes Java-like apis directly in Javascript, using predictable conversion rules and flexible special casing as required for name conflicts.  You keep your code in Java or StrataCode using maintainable, strongly typed APIs.  
 
 Click [here](jsFramework.html) for more info on StrataCode's Javascript conversion framework.
 

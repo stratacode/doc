@@ -9,11 +9,11 @@
 
 ## The Motivation for Layers
 
-Layers are as much a design pattern as language feature.  They introduce both a new hinge point to extend and reuse code and allow new ways for building and maintaining large, complex systems.  Layers are a new twist to object oriented programming, letting you refine a class or instance without renaming.   
+Layers a design pattern implemented here as part of the language.  They introduce both a new hinge point to extend and reuse code and allow new ways for building and maintaining large, complex systems.  They are a new twist to object oriented programming, letting you refine or extend a class or instance without renaming.
 
 ## More Flexible Than Modules
 
-Like modules, they are a packaging mechanism with dependencies.  We say that a layer may extend one or more other layers which ensures those other layers are below it in the stack..  Where you'd use a module before, you'll use a layer with StrataCode.  Unlike modules though, layers can be merged.  The process works like layers in Photoshop but where we merge by name, not pixel position.  
+Like modules, they are a packaging mechanism with dependencies.  We say that a layer may extend one or more other layers which ensures those other layers are below it in the stack.  Where you'd use a module before, you'll use a layer with StrataCode.  Unlike modules though, layers can be merged.  The process works like layers in Photoshop but where we merge by name, not pixel position.  
 
 ## Still Statically Typed
 Layers preserve encapsulation and are statically typed, adhering to the <a href="http://en.wikipedia.org/wiki/SOLID_(object-oriented_design)">SOLID principles</a> of O/O design.  They may replace or add to an object's interface or override but cannot remove a previously defined contract.  They also cannot depend on a layer that comes after them in the current list of layers.  Just like Java, you have traceable code paths, edit time errors, find usages, refactoring and more.  They are similar to <a href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&cad=rja&ved=0CDYQFjAB&url=http%3A%2F%2Fdl.acm.org%2Fcitation.cfm%3Fid%3D1885647&ei=vLBRUsaBNaGqiAK7moCICA&usg=AFQjCNGUS5M8Ep_9HKm8GO_terTa9cMT_g&bvm=bv.53537100,d.cGE">Delta oriented programming</a> and can also be used for product feature-lines.

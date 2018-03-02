@@ -7,7 +7,9 @@
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
-# Data Binding
+## Data Binding
+It's relatively common for user-interface frameworks built these days to implement some form of reactive, declarative programming commonly called data binding.  Data binding is an event-driven software pattern that relates properties via expressions, automatically updating properties when other properties change.  Simple rules between properties can be enforced via these simple expressions.  To implement more complex logic, you can easily invoke methods when properties change.
+
 StrataCode adds powerful, simple, intuitive data binding based on Java expressions for attaching user interface to model, business rules, workflow, and configuration.  Data binding expressions are converted into static method calls on the [Bind](/javadoc/sc/bind/Bind.html) class during the transformation from StrataCode to Java.  One of the challenges of data binding frameworks is making complex expressions efficient and easy to debug so this design focuses on those goals.
 
 There are three types of bindings:
@@ -44,8 +46,6 @@ Here's an example using schtml which includes a bi-directional binding:
 ## Excel-like formula for Java
 
 Think of your application having an Excel-like sheet of properties, and expressions but instead of a grid, it's a tree of types and their properties.  You can override any cell/property either by value or formula.  The formula include any Java expression.  You can use data binding with any existing Java library, with methods or static functions.  You can override any value or formula in a new layer.
-
-Several modern platforms implement some form of reactive, declarative programming commonly called data binding.  Data binding is a software pattern where you use expressions that are evaluated automatically when properties change.  These expressions can update other properties or invoke methods.  Instead of worrying about loops, if statements, etc. you can do more with these data binding rules with less code.  It's easier to change the expressions to control the logic of your program.  
 
 StrataCode's data binding system is based on over 20 years of experience with building large systems using data binding techniques.  To benefit the most from data binding, we've found that you can effectively expose a rich, easily configured layer of features and functionality in binding rules.  Use intermediate properties to break up complex rules.  Or trigger a method which performs step-by-step computation when properties change.  These techniques let you hide the more complex logic, keeping it separate from the declarative, configurable layer, but expose a very rich configurable set of properties and rules.  
 
@@ -191,7 +191,7 @@ Currently this is all pretty manual and not enough testing has been done.  It wo
 
 You can enable tracing of all binding events to figure out what's happening at the fine-grained level.  It's best though to set @Bindable(trace=true) or @Bindable(verbose=true) on the properties you need to follow.  If you use -vb, you see a lot out output and have to search for the properties you need.  If you enable -vba, you get all setX traffic for all bindable properties which is a real lot, but maybe yields some insight if there's an error at the end.
 
-It's possible for conflicting binding rules to be defined which generate infinite loops.  StrataCode catches those errors hopefully at compile time but if necessary at runtime.  It reports the list of bindings involved, whether in Java or Javascript and deactivates them.  When you enable tracing, it's easy to track down which bindings are at fault, as you trace the flow of values.  Currently this requires that you are the kind of programmer who can read log files.  
+It's possible for conflicting binding rules to be defined which generate infinite loops.  StrataCode catches those errors hopefully at compile time but if necessary at runtime.  It reports the list of bindings involved, whether in Java or Javascript and deactivates them.  When you enable tracing, it's easy to track down which bindings are at fault, as you trace the flow of values.  Currently this requires that you are the kind of programmer who can trace through code by reading log files.  
 
 See [debugging](debugging.html) for details.
 

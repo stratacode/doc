@@ -10,21 +10,35 @@
 
 ## StrataCode Components
 
-StrataCode has several features for extending the Java syntax in a way that's more declarative, more concise, and easier to read but retaining the benefits of static typing.  You may be familiar with component frameworks that implement an inversion of control pattern to wire together a graph of objects for later customization.  With StrataCode, these features are all built into the language using the new object operator, the @Component annotation, simple references between objects and flexibility for framework developers to control how these simple syntax patterns are expressed in the generated code which is compiled and run.
+StrataCode has several features for extending the Java syntax in making better Java at building 'components' - wired together graphs of objects that are "mostly declarative", and still statically typed.
 
-One of the design challenges with using an inversion of control framework is that you are faced with the choice of configuring a property using XML, annotations, or just providing the values or expressions in Java.  You balance several design considerations with that choice.  When you need to switch approaches for configuring a property, it alters the API contract for anyone using that code.  For properties configured in XML or annotations, error messages often show up at runtime and the tooling experience suffers.
+Most Java programmers have encountered component frameworks that implement an inversion of control pattern to wire together a graph of objects for later customization.  With StrataCode, these features are all built into the language using code-pre-processing, so that a similar version of the original file is generated, compiled and run.  The new features are:
 
-But layers change all of that.  You write your initial code using simple classes, fields.  When you have a singleton for a given context, use an object.  Build everything in one layer initially knowing that you'll have an easy choice of separating configuration later seamlessly.   Because of the strength of the API contracts, you can combine or separate intermediate layers as long as you preserve the results expected by the layers you publish.  When following this approach, your initial solution is simpler and easier to maintain and evolves to meet needs big or small later. 
+* object operator 
+* @Component annotation 
+* 'scope' annotation
+* data binding (covered [here](dataBinding.html))
+* modify operation (covered [here](modify.html))
+
+While the syntax changes are small, framework developers can plug into this framework to customize how specific types of components are built.  For example, a framework developer can customize the code generated for a specific type of 'object' instance: does it call a getX method, find the prop factory for constructing an object, how does it get it's parent instance?  How does it add child instances?  With StrataCode components, you can use the defaults, or control these aspects at a high-level using simple annotations, or changes to a code-template.  Framework developers can similarly support 'dynamic components' - apis to help manage dynamic collections of components, that update with live-programming features.
+
+## Simplifying Component Oriented Design
+
+Traditional inversion of control frameworks add an extra level of complexity to wade via options for how you implement any given instance in your system.  Should it be configured in XML, or automatically wired from the Java code?  What's it's 'id' in the component namespace?  What's its lifecycle?  And for each property there are more questions.  Should it be configured in XML or annotations?  Is there a default value?  Where and when do you validate the properties?  Should we be managing this piece of configuration at compile-time or runtime?
+
+It's natural that making a "configurable system" is more complicated to design than one that's fixed.  But in an ideal world, your design could easily migrate into a system that's only as configurable as necessary.  If you change a property from being not-configurable to configurable, that should not break existing configuration.  And similarly, if you change a property from being configurable to not-configurable, it should break only those uses which have configured it.  And all of those uses should be discoverable from a 'find usages' operation so they can be adjusted at 'tooling time' or compile-time at the latest.
+
+StrataCode components provide just this type of approach.  You write your initial code using simple classes, fields.  When you have a singleton for a given context, use an object.  Everything may start out in one layer because it's so easy to split.   Because of the strength of the API contracts, you can combine or separate intermediate layers as long as you preserve the results expected by the layers you publish.  When following this approach, your initial solution is simpler and easier to maintain and evolves to meet needs big or small later. 
 
 The layered approach to component assembly provides customization without upfront planning, a solution that improves code reusability substantially.  
 
-It's not entirely seamless to move from regular Java classes to StrataCode's @Component annotation, but it's a graceful transition when you find you need it in a design.  Most code is not affected from the runtime perspective when you add the @Component annotation.  Code and any non-trivial references from the constructor or instance initializers are moved to a preInit method which is called after the object is constructed and available via it's own getX method.  You may need to move some of that code into a newly generated init() or start() methods if it depends upon dependent objects having their preInit, or init methods called first.
+It's not entirely seamless to move from regular Java classes to StrataCode's @Component annotation, but it's a graceful transition when you find you need it in a design.  Many basic classes require no code changes when you add the @Component annotation.  Under the hood, processed code that's compiled, any code and any non-trivial references from the constructor or instance initializers are moved to a preInit method.  This method is called after the object is constructed and available via it's own getX method.  For more complex classes, the developer may need to move code into an 'init()' or 'start()' method, so that dependent references are all initializes to the necessary level (preInit, init, or start).
 
-Since your original code is transformed in this process, maintaining the structure, and comments, it's relatively easy to figure out what's going on in the debugger.
+Since your original code is transformed in this process, maintaining the structure, and comments, it's relatively easy to figure out what's going on in the debugger as you can step through the entire construction process using either the original or generate code.
 
 ## Creating Object Instances
 
-StrataCode adds to the Java syntax a new keyword: "object" that works a lot like Scala's object keyword.  It defines a new variable and creates an instance for that variable automatically when it's accessed or through custom rules defined at code-generation time.  A framework developer has a great deal of control over how the 'object' keyword is converted to Java by customizing templates, and attaching them to a type, base-type or parent-type (where a type can be a class or object).  You can also add annotations to the layers which define the objects giving you even more control.  Each layer becomes a sandbox designed for customizing a particular type of asset.  
+StrataCode adds to the Java syntax a new keyword: "object" that works a lot like Scala's object keyword.  It defines a new variable and creates an instance for that variable automatically when it's accessed or through custom rules defined at code-generation time.  A framework developer has control over how the 'object' keyword is converted to Java by customizing templates, and attaching them to a type, base-type or parent-type (where a type can be a class or object).  You can also add annotations to the layers which define the objects giving you even more control.  Each layer becomes a sandbox designed for customizing a particular type of asset.  
 
 Here are a couple of simple examples that show typical code that's generated.
 
@@ -70,7 +84,7 @@ Framework layers can use inner objects for the parent/child relationship by addi
 
 ## Properties
 
-Java programmers are advised to avoid exposing fields directly in APIs.  Instead the convention used in Java is to define two methods called getX and setX to implement a property called "x".  Programmers have to then call the getX or setX method instead of directly manipulating the field.  Later, the implementation of the property can change without affecting the calling code.  The pattern works well enough, but it's a lot more code to write makes code less readable.
+Java programmers have been traditionally advised to avoid exposing fields directly in APIs.  Instead the convention used in Java is to define two methods called getX and setX to implement a property called "x".  Programmers have to then call the getX or setX method instead of directly manipulating the field.  Later, the implementation of the property can change without affecting the calling code.  The pattern works well enough, but it's a lot more code to write and makes code less readable.
 
 StrataCode formalizes the Java convention by selectively automating the getX/setX conversion - handling both sides: converting fields to getX and setX methods as needed and converting expressions using fields to use getX and setX method calls as needed.   If you define your code with explicit setX/getX methods, you can still just use them as you would Java fields and those references are converted.  Your code looks simpler, cleaner and for those cases where getX/setX conversion is not required, you can use fields to avoid those extra method calls.  You can use fields knowing that you can eventually change them to getX and setX methods, or have them generated for you later without breaking code.
 
@@ -82,7 +96,7 @@ The data binding system detects when properties are used in data binding express
 
 In most cases, the default is what you need but there are ways to override the automatic getX/setX conversion.  You can:
 
-* use @GetSet on a field to force getX/setX method for that property (or @Bindable to force get/set and add data binding) 
+* use @GetSet on a field to force getX/setX method for that property (or @Bindable to force get/set and add the data binding event) 
 * use @ManualGetSet on a method to disable the automatic get/set conversion for expressions in that method that would ordinarily be converted.  
 * refer to a field with the "this." prefix to avoid a getX conversion for a single expression.  
 
@@ -90,7 +104,7 @@ Additionally, the conversion is disabled automatically for a field in it's own g
 
 ## Recursive References in Java
 
-Due to the design of the Java language, when you initialize a field with an expression, that expression can not refer to fields whose values are not yet defined - so called "forward references", or "recursive references".  If the state of your object in any way refers to values which refer back to you, your code will either not compile or just not work.  Component frameworks support recursive references by using a multi-step initialization process.  Objects are created and registered in the name space, then references are resolved, then initialization code can run that requires the object to be fully initialized.
+Due to the design of the Java language, when you initialize a field with an expression, that expression can not refer to fields whose values are not yet defined - so called "forward references", or "recursive references".  If the fields in your object in any way are initialized to values which refer back to the owner object, your code will either not compile or just not work.  Component frameworks support recursive references by using a multi-step initialization process.  Objects are created and registered in the name space, then references are resolved, then initialization code can run that requires the object to be fully initialized.
 
 Programmers try to avoid recursive references during design for good reasons.  They create less modular code, and the multi-step init process is more complex at runtime.  But when you need to add one in an evolved design, it can be very hard to refactor code to keep all references going in the same direction.  In the real world, data sometimes must flow upstreamand to arrange for the proper API hooks to allow this can be awkward.  
 
@@ -131,7 +145,7 @@ For example, the HTML framework provides these scopes:
 
 Scopes are arranged in parent-child relationships, where a scope such as "app-session" can be a child of both "app-global" and "session".  
 
-When you use data binding with scopes, you can designate certain bindings as "cross scope" bindings.  Events for these bindings are queued up before being delivered to the other scope.  They would typically be delivered in a different thread, which was operating in the context of that scope.  For example, if objects in a session are receiving events from a global object through a data binding, the binding would be marked 'cross scope'.
+When you use data binding with scopes, you can annotate certain bindings as "cross scope" bindings  with @Bindable(crossScope=true).  Events for these bindings are queued up before being delivered to the other scope.  They would typically be delivered in a different thread, which was operating in the context of that scope.  For example, if objects in a session are receiving events from a global object through a data binding, the binding would be marked 'cross scope'.
 
 What this means is that you can build declarative, realtime, and collaborative applications which are thread-safe and efficient. 
 

@@ -10,9 +10,15 @@
 
 ## StrataCode Template Language
 
-The template language provides the power of StrataCode when you have a program which has a lot of text.  Key parts of your Java program can be defined as free-form text using the JSP escape character sequence &lt;% and %&gt; to separate text from code.  
+The template language provides the power of StrataCode when you have a program which is more text than code.  While you can keep using your existing template language, there are several reasons you might want to look StrataCode's template language.
 
-The template language itself is typically customized by a framework when it's associated with a particular file extension (e.g. schtml, scss, sct, scxml, scsh etc).  Of these formats, schtml and scss extend the template language grammar to offer parsing of the text sections.  You can configure many aspects of how the template language behaves:
+* IDE support for editing 
+* Flexibly control whether template sections are reactive or rendered in normal imperative code, 
+* Customize templates by adding layers   
+* Debug complex dynamic templates 
+* Customize StrataCode's code-templates for adding a framework layer
+
+The template language itself is customized by a framework when it's associated with a particular file extension (e.g. schtml, scss, sct, scxml, scsh etc).  Of these formats, schtml and scss extend the template language grammar to offer parsing of the text sections.  You can configure many aspects of how the template language behaves:
 
 * whether the template is compiled into a Java .class or interpreted at build or runtime 
 * the default base class for the template if one is not specified 
@@ -22,13 +28,13 @@ The template language itself is typically customized by a framework when it's as
 * whether the template by default modifies or replaces a previous template with the same name
 * whether the template is named by it's path name in the layer or by it's type name in the language system
 
-Framework developers use the template language for code snippet templates.  They also use the template language to generate xml and other build files reducing the copying of project configuration.  
+Framework developers may use the template language for code snippet templates.  They also may use the template language to generate xml and other build files reducing the copying of project configuration.  
 
-Some web frameworks use a pattern called "code behind" where you write a class to define a page object that sits behind the template.  The properties and methods in the page object are available to the template.  StrataCode takes this pattern further.  It let's you weave code files, and template files in any number, each one using, extending, overriding, the previous one. 
+Some web frameworks use a pattern called "code behind" where you write a class to define a page object that sits behind the template.  The properties and methods in the page object are available to the template.  StrataCode takes this pattern further.  It let's you weave code files, and template files in any number, each one using, extending, or modifying the previous one. 
 
 ## Comparison to JSP
 
-JSP is built by first parsing JSP, then generating Java, then parsing the Java.  StrataCode templates are parsed in one-pass, then that model is transformed to Java without a reparsing step.  The one-pass model produces statically typed, well structured templates with the same tooling potential as Java..
+JSP is built by first parsing JSP, then generating Java, then parsing the Java.  StrataCode templates are parsed in one-pass, then that model is transformed to Java without a reparsing step.  The one-pass model produces statically typed, well structured templates with the same tooling potential as Java.  It's also more flexible, letting you basically put template free-form text in any situation where you might expect a StringLiteral in Java.
 
 The grammar for the template language is derived from the StrataCode grammar in just a few dozen lines of code.  The parsing rules are a bit more restrictive in some cases than JSP but the restrictions make for more readable, well structured templates.  They have good error messages and have the static typing as in Java. 
 

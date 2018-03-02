@@ -162,22 +162,29 @@ By default all properties on all types are updated via the same sync operation. 
 
 At the API level, you call SyncManager.sendSync("highPriority") explicitly to sync just the properties in that group.
 
-
 ### Traceable Security
 
-Though it may seem like the system is essentially "open", with free exchange between client and server ultimately StrataCode will produce much more secure applications than average.  That's because all client/server communication will be based on traceable, typed interfaces.  Being able to quickly audit and incrementally change the exposed interfaces from client to server will ultimately produce stronger and more secure applications than those which build in security policy by forcing developers to write more code.
-
-For security, the system ensures that only types which are defined to be synchronized in the source code can be accessed or manipulated via the sync protocol (TODO: this is not yet implemented!).  By default, this includes only model code which exists on the client anyway, typically the data model manipulated by the user interface.  If you are careful to only put sensitive code in server layers, the system will be secure.  Sensitive code tends to be code which forms database queries or manipulates other secure server resources.  This code requires dependencies on server code and will always run in server-specific layers.  That will ensure it is not run on the client and not accessible to the client.
+StrataCode only allows your client code to manipulate objects and properties which were declared to be synchronized in the code.  This is typically code that's in client-server shared layers so it's pretty straightforward for developers to keep it partitioned from the server-only code.  All client/server communication is traceable on compile-time, typed interfaces.  You can quickly audit and incrementally update the exposed interfaces from client to server. 
 
 ### Initial Layer
 
-The SyncContext maintains an initial layer on the server which represents the initial state of the objects created on the client.   Any changes made are stored.  When the client refreshes the page, the client's objects are restored to the initial state but any changes made to the initial layer since then are applied.  
+The SyncContext maintains an initial layer on the server which represents the initial state of the objects created on the client.   Any changes made are stored both in the initial layer and in the current new changes to be sent on the next sync.  That way, on an ongoing basis, each sync only contains new changes.  But when the client refreshes the page, the initial sync contains all changes made so far in that session.
 
 This lets the synchronization mechanism retain all application state - even transient user inteface state that is not stored in the database.  That state is refreshed as part of the initial state of the application automatically.
 
 ### Failover 
 
 When the server fails, the sync command won't find a session which matches this client.  In that situation, the client syncs its data to the server to restore any state it has.  By keeping the state for the application on both the client and the server at the same time in sync, your application gets fault tolerance for free.  If the browser refreshes, even fine-grained application state is restored.  If the server session goes away, you pay a small one time cost to restore the session from the client.  Zero code overhead.  Because the client and server stay in sync, they can exchange minimal information, decreasing latency and server processing overhead.
+
+### Debugging Synchronization
+
+If you are using automatic mode and things are not working, first run with -vsa to turn on all synchronized logging (or -vs for a summary).  This adds additional messages to the browser's console log and the server's debug log.  The dialog between the client or server is designed to be readable whether you are using 'json' or 'scn'.
+
+Look for calls to addSyncType and addSyncInst in your generated class.   It's helpful run a search through the entire generated source to be sure everything you want synchronized is and vice versa.  This is particularly useful for layers using @Sync(syncMode = sc.obj.SyncMode.Automatic).  You can adjust what gets synchronized by adding @Sync annotations to override the defaults.
+
+Enable -vl or -v to see the initial layers that are in each runtime.  This helps determine which layers are overlapping and displays which layers are marked with 'automatic' sync mode.
+
+The code which records a synchronized change will typically run from SyncManager.SyncChangeListener.  You can set a breakpoint in the valueInvalidated method and understand why a change is or is not being recorded.
 
 <% ) %>
 

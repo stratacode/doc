@@ -8,17 +8,19 @@
 
 <%= MarkDownPage.markDown(%>
 
-## Introduction
+## StrataCode Framework Development
 
-StrataCode lets you build powerful frameworks by providing a read-modify-write parser, a powerful dependency and build system, and by exposing just the right set of hinge points to let you assemble and customize the whole thing.  A layer definition file may add normal Java jar files.  When that layer is activated, a new class loader is created adding those classes.  The layer definition file can specify imports that are available to downstream layers.  
+StrataCode lets you build powerful frameworks - one that can transform a large, complex Java project into something more.
 
-Code generation features provide flexible mapping of how an identifier expression like "a.b" is mapped to get and set methods.  The dynamic runtime lets you implement dynamic abstractions which can later be used more efficiently in a compiled mode.  
+StrataCode can grok an entire large Java project from source code, or a mix of source and binary.  It provides a complete type-aware API for navigating types, dependencies, attributes, etc.  It exposes just the right set of hook points for letting you add annotation handlers, or process types which extend other types.  You can mix code into the class definitions, convert fields, to get/set methods, add wrapper methods that inject events into a setX method, support data binding for a given threading architecture, enable component features for a set of types, or write custom code processors that run on selected types.  You just make valid modifications to the language model objects, the framework does the rest.
 
-StrataCode provides automatic data binding event injection.  You can flexibly designate classes that need component initialization semantics (using the @Component annotation).  
+To get started with Framework Development, first read about the [Build and Packaging Runtime](runtime.html)
 
-The layer definition file lets you register handlers for annotations - which affect how the code is generated when those annotations are present.  You can associate compile-time code templates with classes for operations like object creation, the new operator, getX/setX conversion handling.  Support dynamic updates of code in development which is later compiled to production.
+Framework layers are just regular layers that tend to do more.  For example, it may register for one or more annotation handlers.  When a specific annotation is used on a class, you can mixin a code-template to that class, or write code to do some type of special processing.  You can accumulate all instances of a given class into a 'type group' - which can then be enumerated in some data structure elsewhere in the system (for example, generating an XML file).  You can also define and configure 'object templates' and 'new templates'.  For a given base class, you can specify a code-template used to augment the class.  If it's a class and a component, this template generates a 'newX' method.  If it's an object, it generates the getX method used to retrieve the object instance.
 
-A StrataCode framework mainly consists of one or more layers, wrapper classes which inject data binding events, annotation layers which can set compile-time annotations on any class.  These annotations typically control how those classes are used - including, adding the @Component attribute, marking properties as bindable, constant, or adding code templates for how "object" tags or scopes are interpreted (see @CompilerSettings, @Constant, @Bindable, @BindSettings for details on the StrataCode annotations).
+Sometimes a framework layer needs to wrap a framework to inject code so we can use that class with data binding.   In other cases, you can add this support via an annotation layer.  An annotation layer can modify classes for which we do not have the source, but in a restricted way.  Certain annotations can be set on compiled types in the annotation layer which do not alter the type's source code, but instead change how StrataCode processes any references to that type.  For example, you can suppress binding warnings, add some mix-in code to each sub-class of the base class, mark a property as read-only and specify templates to be used for all object, or component references to this base-class.
+
+See @CompilerSettings, @Constant, @Bindable, @BindSettings for details on the StrataCode annotations).
 
 The swing integration provides examples of both annotation layers and the wrapper layer.  Annotation layers are called "meta" by convention. 
 
