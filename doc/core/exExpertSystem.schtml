@@ -6,20 +6,24 @@
 
       <div class="exampleTitle">ExpertSystem Example</div>
 
-       This example demonstrates a simple real-world business problem and how we can partition the code via layers.
+       This example demonstrates a simple real-world business problem and how we can partition the code via layers, to separate different aspects of the code to promote better code reuse and separate files for better workflows when code is managed by a team.
 
        <p>
-       First we'll start with a layer that defines the domain model types in the system.  This defines the core data structures in the application. 
+       First we'll start with a layer that defines the domain model types in the system.  This defines the core data structures in the application.  As an example, we'll use some code implementing the 'light' version of my father's expert system for decision making styles analysis.  It models what leadership decision making style a given leader should choose for a given situation, given a high/low choice for a set of factors the leader uses to categorize the situation.
 
        <p>
-       The first two types are enumerated types which are empty in the "code layer".   They are specified in a purely declarative way in a separate layer.  You can use these data structures in a different application or to partition the file ownership.  The code owned by the programmer, the names and values of the strings by the technical business person.
+       There are two empty enumerated types in the example.expertSystem.modelTypes layer.  The enum values themselves are specified declaratively in a separate layer to show how we can separate assets to partition the file ownership.  The code owned by the programmer, the names and values of the strings by the technical business person.
 
+In the ExpertSystem, we have a fixed number of FactorValue definitions so we'll use an 'enum' in Java.  
 <%= sc.lang.SCLanguage.getSCLanguage().styleFile("example/expertSystem/modelTypes","FactorValue.sc", false, false) %>
 
+The LeadershipStyle enum defines the ways a leader can make a decision:
 <%= sc.lang.SCLanguage.getSCLanguage().styleFile("example/expertSystem/modelTypes","LeadershipStyle.sc", false, false) %>
 
+And the situation we are modelling:
 <%= sc.lang.SCLanguage.getSCLanguage().styleFile("example/expertSystem/modelTypes","Situation.sc", false, false) %>
 
+And the list of factors used by the leader to describe the situation:
 <%= sc.lang.SCLanguage.getSCLanguage().styleFile("example/expertSystem/modelTypes","SituationalFactor.sc", false, false) %>
 
       Now a second layer, developed by the programmer but maintained by the business domain specialist for the names.  The first two files define numerated options using enum types above.

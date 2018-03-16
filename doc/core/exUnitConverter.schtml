@@ -18,9 +18,9 @@
          There are four differences from Java demonstrated here:  
          <ul>
             <li>Instead of inner classes, this example uses inner objects.  
-            <li>A customized object template - the ComponentList class uses the @CompilerSettings annotation to register an object template.  That template inserts the "add" call so the inner object is added to the list.  This same mechanism is used for a parent user interface widget to treat its inner objects as child widgets.  
-            <li>There is a new :=: opeator used to relate the two values in a formula.  This is a bi-directional data binding expression.  When value1 changes, the expression is evaluated and value2 is set.  Similarly when value2 is changed, the inverse of that expression is evaluated and value1 is set.  Bi-directional bindings are usable with expressions that have a way to invert them, e.g. arithmetic expressions that have a single variable or simple assignments, or methods which register an explicit reverse method through an annotation..
-            <li>Properties are assignable without braces {}.
+            <li>A customized object template - Remember that StrataCode uses code-generation, and object templates are the mechanism to tell the code-generator how to handle an inner object of an outer class.  In this case, the ComponentList class uses the @CompilerSettings annotation to register an object template to customize the code-generation of its inner objects.  That template inserts the "add" call so the inner object which is added to the list when the instance is initialized.  This same mechanism is used in various user-interface toolkits for a parent user interface widget to automatically add it's inner objects as child widgets.  
+            <li>Notice the use of the :=: operator.  It is used to relate two values in a bi-directional expression using data binding.  When value1 changes, the expression is evaluated and value2 is set.  Similarly when value2 is changed, the inverse of that expression is evaluated and value1 is set.  Bi-directional bindings are usable with expressions that have a way to invert them, e.g. arithmetic expressions that have a single variable or simple assignments, or methods which register an explicit reverse method through an annotation.
+            <li>Properties of an object can be assigned with a class-level construct.  Normally in java, you would need to wrap a property assignment in open/close braces (i.e. {}) but in StrataCode, it's a class-level operation to make your code more declarative.
          </ul>
          </div>
 
@@ -69,16 +69,14 @@
          <p>
          <div id="serverSection3" exec="server">
          <div class="exampleTitle">Defining a Layer</div>
-         The UnitConverter.sc file is stored in the layer directory called example/unitConverter/model in your layer path.  That layer name's is example.unitConverter.model and is defined by the file model.sc in the example/unitConverter/model directory that looks like:
+         The UnitConverter.sc file is stored in the layer directory called example/unitConverter/model in your layer path (which by default consists of all of the directories in your projects 'bundles' directory).  Here the layer name's is example.unitConverter.model and is defined by the file model.sc in the bundles/example/example/unitConverter/model directory that looks like:
 
 <%= sc.lang.SCLanguage.INSTANCE.styleFile("example/unitConverter/model", "model.sc", false, true) %>
 
-The layer name must always be the first thing and the file name always matches the layer directory name.
 <p>
-It sets a package to use as the root for all files in this layer.  That means UnitConverter.sc can live in the layer directory, not in sc/example/unitConverter and need not specify a package.  Layer packages help organize code more easily and narrow the focus for a layer that pays off for making things easier to navigate.
+The package operator here sets a package to use as the root for all files in this layer.  That means UnitConverter.sc can live in the layer directory itself, not in the subdirectory sc/example/unitConverter.  The source files themselves do not have to specify a package.  Layer packages help organize code more easily and narrow the focus for a layer that pays off for making things easier to navigate.
 <p>
-The codeTypes and codeFunctions properties don't affect the runtime.  They help the tools organize layers in the program editor.  This file is written in interpreted Java and can include code to customize your application when this layer is included.  It handles the same tasks that build.xml does but using Java.
-
+The codeTypes and codeFunctions properties don't affect the runtime.  They help the tools organize layers (e.g. in a management UI or IDE).  The layer definition file is written in interpreted Java and can include code to customize your application when this layer is included.  It handles the same tasks that build.xml does but using declarative StrataCode rather than XML. 
          <div class="exampleTitle">Modifying a Layer</div>
 Now to introduce the modify operator, we'll add a very simple layer based on the model layer called example.unitConverter.extendedModel.  First the layer definition file:
 
@@ -116,7 +114,7 @@ The first user interface we'll look at is implemented using StrataCode's HTML Te
          
             <div id="serverSection4" exec="server">
                <div class="exampleTitle">Quick SCHTML Intro</div>
-      SCHTML looks like HTML with some JSP-like tags thrown in.  You also can define any attribute to be a Java expression with or without data binding.  To do this, it's just like the rules for an excel-cell.  If you prefix the attribute value with an operator: =, :=, =:, or :=: followed by a space, the value is treated as a Java expression.  You can only do this for attributes which have a backing property which matches that name.  You can only use data binding expressions with properties of objects that are bindable (or can be made bindable via code-gen).
+      SCHTML looks like HTML with some JSP-like tags thrown in.  You also can define any attribute to be a Java expression with or without data binding.  To do this, you can specify HTML attributes using rules that work like excel.  If you prefix the attribute value with an operator: =, :=, =:, or :=: followed by a space, the value is treated as a Java expression.  You can only do this for attributes which have a backing property of that name in the underlying tag object.  So for example, you can set the value attribute of an input tag, but not a body tag.  You cannot set expressions for certain properties like 'extends' or 'id'.  You can only use data binding expressions with properties of objects that are bindable (or can be made bindable via code-gen).
       <p>
       Since this layer also modifies the UnitConverter object, we have a UnitConverter object in scope to use in our tags.  The select tag sets the optionDataSource to the converters list we defined.  The selectedIndex uses a bi-directional binding to the currentConverterIndex property in the coreui layer.  We evaluate the optionData value defined for each select option as the text to display using the JSP-like <%= templateSnippets.expressionOp %> java-expression <%= templateSnippets.closeOp %> operator.  
       <p>

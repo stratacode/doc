@@ -13,7 +13,7 @@ by Jeff Vroom
 
 Are you a programmer looking to increase your leverage with code?  In other words, do you want to maximize the value you deliver per hour of your time?  If this challenge interests you, you may quickly encounter a choice.  Should you choose the most powerful programming language - one that lets you express yourself with the most concise and flexible operators and libraries, perhaps using a functional language, or will you get more leverage by coding in a way that improves the readability, customizability, and longevity of your code.  Instead of coding for yourself, should you be coding for everyone else so you can write more code and let others maintain it?  
 
-For applications which needs to be customized and maintained by large teams, to me the choice is clear.  Clients and users of these applications are happier and more productive when they can make the changes the need without programmers.  Programmers can accomplish more in the long term when they code in a way that improves the readability and flexibility of their code, so it continues to evolve even when they are building something new.  To get more leverage from our code, at a high level, we need cleaner separation of framework code from application code.  Let the framework code do the heavy lifting of mapping the application code to meet the platform requirements, keeping the application code so it solves the domain problem in a single block of code.  We would like our domain models to be normalized, so there's a single source of truth.  They should be readable and declarative, except when imperative is required.  When it's necessary to customize logic for the platform, keep that logic separate and attached to the domain model so we can trace these dependencies as we change the code.
+For applications which need to be customized and maintained by large teams, to me the choice is clear.  Clients and users of these applications are happier and more productive when they can make the changes the need without programmers.  Programmers can accomplish more in the long term when they code in a way that improves the readability and flexibility of their code, so it continues to evolve even when they are building something new.  To get more leverage from our code, at a high level, we need cleaner separation of framework code from application code.  Let the framework code do the heavy lifting of mapping the application code to meet the platform requirements, keeping the application code so it solves the domain problem in a single block of code.  We would like our domain models to be normalized, so there's a single source of truth.  They should be readable and declarative, except when imperative is required.  When it's necessary to customize logic for the platform, keep that logic separate and attached to the domain model so we can trace these dependencies as we change the code.
 
 With these high-level goals and principles, I've had a long career building systems that try to allow:
 
@@ -84,7 +84,7 @@ Code that adds the recursive dependency is put in a new layer that modifies type
 
 To build and run any StrataCode application just specify a layer, or the set of layers you want to run.  Any code-generation or compilation that is required is performed.  The resulting build directories represent typical projects for the runtimes you are using.  Any processes that need to be started are started automatically by the framework layers you include.
 
-Each layer has a definition file that acts like your build script.  Instead of being in XML, Javascript or Groovy, it's written in statically-typed StrataCode and executed using the dynamic java runtime.  Why not use the full power of an IDE to write and manage your build files too? 
+Each layer has a definition file that acts like your build script.  No XML, Javascript or Groovy - instead use statically-typed StrataCode, using the same dynamic runtime behind dynamic layers.  Why not use the full power of an IDE and static typing to write and manage your build files? 
 
 Here are some details on how the StrataCode build process works.  First all layer files are parsed the extended layers are added.   The layer stack is split into separate, ordered stacks, one for each runtime or process.  This let's StrataCode manage more than one process from the same stack - for example, client javascript and server.  All layers in each stack are all initialized, then all started.  During the init/start phases, code or components in the layer definition file can add source path and class path directories. 
 
@@ -103,6 +103,8 @@ Layers do not change the nature of a type at runtime - just how the code in that
 ## StrataCode IDE
 
 The IntelliJ IDE for StrataCode supports main features of Java IDEs: navigation, refactoring, debugging, and edit-time errors that prove the integrity of your code, so you are debugging fewer runtime errors.  You can debug either the StrataCode source, or the generated code, or quickly switch back and forth.
+
+In the IDE's "Run Configuration" editor, you choose a set of compiled layers, or dynamic layers and options. 
 
 In the Layers View, you can see all of the layers accessible in your project.  
 You can filter layers by runtime, process, type.  You can view all of the available or 'inactive' layers.  Or after you've started a program, you can use layers view for the active layers.
@@ -148,11 +150,11 @@ If you've used monkey patching, overlays, or written a patch-script you've worke
 
 ## Frameworks Built on Layers
 
-StrataCode has evolved into a rich, well designed tool code-processing framework with a relatively small, clean, easy-to-read-and-debug code base.  The power of code-generation combined with layers opens up opportunities for framework development and I have had lots of experience building frameworks.  It's natural that a lot of testing has been done with framework building that leverages the design of layers.  
+StrataCode has evolved into a rich, well designed code-processing framework with a relatively small, clean, easy-to-read-and-debug code base.  The power of code-generation combined with layers opens up opportunities for framework development and I have had lots of experience building frameworks.  It's evolved over years, and integrations with several frameworks have improved the design to be "good enough" for most applications.
 
-StrataCode includes a layered component-oriented, data-binding and synchronization system built using lessons learned from my experience with these platforms.  You can use StrataCode with other frameworks easily - in fact, it's been integrated with several standard Java frameworks already and adding more is easy.
+StrataCode includes a layered component-oriented, data-binding and synchronization set of framework layers.  I built them using lessons learned from my experience with these platforms.  You can use StrataCode with other frameworks easily - in fact, it's been integrated with several standard Java frameworks already and adding more is easy as well.
 
-If you look at the complete platform, you'll see how it can simplify your Java code, separate framework code from application code to remove platform dependencies, make applications more declarative and easier to customize.  
+If you look at the complete platform, you'll see how it can simplify your Java code, separate framework code from application code to remove platform dependencies, make applications more declarative and easier to customize.
 
 If you want to use StrataCode with your existing projects, just point a layer at your maven or git repo and see if it can replace your existing build/run toolset.  How fast can you create new customized versions of your system?  You can try out any other features easily by plugging them into a new layer.  Replace a file, add new fields, override methods, etc.  Use it for testing, development, deployment configurations as you like.
 

@@ -26,17 +26,17 @@
       The program editor lives in the editor layer group.  It consists of several layers that total ~8000 lines of code.  It uses 350 forward binding expressions, 20 bi-directional bindings, 100 reverse bindings, and 150 object definitions.  
      </p>
       <p>
-      It runs fully compiled or fully dynamic hybrid modes where the model is compiled and the UI is dynamic or vice versa.  The swing versionis demoed in both the Basic and Advanced demos listed in the <a href="videos.html">videos</a>.  The web framework has 2/3s of the functionality of the swing version working but soon will work like the swing version but in the browser.   You can view types flexibly in merged and layered views, control visibility based on code-complexity: declarative, application, framework or code-role: UI, database, admin, style, application.  In dynamic mode, when you change properties on interfaces using multiple inheritance, they propagate throughout the initialization tree.  You can create or remove objects, properties, or layers all without restarting.  When a restart is necessary, the restart icon lights up, a reason box describes the changes which requires a restart. 
+      It runs fully compiled or fully dynamic hybrid modes where the model is compiled and the UI is dynamic or vice versa.  The swing versionis demoed in both the Basic and Advanced demos listed in the <a href="videos.html">videos</a>.  The web framework has 2/3s of the functionality of the swing version.  You can view types flexibly in merged and layered views, control visibility based on code-complexity: declarative, application, framework or code-role: UI, database, admin, style, application.  In dynamic mode, when you change properties on interfaces using multiple inheritance, they propagate throughout the initialization tree.  You can create or remove objects, properties, or layers all without restarting.  When a restart is necessary, the restart icon lights up, a reason box describes the changes which requires a restart. 
      </p>
       <ul>
-         <li>editor.model (849 Lines):  Defines the key data structures behind the program editor. This layer runs both in the browser and on the server and so represents the data structures that StrataCode synchronizes.  There is EditorModel which stores the current type and selection and TypeTreeModel, which implements the tree view itself.
-         <li>editor.modelImpl (2000 lines): Runs just on the server in the client/server version.  This layer contains the logic which populates EditorModel and TypeTreeModel for any user interface.  It extends sys.layeredSystem in addition to the model layer.  Because sys.layeredSystem only runs on the server, this layer will only run on the server too.
-         <li>editor.coreui (425 lines): Runs on both the client and the server.  Contains some core user-interface code shared by both swing and the Javascript layers.
-         <li>editor.swing.core (2600 lines): Implements the Swing user interface.
-         <li>editor.js.core (1000 lines): Implements the Javascript user interface.  Runs on both the client and the server.
+         <li>editor.model (1600 Lines):  Defines the key data structures behind the program editor. This layer runs both in the browser and on the server and so represents the data structures that StrataCode synchronizes.  There is EditorModel which stores the current type and selection and TypeTreeModel, which implements the tree view itself.
+         <li>editor.modelImpl (2200 lines): Runs just on the server in the client/server version.  This layer contains the logic which populates EditorModel and TypeTreeModel for any user interface.  It extends sys.layeredSystem in addition to the model layer.  Because sys.layeredSystem only runs on the server, this layer will only run on the server too.
+         <li>editor.coreui (1800 lines): Runs on both the client and the server.  Contains some core user-interface code shared by both swing and the Javascript layers.
+         <li>editor.swing.core (3190 lines): Implements the Swing user interface.
+         <li>editor.js.core (1880 lines): Implements the Javascript user interface.  Runs on both the client and the server.
       </ul>
 
-      The swing user interface code is longer because it uses data binding for all layout (not ideal but not half bad!)  The JS version is only 2/3rd done but will end up doing the same thing with about half the code.  
+      The swing user interface code is longer because it uses data binding for all layout.  The JS version is only 2/3rd done but will end up doing the same thing with about half the code.  
       <p>
       There are substantial cross platform code savings.  Building the client/server app involved splitting up the existing classes into pieces that are put into new layers.  Code which depends on swing goes into the swing specific layer.  Code that depends on the server features, goes into that layer.  Code that does not depend on anything which is generic to all goes into the model layer.  
      </p>
@@ -59,6 +59,14 @@
 
       <p>
 
+      <div class="exampleTitle">Tree Widget</div>
+
+Here's the tree widget, used to generate the HTML for each of the two tree's in StrataCode.  It shows data binding expressions being used to define the content and behavior of the tree.  Data binding is used to choose the CSS classes for each tag.  It's used to make tags visible/invisible.  To conditionally render an icon for the node in the tree. 
+     </p>
+<%= sc.lang.HTMLLanguage.INSTANCE.styleFile("editor/js/core", "TreeView.schtml", false, false) %>
+Look at the tag has the repeat attribute.  It extends the TreeView component - i.e. it extends its enclosing class. That gives us the nested behavior you see in the tree, all from one simple component.
+      </div>
+
       <div class="exampleTitle">Program Editor Synchronization</div>
      </p>
       <p>
@@ -66,13 +74,14 @@
       
      </p>
       <p>
-      All of that information is sent to the client in the initial response so it can be used to populate Javascript objects.  It comes after the static HTML generated by the server tag objects.  The information serialized to the cilent can then be used by the Javascript code to update any portions of the UI that are not "server only" content in the first refresh.
+      All of that information is sent to the client in the initial response so it can be used to populate Javascript objects.  It comes after the static HTML generated by the server tag objects.  The information serialized to the client can then be used by the Javascript code to update any portions of the UI that are not "server only" content in the first refresh.
       </p>
       <p>
-      There's a lot of complex behavior, with only a few lines of explicit synchronization code.  It might seem like magic, but it's actually very easy to trace what's going on and make it do what you want by setting annotations and occasionally a using the API.  Data binding events are used to track synchronized property changes.  A method call to addS yncType is inserted to register the metadat and addSyncInst is used to signal a new instance of a given type was created that needs to be tracked.  Lazy references are processed when StrataCode serializes a reference to a new instance that has not been synchronized.  It can automatically synchronize it at that time.
+      With only a few annotations, the program editor implements a lazy-loaded tree of types and lazily loads meta-data for classes, and instances.
+      It's also easy to trace what's going on and make it do what you want.  You start simple and tune the behavior by setting annotations and occasionally a using the sc.sync API.  Data binding events are injected automatically during the code-generation phase, and used by the sync system to track synchronized property changes.  A method call to addSyncType is inserted to register the metadata and addSyncInst is used to signal a new instance of a given type was created that needs to be tracked.  Lazy references are processed when StrataCode serializes a reference to a new instance that has not been synchronized.  It can automatically synchronize it at that time.
      </p>
      <p>
-      StrataCode makes it easy to follow what's going on.  It uses the SCLanguage to synchronize the client and server.  Instead of JSON, you see a layer of changes going back and forth.
+      When you turn on the verbose sync option (-vs) you'll see just what's going on.   By default we use the JSON protocol for performance.  SCN is slightly more readable and was the original protocol so it's used here to show a sample client/server communication.
      </p>
       <p>
       Here is the initial layer of data for the program editor in layer format (abbreviated to avoid repetition).  The program editor code defines UIIcons using the global mode so those come across first:
@@ -240,21 +249,13 @@ VariableDefinition__3 {
 </pre>
 
       <p>
-With the StrataCode serialization protocol, not only does it serialize your data, it also wires together a complete graph of objects.  It then monitors changes to those objects and exchanges deltas back and forth.
+With the sync system, not only does it serialize your data, it also wires together a complete graph of objects.  It then monitors changes to those objects and exchanges deltas back and forth.
      </p>
 <p>
-The StrataCode serialization protocol is translated to Javascript on the server and is shipped to the client as Javascript code.  The client eval's this script to apply the changes.  You can even set breakpoints to walk through the deserialization. 
+The SCN format is translated to Javascript on the server and is shipped to the client as Javascript code.  The JSON format is the default because it's faster during this step and uses a protocol understood by other tools.  One advantage of SCN is that you can set breakpoints and step through the deserialized output.
 </p><p>
-A binary protocol for the sync system is planned to make large volume data transfers more efficient.
      </p>
 
-      <div class="exampleTitle">Tree Widget</div>
-
-Here's the tree widget, used to generate the HTML for each of the two tree's in StrataCode.  It shows data binding expressions being used to define the content and behavior of the tree.  Data binding is used to choose the CSS classes for each tag.  It's used to make tags visible/invisible.  To conditionally render an icon for the node in the tree. 
-     </p>
-<%= sc.lang.HTMLLanguage.INSTANCE.styleFile("editor/js/core", "TreeView.schtml", false, false) %>
-Look at the tag has the repeat attribute.  It extends the TreeView component - i.e. it extends its enclosing class. That gives us the nested behavior you see in the tree, all from one simple component.
-      </div>
    </div>
 </body>
 

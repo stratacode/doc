@@ -9,7 +9,11 @@
 
 ## The Motivation for Layers
 
-Layers a design pattern implemented here as part of the language.  They introduce both a new hinge point to extend and reuse code and allow new ways for building and maintaining large, complex systems.  They are a new twist to object oriented programming, letting you refine or extend a class or instance without renaming.
+As a thought experiment, you might find it interesting to think about where you find the layer design pattern in software you use.  Here's a few I can think of: Java's classPath, "monkey patching", maven overlays, objective C 'mixins'.   
+
+Now let's think about the natural world and consider the places where "layered designs" occur.  You find layers in the structure of just about anything - organic or inorganic.  For a clear example, take a look at the structure of the brain.  Layers are a fundamental way complexity is organized in nature.  So we see layers in both the computational and natural worlds frequently and yet in modern programming languages, there's no unifying way to use them for organizing software we build.  Instead, layers appear here and there built in to ad-hoc features.  Unlike in nature, programmers do not today use them as the essential organizational abstraction.  What if we changed all of that and introduced layers as both a feature for organizing programs, as well as a language construct for composing types?
+
+StrataCode attempts to answer that question by using layers to add a hinge point to our design flexibility for building and maintaining large, complex systems.  They are the next evolution of oriented programming, letting you refine or extend a class or instance without renaming.  Plugins built into the language and the replace and merge operations built into the modular structure.
 
 ## More Flexible Than Modules
 
@@ -22,16 +26,17 @@ Layers preserve encapsulation and are statically typed, adhering to the <a href=
 
 As modules grow in size, they tend to develop circular dependencies.  For example, Module A depends naturally on Module B but as the project grows, some minor aspect of B may develop a dependency on some minor aspect of A, possibly due to a poor modularization decision.  Refactoring to eliminate the circular dependency would work but breaks compatibility and so may not be an option.  Allowing the new circular dependency creates severe code management problems.  Conceptually now A and B must be updated in lockstep.  You lose many of the benefits of modularization in the first place.  Changes in B may depend on changes in A and vice versa.  It becomes impossible to test a new version of A with an old version of B and vice versa.  That reduces your ability to detect when the interfaces of your modules change in an incompatible way. 
 
-
 ## Layers Eliminate Circular References 
 
 With layers, a downstream layer cannot refer to an upstream layer.  Code dependencies are enforced at compilation time to ensure dependencies only go one way.  This is essential to preserving modularity as systems grow.  
 
-Instead, when you would need to add a cyclic dependencies, due to the addition of that minor feature, this code is added in a separate layer that extends both of the previous A and B layers.  It separates that minor dependency from the bulk of the code.  You retain the independence of the rest of the code without breaking APIs or compatibility.  If you want existing clients to see this new module, the new layer is named "A" and the old "A" is renamed.  If you want to offer this as an opt-in feature, you give the new layer a new name and tell clients to point to that layer to get that feature.
+Instead, when you would need to add a cyclic dependency, due to the addition of that minor feature, this code is added in a separate layer that extends both of the previous A and B layers.  It separates that minor dependency from the bulk of the code.  You retain the independence of the rest of the code without breaking APIs or compatibility.  If you want existing clients to see this new module, the new layer is named "A" and the old "A" is renamed.  If you want to offer this as an opt-in feature, you give the new layer a new name and tell clients to point to that layer to get that feature.
 
-Languages like OCaml do not allow cyclic references between modules.  As your system grows over time though, some change may require refactoring to move code from one type to another to avoid an upstream dependency.  That will inevitably break any code using the code that has to move, causing unnecessary work, headache, and overall friction for the consumers of technology.   Layers give you the best of both worlds: enforcement of one-way dependencies in the core modular structure, and the ability to incrementally add cyclic relationships to types while keeping the code modular.  
+Languages like OCaml do not allow cyclic references between modules.  It's a hard-line decision that yields faster start up times, more modular systems so in some ways a good language level design decision.  But it comes at a huge cost to "upgradeability".  As your system grows more complex, some changes may require refactoring to avoid a conflicting dependency.  Without the ability to use a cyclic reference, you need to move code from one type to another to avoid a new upstream dependency.  That will inevitably break any code using the code that has to move, causing unnecessary work, headache, and overall friction for the consumers of any upstream systems. 
 
-Here's as attempt to illustrate:
+Layers give you the best of both worlds: the option to enforce one-way dependencies in the modular structure for a given group of modules, and the ability to incrementally add cyclic relationships to types while keeping the code modular.  
+
+Here's as attempt to illustrate this tricky, but important concept using a picture:
 <% ) %>
 
 <img style="margin:0px auto;display:block" src="images/deps.png" alt="Dependencies between Modules and Layers"/>
@@ -63,11 +68,13 @@ When combined with StrataCode's declarative features, layers provide a hinge poi
 
 ## Pure Domain Models   
 
-Among software architects, the term "domain model" refers to the core business code, independent of it's dependencies on the user-interface, database, etc.  It specifies the types of objects involved in the business, the properties of those objects, configuration of the objects, operations performed on them, and rules that should be applied or enforced.  Ideally this model is mostly declarative and as independent from the rest of the system as it needs to be used where you are coding up a business process using that model.  The speed you can evolve your domain model is a major contributor to your overall efficiency.
+Among software architects, the term "domain model" usually refers to the core business code, independent of it's dependencies on the user-interface, database, etc.  It specifies the types of objects involved in the business, the properties of those objects, configuration of the objects, operations performed on them, and rules that should be applied or enforced.  Ideally this model is mostly declarative and as independent from the rest of the system as it needs to be used where you are coding up a business process using that model.  The speed you can evolve your domain model is a major contributor to your overall efficiency.
 
-But when expressed as types in your programming languages, your domain model becomes rich types that collect code and dependencies rapidly.  Each dependency limits your ability to reuse that code in other contexts.  Layering helps you preserve an independent version of your domain model which is expressed in all of the contexts in which it's required.  Runtime dependencies exist only in the generated code for your model classes - not in the domain model source.  Using annotations, base layers, base classes, etc. you can write powerful framework features to manipulate the code of your domain model so it's properly serialized, stored in a database, etc.  When necessary, you can modify your types using platform specific layers of your domain model.
+The design challenge begins when you try to express your domain model in a programming language.  You need a good type system, efficient compiler, etc, and at the runtime level you need flexibility to create "many integrations" with highly varying needs for the timeliness, rate, and integrity requirements for accessing and updating data.  Your code rapidly collects dependencies on both the runtime, and on external systems.  Each dependency limits your ability to reuse that code in other contexts.  You satisfy the conflicting dependencies through code copying, and expensive to maintain remote interfaces, using data de-normalization as an important tool to decouple systems for operational needs. 
 
-Here's a simple domain model object:
+Layering helps you preserve an independent version of your domain model which is expressed in all of the contexts in which it's required.  Runtime dependencies exist only in the generated code for your model classes - not in the domain model source.  Using annotations, base layers, base classes, etc. you can write powerful framework features to manipulate the code of your domain model so it's properly serialized, stored in a database, de-normalized, and decoupled for operational reasons but without touching the domain model using powerful code-generation, and framework features that operate on the code as data.  For cases that cannot be automated, you can still customize any type in platform specific layers of your domain model.
+
+Just to make this a little more concrete, let's look at a simple domain model object:
 
 <%= sc.lang.SCLanguage.INSTANCE.styleNoTypeErrors(
 %>class Quiz {
@@ -76,7 +83,7 @@ Here's a simple domain model object:
 }
 <% ) %>
 
-Add JPA persistence with:
+You can add JPA persistence with a new layer that contains a simple Quiz.sc file that modifies the Quiz object:
 
 <%= sc.lang.SCLanguage.INSTANCE.styleNoTypeErrors(
 %>@Entity
@@ -91,15 +98,17 @@ Quiz {
    override @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER) questions;
 }
 <% ) %>
-We could have added these annotations using a framework layer automatically using sensible defaults but here you see how to add annotations to existing properties and methods from a layer. 
-Just referring to a property in a layer adds that property to a list that's accessible to the framework.  This lets you set properties for the layer that apply to all properties in the layer.
+You can add annotations to existing properties and methods from a layer easily. 
+Just referring to a property in a layer adds that property to a list of "properties in the layer" that's accessible to framework features.  This lets you set properties for the layer that apply to all properties in the layer.  For example, if we have lots of domain model objects which use 'name' as the default @Id property, we could set that annotation by default for all types in the persistent layer.
 
-To use a quiz, you might also initialize it:
+To use a quiz, you might also create an instance of a Quiz in one layer:
 <%= sc.lang.SCLanguage.INSTANCE.styleNoTypeErrors(
-%>object ScienceQuiz extends Quiz {}
-
-ScienceQuiz {
+%>object ScienceQuiz extends Quiz {
    name = "Science";
+}<%) %>
+and initialize it in a separate layer:
+
+<%= sc.lang.SCLanguage.INSTANCE.styleNoTypeErrors(%>ScienceQuiz {
 
    questions {
       object question1 extends Question {
