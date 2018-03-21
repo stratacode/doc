@@ -8,9 +8,11 @@
 <%= MarkDownPage.markDown(%>
 ## Microservices with Layers
 
+by Jeff Vroom
+
 StrataCode offers a new strategy for managing your code more efficiently.  It reduces the upfront design load on the architect and improves options for incremental updates to scale systems management.  
 
-Microservices has become a hot design focus for architects, particularly in recent years.  This is no doubt in reaction to the time we've felt has been wasted in managing monolithic code bases.  But it seems that we'll only really save time, if we wisely choose the pieces.  Due to additional complexity of implementing and managing remote interfaces throughout the software lifecycle, it also seems important that we consider patterns that support "design evolution" - where we can start monolithic and gracefully break out parts of our system at the code level, or RPC level as the system evolves.
+Microservices has become a hot design focus for architects, particularly in recent years.  This is no doubt in reaction to the time we've felt has been wasted in managing monolithic code bases.  But it seems that we'll only really save time, if we wisely choose the boundaries between pieces.  Due to additional complexity of implementing and managing remote interfaces throughout the software lifecycle, it also seems important that we consider patterns that support "design evolution" - where we can start monolithic and gracefully break out parts of our system at the code level, or RPC level as the system evolves.
 
 ## About Microservices
 
@@ -20,15 +22,15 @@ There are lots of advantages to smaller services: smaller teams, separate source
 
 The architect of a large system balances many factors to make the right decision and is faced with high costs when a change is required.  
 
-Are the databases of the services easy to decouple, or would they benefit from transactional integrity?  What redundant data will need to be created?  How will we manage integrity or mediate conflicts that might arise?    
+Are the databases of the services easy to decouple, or would two fields benefit from being updated together with transactional integrity?  What redundant data will need to be created and how often will it need to be updated?  How will we manage integrity or mediate conflicts that might arise?    
 
-How easy will it be to test the API in an automated way so we can reliably support it without running all of the code that uses it?   Will the services API need to change in an incompatible way?  Are two candidate services destined to upgrade in lock-step more often than not?   Do we really need a remote service boundary between these services, or is a normal code-module boundary with separate source-trees a better design solution?  Will the API boundary be used too often for efficient RPC?  Will there be too much data copying?  How will failures be handled?
+How easy will it be to test the API in an automated way so we can reliably support it without running all of the code that uses it?   Will the services API need to change in an incompatible way?  Are two candidate services destined to upgrade in lock-step more often than not due to feature overlap?   Do we really need a remote service boundary between these services, or is a normal code-module boundary we can use with separate source-trees to provide a more efficient application with the same team separation?  Will the API boundary be used too often for efficient RPC?  Will there be too much data copying?  How will failures in one service be handled in the other?
 
 In support of Microservices, consider how much benefit of scale will be achieved by having independent development streams of the two services - i.e. separated in such a manner that they could be operated at arm's length from each other.  For some applications, even though there's more work to build them as separate pieces, it's an important design boundary that should be enforced for maximum agility.  Like separating a payment service which has different integrations and SLAs.
 
 But if you split tightly coupled logic across services, you will spend more time managing them as separate services than as one.   Splitting a database into two pieces without a good reason could just add more overhead for each insert, update and more potential data integrity problems.
 
-These are not easy decisions, leading to a design challenge to pick the right pieces and design the interfaces carefully.  It's more difficult when you are starting a new project and can't answer these questions with actual domain model experience.  In that case, it would be fastest to just write code so we get it working quickly, knowing we have an easy way to repackage later based on experience.  We could start out with services based on different classes and then easily run them as separate services with a seamless transition.  We could also split the git repository into pieces based on how that module was evolving or who needed to manage it.  We could do it all as a change to an internal project, splitting one published layer into a few layer parts, all without breaking any upstream dependencies or changing API contracts.  That's the design goal for StrataCode.
+These are not easy decisions, leading to a design challenge to pick the right pieces and design the interfaces carefully.  It's more difficult when you are starting a new project and can't answer these questions with actual domain model experience.  In that case, it would be fastest to just write code so we get it working quickly, knowing we have an easy way to repackage later based on experience.  We could start out with services based on different classes and then easily run them as separate services with a seamless transition.  We could also split the git repository into pieces based on how that module was evolving or who needed to manage it.  We could do it all as a change to an internal project, splitting one published layer into a few layer parts, all without breaking any upstream dependencies or changing API contracts.  When you learn to think of code in terms of layers, sharing types across prosses boundaries, and augmenting RPC with 'synchronization', you get these benefits in how you build and evolve systems.
 
 ## Evolutionary Code Management
 

@@ -1,0 +1,23 @@
+<html extends="DocPage">
+<head title="StrataCode Test Integrations"/>
+
+<body>
+
+   <div id="content">
+       <div id="pageContent" exec="server">
+
+<%= MarkDownPage.markDown(%>
+
+We built integrations for wicket and GWT before building the web framework.
+
+Those are now being used as test integrations only:
+
+* [Wicket](wicket.html)
+* [GWT](gwt.html)
+
+<% ) %>
+
+     </div>
+   </div>
+</body>
+</html>

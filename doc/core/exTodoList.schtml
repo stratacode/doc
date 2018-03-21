@@ -7,10 +7,13 @@
 
       <div class="exampleTitle">TodoList Example</div>
 
-      Here is the todoList sample built on StrataCode's web framework:
-      <p>
-
-      <iframe src="TodoList.html" width="90%" height="300"></iframe>
+      <p/>
+      <div class="code">
+         <a href="TodoList.html">
+           Go to the client-only TodoList example:<br/>
+           <img src="images/todoIcon.png"/>
+         </a>
+      </div>
 
       <p>
       This example is built in three layers: the model, the user interface, and the data.

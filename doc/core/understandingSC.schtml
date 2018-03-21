@@ -1,4 +1,4 @@
-<html extends="ArticlePage">
+<html extends="DocPage">
 <head title="Understanding StrataCode"/>
 
 <body>

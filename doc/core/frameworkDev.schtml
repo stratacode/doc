@@ -10,11 +10,13 @@
 
 ## StrataCode Framework Development
 
-StrataCode lets you build powerful frameworks - one that can transform a large, complex Java project into something more.
+StrataCode lets you build powerful frameworks - those that can transform large, complex Java projects into something more.
 
-StrataCode can grok an entire large Java project from source code, or a mix of source and binary.  It provides a complete type-aware API for navigating types, dependencies, attributes, etc.  It exposes just the right set of hook points for letting you add annotation handlers, or process types which extend other types.  You can mix code into the class definitions, convert fields, to get/set methods, add wrapper methods that inject events into a setX method, support data binding for a given threading architecture, enable component features for a set of types, or write custom code processors that run on selected types.  You just make valid modifications to the language model objects, the framework does the rest.
+StrataCode can grok an entire large Java project from source code, or a mix of source and Java binaries (jar/class).  It provides a complete type-aware API for navigating types, dependencies, attributes, etc.  It exposes just the right set of hook points for letting you add annotation handlers, or process types which extend other types.  You can mix code into the class definitions, convert fields to get/set methods, add wrapper methods that inject events into a setX method, support data binding, enable component features, or write custom code processors that run on selected types.  There are APIs which let a framework developer make natural API calls to make incremental changes to a Java language model which are then incrementally applied to the file. 
 
-To get started with Framework Development, first read about the [Build and Packaging Runtime](runtime.html)
+To get started with Framework Development using StrataCode, first read about the [Build and Packaging Runtime](runtime.html)
+
+If you just want to play around with the APIs,  you can start with the [simpleParser example](exSimpleParser.html).
 
 Framework layers are just regular layers that tend to do more.  For example, it may register for one or more annotation handlers.  When a specific annotation is used on a class, you can mixin a code-template to that class, or write code to do some type of special processing.  You can accumulate all instances of a given class into a 'type group' - which can then be enumerated in some data structure elsewhere in the system (for example, generating an XML file).  You can also define and configure 'object templates' and 'new templates'.  For a given base class, you can specify a code-template used to augment the class.  If it's a class and a component, this template generates a 'newX' method.  If it's an object, it generates the getX method used to retrieve the object instance.
 

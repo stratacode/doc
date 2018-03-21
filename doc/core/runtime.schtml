@@ -148,7 +148,7 @@ A repository which adds a compiled maven package:
 
 <% ) %>
 
-<%= sc.lang.SCLanguage.INSTANCE.styleFileNoTypeErrors("log4j","log4j.sc", true) %>
+<%= sc.lang.SCLanguage.INSTANCE.styleFileNoTypeErrors("log4j/core","log4j.sc", true) %>
 
 Referencing the module as source stored in 'git':
 

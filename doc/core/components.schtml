@@ -10,9 +10,9 @@
 
 ## StrataCode Components
 
-StrataCode has several features for extending the Java syntax in making better Java at building 'components' - wired together graphs of objects that are "mostly declarative", and still statically typed.
+StrataCode has several features to make Java better at building 'components'.  This is an overloaded term, but here we use it to mean wired together graphs of objects with the goal of mostly declarative, statically typed applications.
 
-Most Java programmers have encountered component frameworks that implement an inversion of control pattern to wire together a graph of objects for later customization.  With StrataCode, these features are all built into the language using code-pre-processing, so that a similar version of the original file is generated, compiled and run.  The new features are:
+Most Java programmers have encountered component frameworks that implement an inversion of control pattern to wire together a graph of objects for later customization (e.g. Spring, Guice).  With StrataCode, these features are all implemented using code-pre-processing, so that a similar version of the original Java file is generated, compiled and run.  There's no hidden code injected using byte-code enhancement, runtime binding, startup overhead, or libraries required.  The new features are:
 
 * object operator 
 * @Component annotation 
@@ -20,19 +20,29 @@ Most Java programmers have encountered component frameworks that implement an in
 * data binding (covered [here](dataBinding.html))
 * modify operation (covered [here](modify.html))
 
-While the syntax changes are small, framework developers can plug into this framework to customize how specific types of components are built.  For example, a framework developer can customize the code generated for a specific type of 'object' instance: does it call a getX method, find the prop factory for constructing an object, how does it get it's parent instance?  How does it add child instances?  With StrataCode components, you can use the defaults, or control these aspects at a high-level using simple annotations, or changes to a code-template.  Framework developers can similarly support 'dynamic components' - apis to help manage dynamic collections of components, that update with live-programming features.
+While the syntax changes are small, framework developers can plug into this framework to customize how specific types of components are built.  For example, a framework developer can customize the code generated for a specific type of 'object' instance.  For example, a swing component simply adds it's child component to the parent.  With StrataCode components, you can use the defaults, or enable/disable features using annotations, or specify a new code-template for a class replacing the default.  
+
+Framework developers can also provide implementations of the IDynChildManager and IDynObjManager interfaces to support 'dynamic components'.  These apis to allow your application to manage dynamic collections of components, where you can change the code on-the-fly for better tooling around customization.
 
 ## Simplifying Component Oriented Design
 
-Traditional inversion of control frameworks add an extra level of complexity to wade via options for how you implement any given instance in your system.  Should it be configured in XML, or automatically wired from the Java code?  What's it's 'id' in the component namespace?  What's its lifecycle?  And for each property there are more questions.  Should it be configured in XML or annotations?  Is there a default value?  Where and when do you validate the properties?  Should we be managing this piece of configuration at compile-time or runtime?
+Traditional inversion of control frameworks (IOCs) require the developer to design the "configuration interface" as well as the API.  Should a feature be configurable in XML, or only accessible from Java?  Often this choice is related to whether you want to configure this feature at compile time or runtime.  
 
-Ideally we'd like to make every system configurable, but currently adding "configurability" comes with a steep cost.  What if it were a simple, natural progression that could be done declaratively?   You should be able to change a property from not-configurable to configurable.   And if you change a property from being configurable to not-configurable, it should give compile time errors for programs that have configured it.   In an IDE, all uses should be discoverable from a 'find usages' operation, fixable quickly in the editor before they become a problem down the road.
+In IOCs, there's a completely different namespace for components and often a parallel set of names to remember.  And for each property there are more questions.  Should it be configured in XML or annotations?  Is there a default value?  At what point during initialization to you perform validation? 
 
-StrataCode components offer these options.  You write your initial code using simple classes, fields.  Use objects for declarative instances, set the lifecycle declaratively or inherit the lifecycle from the outer instance.  All your code may start out in one layer for prototyping because it's so easy to split layers and how convenient to have all files in one directory.  Because of the static typing model presented by a layer, you can combine or separate intermediate layers as long as you preserve the results expected by the layers you publish.  When following this approach, your initial solution is simpler and easier to maintain and evolves to meet needs big or small later. 
+And for each component, is it acceptable for it to depend on the IOC framework and can we even afford the startup overhead added by use of these frameworks in our application?
+
+Ideally we'd like to make every system configurable, but currently adding "configurability" comes with a non-trivial cost that spreads throughout your code.  What if it were a simple, incremental process?   You should be able to change a property from not-configurable to configurable without breaking existing configuration by providing a default.   If you change a property from being configurable to not-configurable, it should give compile time errors for programs that have configured it.   In an IDE, all uses should be discoverable from a 'find usages' operation, fixable quickly in the editor before they become a problem down the road.  Any program should be compilable into a standalone jar file with no configuration, or deployed with any subset of its configuration exposed but using static-typing to identify incompatibilities and contain no library dependencies for no overhead.
+
+StrataCode components offer these options.  You write your initial code using simple classes, fields or properties in plain old Java.  You can use the object keyword in place of class for declarative instances - basically any instance which is a singleton in that context (maybe global, per-session, or per-parent instance for inner objects).   You can set the lifecycle of the object declaratively or inherit it from the outer instance.  
+
+How do you separate code from configuration at all then?  All your code may start out in one layer for prototyping because it's so easy to split layers and how convenient to have all files in one directory when you are writing code for a new project.  Because of the static typing model presented by a layer, you can combine or separate intermediate layers as long as you preserve the results expected by the layers you publish.  When following this approach, your initial solution is simpler and easier to maintain and evolves to meet needs big or small later.   You can split out layers of configuration as needed for any audience.
 
 The layered approach to component assembly provides customization without upfront planning, a solution that improves code reusability substantially.  
 
-It's not entirely seamless to move from regular Java classes to StrataCode's @Component annotation, but it's a graceful transition when you find you need it in a design.  Many basic classes require no code changes when you add the @Component annotation.  Under the hood, processed code that's compiled, any code and any non-trivial references from the constructor or instance initializers are moved to a preInit method.  This method is called after the object is constructed and available via it's own getX method.  For more complex classes, the developer may need to move code into an 'init()' or 'start()' method, so that dependent references are all initializes to the necessary level (preInit, init, or start).
+One of the more important hidden features provided by IOC is the ability to write up graphs of components, even those graphs which contain cycles - i.e. recursive references.  When you run into this in a design, you add the @Component annotation to the class and StrataCode changes the way the code is expressed in the generated class to support recursive references and a multi-step initialization phase.
+
+It's not entirely seamless to move from regular Java classes to using StrataCode's @Component annotation, but it's a graceful transition when you find you need it in a design.  Many basic classes require no code changes when you add the @Component annotation.  Under the hood, processed code that's compiled, any code and any non-trivial references from the constructor or instance initializers are moved to a preInit method.  This method is called after the object is constructed and available via it's own getX method.  For more complex classes, the developer may need to move code into an 'init()' or 'start()' method, so that dependent references are all initializes to the necessary level (preInit, init, or start).
 
 Since your original code is transformed in this process, maintaining the structure, and comments, it's relatively easy to figure out what's going on in the debugger as you can step through the entire construction process using either the original or generate code.
 
@@ -64,7 +74,7 @@ the generated code looks like:
 
 <%= MarkDownPage.markDown(%>
 
-StrataCode creates a class for the object with a static property which lazily creates the default instance.   In your code, you can refer to the object with an ordinary variable e.g. 'myInstance'.  At code-generation time, StrataCode will transform that variable into a method call: myInstance.getMyInstance().
+StrataCode creates a class for the object with a static property which lazily creates the default instance.   In your code, you can refer to the object with an ordinary variable e.g. 'myInstance'.  At code-generation time, StrataCode will transform that variable into a method call: myInstance.getMyInstance().  We don't synchronize here around the instance creation because framework patterns typically used in StrataCode will synchronize at a higher level.  If you need a thread-safe object though, it's a simple change to the code template which you can then configure for a given base-class, for the objects in a specific layer, or globally for all applications using a particular layer.
 
 If you define an inner object, it works like an inner class in Java:
 
@@ -137,7 +147,7 @@ Framework layers can control the lifecycle of the page objects by using the scop
 For example, the HTML framework provides these scopes:
 
 * global: like static instances on the server
-* app-global: per separate application id.  For a web-application, by default the page's base URL is used as the application-id)
+* app-global: per separate application id.  For a web-application, by default the page's type-name is used as the application-id)
 * session: per browser session 
 * app-session: per browser session, but separated by application id
 * window: per browser window 
@@ -148,6 +158,8 @@ Scopes are arranged in parent-child relationships, where a scope such as "app-se
 When you use data binding with scopes, you can annotate certain bindings as "cross scope" bindings  with @Bindable(crossScope=true).  Events for these bindings are queued up before being delivered to the other scope.  They would typically be delivered in a different thread, which was operating in the context of that scope.  For example, if objects in a session are receiving events from a global object through a data binding, the binding would be marked 'cross scope'.
 
 What this means is that you can build declarative, realtime, and collaborative applications which are thread-safe and efficient. 
+
+Note on crossScope: Today, you need to set the crossScope annotation manually but it seems likely in the future we can detect when it should be set automatically.  Or at least generate a warning which propagates changes 'up scope' without a crossScope annotation.  Also, the cost of crossScope is just another thread-local call to check if the scope has changed, plus the overhead for queuing the change when it has so it's possible we could even make this the default.
 
 <% ) %>
 

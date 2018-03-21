@@ -31,8 +31,7 @@
          <div extends="DocIndex" title="Parsing and Code Gen Framework" url="parser.html"/>
          <div extends="DocIndex" title="Framework Development" url="frameworkDev.html"/>
          <div extends="DocIndex" title="Servlets, Junit, Jetty" url="moreFrameworks.html"/>
-         <div extends="DocIndex" title="Wicket" url="wicket.html"/>
-         <div extends="DocIndex" title="GWT" url="gwt.html"/>
+         <div extends="DocIndex" title="Other Integrations" url="testIntegrations.html"/>
       </div>
 
       <div id="pageContent">

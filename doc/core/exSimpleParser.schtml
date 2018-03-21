@@ -1,0 +1,26 @@
+<html extends="Example">
+<head title="Simple Parser Example"/>
+
+<body>
+   <div id="content">
+      <div id="exampleContent" exec="server">
+
+      <div class="exampleTitle">Simple Parser Example</div>
+
+If you'd like to use StrataCode's code-processing APIs without defining a layer, this is the place to start.
+
+Look in bundles/example/example/simpleParser:
+
+<div class="filename">Readme.md:</div>
+<div class="code">
+<%= MarkDownPage.markDown(sc.util.FileUtil.getFileAsString("bundles/example/example/simpleParser/Readme.md")) %>
+</div>
+
+<div class="filename">SimpleParser.java:</div>
+<%= sc.lang.SCLanguage.getSCLanguage().styleFile(null, "bundles/example/example/simpleParser/src/sc/simpleParser/SimpleParser.java", false, false) %>
+
+      </div>
+   </div>
+</body>
+
+</html>

@@ -332,7 +332,7 @@ See the [tag objects](tagObjects.html) doc for more details on merging and exec.
 
 ## Document, Location, Window
 
-See these classes in the javadoc: [java doc](/javadoc/c/lang/html/package-summary.html)]
+See these classes in the javadoc: [java doc](/javadoc/sc/lang/html/package-summary.html)]
 
 There are Java classes which work on both client and server that mirror the brower's versions of these objects.  Using these APIs, your Java code can manipulate the current request's URL.  Some of the features exposed in the Java API are only available on Java code that runs on the client.  For example, the Window.window.innerWidth and innerHeight properties are only set on the client, where they are bindable.
 
