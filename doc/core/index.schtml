@@ -228,10 +228,12 @@
    <p>
  Easily integrated with <a href="webFramework.html">Javascript</a>, <a href="webFramework.html">HTML</a>, <a href="swingCommandLine.html">Swing</a>, <a href="gettingStartedAndroid.html">Android</a>, OpenGL, <a href="moreFrameworks.html">JUnit, Servlets, Jetty</a>, OpenJPA, Hibernate, <a href="gwt.html">GWT</a>, and <a href="wicket.html">Wicket</a>.  
    <p>
-  <a href="contact.html">Contact us</a> if it sounds interesting.  We're looking for partners and are interested to a way to support developers.
+  <a href="contact.html">Contact us</a> for more information.  We're looking for partners.  While we'd love to open source StrataCode, at this point we're looking to form more of a cooperative, to provide the benefits of open source, with more control, and fairer compensation for programmers who improve the platform.  It's in the idea stage, but the goal would be for businesses to feel more confident in their tool source, to manage costs, and have a trusted partner as a platform interface, both for support and for access to the community.  Developers would pay membership, and subscription fees priced like other tools developers normally use like Atlassian.  In return they'd get full use but not redistribution rights to the source code.  Members that contribute back to the platform would be awarded something we could convert into shares in the business.  At this point we are interested in hearing what developers think. 
+  </p>
+  <p>
+  Like you, we want faster software, built faster having more fun, and then to sit back and watch it run for a long time efficiently.  We're looking to build a community of smart and nice people to make this happen.  Read more in these <a href="articles.html">articles</a>.
+  </p>
    </div>
-
-
 </div>
 
 </body>

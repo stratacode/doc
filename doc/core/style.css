@@ -445,7 +445,7 @@ h2 {
    background:radial-gradient(#FFFFFF,#CACACA 300%);
 }
 
-.pageIndexSelected, .exampleIndexSelected {
+.pageIndexSelected, .exampleIndexSelected, .sectionSelected {
    background-color: #7CB0F1;
    background:radial-gradient(#7CB0F1,#CACACA 300%);
 }

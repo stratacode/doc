@@ -12,9 +12,9 @@
 
 Layers make a great way to manage your project's build configuration and allow you to build and run your applications in one step.  While you may initially just wrap an existing project in a layer, over time you'll probably find it helpful to move towards using 'scc' as your primarily build and configuration tool.  That's because in this approach, everything can be specified and updated incrementally without breaking existing published contracts.  You have more flexible ways of specifying dependencies, and managing 'transitive dependencies' using the layer stack.  And you'll have more flexible ways to manage different build/run configurations.   
 
-With the layered approach, to build or run anything, the scc command is run with one or more layers.   Those layers may extend other layers which forces them to be included and are organized into an ordered stack.  The stack is then separated into one or more overlapping stacks, one per process or separate runtime.  The classPath for each of these is generated and all of the source files in the stack are processed, generating any code, compiling it and running it, and/or generating a script to run it without the dynamic runtime.  
+With the layered approach, to build or run anything, the scc command is run with one or more layers.   Those layers may extend other layers which forces them to be included and are organized into an ordered stack.  The stack is then separated into one or more overlapping stacks, one per process or separate runtime.  So you can sync, build and/or run all processes with one command, regardless of how complex your system is and on how many systems it's deployed.  Layers control all of the variables including the deployment configuration.  The classPath for each of these is generated and all of the source files in the stack are processed, generating any code, compiling it and running it, and/or generating a script to run it without the dynamic runtime.  Testing is declarative, enabled via an option, so testing many configurations of the same system is easy.  
 
-All layers have a [layer definition file](layerDefinition.html), written in 'dynamic StrataCode' which specifies the 'extends' layers it requires to be below it in the stack.   This file can define components to add maven artifacts, add new file processors, adjust build/project settings, add to the classPath or source path, or import types for code in the layer and sub-layers.  Components in a sub-layer can override features in a base-layer in the same way that StrataCode lets you override features in application classes.
+All layers have a [layer definition file](layerDefinition.html), written in 'dynamic StrataCode' which specifies the 'extends' layers it requires to be below it in the stack.  This file can define components to add maven artifacts, add new file processors, adjust build/project settings, add to the classPath or source path, or import types for code in the layer and sub-layers.  Components in a sub-layer can override features in a base-layer in the same way that StrataCode lets you override features in application classes.
 
 With layers as your build and packaging system, you can:
 
@@ -46,13 +46,13 @@ The srcPath specifies directories which are scanned for source files using langu
 
 The externalClassPath and classPath both contain compiled Java jar and work like Java's normal classpath.  The classPath classes are actually loaded using a ClassLoader but the externalClassPath types are loaded by parsing the .class files.  If you mix them, files in the Java classPath cannot depend on files in the external classPath.
 
-A single consistent set of APIs exist for accessing and manipulating types whether they are in source form, or compiled form see javadoc for the classes: [ModelUtil](/javadoc/sc/lang/java/ModelUtil.html), [LayeredSystem](/javadoc/sc/layer/LayeredSystem.html), [ParseUtil](/javadoc/sc/parser/ParseUtil.html), [Language](/javadoc/sc/parser/Language.html), [Parser](/javadoc/sc/parser/Parser.html). 
+A single consistent set of APIs exist for accessing and manipulating types whether they are in source form, or compiled form see javadoc for the classes: [ModelUtil](/javadoc/sc/lang/java/ModelUtil.html), [LayeredSystem](/javadoc/sc/layer/LayeredSystem.html), [ParseUtil](/javadoc/sc/parser/ParseUtil.html), [Language](/javadoc/sc/parser/Language.html), [Parser](/javadoc/sc/parser/Parser.html).   
 
 ## Layers
 
-You can use StrataCode as a development tool from code by constructing a LayeredSystem and using the APIs but it's much more powerful when manage source and class files using layers.  The LayeredSystem has a layerPath which specifies the list of directories to search for a given layer name.  Layers are hierarchical path names, and layer definition files are named with the file name = the directory name.   For example, "a.b" refers to the layer definition file a/b/b.sc in your layerPath.
+You can use StrataCode as a development tool from code by constructing a LayeredSystem and using the APIs (See the [Simple Parser example](exSimpleParser.html)) but it's much more powerful when you use it to manage source and class files using layers.  The LayeredSystem has a layerPath which specifies the list of directories to search for a given layer name.  Layers are hierarchical path names, and layer definition files are named with the file name = the directory name.   For example, "a.b" refers to the layer definition file a/b/b.sc in your layerPath.
 
-The layered system supports a set of inactive layers by indexing all layers, and all files in your layer path.  It also supports a set of active layers, those that you are building and running (e.g. as specified on the scc command line or through an IDE run configuration). 
+The layered system supports a set of inactive layers, and an optional 'type index' for all layers it finds in the layer path.  It also supports a set of active layers, those that you are building and running (e.g. as specified on the scc command line or through an IDE run configuration). 
 
 ## Layer Definition Files
 
@@ -148,7 +148,7 @@ A repository which adds a compiled maven package:
 
 <% ) %>
 
-<%= sc.lang.SCLanguage.INSTANCE.styleFileNoTypeErrors("log4j/core","log4j.sc", true) %>
+<%= sc.lang.SCLanguage.INSTANCE.styleFileNoTypeErrors("log4j/core","core.sc", true) %>
 
 Referencing the module as source stored in 'git':
 

@@ -1,7 +1,7 @@
 <html abstract="true">
 
 <body>
-   <div id="content" extends="DocContent">
+   <div id="content" extends="DocContent" section="documentation">
 
       <div id="DocIndex" abstract="true" class=':= "pageIndexEntry " + (containsString(pageURL, url) ? "pageIndexSelected" : "")'>
          <%! String title, url, pageURL := Window.window.location.href; 

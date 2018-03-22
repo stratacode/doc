@@ -7,7 +7,7 @@
 
       <div class="exampleTitle">Simple Parser Example</div>
 
-If you'd like to use StrataCode's code-processing APIs without defining a layer, this is the place to start.
+If you'd like to use StrataCode's code-processing APIs for Java, or another support language, use Parselets to define your own language, without defining layers, or using any of the frameworks, this is a good place to start.
 
 Look in bundles/example/example/simpleParser:
 
