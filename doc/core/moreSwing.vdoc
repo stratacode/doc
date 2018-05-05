@@ -7,7 +7,7 @@
 
 Exercise: remove the dynamic attribute from all three unitDemo layers: swingui, extendedModel, and model and run the application.  First:
 <code><pre>
-   sc unitDemo/swingui
+   scc unitDemo/swingui
 </pre></code>
 This both compiles and runs the application.  Now run it again with:
 <code><pre>

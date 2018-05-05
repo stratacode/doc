@@ -3,14 +3,14 @@
 <head title="StrataCode Programming Language"/>
 <body>
 
-<div id="content" extends="DocContent">
+<div id="content" extends="PageLayout">
 
    <div class="tagBox">
       <div class="tagline">Beautifully manage your code's complexity</div>
-      <div class="taglineTwo">StrataCode is the language that changes everything.</div>
+      <div class="taglineTwo">A new dimension in coding with layers and code-processing.</div>
       <div class="intro">
-        It enables universal customization and the deepest level of integration - all with easy to use layers.
-        The entire team works better together - StrataCode empowers software developers and business users alike.
+        Universal customization, deep integrations. 
+        Teams that works better together - empowering developers and business users alike.
       </div>
    </div>
 
@@ -51,7 +51,7 @@
 
    <div extends="InfoBox" id="javaBox" detailBox="= javaDetail" rowIndex="= 0">
       <div class="infoBoxTitle">Java extensions</div>
-      Code-preprocessor, incremental changes to code for readability.
+      Code-processor that incrementally changes your code as you use new features.
    </div>
 
    <div extends="InfoBox" id="featBox" detailBox="= featDetail" rowIndex="= 0">
@@ -140,7 +140,7 @@
             </ul>
         </li>
         <li>Layers for workflow, testing, customization, A/B testing.  Complements version control for updates.</li>
-        <li><a href="aboutLayers.html">More on layers</a>.
+        <li><a href="articles/aboutLayers.html">More on layers</a>.
       </ul>
    </div>
 
@@ -160,13 +160,13 @@
           <li>StrataCode generates code to track property changes automatically.  
           <li>When your client or server syncs, those changes are put into a runtime layer and applied on the other side.  
           <li>You can run methods easily when values change using data binding.  
-          <li>Methods can run on client, server or both.  This is no toy!  It's easy to use. (<a href="syncFramework.html">more info</a>).
+          <li>Methods can run on client, server or both.  This is no toy!  It's easy to use. (<a href="articles/syncFramework.html">more info</a>).
       </ul>
    </div>
 
    <div extends="InfoBox" id="htmlBox" detailBox="= htmlDetail" rowIndex="= 2">
       <div class="infoBoxTitle">HTML Templates</div>
-      Dynamic HTML templates with unparalleled flexibility and performance.
+      Dynamic HTML templates with flexibility and performance.
    </div>
 
 
@@ -176,8 +176,8 @@
    </div>
 
    <div extends="InfoBox" id="bizBox" detailBox="= bizDetail" rowIndex="= 2">
-      <div class="infoBoxTitle">Better for Business</div>
-      Saves time and money.
+      <div class="infoBoxTitle">Scalable solutions that last</div>
+      More efficient model for building and managing custom and customizable forms and applications.
    </div>
 
    <div class="newRow"/>
@@ -224,14 +224,22 @@
 
    <div class="defaultDetailBox">
    <p>
-<a href="about.html">Jeff Vroom</a> (jeff@jvroom.com) began realizing the vision for StrataCode eight years ago.  It's now just under 160K lines of readable, easy-to-follow code with no core dependencies, soon available for download.  StrataCode works as a standalone build and configuration management tool, core-runtime jar file for data binding, or a dynamic runtime used by the build system, dynamic Java and the IDE.   There's built-in git and maven support to get started quickly.  StrataCode's test-suite compiles code from dozens of standard Java projects with complete code integrity for types and references and catches the most common coding errors.
+<a href="about.html">Jeff Vroom</a> (jeff@jvroom.com) began realizing the vision for StrataCode eight years ago and is the primary contributor.  It's now just under 160K lines of readable, easy-to-follow code with no core dependencies, soon available for download.  Despite the large scope of features, you can adopt features one-by-one.  StrataCode makes a great build and configuration management tool.  Add some basic code-processing to understand and deploy your code with more power.  Leverage data binding with three easy new operators for forward, reverse, and bi-directional bindings between properties and expressions.  The dynamic Java runtime gives you one language for build files, customized code, configuration and adds an easier API to create frameworks and tools.  Run Java code in the browser.  Build quick, and adaptable management UIs or build your own tools and frameworks.
+<p>
+To get started quickly, StrataCode has built in support for git, maven, and an IntelliJ plugin to edit layered code much like Java.  StrataCode's test-suite processes code from dozens of standard Java projects with complete code integrity for types and references and catches the most common coding errors itself.  Or use the StrataCode Parselets library to write quick powerful, efficient grammars that declaratively generate your AST and even leverage it's ability to incrementally change code directly by modifying AST properties and instances.
    <p>
- Easily integrated with <a href="webFramework.html">Javascript</a>, <a href="webFramework.html">HTML</a>, <a href="swingCommandLine.html">Swing</a>, <a href="gettingStartedAndroid.html">Android</a>, OpenGL, <a href="moreFrameworks.html">JUnit, Servlets, Jetty</a>, OpenJPA, Hibernate, <a href="gwt.html">GWT</a>, and <a href="wicket.html">Wicket</a>.  
+ Already integrated with <a href="doc/webFramework.html">HTML/Javascript</a>, <a href="doc/swingCommandLine.html">Swing</a>, <a href="doc/gettingStartedAndroid.html">Android</a>, OpenGL, <a href="doc/moreFrameworks.html">JUnit, Servlets, Jetty</a>, OpenJPA, Hibernate, and <a href="doc/wicket.html">Wicket</a>.   Designed for rapid and flexible future integrations. 
    <p>
-  <a href="contact.html">Contact us</a> for more information.  We're looking for partners.  While we'd love to open source StrataCode, at this point we're looking to form more of a cooperative, to provide the benefits of open source, with more control, and fairer compensation for programmers who improve the platform.  It's in the idea stage, but the goal would be for businesses to feel more confident in their tool source, to manage costs, and have a trusted partner as a platform interface, both for support and for access to the community.  Developers would pay membership, and subscription fees priced like other tools developers normally use like Atlassian.  In return they'd get full use but not redistribution rights to the source code.  Members that contribute back to the platform would be awarded something we could convert into shares in the business.  At this point we are interested in hearing what developers think. 
+  <a href="contact.html">Contact us</a> for more information.  StrataCode's runtime and IDE are free to download and use to build applications during the trial period.  We'd love your feedback.  At this stage, we have tools suited for developers.   If there's enough demand we'll price it like other developer tools you might use (e.g. IntelliJ).  We'll provide support and services and seek out qualified partners to collaborate with on the source code, and strategic projects we'll build for you.  Perhaps you'd like to build or upgrade an existing SaaS platform written in Java or need a language level integration, or need to build an IDE?  StrataCode is designed to build great software that will last and offer developers control, reliability and an affordable/sustainable ecosystem for leveraging their skills.
   </p>
   <p>
-  Like you, we want faster software, built faster having more fun, and then to sit back and watch it run for a long time efficiently.  We're looking to build a community of smart and nice people to make this happen.  Read more in these <a href="articles.html">articles</a>.
+We'll continue to refine the core platform until it's useful for a wide variety of applications.  After that we'll build and applications and integrations ourselves including a management UI construction framework.  If there's not enough interest in StrataCode as a developer's tool for the support overhead, we may stop accepting new developer customers and focus on applications so act now if you are interested.
+  </p>
+  <p>
+Like you, we want faster software, built faster and happier customers.  Provide management UIs, with customization so you can hand solutions off and let customers manage their own solutions.  What a feeling to sit back, relax, and watch it run for a long time efficiently with zero to no maintenance.  If have concerns about long-term support, get in touch and Jeff will help you find a solution that works for you long term.  If you feel more comfortable using a framework built by a big company as a side-project, we'll recommend some good solutions.  If you are looking to build valuable solutions in the world, we may have a more stable solution in the long run.  Take your code to a new dimension with layers and code-processing. 
+  </p>
+  <p>
+  Read more in these <a href="articles">articles</a>.
   </p>
    </div>
 </div>

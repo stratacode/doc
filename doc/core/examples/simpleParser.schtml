@@ -1,0 +1,20 @@
+<html extends="Example">
+<head title="Simple Parser Example"/>
+
+<body>
+   <div id="content">
+      <div id="exampleContent" exec="server">
+
+<div class="filename">example/simpleParser/Readme.md:</div>
+<div class="code">
+<%= MarkDownPage.markDown(sc.util.FileUtil.getFileAsString("bundles/example/example/simpleParser/Readme.md")) %>
+</div>
+
+<div class="filename">example/simpleParser/SimpleParser.java:</div>
+<%= sc.lang.SCLanguage.getSCLanguage().styleFile(null, "bundles/example/example/simpleParser/src/sc/simpleParser/SimpleParser.java", false, false) %>
+
+      </div>
+   </div>
+</body>
+
+</html>

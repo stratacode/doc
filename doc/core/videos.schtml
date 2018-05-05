@@ -2,7 +2,7 @@
 <head title="StrataCode Videos"/>
 
 <body>
-   <div id="content" extends="DocContent">
+   <div id="content" extends="PageLayout">
       <div class="videoBox" id="VideoBox" abstract="true">
           <%! String videoId, url, title, length, date;
               @sc.obj.HTMLSettings(returnsHTML=true)

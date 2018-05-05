@@ -1,0 +1,41 @@
+<html extends="Example">
+<head title="Simple Parser Example"/>
+
+<body>
+   <div id="content">
+      <div id="exampleContent" exec="server">
+
+      <div class="exampleTitle">Build Tag</div>
+
+<p>
+This example shows how to generate a "BuildTag" class which contains the current version number, git hash, timestamp, user, etc. info from when the software was built.  By compiling it into the generated source, we have an accurate tag to help diagnose problems and trace the history of a given executable.  This examples shows a few different features:
+<ul>
+<li> The @BuildInit annotation - used to init properties to build-expressions.  These expressions are run in the context of the buildLayer.  This means they inherit all global layer imports like the code in layer definition files and can use an objects or fields defined in any layer in the stack.  Errors are generated at compile time (TODO: support edit time resolution here like we do for schtml attributes?).
+<li> Build script code that computes 'scmVersion' by running git commands: <%= sc.lang.SCLanguage.INSTANCE.styleFile("example/buildTag", "buildTag.sc", false, true) %>
+<li> Layer properties: Like standard Java system properties but layerable.  Specify properties files in layers that get merged and used as the defaults.  Override those using the -P argument to scc.  Where you would use 'java -Dbuild.tag=release' use: 'scc -Pbuild.tag=release'.  For System.getProperty("build.tag"), use 'getLayerProperty("build", "tag")'.  Add a build.properties file in your layer with "tag=dev" to set the default.   
+</ul>
+
+</p>
+
+<p>
+
+Here's the source for the BuildTag subclass that is generated to include the build info:
+<%= sc.lang.SCLanguage.INSTANCE.styleFile("example/buildTag", "ExBuildTag.sc", false, false) %>
+
+And for the default build properties:
+<div class="filename">example/buildTag/build.properties</div>
+<div class="code">
+<%= sc.util.FileUtil.getFileAsString("bundles/example/example/buildTag/build.properties") %>
+</div>
+
+</p>
+
+To compile a release build, you can override the defaults by adding a command line option:
+
+<code>scc -Pbuild.tag=release example.buildTag</code>
+
+      </div>
+   </div>
+</body>
+
+</html>

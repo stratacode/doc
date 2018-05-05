@@ -1,0 +1,41 @@
+<html extends="DocPage">
+<head title="StrataCode Debugging Tips"/>
+
+<body>
+
+   <div id="content">
+       <div id="pageContent" exec="server">
+
+<%= MarkDownPage.markDown(%>
+
+## Debugging StrataCode
+
+As a guiding principle, we'd like all assets in all StrataCode projects to be traceable.  If there are error messages, you can find the code which generates it.  By setting a breakpoint there, the stack trace provides the context.  If there's an async/callback, there's a logging option to trace the start of the call and the response.  We try to make the volume of logging manageable with feature level tracing (see  -v, -va, -vs, -vsa, -vh, -vha, -vb, -vba) as well as annotation driven tracing @Bindable(trace/verbose).
+
+The IntelliJ debugger lets you debug StrataCode in its original source form, or under Run-Debug Generated Source, you can step through the generated code instead.  Using shift-command-G you can switch from the source line to the generated, and back again.
+
+NOTE: The dynamic runtime does not yet have a source debugger.   If at all possible, compile the layers and debug them there for now.  This would be nice for debugging layer definition files during the init stage of an application.   For now, you can set a breakpoint in AbstractMethodDefinition.invoke where name.equals("yourMeth"), or IdentifierExpression.eval when a given statement toString() equals your desired expression or method.
+
+## Debugging DataBinding
+
+See the [Debugging Data Binding](dataBinding.html) section here.
+
+## Debugging Synchronization
+
+See the [Debugging Synchronization](syncFramework.html) section here.
+
+## Debugging SCHTML
+
+Go to the generated code to see what the code - the tag object - generated for each schtml file.  You can debug these classes by stopping in the getX methods, the outputStartTag and outputTag methods of each generated class.
+
+Turn on -vh or -vha to see verbose logs for the client and/server.  Messages are printed for important events like tag element invalidations, repeat tag property changes, etc.
+
+For the 'repeat' class, stop in syncRepeatTags on either the client or server or both.  This walks through the process of updating the tag objects from the model object, then updating the DOM elements from the tag objects.
+
+<% ) %>
+
+
+     </div>
+   </div>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<html extends="DocPage">
+<head title="StrataCode Framework Development"/>
+
+<body>
+
+   <div id="content">
+       <div id="pageContent" exec="server">
+
+<%= MarkDownPage.markDown(%>
+
+## StrataCode Framework Development
+
+StrataCode lets you build powerful frameworks - those that can transform large, complex Java projects using deep code awareness and an easy mechanism to perform targeted transformations to improve quality, functionality, performance, code modularity, and code configurability.
+
+StrataCode can grok an entire large Java project from source code, or a mix of source and Java binaries (jar/class).  It provides a complete type-aware API for navigating types, dependencies, attributes, whether a type is defined from a .class file or source.  It exposes just the right set of hook points for letting you add annotation processors, or process types which inherit metadata from types they extend.  You can mix code into the class definitions, convert fields to get/set methods, add wrapper methods that inject events into a setX method, support data binding, enable component features, or write custom code processors that run on selected types.  There are APIs which let a framework developer make natural API calls to make incremental changes to a Java language model which are then incrementally applied to the file. 
+
+To get started with Framework Development using StrataCode, first read about the [Build and Packaging Runtime](runtime.html)
+
+If you want to dig into manipulating source code yourself, read about the [Parselets apis](parser.html).
+
+If you just want to use the APIs, without layers, go straight to the [simpleParser example](../examples/simpleParser.html).
+
+Framework layers are just regular layers that tend to do more:
+* Default imports of classes used by this framework
+* Set properties to control how code generation is performed for this runtime
+* Add annotation and scope processors - to control generated code for specifically marked types, properties, and methods
+* Annotate compiled classes for which we do not have source to control how those classes are used in code-processing
+* Specify runtime/process restrictions - i.e. runs in java or js only, or only runs in a specific named process.
+
+## Default Imports
+
+Imports in your layer are made available to all classes in extended layers, unless the downstream layer sets inheritImports = false or the upstream layer sets exportImports = false.
+
+Similarly the package of the base layer is inherited by the sub-layer unless the sub-layer sets its own package, or the base layer specifies exportPackage = false, or the sub-layer specifies inheritPackage = false. 
+
+## Set properties
+
+The layer and layered system classes support a variety of features that let a given framework layer customize it's environment.  This includes adding file processors, specifying which processes or runtimes will be synchronized, etc.  You can add post build commands, test frameworks and more.  These are all covered in [build and packaging](runtime.html).
+
+## Annotation and Scope Processors
+
+One of the more powerful framework development patterns allows you to attach special code-processing behavior to types, fields, properties, methods, etc. using Java annotations.  
+
+Framework layers may register one or more annotation processors using the [DefaultAnnotationProcessor](/javadoc/sc/lang/DefaultAnnotationProcessor.html) class.  When a specific annotation is used on a class, you can mix a code-template into that class, or write code to modify the AST objects to transform the type, property, or method to do whatever you want.  You can accumulate all instances of a given class or object into a 'type group' - which can then be enumerated in some data structure elsewhere in the system (for example, generating an XML file formatted with metadata for all persistent types).  An annotation handler can cause types to be initialized or created when the application starts.  It can append an interface to types marked with the annotation.
+
+One of the most significant ways you can alter a type or field is to specify a 'scope' to control its lifecycle, or how it's value is retrieved.  While scopes use the same underlying base-class as annotation processors, [DefinitionProcessor](/javadoc/sc/lang/DefinitionProcessor.html), they are organized around changing how an instance of a type or property value is resolved and so have a class of their own: [BasicScopeProcessor](/javadoc/sc/lang/sc/BasicScopeProcessor.html).  Because the code transformation performed by 'scopes' follows a specific pattern, and is a structural change to the behavior, scopes are normally specified with the 'scope' keyword added by StrataCode.  You can also specify a scope using the [Scope annotation](/javadoc/sc/obj/Scope.html), or use the Scope annotation to mark types or fields that were tagged by the scope keyword.
+
+Here's the servlet/core layer definition file which defines the @URL annotation handler and scope handlers for window, and appSession scope.  It also managed type groups for all of the servlets.
+
+<%= sc.lang.SCLanguage.INSTANCE.styleFileNoTypeErrors("servlet/core","core.sc", true) %>
+
+## CompilerSettings
+
+CompilerSettings is an annotation you can set on a class to control how code-processing treats that class in a general way.  You can specify an 'objectTemplate' on any base-class to define the getX method used to retrieve that object instance.  You can specify a 'newTemplate' which specifies either the constructor or newX method used for when this class is created explicitly via a new expression.  Other templates let you mix in code to the instance or static sections.  For classes which have a non-default constructor that frequently looks the same - i.e. pass the arguments through to the super constructor, you can specify the arg list with propagateConstructor so sub-classes get the simple constructor automatically, unless it's specified manually.
+
+Remember that CompilerSettings is inherited, so that when you set it on a base class, any sub-class of that base-class will pick up the settings of the base-class unless it overrides them  with it's own CompilerSettings.
+
+## Add Data Binding
+
+Sometimes a framework layer needs to wrap a framework to inject code so we can use that class with data binding.   In other cases, you can add this support via an annotation layer.  An annotation layer can modify classes for which we do not have the source, but in a restricted way.  Certain annotations can be set on compiled types in the annotation layer which do not alter the type's source code, but instead change how StrataCode processes any references to that type.  For example, you can suppress binding warnings, add some mix-in code to each sub-class of the base class, mark a property as read-only and specify templates to be used for all object, or component references to this base-class.
+
+## Annotation Layers
+
+An annotation layer allows you to add annotations to pre-compiled Java classes (i.e. where StrataCode does not have the source) without generating a new type or wrapper class in the system.  The annotations affect how the pre-compiled class is used by subclasses, or in generated code.  By convention, annotation layers are named 'meta' - short for metadata.
+
+For example, the awt.meta annotation annotates the classes java.awt.Point and java.awt.Dimension.  These classes hold the x, y, and width, height properties in awt.  But since they do not send PropertyChange events, StrataCode can't monitor their changes.  Instead, swing components have properties 'location' and 'size' to store Point and Dimension instances.  The swing components add binding events to these properties.  By default, StrataCode warns you in this situation - if you bind to button.location.x it would warn you that 'x' is not bindable.  To avoid these warnings, the awt.meta layer marks these properties constant from StrataCode's perspective with the @Constant annotation.  StrataCode will give a compile error if your code attempts to  set the value of the @Constant property and suppresses the warning when you bind to it.
+
+Here's the awt.meta layer definition:
+
+<%= sc.lang.SCLanguage.INSTANCE.styleNoTypeErrors(
+%>package java.awt;
+
+awt.meta {
+   annotationLayer = true;
+}
+<% ) %>
+
+and the files which annotate the Point and Dimension classes:
+
+<%= sc.lang.SCLanguage.INSTANCE.styleNoTypeErrors("awt/meta","Point.sc",
+%>Point {
+   override @Constant x;
+   override @Constant y;
+}
+<% ) %>
+
+<%= sc.lang.SCLanguage.INSTANCE.styleNoTypeErrors("awt/meta","Dimension.sc",
+%>Dimension {
+   override @Constant width;
+   override @Constant height;
+}  
+<% ) %>
+
+The swing layer has its own annotation layer:
+
+<%= sc.lang.SCLanguage.INSTANCE.styleFileNoTypeErrors("swing/meta","meta.sc", true) %>
+
+An annotation layer can also set the @Component annotation on any class.  This permits you to use the component initialization semantics without adding a wrapper layer of classes.  Swing classes like JMenu, which do not require a wrapper class for data binding events, are defined in the annotation layer to avoid creating a wrapper class.   In this example, anyone using a regular JMenu class will initialize it with component semantics using the specified code templates.
+
+<%= sc.lang.SCLanguage.INSTANCE.styleFileNoTypeErrors("swing/meta","JMenu.sc") %>
+
+## The Swing Core Layer
+
+The Swing core layer injects data binding into Swing using simple wrapper classes for most components.  A few properties are added and event listeners fire change events. 
+
+Here's the layer definition file:
+
+<% ) %>
+
+<%= sc.lang.SCLanguage.INSTANCE.styleFileNoTypeErrors("swing/core","core.sc", true) %>
+
+<%= MarkDownPage.markDown(%>
+
+There are a few things to notice about this layer definition:
+
+* Processing is added for resource files with the png and gif suffix.  These files are copied into the build dir unless replaced by a file with the same name/path in a subsequent layer.
+* A DefaultAnnotationProcess for the @MainInit annotation is registered.  This causes all classes tagged with @MainInit to be placed into a type group called mainInit.  This type group is evaluated in the CompilerSettings.objectTemplate set on the Main.sc object (see below).  For incremental builds, a dependency is added so Main.sc is regenerated if elements are added or removed from the type group.
+* A large set of imports are exposed both to classes in the layer and for users of the layer without an explicit import.  A subsequent layer could choose to not inherit imports at all with inheritImports=false.  If you want to use imports internally only, not expose them to extended layers, set exportImports=false.
+
+Here's a simple swing component sc.swing.JLabel which extends javax.swing.JLabel: 
+<% ) %>
+
+<%= sc.lang.SCLanguage.INSTANCE.styleFileNoTypeErrors("swing/core", "JLabel.sc") %>
+
+<%= MarkDownPage.markDown(%>
+
+Here is the sc.swing.JPanel class which extends javax.swing.JPanel to show how to wrap a parent component:
+
+<% ) %>
+
+<%= sc.lang.SCLanguage.INSTANCE.styleFileNoTypeErrors("swing/core", "JPanel.sc") %>
+
+<%= MarkDownPage.markDown(%>
+
+The JComponentInit template set via CompilerSettings is used to define a code snippet inserted into the declaring class when an object tag is used of that type.  It is passed an object which contains all of the properties you need to evaluate.  Here's the template for the swing component:
+<% ) %>
+
+<%= sc.lang.TemplateLanguage.INSTANCE.styleFileNoTypeErrors("swing/meta","JComponentInit.sctd") %>
+
+<%= MarkDownPage.markDown(%>
+
+See [ObjectDefinitionParameters](/javadoc/sc/lang/java/ObjectDefinitionParameters.html) for the object passed to the init or new templates.
+
+The JComponentNew.sctd file is used when you mark a class with @Component.  It generates a newX method for each constructor and rewrites all uses of the constructor for this class to use newX instead.
+
+The rest of the swing components are mostly thin wrappers adding binding properties where necessary.  In one case, it calls invalidate/validate after a size property has changed as swing failed to detect that itself.
+
+To integrate data binding with the Swing event thread, the listeners will use sendDelayedEvent, and processStatement to put the event delivery and script commands back on the swing thread. 
+
+## Android View Example
+
+The android framework is an interesting example to show how to use the object operator with classes that do not have a zero argument constructor.  For android, the Android View class constructor always takes a Context parameter.  But it's easy to get the Context from a parent object.  So the case where you are creating a View object inside of an enclosing Activity or Service is well defined, but we have to change the code templates we use.
+
+First, associate the View class with the ViewObj objectTemplate:
+
+<%= sc.lang.SCLanguage.INSTANCE.styleFileNoTypeErrors("android/meta","view/View.sc") %>
+
+Here's the code template which uses the rootName variable as the first parameter to the constructor:
+
+<%= sc.lang.TemplateLanguage.INSTANCE.styleFileNoTypeErrors("android/meta","view/ViewObj.sctd") %>
+
+## Main Settings
+
+The @MainSettings annotation lets you declaratively configure one or more main methods to be run when the stack of layers is run.  This lets the scc command run your program immediately after compiling it, or generates a shell or bat script to run the program on its own.  
+
+The swing layer's main provides an example of how to use this feature:
+
+<% ) %>
+
+<%= sc.lang.SCLanguage.getSCLanguage().styleFileNoTypeErrors("swing/core","Main.sc") %>
+
+<%= MarkDownPage.markDown(%>
+
+Another good example of @MainSettings is StrataCode's own main which produces the 'scc' command when it's used to compile itself: 
+
+<%= sc.lang.SCLanguage.INSTANCE.styleNoTypeErrors(
+%>public class LayeredSystem {
+   //...
+   @MainSettings(produceJar=true, produceScript=true, produceBAT=true, execName="bin/scc", debug=true, jarFileName="sc.jar")
+   public static void main(String[] args) {
+   }
+}
+<% ) %>
+
+
+<% ) %>
+
+     </div>
+   </div>
+</body>
+</html>

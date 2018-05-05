@@ -5,8 +5,12 @@ package sc.doc;
 // import stuff even when it is in the same directory.
 import sc.doc.templateSnippets;
 
-//doc extends example.unitConverter.adjust, jetty.examp, example.extendedHelloWorld, example.extendedHelloWorld2, js.schtml {
-doc.core extends servlet.options.globalScope, doc.tag, jetty.schtml, js.schtml {
+import sc.doc.Example;
+import sc.doc.PageLayout;
+import sc.doc.ArticlePage;
+import sc.doc.MarkDownPage;
+
+public doc.core extends servlet.options.globalScope, doc.tag, jetty.schtml, js.schtml {
    {
       // Add documentation format
       sc.lang.TemplateLanguage docLang = new sc.lang.TemplateLanguage();
@@ -25,7 +29,8 @@ doc.core extends servlet.options.globalScope, doc.tag, jetty.schtml, js.schtml {
       // Only layers after this one will see this extension
       docLang.definedInLayer = this;  
       // Put these in the web directory
-      docLang.srcPathTypes = new String[] {"web"};
+      docLang.srcPathTypes = new String[] {null, "web"};
+      docLang.templatePrefix = "web";
 
       registerLanguage(docLang, "vdoc");
 

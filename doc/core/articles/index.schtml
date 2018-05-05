@@ -1,0 +1,33 @@
+<html extends="ArticlePage">
+<head title="StrataCode Articles"/>
+
+<body>
+   <div id="content">
+       <div id="pageContent">
+           <h2>StrataCode Intro</h2>
+           by Jeff Vroom
+           <p>
+           If you're here, hopefully you are a programmer interested in what it takes to build a customizable software platform, or at least interested in software architecture.
+           StrataCode adds new declarative operators and uses code-processing to let you build reusable, customizable components from Java.  Not only can you build declarative applications, you can quickly construct management UIs directly from application objects, which themselves can be customized.  These are the key components of a fully customizable SaaS platform that supports excellent tooling and long-term code lifecycle management.
+           </p>
+           <p>
+           StrataCode's design supports separating framework and application code, reducing code-copies of the domain model (i.e. the core business logic) making it easier to build, maintain and change.  The code-preprocessor preserves static typing for strong, flexible frameworks and a new level of code-reuse, and deployment efficiency.
+           </p>
+           <p>
+           This is a long-term project, coming out of incubation, written primarily by one programmer.  It was inspired by my twenty year career building frameworks and the desire for a set of frameworks and tools that provided me with maximum leverage for building a customizable platform.  I'd like it to contribute to a healthy ecosystem of innovation, and collaboration among developers selecting only the essential software patterns to build efficient, customizable, and robust systems from readable, maintainable code.  
+           </p>
+           <p>
+           StrataCode has taken a leaner approach than most Java frameworks and has essentially no library dependencies beyond what's provided in the Java runtime.  I've found that software designed by committee is not the only way to build great software.  Sometimes one person following and a vision, and refining it with experience can produce a starting point for something bigger and hope that's the case here with StrataCode.  You be the judge, but I believe StrataCode has evolved into a nimble, easy-to-read code base, where problems are solved quickly, where fewer dependencies increases security, and reduces long term cost and complexity. 
+           </p>
+           <p>
+           StrataCode uses its own code-processing library, built in Java, that makes it easy to add and debug parsers for new languages.  It includes code-processing techniques, format converters, etc. and supports easy, incremental read-modify-write of code from a single declarative grammar that automatically builds the AST.  StrataCode uses code-processing to add extensions to Java for 'layering' components and configuration, as well as a template language, and client/server programming model.  It has a way to convert your Java code to Javascript to run in the browser.  There's an intelliJ plugin that works a lot like Java and enough framework integrations to make it usable to build applications today.  I've waited for a long time to release StrataCode.  I wanted a tool I wanted to use rather than build.  I'm looking forward to finding other developers who enjoy it as well and building great software together.
+           <p>
+           Read more about on how to <a href="strataCodeIntro.html">leverage your code</a> or jump straight to the <a href="../doc">documentation</a> to learn more.
+           </p>
+           &nbsp;
+           <p/>
+       </div>
+   </div>
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+<html extends="Example">
+<head title="Program Editor Example"/>
+
+<body>
+   <div id="content">
+      <div id="exampleContent" exec="server">
+
+      <div class="exampleTitle">Program Editor Example</div>
+
+      The program editor contains basic features for build management UIs directly from domain models.  For each type in the system, you can view and edit instances of that type.  Because the types are partitioned into layers, the forms are also organized via layers.  You can use annotations to customize the UI.  You can also switch into editing of the types, not just the instances.  So you can customize rules, add fields, and add new types.  You can edit existing layers, or create new ones to store these customizations.
+
+      <table>
+         <tr>
+            <td>
+               <a href="../images/swingEditor.png"><img src="../images/swingEditorIcon.png"></a><br>
+               The swing version
+            </td>
+            <td>
+               <a href="../images/jsEditor.png"><img src="../images/jsEditorIcon.png"></a><br>
+               The schtml version
+            </td>
+         </tr>
+      </table>
+      <ul>
+         <li>editor.model (1300 Lines):  Defines the key data structures behind the program editor. This layer runs both in the browser and on the server and so represents the data structures that StrataCode synchronizes.  There is EditorModel which stores the current type and selection and TypeTreeModel, which implements the tree view itself.
+         <li>editor.modelImpl (1800 lines): Runs just on the server in the client/server version.  This layer contains the logic which populates EditorModel and TypeTreeModel for any user interface.  It extends sys.layeredSystem in addition to the model layer.  Because sys.layeredSystem only runs on the server, this layer will only run on the server too.
+         <li>editor.coreui (1400 lines): Runs on both the client and the server.  Contains some core user-interface code shared by both swing and the Javascript layers.
+         <li>editor.swing.core (2520 lines): Implements the Swing user interface.
+         <li>editor.js.core (1600 lines): Implements the Javascript user interface.  Runs on both the client and the server.
+      </ul>
+
+      The swing user interface code uses data binding for all layout which is more verbose than html.  The JS version is missing some features.
+      <p>
+      This example shows significant code-reuse across platform the code is easy to navigate and maintain.  Building the client/server version from the existing desktop version involved refactoring the existing code as a first step into platform dependent and independent layers.  Code which depends on swing went into the swing/core layer, and code that depends on server features, went into the editor.modelImpl layer.  Independent code went into the editor.model layer that runs the same way in all three processes: desktop, client and server.  
+     </p>
+      <p>For the client/server version, the model essentially defines the overlapping parts - i.e. the info that's used on both the client and server.  In most cases, this layer defines the domain, and view models in a way that maximizes the reusability of this code because it will have no framework dependencies.  Most frameworks require some replication of the domain model and view model code for each UI framework or for specifying the service layer or data transfer layers.  Instead, in this approach, you use annotations to override the defaults and only resort to explicit service and transfer classes for applications that really need that extra level of control.  For code that needs to be customized for a framework, it goes into a framework specific layer.
+     </p>
+      
+      <p>
+      Here is the model layer of the EditorModel class, which manages the overall view model for the program editor - e.g. the currently selected types and instances, the current layer and other layers that make up the selected types, access to the metadata of the types and propeties.  This code is included in both client and server versions of the generated class.
+     </p>
+<%= sc.lang.SCLanguage.getSCLanguage().styleFile("editor/model","EditorModel.sc", false, false) %>
+
+      Here the model layer for TypeTreeModel which is the 'view model' class for the tree widget that browsers the types.  Types are organized either by type-name, or by layer.  Different management UIs or aspects of management UIs might use one or the other or both in combination to provide different easily manageable views of the same types for different audiences.  For example, an admin might browse the type tree to find the 'User' object and look at all of the properties combined in all layers.  Or use the layered organization of the user properties to find some desired aspect.  A back-office employee might instead navigate the layer tree to find the specific view of only the types and properties they need for their task at hand.
+<%= sc.lang.SCLanguage.getSCLanguage().styleFile("editor/model","TypeTreeModel.sc", false, false) %>
+
+      Here's the server/desktop layer for EditorModel.  It's not included in the client version of the EditorModel class, but it is synchronized with the client version.  It uses data binding expressions to listen for changes made when synchronization events are received on the client or server.  In some situations, those changes will trigger subsequent changes to synchronized properties that will be queued up until the next 'sync' with the other side.  This establishes a nice declarative dialog, using a 'do later' on the client and 'end of request' flush on the server.  
+<%= sc.lang.SCLanguage.getSCLanguage().styleFile("editor/modelImpl","EditorModel.sc", false, false) %>
+
+      Here the server/desktop layer of TypeTreeModel:
+<%= sc.lang.SCLanguage.getSCLanguage().styleFile("editor/modelImpl","TypeTreeModel.sc", false, false) %>
+
+      <div class="exampleTitle">Tree Widget</div>
+
+<p>
+Here's the code for the TreeView component for the client/server version.  It generates the HTML for each of the two trees in StrataCode on both the client and the server.  For an schtml file, the id of the top-level tag is the name of the file so we do not have to specify id='TreeView' here.  Data binding is used to specify the css class of the outer li tag and the span which defines the name of the tree element.  It's used to call 'toggleOpen' when you click on the +/- iconand whether to show the children list for a given node.
+     </p>
+<%= sc.lang.HTMLLanguage.INSTANCE.styleFile("editor/js/core", "TreeView.schtml", false, false) %>
+<p>
+The last 'li' tag in the file is the most interesting one.  It has the 'repeat' attribute which means it's rendered once for each element in the array.  At also extends the TreeView component which also is its enclosing class.  That allows it to have an optional set of children of its own and provides unlimited levels of nesting in a simple declarative description.
+
+<p/>
+   </div>
+   </div>
+</body>
+
+</html>

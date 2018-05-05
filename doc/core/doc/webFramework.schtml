@@ -1,0 +1,371 @@
+<html extends="DocPage">
+<head title="StrataCode Web Framework"/>
+
+<body>
+
+   <div id="content">
+       <div id="pageContent" exec="server">
+
+<%= MarkDownPage.markDown(%>
+
+## StrataCode Web Framework: SCHTML, JavaScript, Sync
+
+Why another web framework?  Here are the [advantages](webFrameworkAdvantages.html).
+
+Let's get started:
+
+Download and install StrataCode if you haven't already.  If you have the examples bundle, you can run:
+
+    scc -v -vs example/simpleSync/main
+
+This builds + runs a "hello world" using the framework layers: js.schtml, jetty.schtml, and js.sync.  Enable basic verbose logging and verbose sync to understand what's happening.
+
+The application consists of three layers - UI, model, and server.   The UI and model layers run on both the client and the server.  The server layer runs only on the server.
+
+<% ) %>
+
+<h3>Model layer</h3>
+
+<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/simpleSync/model","HelloWorld.sc", false, false) %>
+
+<p>
+Here we use reverse bindings to print a line when either the message or reply properties changes.  Since this runs on both client and server, you'll see these messages in both the server's standard output as well as the javascript console.
+</p>
+
+<h3>UI layer</h3>
+
+<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/simpleSync/ui","HelloWorld.schtml", false, false) %>
+
+<p>
+The input tag's value attribute uses a bi-directional data binding expression to bind the input tag's value to HelloWorld.message in the model.  Setting either one will set the other.  In schtml files, an html attribute can refer to a Java expressions with or without data binding by prefixing the attribute value with the "=" operator, or one of the [data binding operators](dataBinding.html): ":=", ":=:", or "=:".  
+</p>
+<p>
+When you use just the = operator, the property in the tag object for that tag is initialized with this value like you are initializing a field in an instance.
+</p>
+<p>
+The &lt;%= directive works like JSP.  Evaluate the expression and output the result.  Unlike JSP, with schtml when used in a declarative context like this, the expression is used in a data binding expression to compute the body of that tag.  When the reply property changes, the body content property is updated which invalidates the tag's body.  If necessary that schedules a refresh of the tag object's DOM element.  Your application benefits from fast, incremental updates using events when you use this approach.
+</p>
+
+<h3>Server-only layer</h3>
+
+<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/simpleSync/server","HelloWorld.sc", false, false) %>
+
+<%= MarkDownPage.markDown(%>
+
+For the server's version of the HelloWorld class there's a forward binding which recomputes the value of 'reply' when the message property changes.  The change to reply will be sync'd back to the client so you'll see that message printed in the JS console as well as the server's console. 
+
+## UnitConverter Example
+
+Here's the unitConverter's user interface implemented in HTML:
+
+<% ) %>
+
+<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/unitConverter/jsui","UnitConverter.schtml", false, false) %>
+
+<%= MarkDownPage.markDown(%>
+
+If you've seen the swing, android, wicket, or gwt versions of the unit converter you'll notice that it uses the same base layers.  This is the advantage of portable domain and view models.  All we're doing here is binding the user interface to existing view model properties.
+
+Although the template is written in schtml, it is compatible with HTML for preview or use by other tools.  Expressions will show up as formulae you can edit in the external tool.  
+
+This same template can either run on the client-only, server-only, or using a mix based on how the framework chooses to run the system on a tag-by-tag basis.  Data binding keeps everything in sync across the client/server boundary.  StrataCode or Java used is converted to Javascript.  
+
+## Run on the Client, Server, or Both
+
+Some templates have to run on the server.  For those, put them in a layer that extends jetty.schtml as it's only framework.
+
+Other templates may only run on the client.  Put those in a layer which extends js.schtml but not jetty.schtml.  When your layer extends a layer which has an explicit dependency on only one runtime, it inherits that restriction by default.  If you extend both js.schtml and jetty.schtml your layer will run in both.  If you extend no layers that are fixed to a runtime, your layer will run in all of the runtimes it's referenced in by other layers in that runtime.  When you put an unrestricted layer on the command line, it's included in all runtimes.
+
+Layers that need schtml, but have neither client or server dependencies can extend html.schtml to run in either.  Before you run your application, you will need to add either js.schtml or jetty.schtml to see anything.  With just html.schtml, you will generate a tag object not rendered by any framework but available as an API.  For a simple layer which you want to run in more than one configuration, you can choose either js.schtml, jetty.schtml or both by adding them as additional layers in the run configuration or add them on the scc command line. 
+
+TODO: The server-only tag library does not yet support forms and dynamic tag rendering but these are planned.  It will be easy to support forms and server-side page refreshes so a lot more functionality will work in this model.  Of course since there will not be a JS runtime, there will be not customized code running in the browser.  In a nutshell, with the server-only model, we know which tags objects and attributes are used in data binding expressions at compile time, and which can change on the client from user input.   We'll include a list of ids/attributes to listen on, along with a small, handwritten JS client.  It will read manage a list of listeners for the appropriate html/DOM events, input events, manage polling, and read and write sync requests using the same JSON sync format.  It will support real-time apps, just without application specific Javascript and client-side rendering.  The server will re-render tags and send over HTML to update the client incrementally.  It will also accept POST requests and see if they match any forms, and apply the updates that way.  This model has lots of advantages and can probably support a great deal of the feature set of the existing sync framework without the relatively large download size required by the JS code.  There are some nice development and security advantages of the server-only model as well.   When you mark a tag as 'exec=server' it will behave according to the server-only model, even if you included the js.schtml layer.  That way, you can opt-in on a tag-by-tag basis to choose the best model for different pages or even sections of pages.
+
+### HTML and Javascript Only Applications
+
+When the framework layers in your stack include js.schtml, but not jetty.schtml, you'll build a website from only html and javascript files.  You can open those files on the file system in your browser or publish them to a plain file based web server.  In this configuration, StrataCode generates .java files from the schtml and sc files in your project, then converts those files to .js which is loaded by the browser.   
+
+After you build your project, the layer's build directory contains a directory called web - the top-level directory for your site for any static files.  Any schtml templates which are global and can be rendered at compile time will generate a .html file here.  But if you use session or window scoped pages, you'll need a jetty server.  Your browser opens to the index.html file unless you run StrataCode with the -nw (no window) option or modify the defaults in a layer definition file you include.
+
+StrataCode generates a default index.html which contains links to the top-level URLs defined in your project.  If you have an schtml files with an html tag which is not abstract, it will be in this list automatically.  As soon as you add an index.html or index.schtml file to your project, it overrides the default one.  Like any other path in the source directory, a subsequent layer can simply override it by adding one to replace it.  
+
+Some schtml files are typically used as HTML fragments.  Those pages should not start with the html tag but instead might define a div tag, span or something else.  If you add an @URL annotation to any Servlet or schtml page, you can access it from a pre-defined URL instead of using the paths of the pages directly.
+
+### Client/Server Applications
+
+When you include the jetty.schtml layer, StrataCode generates a class called PageInit to initializes all of the top level URLs and registers them with the PageDispatcher servlet.  This will include those types marked with @URL or which have an &lt;html&gt; tag as their root but this is configurable.   This servlet maps the page requests from URLs to code which uses your server-side template object to generate an HTML response.
+
+### URLs and Template Pages
+
+If you do not specify an @URL annotation in your schtml file, by default it's URL will be https://server:port/myDir/myFile.html for a file in a layer with the path myDir/myFile.schtml.  Unlike generated .java and .class files, the web directory files do not include the directories corresponding to names in the layer's package.   This allows you to keep code and templates next to one another in the layer directory but have them deployed to different places - code in the package tree, web files in a separate web-tree.  It's convenient to allow overlap between these two trees and so that's the default.  Directories in the layer directory become sub-directories under 'web' and also sub-packages in the package-tree for the generate java files.   When you do need to specify a different web-root for a given layer, that's configurable in the layer definition.  The default provides a nice URL naming scheme for finding, modifying and replacing template pages using layers.
+
+You can also control what URLs map to which pages via the @URL annotation.  This annotation lets you associate a pattern string which matches components of the URL, such as path-name entries or query parameter, to properties values.  When a query pattern matches an incoming request for a URL, that page is used to retrieve the contents.  But first the pattern extracts the values from the URL uses them to set properties on the page object. 
+
+Top level page properties can use @QueryParam to bind them to query parameters automatically.   You can make query parameters required to reject page requests unless they are present.
+
+See the [simpleBlog example](../examples/simpleBlog.html) to see use of @QueryParam and URL based parameters using patterns.
+
+### Synchronization
+
+When your layers extend both jetty.schtml and js.schtml, you can also enable the JS to Java StrataCode synchronization support by extending js.sync.  When synchronization is enabled, you can use the @Sync annotation or the apis to register a synchronizable set of properties for any given type.  It allows basic RPC based serialization, preserving object graphs, usable JSON, or other pluggable protocols.  You can also use it with data binding to track changes and serialize just the changed parts of an instance back and forth across the wire.
+
+To synchronize overlapping parts of a layer or type set @Sync(syncMode=SyncMode.Automatic) in the layer definition file or for one or more types in your layer.  With that mode, @Sync is enabled by default for any properties that appear in both the client and server runtimes.  
+
+Rather than writing marshalling and unmarshalling code using explicit client/server APIs, most of your application can be moved seamlessly between the client and server, or both based on how you want the data to flow.  
+
+You can augment the automatic synchronization by annotation driven synchronization.  Here you explicitly mark properties and types with @Sync annotation, using attributes to disable synchronization, specify one-way synchronization and to control how and when the object is fetched and updated.
+
+Using StrataCode synchronization provides you with high-end application behavior from your domain model in a pure form.  You get immediate page loads by rendering pages on the server and can refresh the page at any point without losing any browser state.  You have the efficiency of sticky-session load balancing, and the robustness of stateless operation - where all server-side state can be recovered from the client when the server process restarts.  All of this happens transparently when you properly partition your code into layers and turn on automatic synchronization.
+
+Here's how this works.  The server renders an initial HTML page is delivered to the browser based on the URL request.  After the initial HTML is displayed to the user, the client starts downloading the Javascript code to incrementally update the page and perform the synchronization.  This includes the JS code from your schtml templates, your domain model layers included on the client, and the synchronization hooks injected into your code for firing change events as well as the JS code for implementing the SC web framework.  It then downloads a chunk of JSON or Javascript code snippet to initialize the 'initial sync state' for that page.  This is called a "sync layer", representing the changes for the first sync from the server to the client.
+
+ As changes are made on the client those changes are recorded in a runtime layer of data called a "sync layer".  When necessary, the client sends its current sync layer to the server.  This sync layer can either be formatted as 'scn' or 'json' with hooks to plug in other protocols.  The sync layer may include pending remote method calls - i.e. one or more explicit calls to "invokeRemote" or when a remote method is used in a data binding expression.  You can avoid chatty or otherwise bloated protocols by having multiple methods all called on the same batch.
+
+The server applies that layer of changes and records any subsequent changes made in response.  Commonly you will change properties which trigger data binding expressions on the server.  These rules can declaratively trigger more property changes on synchronized properties, or may call methods which create an entire object graph.  The changes made on the server are recorded just like on the client and then sent back as the response to this request.  This natural batching of changes gives you nice seamless client/server communication with good performance characteristics based on the batching that occurs naturally.  
+
+The client applies the response which typically updates the user interface displays or triggers additional UI display logic.
+
+There is a lot of moving parts but they are all carefully designed to be flexible, efficient, traceable, and maintainable.  For example, it's easy to trace the generated code injected into the Java for synchronization to be sure it matches what you want.  Also, The formats exchanged are easy to read and debug.  See [debugging](debugging.html) for details.
+
+Overall we believe the sync framework provides a clean way to implement declarative, client/server from a single code base.
+
+You may start out happy with RPC and data binding and that's ok.  It's easy to transition to the full benefits of sync.  Either way, you can cleanly separate framework and application code in a way that will be portable, scalable, upgradable and easily maintainable.
+
+When you can use data binding and change events to relate client-server data exchanges, you can implement fully declarative applications where the code can be reconfigured easily into different processes.  The sync framework makes it easier to do the same thing with less code.
+
+For more information see [details on the sync framework](syncFramework.html).
+
+## Mixing HTML and Java
+
+For a more complex sample here is the domain model for a TodoList application.  Simplified Java in the base layer: example/todo/model:  
+<% ) %>
+
+<%= sc.lang.SCLanguage.getSCLanguage().styleFile("example/todo/model","TodoList.sc", false, false) %>
+
+In the example.todo.jsui layer, which extends the model layer, the template page is merged with the model because their file names are the same.  The sub layer can access or override the base layer just as if itwere extending it.
+
+<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/todo/jsui","TodoList.schtml", false, false) %>
+
+<%= MarkDownPage.markDown(%>
+
+## One-Step Build/Run
+
+The scc command does it all.  Even with client/server applications, it will do all code generation and compilation necessary, start processes, open browser windows, and implement restart, so you have full life-cycle control over the application.  This will make it easy to deliver SC as both a SaaS and OnPremise solution.  Let you support client-only, server-only, and client/server mixed solutions.
+
+The layer architecture will let you start or attach to a server, start any necessary processes and run any necessary main methods based on the current layer set.  Any SC process can change any object or model and sync with the other federated processes, allowing them to update both runtime views and development time views "in sync".
+
+## Automatic Refresh of Declarative Templates
+
+StrataCode templates generate code in two different ways depending on the configuration and the content of your template.  When your tags only use declarative constructs, i.e. properties and data binding expressions they support incremental evaluation.  As properties fire, only the affected chunks of text are updated - .e.g an attribute is replaced, or part of an expression evaluated.  These template fragments are converted into data binding expressions similar to:
+
+    chunk1 := variable1 + "constant1" + variable2 + "constant2";
+    chunk1 =: invalidateStartTag(); // or invalidateBody if the expression is in the body
+
+As the data values change, only the affected portions of the template are rendered.  This provides efficient caching on the server and incremental refresh for interactivity on the client.
+
+When you use any non-declarative constructs in your tag, that tag cannot use this mode for its content.  It falls back to generating an output method which appends to a StringBuilder using the values in the expression.  When you use this mode, these regions of template must be refreshed manually using the tag API.  
+
+To make your templates declarative, here are a few tips:
+
+<% ) %>
+
+<ul>
+<li> when you need to define new variables, use fields with &lt;%! int newField; %&gt; not 
+&lt;% int newVariable; %&gt;.  If you use a variable, the template will define an output method to hold that variable.  With fields, you can also use data binding expressions.  
+<li> if you need to do a conditional, use a ? expression, not an if statement.  If statements again require the output method, but question mark operators can be used with fields and in binding expressions.
+</ul>
+
+<%= MarkDownPage.markDown( %>
+
+## SCCSS
+
+StrataCode supports the use of the sccss extension to generate CSS files automatically using the template language.  These files produce css files by evaluating the template.  Just like all templates, they can be processed at build time or generated dynamically when you request their URL.  Like SCHTML, SCCSS templates that are declarative are updated automatically when properties change.  This lets you use SCCSS files to specify rules that evaluate at runtime.
+
+You may not want to use SCCSS files at all or only to define static css files at compile time.  CSS files are by their role largely unchanging so maybe one should keep it that way.  You can always put dynamic styles into SCHTML files with the rest of the dynamic logic, or put static CSS in one file and dynamic rules in another SCCSS file, or the same file in another layer.
+
+CSS by itself does not offer you all of the language features you need to prevent lots of copying.  When you copy, you make it that much harder to maintain.  Many other formats layer on top of CSS to solve this problem and those could all easily be integrated as framework layers in StrataCode.
+
+The advantages of SCCSS are:
+
+* You can layer your CSS to easily create variations incrementally
+* You can refer to SCCSS variables from SCHTML and vice versa
+* You can generate CSS at compile time, initial page serve time or make them completely dynamic objects - your choice
+* Complete power of Java/StrataCode to define your CSS files: multiple inheritance, expressions, libraries, etc.
+
+Here's an example:
+
+<% ) %>
+
+<code><pre>
+      &lt;%!
+         String borderColor = "#777";
+         // With the SC template language, you can break back into a template expression for any string using &gt;%
+         // The template language is really Java where strings are turned inside-out
+         String dropShadow = %&gt;
+            border-style: solid;
+            border-width: 1px;
+            border-color: &lt;%= borderColor %&gt;;
+            box-shadow: 5px 5px 2px #aaaaaa;
+         &lt;%;
+      %&gt;
+
+      #navMenu li ul {
+         &;lt;%= dropShadow %&gt;
+      }
+
+      #navMenu li ul ul {
+         &lt;%= dropShadow %&gt;
+      }
+
+      .toggleButtonSelected {
+         border-color: &lt;%= borderColorSelected %&gt;; 
+      }
+</pre></code>
+
+<%= MarkDownPage.markDown( %>
+
+## Relative URLs
+
+Many web frameworks require absolute URLs in all references but this eliminates an important tool in a web developer's toolbox: management of locality of references and more easily tracing references.  With StrataCode, links that are absolute are output as HTML unchanged - as plain text in the startTag definition.  But if you use a relative path name - i.e. not starting with http:// or / - your links will be rewritten using a function so they work even if your page is included from some other top-level URL or even if the top-level url is different, or even changes due to a navigation change that does not refresh the page.  When you are not using 'page based' URLs, you should put a / in front of the URL to indicate it's not relative.
+
+TODO: We should provide warning/errors for broken links and IDE support for navigation along href and other link attributes.
+
+## Images, Static HTML Etc.
+
+You put images, .html files and other static resource files in your layer directory as the top-level and they are copied into the web folder automatically based on the rules set up by the sys.std and html.core layers.  Unlike java or sc files, the layer's package is not prepended onto the generated file.
+
+This lets you replace any file by just defining a file with the same name in the same path in a subsequent layer.
+
+Files replace each other based on the resulting output file suffix.  This means that an html file can replace an schtml file and vice versa.
+
+## Reusable Tags 
+
+It's very common to have tags and attributes in HTML that you need to reuse, or re-parameterize in some way.  Turns out that this is a very tricky problem and important to get right.  Java's inheritance got us most of the way there, but StrataCode adds the last mile.  So SCHTML is a thin-skin on top of StrataCode's code-generation, which in turn is converted to Java in an intuitive way.
+
+Each tag that needs an object becomes a StrataCode object (which in turn may become a Java class if one is needed).  If the tag has an id attribute, you have a predictable name for that object and can use it in the extends attribute from another tag.  Keep in mind Java's inner class name visibility rules.  To use a tag name, it must be in scope.  In other words, the name must be found in a direct search of the id's of the children of the current parent or any id in any parent tag above in the hierarchy. 
+
+With SCHTML, you can create tag macros which take typed parameters, either in the same file or in a separate file.  When you define a macro in the same file, use the abstract="true" attribute so that tag is not inserted into the output of the template.  In the generated code, an abstract="true" tag generates a Java class.  Tags without abstract generate an object where the outputBody results are inserted into the outputBody of the parent.
+
+When you have an SCHTML file with a single tag in it, that tag's id automatically becomes the name of the file.  So if you define a file called "MyMacro.schtml" with a single div tag with no id, in a file called "MyMacroInstance" you can define a div tag that has the attribute extends="MyMacro".  When one tag extends another, by default, both the attributes and body of the extended tag are rendered.  Any attributes set in the tag replace those in the extended tag.  If you'd like to access and modify the super tag's features, you can use Java's super operator.  The extended tag's body is also initially the body used for the output.  Any new tags you provide are merged into the body of the extended tag.  Tags with the same id inside of the body are themselves merged and so on.  In many cases the sub tag's outputStart and outputBody will call the super tags's method and then append to the output.  But when you reorder children or replace, or do other changes to the children tags or attributes the sub tag's start/body methods start from scratch because the change is not incremental.
+
+TODO: currently any tags without any id which need objects for some other reason are merged.  This causes a usability problem but is necessary for html, body, head to work correctly.  It should be corrected by making this switchable on the tag name.  div, p etc. should not be merged but appended to by default.  There's a notion of that tag ids that are globally unique in the page and we should do the merge for those tags and append for these anonymous tags.  In the meantime, use ids for the sub-tags of any tag macros for fear they match accidentally and cause weird results.
+
+The tags you extend should have the same tag name.  So a 'div' tag should always extend another div tag.  The role the tag plays seems to be indicated by a preferred tag in all cases.  The structure imposed here provides good error messages when intent and code do not line up.  TODO: Not sure this restriction is still in place.  I think we can override the tagName just like we do other features of the tag subclass.
+
+Inside of your tag, you can define properties using the <%= templateSnippets.declarationsOp %> operator.  You can set these properties using attributes from the extending tag.  The transformation process converts each attribute setting into a property assignment, so they override any previous values those properties might have had.  This also means static-type checking is performed so you have edit or compile time errors, find-usages, navigate references etc.
+
+Be aware that you do need to use: attributeName="= expression" unless the attribute is a String value.  The 'expression' part is Java expression and so converted and type-checked properly.  When you leave that out, it's a string and only works with String properties (TODO: maybe we should support some basic type conversion here?)  If you think the expression will change at runtime, use attributeName=":= value" so the value is updated on the fly.  SC takes care of adding the necessary getX and setX methods along with the sendEvent call to trigger the update.
+
+Here's an example that demonstrates reusable tag macros:  
+
+<% ) %>
+
+<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("test/js/simplePerson","PersonPage.schtml", false, false) %>
+
+<%= MarkDownPage.markDown(%>
+
+## Client/Server Java Tag API
+
+StrataCode provides a thin wrapper on top of the core Javascript document object model api (DOM) to let you manipulate tags in a way that works on client and server.  This API provides bindable properties you can use in your templates to change the HTML, or react to events such as click, mouse move, change, or resize.  It exposes wrappers to some Javascript variables, such as innerWidth, and innerHeight which you can use in binding expressions.  You can manually refresh nodes (only required if they were not generated as declarative).  Tag classes expose all of the standard DOM events so that you can do reverse-only bindings on them: e.g. in your SCHTML, for any tag, you can add the attribute: clickEvent="=: myMethod()".  This is a nice syntax to avoid the need for function closures or interfaces.
+
+The tag classes match the DOM hierarchy and tag names.  They live in the sc.lang.html package:
+* Node - This tag is used for tags and attributes.
+* Element, HTMLElement - Used as the base classes for all tags in the page.
+* Html, Head, Body, Div, Input, A, etc. - There is a Java class for each HTML tag where the first letter is capitalized.  They are used as the base class for that tag unless overriden by a class in the tagPackageList.  This variable is typically only used for framework layers to provide default content for tags like html, head, or body.  For example, the js and servlet layers inject code to specify the script tags required to include all necessary JS files.  Because these are classes in StrataCode, you can modify them to customize the content for your application without having to change each page.
+
+## Tag Bindable Properties
+
+StrataCode tag objects support special properties to control the tag's behavior in the page.  You can set this to constant values, expressions, or data binding expressions.
+
+* visible: when false, this element is removed from the parent's body.  When set back to true again, it's reinserted.  When the tag is invisible, it's useful to specify a substitute in some cases.  To support this, you can add a child tag with the id="alt".  When the parent is invisible, this tag is visible and vice versa.  At runtime you sometimes need to refer to the tag's id in code.  In this case, the tag's id is: "parentId_alt" so it's unique and easily identifiable with the parent.
+
+* visibility with styles: The style attribute of all tags can be set via a binding expression.  If you have a boolean property called 'vis' you could use <code>style=':= vis ? "display:none" : ""'</code>
+
+TODO: Currently when your tag is not visible, the bindings still run which means you have to do more work to be sure they behave even when maybe they are not applicable.  TODO: should fix by activating/de-activating the bindings, or even better conditionally creating/destroying the object.  A 'switch' option might be nice so you can have one instance which morphs into different implementations based on binding expressions.
+
+* hovered: set to true when your mouse is over an element
+* style - Specify dynamic styles.  When you use attributeName=":= expression" your style will update when the expression changes.
+* class - Specify a dynamic class attribute.  When styling using CSS, its common to want to define a conditional styling rule.  You may use the question mark operator to add a class:   class=':= hovered ? "highlight" : ""'
+* DOM events: clickEvent, dblClickEvent, mouseDownEvent mouseMoveEvent, mouseOverEvent, mouseOutEvent, mouseUpEvent, keyDownEvent, keyPressEvent, keyUPEvent, submitEvent, changeEvent, focusEvent, blurEvent.  These events are only fired on the client.
+* repeat. Lets you create repeating tags in the document, one for each element in the List or array provided by the repeat attribute's value.  For updating the repeat tags, if you use a list which supports data binding events, the tags are also updated (see sc.util.ArrayList).  When change events are detected, the javascript runtime performs incremental updates to the browser's model of the tag objects (i.e. inserts, removes, moves or appends to the DOM elements to bring them in sync with the tag objects).  When you use repeat, you can also use repeatVarName to define a new property whose type is the type of the list element.  If the List property is defined with a type parameter, the repeatVarName will have that type.  Otherwise it will be defined with a type of java.lang.Object.  If you don't use repeatVarName, you can refer to the value using the built-in name 'repeatVar' - typed as an Object.  Each tag using repeat generates two classes in the generated Java class - an outer class which implements the IRepeatWrapper interface and a class used as the base class for each repeated item.  The tag with the repeat element itself is used as the definition of each repeated element.  So if you use repeat with an li tag, you'll end up with a list of li tags in the document.  If the list is empty, nothing is added to the document.  NOTE on naming of generated classes.  By default, the repeatWrapper outer class just renders the repeated tags and so is not visible when the page is rendered, so it's not common to need to customize it.  But it is visible in the inner object hierarchy generated.  So if you have a tag with id="foo" that uses repeat, to refer to the tag class "foo", you'll need to use "foo_Repeat.foo".  The inner object "foo_Repeat" is the repeatWrapper class.
+* repeatWrapper.  Let's you specify the base class for the generated repeatWrapper class (see above).  You use this to control the mapping of the element in the repeat array/list to the specific tag object used to render that element in the list.  See the interface sc.lang.html.IRepeatWrapper.  TODO: should we just look at the 'extends' or 'implements' of the repeat tag and if it implements IRepeatWrapper, we can use the definition of the tag as the repeatWrapper and avoid one extra class.  We currently don't seem to use the inner tag class which gets generated in almost all of the places we use repeatWrapper. 
+
+Exra properties supported by the select tag:
+
+* selectedIndex - reflects the selected index and usable in forward or reverse bindings.
+* selectedValue - also usable in forward or reverse directions, as an alternative to selectedIndex.  Set this to point to a value in the array or List for optionDataSource.  It will select that item by default.  When the value changes, it points to the currently selected value.
+* optionDataSource - set to the List to use for populating the option tags.
+
+For the input tag:
+
+* value - controls the value attribute in HTML
+* disabled - controls the disabled attribute in HTML
+* checked - controls the checked attribute for those input types which use it
+
+For the img tag:
+
+* src
+* width
+* height
+
+For the option tag:
+
+* selected
+* disabled
+* value 
+
+TODO: We are still filling in missing pieces in this API.  Let us know if you need anything added and we'll add it. 
+
+## Control Attributes
+
+Here's a summary of the behavioral attributes you can set on any element:
+
+* extends - refers to the type name of a tag object to use as the base class for this tag.  By default, the attributes and body are both inherited but this can be controlled via the tagMerge and bodyMerge attributes.
+* implements - specifies a list of tags objects from which to inherit attributes and content.  Also controlled by tagMerge and bodyMerge.
+* abstract - when true, the tag object is not instantiated
+* repeat - refers to a List or array of items.  The tag is replicated once for each item.  Use repeatVarName to specify the name of the variable to store the array element.
+* repeatVarName - used with repeat to define a variable name other than "repeatVar" to hold the value.
+* repeatWrapper - used with repeat to specify the extends class for the repeat wrapper class
+* serverContent - set this to true on an attribute you do not want on the client.
+* exec - set to either 'client' or 'server'.  use this when you need to put code in a layer that is shared by both client and server but where you only want the tag to be included in either the client or server's version of the page object.
+* tagMerge - specifies how the tag and it's attributes are merged with any modified tag object, the extends and implements tag objects.
+* bodyMerge - specifies just how the body of the tag is merged, for when you want to merge the body of the tag differently from the attributes.
+
+See the [tag objects](tagObjects.html) doc for more details on merging and exec.
+
+## Document, Location, Window
+
+See these classes in the javadoc: [java doc](/javadoc/sc/lang/html/package-summary.html)]
+
+There are Java classes which work on both client and server that mirror the brower's versions of these objects.  Using these APIs, your Java code can manipulate the current request's URL.  Some of the features exposed in the Java API are only available on Java code that runs on the client.  For example, the Window.window.innerWidth and innerHeight properties are only set on the client, where they are bindable.
+
+### Imports 
+
+Just like JSP, you can add imports for the page and annotations on the top-level class object using the &lt;%@ annotation as the first thing in the file.  
+
+    <%= templateSnippets.annotationsOp %>
+         import myClass;
+    <%= templateSnippets.closeOp %>
+
+### Annotations
+
+To annotate the class corresponding to the page itself, you use:
+
+    ---- PageName.schtml:
+    <%= templateSnippets.annotationsOp %>
+        @AnnotationName(annotationValues=...)
+    <%= templateSnippets.closeOp %>
+
+### Live In-Browser Programming
+
+StrataCode as a framework supports changing the code while the application is running.  Just as these changes can sometimes be applied to the server code at runtime without a restart, they can be converted to Javascript code and run on the client.  When the changes are more complex, the complete javascript on the server is regenerated and the client page is told to refresh.  The server itself may need to restart because of changes to compiled code. 
+
+### Implementation Details
+
+Read about the implementation of [java to javascript](jsFramework.html) and [tag objects](tagObjects.html). 
+
+<% ) %>
+
+     </div>
+   </div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<html extends="DocPage">
+<head title="Dynamic Runtime"/>
+
+<body>
+   <div id="content">
+       <div id="pageContent" exec="server">
+
+<%= MarkDownPage.markDown(%>
+
+## Dynamic Runtime
+
+See [this article](../articles/dynamicRuntime.html) for a high-level view of goals and what the dynamic runtime is used for.  This section describes the details for how it's implemented for developers and framework builders.
+
+An application running under the dynamic runtime has access to the LayeredSystem which is currently running.  If you want your code to run only in compiled mode, without the dynamic runtime, or in Javascript, use only the methods in the static classes [DynUtil](/javadoc/sc/dyn/DynUtil.html) and [PTypeUtil](/javadoc/sc/type/PTypeUtil.html).  These classes provide basic reflection and let you use many of the features of the LayeredSystem which you might need in framework-level code that you want to use without the LayeredSystem and the rest of the dynamic runtime.  You can get and set properties, invoke methods, etc. in a way that works for dynamic types, or compiled types even in Javascript or without the LayeredSystem.
+
+When you have the dynamic runtime, you have an important option to choose for classes - should the system track "live dynamic types".  When this is true for a type, we code-generate an additional code into the constructor to register each instance for a given class.  We can return the list of instances of any of these tracked types, and update these instances in response to code changes.  This requires the use of DynUtil.dispose() for instances you manage yourself.  Top-level object instances and their children are usually disposed automatically by the framework code that creates them (e.g. when a session expires, or at the end of a request, or when a managed list of components gets smaller). 
+
+You can set the liveDynamicTypes flag globally with an 'scc' command line option, on a specific type via CompilerSettings, or in a layer to restrict the setting to a specific group of types in that layer.
+
+## IDynObject
+
+All dynamic objects implement the [IDynObject](/javadoc/sc/dyn/IDynObject.html) interface.  When one dynamic object extends a class which is already dynamic, it will use the IDynObject implementation of it's base class and unless "needsCompiledClass" is true, it will not even generate a Java class of its own.  When a dynamic class extends a compiled class, a dynamic stub class is generated.  This class implements IDynObject and stores the type and properties for that instance.   When a class neither extends a compiled class, or another dynamic class an instance of DynObject is created to store the type and properties.
+
+## Dynamic Layers
+
+You can make a layer dynamic in one of two ways.  Use the dynamic keyword before the layer name in the layer definition file.  It will be dynamic whenever it's used.  You can also use the -dyn option on the command line.  Any layers after the -dyn option will be made dynamic by default unless they are marked as "compiledOnly" in the layer definition file.  In addition, any layers extended by those -dyn layers are also made dynamic unless they are compiled only (use -dynone so only the specified layers are dynamic).   Dynamic layers always follow compiled layers in the layer stack, so it's not allowed to extend a dynamic layer from a compiled layer.
+
+## Dynamic Types
+
+A type can be made dynamic by defining it or modifying it in a dynamic layer, or by using the dynamic keyword before the 'class' or 'object' when you define it in the layer.  
+
+<% ) %>
+
+     </div>
+   </div>
+</body>
+</html>

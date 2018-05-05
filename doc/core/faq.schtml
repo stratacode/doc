@@ -38,11 +38,12 @@ Layers provide a more powerful and flexible, in-language mechanism for customiza
 
 And when you don't want to use layers to modify types, they act just like modules.  You can only use layers to make your build system more powerful.   
 
-A few languages let you modify types either using dynamic types or extension points.  When you let any piece of code modify any other piece of code, it makes tooling and tracing the origin of the code more difficult.  Layers give you flexibility with the right structure to make it maintainable as the code base grows large.
+The ability to modify types is not unique to layers.  Some languages support mixins, extension points, delta oriented programing, or dynamic languages like Javascript let you modify anything at any time.
+When you let any piece of code modify any other piece of code, it makes tooling and tracing the origin of the code more difficult.  Layers give you the right flexibility with the right structure to make code modifications maintainable, even as the code base grows large.
 
 ### What would make a good pilot project?
 
-A Java based platform that needs a faster, more efficient customization framework, or SaaS platform looking to build a management UI that's highly customizable.  Really it's appropriate for anyone building [Java/Javascript](javaToJavaScript.html) applications and who is intrigued by layers.  Or just use it as a build, customization, deployment tool.  If you need to [process Java code](exSimpleParser.html), or [build a new parser or IDE](parseletsIntro.html), you might find StrataCode has the right APIs.  You can either afford to pay for some custom platoform development, or have some great programmers with cycles to help improve StrataCode.  You'd like to invest and benefit from what StrataCode potential for building a better software engine.
+A Java based platform that needs a faster, more efficient customization framework, or SaaS platform looking to build a management UI that's highly customizable.  Really it's appropriate for anyone building [Java/Javascript](javaToJavaScript.html) applications and who is intrigued by layers.  Or just use it as a build, customization, deployment tool.  If you need to [process Java code](exSimpleParser.html), or [build a new parser or IDE](parseletsIntro.html), you might find StrataCode has the right APIs.  You can either afford to pay for some custom platform development, or have some great programmers with cycles to help improve StrataCode.  You'd like to invest and benefit from what StrataCode potential for building a better software engine.
 
 ### What about IOS?  
 
@@ -51,6 +52,10 @@ We are tracking efforts to bridge Java to IOS.  There are three which are becomi
 ### What about .NET?
 
 It's very feasible to convert SC (and at the same time Java) to .NET.  It could be useful in a heterogenous Java/.NET system given that layers can tease apart platform dependencies and synchronize overlapping parts.
+
+### Why not open source?
+
+We don't yet have financial support to make that strategy a success for anyone.  In the meantime, get in touch with Jeff for access to the source as well as assurance that we can support your goals long term. We'd love to find a way to compensate all developers who contribute to StrataCode's success.
 
 <% ) %>
 

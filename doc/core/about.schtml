@@ -30,43 +30,10 @@ Jeff has had help from many people.  Natalya Hung for advice on the syntax, help
 
 ### Project Status 
 
-There are still a couple of high priority bugs that need fixing for the project to reach "preview" maturity.   Even after that we will need your help refining concepts and names of things.  
+StrataCode is finally ready for developers to download and use for building applications.  It's in a beta stage now in terms of quality and features.  Some interfaces will still change slightly based on feedback.
 
-[Here](https://github.com/stratacode/layers/issues?state=open) are the open bugs.
+[Here](https://github.com/stratacode/issues/issues?state=open) are the open bugs.
 
-#### Performance
-
-The compile times are fairly good - about 25 seconds to compile the program editor and a small sample including all of the framework layers, for both server and client runtimes from scratch.  It is faster with incremental recompilation but that is still buggy.   When you change leaf classes, the incremental times are pretty fast.  When you change classes which are used by lots of other classes, it right now compiles all of those dependent classes but probably does not have to in most cases.  
-
-You can pre-build a group of layers, then reuse those files for layers added.  This keeps build times small, even as the code sizes grow large.  
-
-Use the -a option to build all files for a clean build. 
-
-#### HTML/JS UIs
-
-There are limited components in the UI, though they are easy to build out of Java, JS, SCHTML and data binding.  Let us know what your needs are and we will help out so there's a shared standard set of great UI components.
-
-Not much optimization has been been done on Javascript code-size.  There are big optimizations available, like omitting JS code from static elements and ommitting unused classes that are very easy.  We've been focusing on quality so more people can help testing fruitfully.  Because StrataCode has nice library organization, you can cache the Java libraries and the other core stratacode libs from one app to the next.  There could be an option to also generated the smallest possible JS file, i.e. that only includes code which you are using for the smallest one-page sites.
-
-#### Debugging/IDEs
-
-StrataCode supports an IntelliJ plugin for Java develpment and you can debug the client-generated Java code directly in Chrome's devtools.  It's also easy to debug using the generated code which is usually a clean-mapping to the original - i.e. fields turned into getX methods.
-
-### Incremental Design
-
-When you use StrataCode with .java files, it passes the code through unchanged.  It has an accurate list of all code dependencies and so does efficient, safe incremental Java builds.  You can refresh the code or using a tool change the code at runtime with dynamic layers.  It's all written and configured in easy-to-read Java with extensions.  Layers that are final work just like modules which turn into jar files in your classpath.  That gets put into a shell-script you can run.  It can also produce jar files you deploy or use in other Java code.  
-
-### Goals for StrataCode
-
-Our goal is a more efficient platform for building, customizing and distributing software using the layered design patterns.  That includes better workflows, less copy copying, more reliable applications, more portable, configurable, manageable.  One language with static typing used for all aspects of systems development, customization and deployment and enforcement of API contracts to bridge heterogenous development.  Using a combination of layers and code-processing to minimize incompatibilities, provide more robust tools for managing growing complexity in systems.  More flexible code deployments - e.g. migrating code between processes without breaking systems.
-
-### How you can help
-
-We'd like input to help refine the designs so they can be efficiently used by everyone.  As soon as we can maintain systems in a compatible, efficient way we'll start looking for customers with projects, and integrations.  Until then contact us for the code.  Submit bugs and feature requests.  Help us improve the names for things!  Suggestions for improvements. Any messages you find confusing, or things you can't find.
-
-None of the code is that complicated despite the complexity of what it's doing.  It's modular, well organized, and commented etc.  We will answer questions or help you get started but the best place to learn about StrataCode internals is with a breakpoint in the debugger.  If you are getting an error, search for the the code that generates that error and stop there.  The data structures are easy to follow with informative toString methods.
-
-We are looking for talented partners and advisors.
 <%)%>
 
      </div>

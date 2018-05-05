@@ -1,0 +1,31 @@
+<html extends="Example">
+<head title="Simple Blog Example - URL and QueryParams"/>
+
+<body>
+   <div id="content">
+      <div id="exampleContent">
+         <!-- It would be nice to avoid these section things and just implement this behavior when exec="server" is set on a parent and exec="client" is on the child -->
+         <div id="serverSection1" exec="server">
+         <div class="exampleTitle">Simple Blog Example</div>
+
+         This example has two domain model objects - Blog and Post.  You can choose your blog, then choose a post in that blog.  It runs in three different modes:
+
+         server only: <code>scc example.simpleBlog.queryParam jetty.schtml</code>
+         client only: <code>scc example.simpleBlog.queryParam js.schtml</code>
+         client/server: <code>scc example.simpleBlog.queryParam jetty.schtml js.schtml</code>
+
+         <p>
+         Here's the ViewBlog template page that shows the use of QueryParam annotations to bind page properties to query parameters in the URL:
+        </p>
+<%= sc.lang.HTMLLanguage.INSTANCE.styleFile("example/simpleBlog/queryParam", "ViewBlog.schtml", false, false) %>
+
+         <p>
+         The same thing using URL based parameters:
+        </p>
+<%= sc.lang.HTMLLanguage.INSTANCE.styleFile("example/simpleBlog/urlParam", "ViewBlog.schtml", false, false) %>
+
+      </div>
+   </div>
+</body>
+
+</html>

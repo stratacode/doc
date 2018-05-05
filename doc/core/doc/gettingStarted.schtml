@@ -1,0 +1,92 @@
+<html extends="DocPage">
+<head title="StrataCode Getting Started"/>
+
+<body>
+
+   <div id="content">
+       <div id="pageContent" exec="server">
+
+<%= MarkDownPage.markDown(%>
+
+If you're interested in hands on, contact Jeff Vroom for more info.
+
+There are some old videos that might still be helpful but lots of names have changed [demo videos](videos.html).  
+
+Prerequisites: Java, Git, Unix (linux or mac)
+
+## Build StrataCode from Source
+
+      % mkdir /home/scc
+      % cd /home/scc
+      % git clone https://github.com/stratacode/system.git 
+
+and read the Readme for setup.  https://github.com/stratacode/system.  It's easy to build with your IDE, StrataCode or Gradle.
+
+When built with StrataCode, it produces the "scc" command script.  In your IDE, just create a configuration with sc.layer.LayeredSystem as the 'mainClass'.
+
+## Create a StrataCode Project
+
+A StrataCode project contains one or more bundles of StrataCode layers in the bundles directory.  You can create a directory from the IntelliJ plugin or by hand with:
+
+      % mkdir /home/StrataCode
+      % cd /home/StrataCode
+      % mkdir bundles
+      % cd bundles
+      % git clone https://github.com/stratacode/coreFramework.git
+
+You can add additional layer bundles as well:
+
+      % git clone https://github.com/stratacode/example.git
+      % git clone https://github.com/stratacode/managementUI.git
+      % git clone https://github.com/stratacode/ecommerce.git
+
+So that the 'scc' command can find it's own source code:
+<% ) %>
+
+<pre><code>% cd /home/StrataCode
+% mkdir conf
+% cat &gt; conf/scSourcePath
+/home/scc/system
+</code></pre>
+
+<%= MarkDownPage.markDown(%>
+
+## Running StrataCode Examples
+
+From your /home/StrataCode directory run:
+
+* Program editor and the expert system:
+
+        scc editor/swing/main example/expertSystem/main
+
+* Unit converters on swing
+
+        scc example/unitConverter/swingui
+
+* With the program editor:
+
+        scc editor/swing/main example/unitConverter/swingui
+
+* Unit converter in the web framework:
+
+        scc example/unitConverter/jsui
+
+* With the program editor:
+
+        scc editor/js/mixin example/unitConverter/jsui 
+
+If you have problems after changes, use the '-a' option to build all files or remove the layer's build directory in /home/StrataCode/build
+
+There's a usage for the scc command and type "help" at the command line.
+
+See [known issues](https://github.com/stratacode/issues/issues?state=open).
+
+[IDE Setup](ideConfig.html).
+
+<% ) %>
+
+
+     </div>
+   </div>
+</body>
+</html>
