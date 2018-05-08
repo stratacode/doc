@@ -26,7 +26,7 @@ The application consists of three layers - UI, model, and server.   The UI and m
 
 <h3>Model layer</h3>
 
-<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/simpleSync/model","HelloWorld.sc", false, false) %>
+<%= sc.lang.SCLanguage.getSCLanguage().styleFile("example/simpleSync/model","HelloWorld.sc", false, false) %>
 
 <p>
 Here we use reverse bindings to print a line when either the message or reply properties changes.  Since this runs on both client and server, you'll see these messages in both the server's standard output as well as the javascript console.
@@ -48,7 +48,7 @@ The &lt;%= directive works like JSP.  Evaluate the expression and output the res
 
 <h3>Server-only layer</h3>
 
-<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/simpleSync/server","HelloWorld.sc", false, false) %>
+<%= sc.lang.SCLanguage.getSCLanguage().styleFile("example/simpleSync/server","HelloWorld.sc", false, false) %>
 
 <%= MarkDownPage.markDown(%>
 
