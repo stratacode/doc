@@ -7,7 +7,7 @@
 
 <%= sc.doc.MarkDownPage.markDown(%>
 
-## Avoiding Copies for Customizations
+## Avoiding copies for customizations
 
 by Jeff Vroom
 
@@ -19,17 +19,17 @@ More engineers take the simpler approach and use flags, or [feature toggles](htt
 
 To support more customization without layers you'd use some mixture of plugin design patterns, object-oriented development, and inversion-of-control containers (or IOC).  Let's look and the strengths and weaknesses of those patterns.
 
-## Plugin Frameworks
+## Plugin frameworks
 
 Wordpress is a great example of a plugin framework which offers built-in customization points (aka hinge points): specific API contracts used you can follow to extend or modify the behavior of the UI from separate code.  They are carefully designed to solve specific use cases and typically give your plugin control over specific regions of the screen, ability to add new fields, or new types of documents.  Your plugin can customize page layout or style sheets as long as those features are supported by the the plugin framework.  
 
 But it takes a lot of work to design, build and maintain a great plugin framework.  It's like a mini-application framework by itself with install, upgrade, compatibility constraints, uninstall, etc.  Plugin-frameworks are so successful it's worth the effort for some application areas where there's a lot of custom requirements (e.g. content management and e-commerce).  Still it is very common to run into the limits of what you can customize in a plugin, or have version problems upgrading.  It takes a lot of planning and coding on both sides to make it work when situations get complicated.
 
-## Object Oriented
+## Object oriented
 
 When you can't find a plugin platform that matches your needs, your next option is to use object oriented programming APIs with inheritance and essentially build your own plugins using code.  Instead of copying code, you refactor so the customizations are separated in a subclass.  But object oriented programming by itself is inadequate to make easily customizable systems.  You need to use a [factory pattern](https://en.wikipedia.org/wiki/Factory_method_pattern) to separate the use of an instance from its construction and allow customization of both places in the code.  And it breaks as soon as the second plugin needs to customize the same class.
 
-## Inversion of Control
+## Inversion of control
 
 In the Java world, the most common and powerful factory pattern is an IOC container such as Guice or Spring.  They make it easy to configure the instance class used for any given purpose.  Through the configuration (either annotations, properties or markup) the IOC container builds a graph of component instances, wiring everything up.
 
@@ -39,7 +39,7 @@ That's a lot to think about on each code change so it's no wonder that rigorous 
 
 There's another problem with inversion of control when used in plugin-frameworks.  When you replace a class with your own customized implementation, you've just introduced a conflict with other plugins that have made the same choice.  Whichever one of you deploys last will continue working and the other breaks badly without warning.  What's needed is a way for each new plugin to layer itself into the previous model, but in a statically typed way to ensure compatibility of the type system at least.
 
-## StrataCode Layers
+## StrataCode layers
 
 StrataCode provides a new option that lets you code rapidly - essentially like you do with Java, Spring, JPA, etc. today but less verbose, easier to read code.   You use simple classes and objects for your application code.  Just like Java classes, objects can be nested to form hierarchical components.  StrataCode's code-generation will convert this all to a nice readable, debuggable Java file via incremental code-transformations.   
 
@@ -49,15 +49,15 @@ There's less planning for future customizations during design and fewer design d
 
 With layers, knowing you can make customizations later, you write code that's easier to read.  
 
-## Assembling Component Graphs
+## Assembling component graphs
 
 One of the reasons developers use an IOC framework is to allow configuration of arbitrary graphs of components.  Sometimes, as you make references between objects, you need to create a cyclic or upstream reference - i.e. reference a component that has a reference pointing back to the original component.  You can't express that with Java's field initialization.  With StrataCode, you can add the @Component annotation to the class (or a sub-class) to indicate that it may have cyclic references.  It modifies the source code for this class so it supports cyclic references.  Lots of code will "just work" but sometimes you'll need to move code from the constructor into the init method if it depends on a field which cannot be initialized because of the cyclic reference.  
 
-## Runtime or Compile Time Configuration?
+## Runtime or compile time configuration?
 
 Most IOC systems have some runtime overhead - parsing and applying the configuration every time you start the application.  With StrataCode, you can use dynamic layers when you want configuration applied at runtime, and compiled layers when you want to avoid that overhead (or are unable to include the StrataCode dynamic runtime library in your application).   This organization provides tunable runtime-efficiency and coding-time agility.  You have less code which is easier to navigate. 
 
-## Arbitrary Customization
+## Arbitrary customization
 
 Let's quickly return to the scenario where your customers need rapidly customized applications and fast time to market.  With StrataCode layers, you can build simple domain models and wire them together with statically typed references.  As your customers need custom changes, you can augment any feature without copying code.  Each customer can have their own layers which are unique to their instance of the application.  As new customers have overlapping requirements, these layers can be reused or further customized.  You refactor the code as you go to minimize the total code footprint and keep track of how your system has been customized.  You never have to say "no" to new custom features and never have to copy code unnecessarily to support two variants of the same system.
 

@@ -7,8 +7,8 @@
            <h2>StrataCode Intro</h2>
            by Jeff Vroom
            <p>
-           If you're here, hopefully you are a programmer interested in what it takes to build a customizable software platform, or at least interested in software architecture.
-           StrataCode adds new declarative operators and uses code-processing to let you build reusable, customizable components from Java.  Not only can you build declarative applications, you can quickly construct management UIs directly from application objects, which themselves can be customized.  These are the key components of a fully customizable SaaS platform that supports excellent tooling and long-term code lifecycle management.
+           StrataCode lets programmers more easily build customizable softoware platforms using an interesting software architecture.
+           It adds new declarative operators and uses code-processing to let you build reusable, customizable components from Java.  Not only can you build declarative applications, you can quickly construct management UIs directly from application objects, which themselves can be customized.  These are the key components of a fully customizable SaaS platform that supports excellent tooling and long-term code lifecycle management.
            </p>
            <p>
            StrataCode's design supports separating framework and application code, reducing code-copies of the domain model (i.e. the core business logic) making it easier to build, maintain and change.  The code-preprocessor preserves static typing for strong, flexible frameworks and a new level of code-reuse, and deployment efficiency.

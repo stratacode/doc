@@ -6,17 +6,17 @@
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
-## Layered Build and Packaging 
+## Layered build and packaging 
 
 Layers are a great way to manage builds, packages, versions, tests, deployment configurations, etc.  Like Gradle, StrataCode lets you define build configuration using an object oriented, interpreted language.  More concise, readable and flexible build configurations than XML.  But StrataCode uses it's extended version of Java as the build configuration language so you do not have to learn Groovy and can leverage all of the built-in Java libraries you already know.  
 
 Just keep in mind, the code in the layer definition file runs at build/run time and so can't use the code in the layer itself.  The layered, component framework you can use in build files reduces copying while improving customization potential for your builds.  Layers make it easy to define simple modules - organized by file type or dependency rather than using a lot of project scaffolding.  Modules are usually already organized by type so why not make them simpler?  You'll end up with more modules that can be managed by more people.
 
-## Complete Control Over Your Code
+## Complete control over your code
 
 StrataCode is more than just a build tool though.  It's a complete code-processing environment with the ability to read and make incremental changes to your code.  Unlike tools which manipulate your application's byte-code on-the-fly, you can debug the generated code and so can do more and still easily debug it when it breaks.  You have all of the runtime safety benefits of compiled, statically typed Java code and avoid "untraceable code" side-effects created by dynamic languages, aspect-oriented programming, mixins, and other approaches.
 
-## Full IDE For Editing Build Files
+## Full IDE for editing build files
 
 StrataCode build files are written in StrataCode and are edited like normal files in IDE with code-hinting and edit-time validation.
 
@@ -24,7 +24,7 @@ StrataCode build files are written in StrataCode and are edited like normal file
 
 Layer's can include maven libraries in one of two ways.  Your projects can use maven itself for builds and/or installs of dependencies, then just configure the layer to use the resulting .jar in the classpath.  A lighter weight approach uses StrataCode's built-in support for maven repositories and POM files, eliminating the need to install maven and make better use of layers for customization.  One interesting advantage of layers, is the potential to switch back and forth between source and compiled forms of different aspects of your projects through a central point - i.e. putting a src layer in front of a compiled one, or to move source between one git repository and another in a more compatible way.
 
-## StrataCode Project File Organization
+## StrataCode project file organization
 
 To start a new project with most systems, you use a "create project" wizard which generates the default project files from the configuration you specify.  It's your job to figure out what files were generated, where the info you provided is now stored, and how to manage those configured values.  Perhaps they are not the same from one developer to the other, or one deployment to the next.  Maybe your framework stores these external properties in a separate file, or maybe not.  If you're lucky there's some way to externalize them - via environment variables but it's always ad-hoc and varies from one framework to the next.
 
@@ -38,7 +38,7 @@ StrataCode has a simple command-line integration with git for managing layers.  
 
 Some branches in git can be avoided by creating layers which patch or replace code, then merged when they no longer are needed.  You might copy some files or just add fields and override methods, create new types, etc.  It can be a nice way to build a new feature because your changes are kept separate and together for easier navigation.  You reduce conflicts with others changing different aspects of the same types - which would mean the same files if you did not use layers.
 
-## Layers and Contracts
+## Layers and contracts
 
 Each layer can be thought of as supplying a set of API contracts - classes, properties, and types.  They can be delivered in source or binary form, as long as these types are available to upstream code.  When you can isolate how dependencies affect developers or other members of the team, you can optimize workflows - minimizing merge conflicts and making it easier to maintain compatibility over the lifetime of the project.  Layers let you separate contracts from classes, processes, and git-repositories.  They let you manage contracts between dependencies better.  Mix and match, move and reassemble, plug and play.  Some simple use cases:
 
@@ -58,7 +58,7 @@ Layers support more flexible ways to organize files by their lifecycle, and thei
 
 When you have simpler and more flexible module structures, you can create projects that are easier to manage, not just for developers but throughout the organization.  Everyone contributes their "slices" of the feature set, where layers can become more feature oriented and less module or project oriented.  Framework code controls how those assets are deployed.  Static typing and tools keep things structured in the same way a complex object-oriented application is structured.  That helps detect conflicts and gives tools for fixing them.  This lets developers more flexibly organize source code amongst different git repositories and move back and forth maintaining compatibility with upstream layers.  
 
-## Layered Dependencies
+## Layered dependencies
 
 Anyone who has worked in a big Java application is aware of how difficult it can be to manage dependencies.  You have to consider not only your dependencies but the "transitive dependencies" - dependencies of your dependencies.  How do you ensure compatible versions of the dependencies but also pick up the latest security fixes when they are available?   How do you understand what's happening and resolve conflicts - to select the right version, even in the common case when you are inheriting conflicting rules for overlapping packages?  When a critical security patch comes out, who do you trust to delegate your transitive dependencies so you pick up that patch as soon as necessary?  
 
@@ -68,7 +68,7 @@ Layers work in a similar way, but simplify the specification of dependencies, an
 
 It's also easy to separate the transitive dependencies into a new layer - so you can include a package, but not include it's dependencies.  Or switch transitive dependencies by switching a layer.  That's a better alternative than excluding dependencies, since who knows when those will actually be required rules on your dependencies.  This way, a required dependency is always included but these packages of dependencies can be included optionally.  Dependencies can be represented as separate layers, features by themselves by with a simple layer definition file that has no code.
 
-## Build Tagging 
+## Build tagging 
 
 Most types of software projects require some way to tag builds with a version number, build date, commit hash, rc #, etc.  To achieve the most diagnostic accuracy, developers prefer to tag the executable itself.  If you store the version number in a separate file, it's not guaranteed to match what's actually running.
 

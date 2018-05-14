@@ -7,7 +7,7 @@
 
 <%= MarkDownPage.markDown(%>
 
-## Configuration and Component Assembly
+## Configuration and component assembly
 
 Dependency injection, or inversion of control, the pattern used by frameworks like Spring, separates class definition in Java code from the code which assembles these classes.  This lets you reuse those classes in other contexts, test environments or different application configurations.  This pattern has been widely adopted by Java enterprise systems  but has limitations.  
 

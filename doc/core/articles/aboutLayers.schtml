@@ -1,5 +1,5 @@
 <html extends="ArticlePage">
-<head title="Motivation for Layers"/>
+<head title="Motivation for layers"/>
 
 <body>
    <div id="content">
@@ -7,7 +7,7 @@
 
 <%= MarkDownPage.markDown(%>
 
-## The Motivation for Layers
+## The Motivation for layers
 
 by Jeff Vroom
 
@@ -17,18 +17,18 @@ Now let's think about the natural world and consider the places where "layered d
 
 StrataCode attempts to answer that question by using layers to add a hinge point to our design flexibility for building and maintaining large, complex systems.  They are the next evolution of oriented programming, letting you refine or extend a class or instance without renaming.  Plugins built into the language and the replace and merge operations built into the modular structure.
 
-## More Flexible Than Modules
+## More flexible than modules
 
 Like modules, they are a packaging mechanism with dependencies.  We say that a layer may extend one or more other layers which ensures those other layers are below it in the stack.  Where you'd use a module before, you'll use a layer with StrataCode.  Unlike modules though, layers can include changes, or apply deltas to what's underneath.  The process works like layers in Photoshop but where we merge by name, not pixel position.  
 
 ## Still Statically Typed
 Layers preserve encapsulation and are statically typed, adhering to the <a href="http://en.wikipedia.org/wiki/SOLID_(object-oriented_design)">SOLID principles</a> of O/O design.  They may replace or add to an object's interface or override but cannot remove a previously defined contract.  They also cannot depend on a layer that comes after them in the current list of layers.  Just like Java, you have traceable code paths, edit time errors, find usages, refactoring and more.  They are similar to <a href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&cad=rja&ved=0CDYQFjAB&url=http%3A%2F%2Fdl.acm.org%2Fcitation.cfm%3Fid%3D1885647&ei=vLBRUsaBNaGqiAK7moCICA&usg=AFQjCNGUS5M8Ep_9HKm8GO_terTa9cMT_g&bvm=bv.53537100,d.cGE">Delta oriented programming</a> and can also be used for product feature-lines.
 
-## Modules and Circular References
+## Modules and circular references
 
 As modules grow in size, they tend to develop circular dependencies.  For example, Module A depends naturally on Module B but as the project grows, some minor aspect of B may develop a dependency on some minor aspect of A, possibly due to a poor modularization decision.  Refactoring to eliminate the circular dependency would work but breaks compatibility and so may not be an option.  Allowing the new circular dependency creates severe code management problems.  Conceptually now A and B must be updated in lockstep.  You lose many of the benefits of modularization in the first place.  Changes in B may depend on changes in A and vice versa.  It becomes impossible to test a new version of A with an old version of B and vice versa.  That reduces your ability to detect when the interfaces of your modules change in an incompatible way. 
 
-## Layers Eliminate Circular References 
+## Layers eliminate circular references 
 
 With layers, a downstream layer cannot refer to an upstream layer.  Code dependencies are enforced at compilation time to ensure dependencies only go one way.  This is essential to preserving modularity as systems grow.  
 
@@ -46,11 +46,11 @@ Here's as attempt to illustrate this tricky, but important concept using a pictu
 <%= MarkDownPage.markDown(%>
 Between version's 1 and 2, we need to add upstream dependencies so types in module C depend on types in A and E depends on D.  With modules, we have a hairball.  With layers we can make the same changes without creating a hairball by modifying C and E in a new layer. And we can move code between layers without changing the APIs seen by the supported layer.  To make the same change with modules, it means moving code from one type to another which breaks the API contract.
 
-## Dealing with Complex Types
+## Dealing with complex types
 
 It's very difficult to keep two complex types in your system from developing a circular dependency between them - e.g. "User" and "Order".  The most intuitive types are built from natural entities in the system and two complex entities may need to depend on each other to implement certain features.  By splitting complex types into well organized layers, you can support these types of use cases beautifully, and make those large files easier to navigate as well.
 
-## Mechanics of Layers
+## Mechanics of layers
 
 Like modules, layers may extend one or more other layers which they depend upon.  This exposes all of the types and instances in that layer to the extending layer.  Layers also can pass along imports to subsequent layers.  Each layer gets a nice sandbox of all of the types imported by the layers it extends.  Downstream code does not depend on the exact package name of an imported type, allowing you to easily substitute variants by adding an intermediate layer.
 
@@ -60,7 +60,7 @@ Although layers can modify any type, in any package it's often convenient to spe
 
 Certain layers are designed as "build layers".  These layers are validated and compiled to produce Java classes or applications which can be run or tested.  When you compile a stack of layers, you might have more than one build layer in the stack.  In that case, the build is done incrementally - so only the changed types from one stack to the next are re-generated and recompiled.  This makes it efficient to define incremental builds - so only the source you are changing gets recompiled from one build to the next.
 
-## Why Layers?
+## Why layers?
 
 Why objects, why methods, etc.  I think object-oriented design missed a key hinge point - the ability to refine types and refactor code to keep dependencies separate from complex types.  Some languages add this, but in an ad-hoc way like 'mixins' which sacrifices traceability and integrity.  Perhaps the lack of layers has helped fuel the growth for dynamically typed languages because O/O frameworks never seem to fit the problem set.  It's hard to describe why you should adopt a new language paradigm until you start seeing big systems built in the new paradim.  That's one of the reasons it's taken so long to build StrataCode.  
 
@@ -68,7 +68,7 @@ The most important benefits of layers show up when maintaining large customized 
 
 When combined with StrataCode's declarative features, layers provide a hinge point for customizing any property of any object.  You can replace any DOM element of any HTML file.  Append to or replace any component.  Override any formula.  Though layers add a new concept, the IDE and management UI frameworks make it easy to build powerful, customizable applications.
 
-## Pure Domain Models   
+## Pure domain models   
 
 Among software architects, the term "domain model" usually refers to the core business code, independent of it's dependencies on the user-interface, database, etc.  It specifies the types of objects involved in the business, the properties of those objects, configuration of the objects, operations performed on them, and rules that should be applied or enforced.  Ideally this model is mostly declarative and independent from the database, user-inteface and other framework specific aspects of the system.  The faster you can evolve your domain model, the faster your business evolves towards greater efficiency. 
 
@@ -135,7 +135,7 @@ So layers help partition assets among people: business analysts, designers etc. 
 
 Just as layers separate code by their dependencies, so do they separate code by the individuals who manage them.  These two are commonly related for essential reasons, so why not use an environment which supports that separation.
  
-## Styles and Design Elements
+## Styles and design elements
 
 Style sheets separate configuration from code in a clean way and are very powerful but sometimes overkill and overly complicated.  How do you find and isolate the effects of a code change?  Style sheets do not have the equivalent of a "find usages" at development time.  Fortunately good debuggers help us trace that down at runtime or we'd be lost.   
 

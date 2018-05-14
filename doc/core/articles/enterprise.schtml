@@ -7,13 +7,13 @@
 
 <%= MarkDownPage.markDown(%>
 
-## Customizable Enterprise Systems
+## Customizable enterprise systems
 
 Typically enterprise software companies need to heavily customize the applications they buy.  When a new version of the application is released, it can be a challenge to upgrade.   It's likely that some files they copied and modified have been changed so they need to merge.  Sometimes a simple 'diff' can be used to patch it automatically but when it gets involved, it might be tricky even if you had the two developers in the room who made the conflicting changes.  A successful enterprise software company can afford to put those two programmers in the same room but when that's not possible, it can be more work to upgrade than to have reimplemented the feature in the first place.
 
 With layers, you do much less copying to implement your customizations in the first place.  Secondly, enterprise vendors have more flexibility for adding new features in new layers.  That lets them offer more highly customized packages from the start and requires that fewer customers make changes which are specific to their copy.  It's easier for the enterprise vendor to test more customized layers, so they can offer better service by testing customer specific layers, and taking that knowledge into account when building new features.
 
-## Separating Application Code From Framework Code
+## Separating application code from framework code
 
 Most of the time, enterprises need to customize the business logic of their application.  It's their domain model, database, or some set of integrations that's different which modifies the domain model.  But when they apply the domain model customizations, they end up writing framework specific code as well.  That's because today's enterprise frameworks tend not to completely separate framework code from the application code that's specific to the business.  Even the most modern application frameworks do not do a good job of separating application code from framework code.  Frameworks like JPA, Spring and hibernate tie your domain model code to their framework code.  Or your models are glued to some XML format that ties you to framework code at runtime.  Features like configuration, transactions, caching, leak into application types with dependencies when they should be cleanly separated from the domain logic code.  When framework dependencies are added to the domain model code, not only do you increase the risk of having to replicate or change domain model logic in response to changes in the framework, you also have a much harder time with domain model customizations because they become more complicated.
 

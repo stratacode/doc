@@ -7,7 +7,7 @@
 
 <%= MarkDownPage.markDown(%>
 
-## Persistence Using Layers
+## Persistence using layers
 
 Managing the persistent storage for an application is another tremendous source of code that can bog down application development.  Depending on what you need, some light-weight way to embed SQL in your code, or some object/relational mapping technique, or your NoSQL or JSON oriented database using the API of choice are your best options.  You can use all of these approaches with StrataCode today.
 

@@ -7,7 +7,7 @@
 
 <%= MarkDownPage.markDown(%>
 
-## Java to Javascript Converter
+## Java to javascript converter
 
 Much of today's application development is happening in the browser and it's a big advantage to use the same language for client/server applications.  To address this need, StrataCode offers a robust conversion of Java to Javascript.  StrataCode generates readable, debuggable javascript that is close to what a Java programmer would have written anyway (i.e. using the same names, the same order in the file, formatted, etc).
 

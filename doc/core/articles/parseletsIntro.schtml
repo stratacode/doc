@@ -6,7 +6,7 @@
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
-## Parsing and Modifying Code
+## Parsing and modifying code
 
 Parsing code is a well understood problem.  Grammar rules match the input text and when matched produce values created from the text they match.  These values are assembled into an "abstract syntax tree" (or AST) which stores the information you need in a structured representation.  
 

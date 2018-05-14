@@ -7,7 +7,7 @@
 
 <%= MarkDownPage.markDown(%>
 
-## Sync Framework Motivation
+## Sync framework motivation
 
 by Jeff Vroom
 
@@ -21,7 +21,7 @@ Synchronization also benefits greatly from the layers feature in StrataCode.  Wi
 
 Synchronization leverages StrataCode's code-generation features as well.  Metadata required for synchronization is added as readable code to the generated files making it easy to navigate and debug.  To enable synchronization, we convert fields to get/set methods where the set method fires a data binding event.  Finally, a method call can be converted transparently into a remote method call during the code-generation phase.  If the runtime does not support synchronous remote methods, this is only allowed if the method call is in a data binding expression.  Otherwise, an error is generated at compile time.
 
-## Sync Features
+## Sync features
 
 One of the advantages of doing synchronization declaratively is that you can turn on some advanced features through configuration, and by leveraging the synchronization design pattern.
 
@@ -37,7 +37,7 @@ Because it uses a stateful protocol, and because object graphs are preserved aft
 
 Using synchronization to manage state has a nice benefit for scaling web applications.  Your server keeps a session which caches information held by that client, so it can avoid redundant requests to the database.  If the client's copy goes away, they can choose to refresh from the server's cache so they do not lose their state.  Similarly if that server session goes away, because it expired or the server process was restarted, the client's copy can be used to refresh the server.  So again, you do not lose any context.  This approach is designed to allow developers to support a balance of reliability and efficiency all from a declarative model.  I believe ultimately it will be an easy way to produce scalable web applications with the lowest latency and infrastructure cost.
 
-## Easier Multi-Process Development
+## Easier multi-process development
 
 There are many advantages to decoupling components that can be efficiently managed independently.  We've all read about Microservices and the success of businesses like Amazon which made decoupling of systems a major priority.  But the downside of a decoupled system is the complexity of standing up a complete environment.  Developers are at their most efficient when you have a quick and reliable - change code, build, run, test cycle.
 
@@ -45,7 +45,7 @@ With the StrataCode system, you can build all processes from the same stack of l
 
 See these examples: <a href="/examples/unitConverter.html">UnitConverter</a>, <a href="/examples/todoList.html">TodoList</a>, and <a href="/examples/programEditor.html">Program Editor</a>.
 
-## Client/Server Synchronization Using Layers
+## Client/server synchronization using layers
 
 Today client/server programmers commonly use remote procedure calls (RPC) with a serialization protocol like JSON to communicate with the server.  Some frameworks require that you write code to convert to and from JSON, others handle that transparently, or declaratively.
 

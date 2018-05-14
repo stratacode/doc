@@ -14,7 +14,7 @@ StrataCode offers a new strategy for managing your code more efficiently.  It re
 
 Microservices has become a hot design focus for architects, particularly in recent years.  This is no doubt in reaction to the time we've felt has been wasted in managing monolithic code bases.  But it seems that we'll only really save time, if we wisely choose the boundaries between pieces.  Due to additional complexity of implementing and managing remote interfaces throughout the software lifecycle, it also seems important that we consider patterns that support "design evolution" - where we can start monolithic and gracefully break out parts of our system at the code level, or RPC level as the system evolves.
 
-## About Microservices
+## About microservices
 
 Programmers use the term "Microservices" to refer to the pattern of software development which emphasises deploying smaller services which communicate with each other using web service APIs (RPC or messaging based), instead of deploying larger services which use internal APIs (i.e. direct procedure calls which require coupling of the code of both interfaces).
 
@@ -32,7 +32,7 @@ But if you split tightly coupled logic across services, you will spend more time
 
 These are not easy decisions, leading to a design challenge to pick the right pieces and design the interfaces carefully.  It's more difficult when you are starting a new project and can't answer these questions with actual domain model experience.  In that case, it would be fastest to just write code so we get it working quickly, knowing we have an easy way to repackage later based on experience.  We could start out with services based on different classes and then easily run them as separate services with a seamless transition.  We could also split the git repository into pieces based on how that module was evolving or who needed to manage it.  We could do it all as a change to an internal project, splitting one published layer into a few layer parts, all without breaking any upstream dependencies or changing API contracts.  When you learn to think of code in terms of layers, sharing types across prosses boundaries, and augmenting RPC with 'synchronization', you get these benefits in how you build and evolve systems.
 
-## Evolutionary Code Management
+## Evolutionary code management
 
 I'm the kind of programmer, that when starting on a new project, wants to deliver 'working code' for the core business-domain model as quickly as possible.  Let the stakeholders assess and improve it when it's simple and still in the rapid development stage.  
 
@@ -48,16 +48,16 @@ Eventually we add more developers and create a separate team for the remote serv
 
 Down the road, when major feature changes are required - perhaps an incompatible domain model change is required, you can use layers to isolate the deprecated types, properties, and methods.  Again, no contracts change but now you can separately build the old compatible version, and the new incompatible version separately.  Clients can opt-in to the new version.  Static typing would let you discover any references to the old version quickly.  Code processing could even be used to find and alter references to code that refers to incompatible features.  Until the migration is complete, you can dispose of the deprecated layer and any tests that refer to it.
 
-## More Freedom with Layers
+## More freedom with layers
 
 Layers give you this freedom, but to use them effectively requires thinking in a new way.  Fortunately, you can start with what you know - use one layer or one layer for each module.  You should only use layers when dependencies get more complicated or when things need to be refactored.  In the early stages of development, it's fastest to build things in as few pieces as possible - e.g. one file per class, or even everything in one file.  As it evolves you split pieces out to avoid any one piece from getting too large.  You keep a piece of logic together if it implements a logical unit - things that belong together because they are created or updated at the same time, and/or because the code is likely to be changed at the same time.   Properties stay near the methods which manipulate them for example.  Parts of the code which have the same dependencies will also be near each other in the file in this approach when different parts of the same type have different structural dependencies (e.g. UI and database).  
 When one file is getting too large, you can split it into pieces that helps you improve efficiency, readability, reusability etc.  You might split off a layer to reduce conflicts between developers in source control, or to evolve a specific part of a class using a different git repo with different security policy (e.g. license keys, etc.)
 
-## When a Microservice is Needed
+## When a microservice is needed
 
 When a remote service boundary in your code is needed, you have to review the APIs and make sure they are easily remoteable.  This means the argument types can be serialized.  After that's done, you reconfigure the layers so they are split into different processes.  Now your application stack of layers is separated into two overlapping runtime layer stacks.  Since StrataCode has both stacks at compile time, it can detect the remote method calls - those that cross the process boundary by calling a method that only lives in the other stack (or is marked via an annotation to be run in a specific process).  It modifies the code appropriate based on the frameworks used.  For Java to Java, this turns into a method call like: DynUtil.invokeRemoteMethod(...).  For JS, your remote method calls must be in a data binding expression, so they can be run asynchronously.  As part of the synchronization protocol, any arguments referenced in the remote call are lazily serialized before the call itself.  If the object was received from the remote side or already sent, it's sent by reference using it's id.  For basic uses cases, domain model code can be independent of the remote procedure boundary.  For more complex use cases (e.g. flexible paging of list oriented data structures), we can improve the declarative sync model, or you can fall back to using RPC when a custom pattern is actually needed.. 
 
-## Microservices Example
+## Microservices example
 
 For example, many applications have a "User" which stores data about a user in the system.  It would be logical to split the user's profile data (i.e. address, name, etc.) from the behavioral history data (e.g. the last time they logged in, the last pages they visited, etc.).   Now there's probably some code in our User file which is used by both pieces.  Let's say the user's id and login name.  We can split this into three layers: user.core, user.profile, and user.history.  When we combine all three, we have the same code we started with, but when we run core and profile in one process and core and history in another, we have a simple micro-services deployment.  
 
