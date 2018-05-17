@@ -14,12 +14,12 @@ This section describes the core Jetty and Servlet layers that are used in the St
 
 Jetty is a lightweight servlet engine exposed in StrataCode as a set of layers in the jetty layer group.  To use jetty with servlets, extend the jetty.servlet layer.  There's also a servlet.schtml layer which defines a new extension "schtml" which compiles StrataCode templates into servlets and adds them automatically to web.xml.
 
-See the examples layer called servletHelloWorld:
+See the examples layer called example.servletHelloWorld.core:
 
 <% ) %>
 
 <%= sc.lang.SCLanguage.INSTANCE.styleNoTypeErrors( %>
-public example.servletHelloWorld extends jetty.servlet, servlet.schtml {
+public example.servletHelloWorld.core extends jetty.servlet, servlet.schtml {
 
 }
 <% ) %>
@@ -32,25 +32,25 @@ If you want to add a servlet at a specific path, you can use the @PathServlet an
 
 <% ) %>
 
-<%= sc.lang.SCLanguage.INSTANCE.styleFileNoTypeErrors("example/servletHelloWorld","HelloWorld.sc") %>
+<%= sc.lang.SCLanguage.INSTANCE.styleFileNoTypeErrors("example/servletHelloWorld/core","HelloWorld.sc") %>
 
 Or add a schtml file - it will be registered in web.xml using a path based on its generated type name:
 
-<%= sc.lang.TemplateLanguage.INSTANCE.styleFileNoTypeErrors("example/servletHelloWorld","Hello.schtml") %>
+<%= sc.lang.TemplateLanguage.INSTANCE.styleFileNoTypeErrors("example/servletHelloWorld/core","Hello.schtml") %>
 
 <%= MarkDownPage.markDown(%>
 
-In this case, you request the servlet with http://localhost:8080/example/servletHelloWorld.  
+In this case, you request the servlet with http://localhost:8080/Hello.html
 
 Now, in another layer you can extend that layer but change the message property:
 
 <% ) %>
 
-<%= sc.lang.TemplateLanguage.INSTANCE.styleFileNoTypeErrors("example/extendedHelloWorld","Hello.schtml") %>
+<%= sc.lang.TemplateLanguage.INSTANCE.styleFileNoTypeErrors("example/servletHelloWorld/subLayer1","Hello.schtml") %>
 
 or do the same thing from a StrataCode file instead of a schtml file:
 
-<%= sc.lang.SCLanguage.INSTANCE.styleFileNoTypeErrors("example/extendedHelloWorld2","Hello.sc") %>
+<%= sc.lang.SCLanguage.INSTANCE.styleFileNoTypeErrors("example/servletHelloWorld/subLayer2","Hello.sc") %>
 
 <%= MarkDownPage.markDown(%>
 
