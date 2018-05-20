@@ -29,6 +29,8 @@ Let's compare Guice, the most concise and powerful of these frameworks to Strata
 
 Here's an [example](http://code.google.com/p/google-guice/wiki/Motivation?tm=6) from the Guice docs:
 
+<% ) %>
+
 <%= sc.lang.SCLanguage.INSTANCE.styleNoTypeErrors(
 %>public class BillingModule extends AbstractModule {
   @Override 
@@ -103,6 +105,8 @@ Later you decide you need more than one BillingService or need to create instanc
    transactionLog = DatabaseTransactionLog;
 }
 <% ) %>
+
+<%= MarkDownPage.markDown(%>
 
 Upstream, no one knows.  This allows you to freely express singleton intent in your design without extra interfaces and boilerplate.  Your designs become clearer and your code shorter.  You are not forced to over-design for future flexibility since you can add that in a compatible way later as needed.  
 

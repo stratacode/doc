@@ -22,6 +22,8 @@ To modify a type, add a file with the same name in a layer which extends that la
 
 Here are a few examples.  If in the base layer you define this class:
 
+<% ) %>
+
 <%= sc.lang.SCLanguage.INSTANCE.style(
 %>public class Foo {
    int x;
@@ -134,8 +136,9 @@ Or replace the extends class with a compatible type:
 <% ) %>
 
 Foo either should not have a base class or its base class should be a subtype of Fum to enforce the "compatibility constraint" with layers.
-
+<p>
 You can use a modifier to modify an inner type which is inherited by the parent type.  For example, if I have a base class B, subclass C which extends B, if B defines an inner object, I can modify that in C: 
+</p>
 
 <%= sc.lang.SCLanguage.INSTANCE.styleNoTypeErrors(
 %>class B {
@@ -164,8 +167,6 @@ Note however that in this case, the childOfB modify operator creates a new type 
 <% ) %>
 
 This is a subtle but important case to support.  It lets you modify the definition of any property underneath your given type, creating new types transparently as needed so that customization is only applied to the right instances.
-
-<% ) %>
 
      </div>
    </div>

@@ -67,6 +67,8 @@ For example, the awt.meta annotation annotates the classes java.awt.Point and ja
 
 Here's the awt.meta layer definition:
 
+<% ) %>
+
 <%= sc.lang.SCLanguage.INSTANCE.styleNoTypeErrors(
 %>package java.awt;
 
@@ -98,6 +100,8 @@ The swing layer has its own annotation layer:
 An annotation layer can also set the @Component annotation on any class.  This permits you to use the component initialization semantics without adding a wrapper layer of classes.  Swing classes like JMenu, which do not require a wrapper class for data binding events, are defined in the annotation layer to avoid creating a wrapper class.   In this example, anyone using a regular JMenu class will initialize it with component semantics using the specified code templates.
 
 <%= sc.lang.SCLanguage.INSTANCE.styleFileNoTypeErrors("swing/meta","JMenu.sc") %>
+
+<%= MarkDownPage.markDown(%>
 
 ## The Swing Core Layer
 
@@ -153,11 +157,15 @@ The android framework is an interesting example to show how to use the object op
 
 First, associate the View class with the ViewObj objectTemplate:
 
+<% ) %>
+
 <%= sc.lang.SCLanguage.INSTANCE.styleFileNoTypeErrors("android/meta","view/View.sc") %>
 
 Here's the code template which uses the rootName variable as the first parameter to the constructor:
 
 <%= sc.lang.TemplateLanguage.INSTANCE.styleFileNoTypeErrors("android/meta","view/ViewObj.sctd") %>
+
+<%= MarkDownPage.markDown(%>
 
 ## Main Settings
 

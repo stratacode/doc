@@ -52,6 +52,8 @@ The scxml file generates an xml file typically at build time.  The system is des
 
 The template language uses the same basic operators as JSP but unlike JSP they cannot be mixed freely with Java.  They are only used to separate the main constructs: definitions, statements, and expressions.  StrataCode templates work like StrataCode definitions that start out defining a content string.  With the &lt;% operator, you break into the context of code and with %&gt; you return to the string.  This string gets added to a string builder in an output method:
 
+<% ) %>
+
 <%= sc.lang.TemplateLanguage.INSTANCE.styleNoTypeErrors("doc/core", "Hello.schtml", templateSnippets.helloTemplate) %>
 
 turns into:
@@ -145,6 +147,8 @@ In a sublayer you could modify the behavior of that template by changing the val
 You can imports types by placing this at the top of the file:
 
 <%= sc.lang.TemplateLanguage.INSTANCE.styleNoTypeErrors("doc/core", "formatter.schtml", templateSnippets.importTemplate) %>
+
+<%= MarkDownPage.markDown(%>
 
 ## Adding New File Formats
 

@@ -78,6 +78,8 @@ Layering helps you preserve an independent version of your domain model which is
 
 Let's look at a simple domain model object:
 
+<% ) %>
+
 <%= sc.lang.SCLanguage.INSTANCE.styleNoTypeErrors(
 %>class Quiz {
    String name;
@@ -127,6 +129,8 @@ and initialize it in a separate layer:
    }
 }
 <% ) %>
+
+<%= MarkDownPage.markDown(%>
 This is a nice example of a configuration layer you could hand-off to someone else.
 
 To make that easy, each layer is stored in a separate directory with parallel file names and path structure which can be swapped in and out of the application for different purposes.  You can map where source files in a layer end up in the build configuration by extending base layers which define the context.
@@ -143,6 +147,8 @@ Sometimes it's better to constrain things and not use the more flexible selector
 
 Layers by themselves provide separation between code and styles.  The code exposes the customizable properties - on both classes and instances through the same name-space.   Designers deal with a single tree of types and properties.  All of this is toolable because of strong typing, and Java's visibility rules.  
 
+<% ) %>
+
 <%= sc.lang.SCLanguage.INSTANCE.styleNoTypeErrors(
 %>UnitConverter {
    foreground = Color.WHITE;
@@ -152,6 +158,8 @@ Layers by themselves provide separation between code and styles.  The code expos
    }
 }
 <% ) %>
+
+<%= MarkDownPage.markDown(%>
 
 StrataCode's multiple inheritance feature lets you apply properties across the class hierarchy as well.  This gives you a strongly typed version of stylesheet's "class" selector.  Object names are analagos to the "id" selector.  
 
@@ -164,6 +172,8 @@ It's common to want to instrument your code in various ways to improve it's test
 Layers let you inject code from separate files so that you can add this code in a way that preserves these code paths.  For example, you could modify the core 'process()' method with a method that does timing around that method, then called super.process().  When you include this layer, you'd have a monitored version of the application and when it was excluded you'd avoid that overhead and any dependencies it created to the monitoring package.  The layer itself would be a directory tree that showed all monitoring hinge points.  If you renamed the "process" method, this layer would be updated automatically... if you deleted it, you'd get an error reminding you that you need to update the monitoring hook.
 
 Here's a simple example of inserting monitoring code before and after some servlet:
+
+<% ) %>
 
 <%= sc.lang.SCLanguage.INSTANCE.styleNoTypeErrors(
 %>MainProductionServlet {
@@ -181,6 +191,8 @@ Here's a simple example of inserting monitoring code before and after some servl
 }
 <% ) %>
 
+<%= MarkDownPage.markDown(%>
+
 Behind the scenes, StrataCode will create a new MainProductionServlet class when this testing layer is included.  It will use that class instead of the default one.  You can create layers which add much more testing and monitoring logic because it is isolated both from the core code and core runtime.
 
 ## Localization
@@ -192,6 +204,8 @@ For programmers, the easiest way to develop code is to hardcode the strings so i
 Both of these schemes have problems.  Most of the time, you are debugging the program in one locale so the resource identifier schema adds overhead to something you do a lot - go from error message to source code.  But that's just an annoyance.  You also lose static typing for compile time errors.   Instead you find out about missing resources at runtime... which means you have to run everything in each locale.  Given the number of possible locales and the breadth of your test suite, that inevitably leads to error messages you fail to localize.
 
 programmers define strings with static final/const variables and initialize them as they might normally.  You simply override those strings in sub-layers, one for each locale.  At compile time, a new class is generated which replaces the original strings with the new strings.  You get a new efficient localized executable for a smaller download size.  Or use a dynamic layer and apply it at runtime for a resource bundle approach.
+
+<% ) %>
 
 <%= sc.lang.SCLanguage.INSTANCE.styleNoTypeErrors(
 %>MainAppPanel {
@@ -208,8 +222,6 @@ Localization does not stop at changing strings.  You might also need to adjust U
 }
 <% ) %>
 
-
-<% ) %>
    </div>
 
    </div>

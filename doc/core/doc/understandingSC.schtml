@@ -10,7 +10,7 @@
 
 ## Understanding StrataCode
 
-StrataCode helps you layer files, data and code with minimal effort.  These layers are a powerful organizational tool that can be exploited in many ways during framework development.  This gives you both modularity and a clean way to isolate a group of changes for review, staging, and push to production.
+StrataCode helps you layer files, data and code with minimal effort.  Layering of assets provides flexibility during framework development.  This pattern promotes modularity and helps isolate related changes for distributing control over files, easier review, staging, and push to production.
 
 While StrataCode may seem like a lot, each feature can be used independently: java build and configuration, data binding, Java to Javascript, and modifying types.  At runtime, you only need a small library of Java classes for data binding.
 
