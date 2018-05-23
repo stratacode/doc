@@ -8,7 +8,7 @@
          <div id="serverSection1" exec="server">
          <div class="exampleTitle">UnitConverter Example</div>
 
-         This example shows a few of StrataCode's basic concepts and demonstrates a simple application running on lots of different platforms.
+         A basic example, sharing code on many platforms.  See the 'domain model' or model layer, the coreui or 'view model' as well as platform specific layers.
          <p>
          Here is the model layer for the UnitConverter component.  
          
@@ -69,12 +69,12 @@
          <p>
          <div id="serverSection3" exec="server">
          <div class="exampleTitle">Defining a Layer</div>
-         The UnitConverter.sc file is stored in the layer directory called example/unitConverter/model in your layer path (which by default consists of all of the directories in your projects 'bundles' directory).  Here the layer name's is example.unitConverter.model and is defined by the file model.sc in the bundles/example/example/unitConverter/model directory that looks like:
+         The UnitConverter.sc file is stored in the layer directory called example/unitConverter/model in your layer path (which by default consists of all of the directories in your projects 'bundles' directory).  Here the layer name is example.unitConverter.model.  It is defined by the file model.sc in the bundles/example/example/unitConverter/model directory:
 
 <%= sc.lang.SCLanguage.INSTANCE.styleFile("example/unitConverter/model", "model.sc", false, true) %>
 
 <p>
-The package operator here sets a package to use as the root for all files in this layer.  That means UnitConverter.sc can live in the layer directory itself, not in the subdirectory sc/example/unitConverter.  The source files themselves do not have to specify a package.  Layer packages help organize code more easily and narrow the focus for a layer that pays off for making things easier to navigate.
+The package operator here sets a package to use as the root for all files in this layer.  That means UnitConverter.sc can live in the layer directory itself, not in the subdirectory sc/example/unitConverter.  The source files themselves do not have to specify a package.  Layer packages help organize code with fewer directories and narrows the focus for a layer making code bases easier to navigate.
 <p>
 The codeTypes and codeFunctions properties don't affect the runtime.  They help the tools organize layers (e.g. in a management UI or IDE).  The layer definition file is written in interpreted Java and can include code to customize your application when this layer is included.  It handles the same tasks that build.xml does but using declarative StrataCode rather than XML. 
          <div class="exampleTitle">Modifying a Layer</div>

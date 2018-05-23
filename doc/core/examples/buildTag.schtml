@@ -8,25 +8,34 @@
       <div class="exampleTitle">Build Tag</div>
 
 <p>
-This example shows how to generate a "BuildTag" class which contains the current version number, git hash, timestamp, user, etc. info from when the software was built.  By compiling it into the generated source, we have an accurate tag to help diagnose problems and trace the history of a given executable.  This examples shows a few different features:
+This example shows how to tag a build with info from when it was built.  Here we include a version number, git hash, timestamp, user, in the generated .java file so it's an accurate reflection of when the code was built.  There are several features demonstrated: 
 <ul>
-<li> The @BuildInit annotation - used to init properties to build-expressions.  These expressions are run in the context of the buildLayer.  This means they inherit all global layer imports like the code in layer definition files and can use an objects or fields defined in any layer in the stack.  Errors are generated at compile time (TODO: support edit time resolution here like we do for schtml attributes?).
-<li> Build script code that computes 'scmVersion' by running git commands: <%= sc.lang.SCLanguage.INSTANCE.styleFile("example/buildTag", "buildTag.sc", false, true) %>
-<li> Layer properties: Like standard Java system properties but layerable.  Specify properties files in layers that get merged and used as the defaults.  Override those using the -P argument to scc.  Where you would use 'java -Dbuild.tag=release' use: 'scc -Pbuild.tag=release'.  For System.getProperty("build.tag"), use 'getLayerProperty("build", "tag")'.  Add a build.properties file in your layer with "tag=dev" to set the default.   
+<li>how to define a property in a layer for use by subsequent layers (scmVersion).   
+<li>Running shell commands in a layer definition file.
+<li>Using @BuildInit annotation to initialize a runtime property to the value of a build-time expression.   You can think of build time expressions as run in the context of the buildLayer, which can reference layer components, or layer fields in any layer in the current build stack.  It can also use the "layeredSystem" property or any static methods available in the dynamic runtime.  If there are errors in the build time expression, those will be visible at compile time (TODO: support edit time resolution here like we do for schtml attributes?).
+<li>How to initialize a runtime property from layered .properties files 
 </ul>
+
+Here's the buildTag layer definition file, run at build time: 
+<%= sc.lang.SCLanguage.INSTANCE.styleFile("example/buildTag", "buildTag.sc", false, true) %>
+It defines the layer field 'scmVersion' which is initialized by running git and parsing the result to produce an informative string that includes information about local changes in the repository at the time of the build.  The 'init' method is run just after the layer is constructed, before the start and validate methods. 
 
 </p>
 
 <p>
-
 Here's the source for the BuildTag subclass that is generated to include the build info:
 <%= sc.lang.SCLanguage.INSTANCE.styleFile("example/buildTag", "ExBuildTag.sc", false, false) %>
 
-And for the default build properties:
+<ul>
+<li> The @BuildInit annotation is a bridge between 'build time' and 'run time'.  It's used to initialize runtime properties to build time expressions.  
+<li> The call to getLayerProperty looks for a build.properties in the top-level layer directory, merging those in subsequent layers.  Layer properties can be overridden using the -P option to scc that works like Java's -D.  Use: 'scc -Pbuild.tag=release', and  'getLayerProperty("build", "tag")'. 
+</ul>
+
+
 <div class="filename">example/buildTag/build.properties</div>
-<div class="code">
-<%= sc.util.FileUtil.getFileAsString("bundles/example/example/buildTag/build.properties") %>
-</div>
+<div class="code"><pre>
+<%= sc.util.FileUtil.getFileAsString(sc.layer.LayeredSystem.getCurrent().getMainLayeredSystem().getStrataCodeDir("bundles/example/example/buildTag/build.properties")) %>
+</pre></div>
 
 </p>
 

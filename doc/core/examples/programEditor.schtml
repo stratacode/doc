@@ -7,7 +7,7 @@
 
       <div class="exampleTitle">Program Editor Example</div>
 
-      The program editor contains basic features for build management UIs directly from domain models.  For each type in the system, you can view and edit instances of that type.  Because the types are partitioned into layers, the forms are also organized via layers.  You can use annotations to customize the UI.  You can also switch into editing of the types, not just the instances.  So you can customize rules, add fields, and add new types.  You can edit existing layers, or create new ones to store these customizations.
+      The program editor is a demo showing the range of possible management UIs you can build from domain models.  It's the prototype for a customization platform for building "the right form, for the right user at the right time".  For each type in the system, you can view and edit instances of that type.  Because the types are partitioned into layers, the forms are also organized via layers.  You can use annotations to customize the UI.  You can also switch into editing of the types, not just the instances.  So you can customize rules, add fields, and add new types.  You can edit existing layers, or create new ones to store these customizations.
 
       <table>
          <tr>
@@ -24,7 +24,7 @@
       <ul>
          <li>editor.model (1300 Lines):  Defines the key data structures behind the program editor. This layer runs both in the browser and on the server and so represents the data structures that StrataCode synchronizes.  There is EditorModel which stores the current type and selection and TypeTreeModel, which implements the tree view itself.
          <li>editor.modelImpl (1800 lines): Runs just on the server in the client/server version.  This layer contains the logic which populates EditorModel and TypeTreeModel for any user interface.  It extends sys.layeredSystem in addition to the model layer.  Because sys.layeredSystem only runs on the server, this layer will only run on the server too.
-         <li>editor.coreui (1400 lines): Runs on both the client and the server.  Contains some core user-interface code shared by both swing and the Javascript layers.
+         <li>editor.coreui (1400 lines): The view model which runs on both the client and the server.  Contains some core user-interface code shared by both swing and the Javascript layers.
          <li>editor.swing.core (2520 lines): Implements the Swing user interface.
          <li>editor.js.core (1600 lines): Implements the Javascript user interface.  Runs on both the client and the server.
       </ul>
