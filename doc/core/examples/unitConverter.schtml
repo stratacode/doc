@@ -76,7 +76,7 @@
 <p>
 The package operator here sets a package to use as the root for all files in this layer.  That means UnitConverter.sc can live in the layer directory itself, not in the subdirectory sc/example/unitConverter.  The source files themselves do not have to specify a package.  Layer packages help organize code with fewer directories and narrows the focus for a layer making code bases easier to navigate.
 <p>
-The codeTypes and codeFunctions properties don't affect the runtime.  They help the tools organize layers (e.g. in a management UI or IDE).  The layer definition file is written in interpreted Java and can include code to customize your application when this layer is included.  It handles the same tasks that build.xml does but using declarative StrataCode rather than XML. 
+The codeTypes setting does not affect the runtime.  It helps tools organize layers (e.g. in a management UI or IDE).  The layer definition file is written in interpreted Java and can include code to customize your application when this layer is included.  It handles the same tasks that build.xml does but using declarative StrataCode rather than XML.
          <div class="exampleTitle">Modifying a Layer</div>
 Now to introduce the modify operator, we'll add a very simple layer based on the model layer called example.unitConverter.extendedModel.  First the layer definition file:
 

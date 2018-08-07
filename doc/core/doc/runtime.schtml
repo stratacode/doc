@@ -308,11 +308,9 @@ When you mark a layer as transparent, it only affects how the editor displays th
 
 By default a layer only sees the imports which are defined by layers which it extends, either directly or indirectly.  An import defined in a totally independent layer would not be accessible.  There are some cases however where you might want to define a global layer that can see all base layers without having to extend a bunch of layers explicitly.  For example, the temporary layer created with the -i option can see and modify any type.  For these layers, set useGlobalImports=true so that they can see all of the imports as well.
 
-### codeType and codeFunction
+### codeType 
 
-Two metadata properties stored in the layer for use by the editor.  Lets you tag layers as having certain types of code assets (e.g. declarative only) or certain types of code functions (i.e. UI, style, domain model, etc.).  These properties also help sort layers so framework layers do not get intermixed with application layers for example.
-
-TODO: should we use these properties to restrict the feature set available to a layer?  It would help enforce best practices and predictability of the code.
+A metadata property stored in the layer for use by the editor.  Lets you tag layers as having certain types of code assets (e.g. domain model, style, or UI only).  These properties also help sort layers so framework layers do not get intermixed with application layers for example.
 
 <% ) %>
 
