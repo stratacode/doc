@@ -70,13 +70,23 @@ Although the template is written in schtml, it is compatible with html for previ
 
 This same template can either run on the client-only, server-only, or using a mix based on how the framework chooses to run the system on a tag-by-tag basis.  Data binding keeps everything in sync across the client/server boundary.  StrataCode or Java used is converted to Javascript.  
 
-## Run on the client, server, or both
+## Run templates and tags on the client, server, or both
 
-Some templates have to run on the server.  For those, put them in a layer that extends jetty.schtml as it's only framework.
+The StrataCode webframework supports the ability to take one declarative code model and run it in various ways.  You can choose to run templates, or individual tags within templates, on the client, server, or both.
 
-Other templates may only run on the client.  Put those in a layer which extends js.schtml but not jetty.schtml.  When your layer extends a layer which has an explicit dependency on only one runtime, it inherits that restriction by default.  If you extend both js.schtml and jetty.schtml your layer will run in both.  If you extend no layers that are fixed to a runtime, your layer will run in all of the runtimes it's referenced in by other layers in that runtime.  When you put an unrestricted layer on the command line, it's included in all runtimes.
+### Default runtime for templates
+
+Some templates or tags have to run on the server perhaps due to a dependency on the database.  For templates, put them in a layer that extends jetty.schtml or the database layers which will tie them to the server only. 
+
+Other templates may only run in the client, e.g. a standalone javascript application or one that talks to a server that's not built from these layers.  Have client-only layers extends js.schtml and not any server-only layers like jetty.schtml.  
+
+When a layer extends another which has an explicit dependency on only one runtime, it inherits those constraints by default.  If a layer extends both a client-only layer (e.g. js.schtml) and a server-only layer (e.g. jetty.schtml) it runs in both because it inherits both dependencies.  If it extends no layers that are fixed to a runtime, it runs in all of the runtimes in which it's referenced.  When you put an unrestricted layer on the command line, it's included in all runtimes.
 
 Layers that need schtml, but have neither client or server dependencies can extend html.schtml to run in either.  Before you run your application, you will need to add either js.schtml or jetty.schtml to see anything.  With just html.schtml, you will generate a tag object not rendered by any framework but available as an API.  For a simple layer which you want to run in more than one configuration, you can choose either js.schtml, jetty.schtml or both by adding them as additional layers in the run configuration or add them on the scc command line. 
+
+For layers that extend only jetty.schtml, schtml template pages run in a server-only mode where the tag class is generated for only the server runtime.  But any dynamic elements or logic are detected in the page, and force the inclusion of a small javascript client that implements a subset of the sync protocol to manage basic dynamic html functionality using a server refresh for each application event.
+
+### Default runtime for tags
 
 TODO: The server-only tag library does not yet support forms and dynamic tag rendering but these are planned.  It will be easy to support forms and server-side page refreshes so a lot more functionality will work in this model.  Of course since there will not be a JS runtime, there will be not customized code running in the browser.  In a nutshell, with the server-only model, we know which tags objects and attributes are used in data binding expressions at compile time, and which can change on the client from user input.   We'll include a list of ids/attributes to listen on, along with a small, handwritten JS client.  It will read manage a list of listeners for the appropriate html/DOM events, input events, manage polling, and read and write sync requests using the same JSON sync format.  It will support real-time apps, just without application specific Javascript and client-side rendering.  The server will re-render tags and send over html to update the client incrementally.  It will also accept POST requests and see if they match any forms, and apply the updates that way.  This model has lots of advantages and can probably support a great deal of the feature set of the existing sync framework without the relatively large download size required by the JS code.  There are some nice development and security advantages of the server-only model as well.   When you mark a tag as 'exec=server' it will behave according to the server-only model, even if you included the js.schtml layer.  That way, you can opt-in on a tag-by-tag basis to choose the best model for different pages or even sections of pages.
 
@@ -321,12 +331,12 @@ Here's a summary of the behavioral attributes you can set on any element:
 
 * extends - refers to the type name of a tag object to use as the base class for this tag.  By default, the attributes and body are both inherited but this can be controlled via the tagMerge and bodyMerge attributes.
 * implements - specifies a list of tags objects from which to inherit attributes and content.  Also controlled by tagMerge and bodyMerge.
-* abstract - when true, the tag object is not instantiated
+* abstract - when true, the tag object is not instantiated in the parent page.  It's a way to essentially define a tag class macro which you can extend in other instances or create using an API.
 * repeat - refers to a List or array of items.  The tag is replicated once for each item.  Use repeatVarName to specify the name of the variable to store the array element.
 * repeatVarName - used with repeat to define a variable name other than "repeatVar" to hold the value.
 * repeatWrapper - used with repeat to specify the extends class for the repeat wrapper class
-* serverContent - set this to true on an attribute you do not want on the client.
-* exec - set to either 'client' or 'server'.  use this when you need to put code in a layer that is shared by both client and server but where you only want the tag to be included in either the client or server's version of the page object.
+* serverContent - set this to true on an attribute you do not want rendered on the client.  It's similar but slightly different than exec="server".  TODO: do we really need both of these?
+* exec - set to either 'client', 'server' or 'default'.  use this when you need to put code in a layer that is shared by both client and server but where you only want the tag to be included in either the client or server's version of the page object.
 * tagMerge - specifies how the tag and it's attributes are merged with any modified tag object, the extends and implements tag objects.
 * bodyMerge - specifies just how the body of the tag is merged, for when you want to merge the body of the tag differently from the attributes.
 
@@ -364,7 +374,7 @@ To annotate the class corresponding to the page itself, you use:
 
 ### Live in-browser programming
 
-StrataCode as a framework supports changing the code while the application is running.  Just as these changes can sometimes be applied to the server code at runtime without a restart, they can be converted to Javascript code and run on the client.  When the changes are more complex, the complete javascript on the server is regenerated and the client page is told to refresh.  The server itself may need to restart because of changes to compiled code. 
+StrataCode as a framework supports changing the code while the application is running.  Just as these changes can sometimes be applied to the server code at runtime without a restart, they can be converted to Javascript code and run on the client.  When the changes are more complex, the complete javascript on the server is regenerated and the client page is told to refresh.  If the server tag types are dynamic, they too can be easily updated and refreshed.   If you use compiled tag types, the server may need to restart because of changes to compiled code. 
 
 ### Implementation details
 

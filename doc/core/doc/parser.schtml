@@ -8,9 +8,9 @@
 
 <%= MarkDownPage.markDown(%>
 
-## StrataCode Parsing, Modelling and Code Generation/Formatting Framework
+## StrataCode's Parsing, AST Modelling, Transpilation and Code Generation/Formatting Framework
 
-The StrataCode language framework, called "Parselets" has been engineered from the ground up to make it faster and easier to write code which parses and updates code.  It's efficient for building code analysis tools, code-preprocessors (like StrataCode), structured code editing features like those found in IDEs, and language converters (e.g. Java to Javascript).  It contains all of the core features so you can build an IDE for your language in way less code than other approaches.
+The StrataCode language framework, called "Parselets" has been engineered from the ground up to make it faster and easier to write code which parses and updates code.  It's efficient for building code analysis tools, code-preprocessors (like StrataCode), structured code editing features like those found in IDEs, and transpilers: language converters like the Java to Javascript converter in StrataCode.  It contains all of the core features so you can build an IDE for your language in way less code than other approaches.
 
 With parselets, your grammars are written in Java using a declarative syntax.  You can reuse grammars in flexible ways: extending one grammar from another, embedding one grammar inside of another, modifying some aspect of a copy of a grammar for handling a format change.  Unlike many parsing solutions out there, there's no generated code for the parsing phase so debugging grammars or building special cases is straightforward.  
 

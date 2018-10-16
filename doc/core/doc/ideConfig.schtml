@@ -92,9 +92,13 @@ Also add a dependency on the JLine library.  If necessary, add the Jline library
 
 ## Creating a StrataCode Module
 
+FIXME!
+
 Checkout the 'layers' git repository and place that directory inside of your module directory.  Accept the defaults - including the source path of 'layers'.  That name should match the name of the 'layers' directory you put in your module's directory.
 
 ## Instructions for Debugging the sc4idea plugin:
+
+TODO: these instructions probably need some updating
 
 * Enable the Groovy plugin
 * Install the IntelliJ PluginDev plugin
