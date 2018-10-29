@@ -181,11 +181,11 @@ In StrataCode a data binding is simply an instance of an event listener created 
 
 ## Multi-threading
 
-The general strategy for multi-threading is for framework developers to provide, safe single-threaded environments for domain model objects.  This includes acquiring the locks for all of the scopes involved in the proper order.  By default, all scopes are locked for write-access which makes things safe but not highly concurrent.  To enable that, you can change the locking mode for the shared-scopes into a read-only lock.  But this requires that you ensure there are no writes to state in those scopes.  
+There are a number of mechanisms in StrataCode that framework developers can use to provide the appearance of a safe, declarative, single-threaded environment for domain model objects that leverages multiple threads behind the scenes.  Before delivering user-interface events, framework code sets up a CurrentScopeContext - a list of all of the available ScopeContexts for the current thread.   StrataCode acquires the proper lock for each scope - either a read/write, or a read-only depending on how the current thread uses information in that scope. 
 
-When you need to use a binding expression which delivers change events to a different "CurrentScopeContext" (a list of all of the available ScopeContexts) - you must set the @Bindable(crossScope=true) annotation on the binding.   When a cross-scope binding is initialized, it's CurrentScopeContext is saved as the "initialization context".  Before applying the binding, the code will check if the CurrentScopeContext matches the "initialization context".  If not, it's put into a queue for that context.  If there's a waiter for that context, it will wake up and process it with the right locks.  If not, it waits till the next request with that context.
+When you need to use a binding expression which delivers change events to a different "CurrentScopeContext"  - you set the @Bindable(crossScope=true) annotation on the binding.   When a cross-scope binding is initialized, it's CurrentScopeContext is saved as the "initialization context".  Before applying the binding, the code will check if the CurrentScopeContext matches the "initialization context".  If not, it's put into a queue for that context.  If there's a waiter for that context, it will wake up and process it with the right locks.  If not, it waits till the next request with that context.
 
-Currently this is all pretty manual and not enough testing has been done.  It would be nice to have a warning for when @CrossScope is not set and will be adding a debug mode to validate when bindings are used in a cross-scope way without the annotation.
+TODO: Detect when we need crossScope binding?  Or just set it by default for certain frameworks that might have multi-threaded behavior?
 
 ## Debugging Problems
 

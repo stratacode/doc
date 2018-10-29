@@ -16,39 +16,41 @@ The StrataCode web framework supports an extended form of HTML that gives you th
 
 * HTML templates can be viewed and edited in standard HTML tools
 * Data binding for declarative, readable templates with automatic, incremental refresh, and reliable caching.
+* No hidden, complex framework to manage incremental updates.  Tag objects map to DOM nodes, listen for DOM events, and update the DOM as it's properties change.  Refresh is done through a normal two-stage 'invalidate', 'refresh' model for efficiency.  Debuggable generated code makes it easy to debug any situations that arise.
 
 ## Advantages
 
 * Runs on client, server or both with or without synchronization.  One code base - different ways to run the same logic.  
 * Fast initial page loads of complex, dynamic pages, followed by incremental page updates. 
+* Use server-side rendering for some features, client-side for others and easily change between the two models.
 * Layer templates and code - incrementally customize pages: replace, append, prepend DOM elements, override properties, or methods in a layer to behavior: A/B testing, or general customization. 
-* Statically typed for compile time errors, runtime speed and IDE support for all assets.
+* Statically typed for compile time errors, runtime speed and IDE support for all assets - e.g. find all usages of a given tag.
 
 ## Tag APIs
 
-The default tag types, Body, Form, etc. implement a subset of the Javascript DOM API that works on both the client and the server.  For declarative changes, i.e. those which can be converted into data binding expressions, the updates are incrementally refreshed automatically as properties change.  If you need to change the HTML yourself in code, you use the DOM api and refreshes again are scheduled automatically.  You do not have to choose whether this code runs on the client or server.  That will be managed by the frameworks you have chosen.
+The default tag types, Body, Form, etc. implement a subset of the Javascript DOM API that works on both the client and the server.  For declarative changes, i.e. those which can be converted into data binding expressions, the updates are incrementally refreshed automatically as properties change.  If you need to change the HTML yourself in code, you use the DOM api and refreshes again are scheduled automatically.  You do not have to choose whether this code runs on the client or server.  That will be managed by the frameworks you include when your application is run, or controllable via the exec attribute or the [@Exec](/javadoc/sc/obj/Exec.html) annotation.
 
 ## Client/Server Transparency
 
 Most frameworks require the application code to explicitly partition itself into client and server by separating the code and managing the communication.  With StrataCode, framework layers generate code to manage the sychronization of each type.  For each type name, there may be a version that runs on the client or a version that runs on the server or both, synchronizing properties back and forth.
 
-Server layers include code that uses database operations.  Code that should run on the server for security operations.  By simply setting properties that are shared by client lsyers, you get client/server connectivity for free.
+Server layers include code that uses database operations.  Code that should run on the server for security operations.  By simply setting properties that are shared by client layers, you get client/server connectivity for free.
 
-For example, if you have the shared properties:
+For example, if you define these properties in a layer shared by client and server:
     {
        String queryParam
        List<Result> results
     }
 
-then a server layer define:
+then a server-only layer defines:
 
     {
        results := query(queryParam)
     }
 
-the client sets queryParam, that change is synchronized to the server, the server updates results in the response. 
+when the client sets queryParam, the change is sent to the server on the next sync.  The server responds to the change of queryParam, calls the query(queryParam) method and sets the results property to the result.  That change is queued to go back to the client in the resopnse to the sync.
 
-To do an insert you just go the other way.  In the shared model you have:
+To do an insert you can use a reverse binding on the server - to call a method in response to client changes.   In the shared layer you have:
 
     {
        firstName, lastName;
@@ -68,21 +70,25 @@ or to do an update do this in the server layer:
        lastName =: update();
     }
 
-In the rare case you need it, you can set an ExecMode annotation to explicitly control where a given method or field lives.
+To change where code runs without using layers, use the [@Exec](/javadoc/sc/obj/Exec.html) annotation or the corresponding 'exec' attribute of the schtml tag.
 
 To support push, the server can initiate the sync over a web socket or be polled for syncs - no other changes to the model are required. 
 
-At the framework level, events can be customized to Java code snippets that are inserted into the layer definitions, letting you build efficient, incremental synchronization even for complex data structures.  That code gets converted automatically to Javascript so you get efficient, high-level IPC injected at the framework level.
-
-This same framework could similarly build very efficient .NET and IOS integrations.
+This same framework will similarly support very efficient integrations with other languages like Php, Python, .NET and IOS without too much effort.    
 
 ## One Template Language, Different Ways to Evaluate 
 
-StrataCode templates can run in three different ways:
+StrataCode templates can run in several different ways:
 
-* After the system has been built, for static templates, an html file is generated.  This works great for static websites where all of the info is defined at compile-time.
-* Dynamic templates are evaluated in response to a URL being requested which matches the PageTemplate.  The template may either be represented as a compiled Java class or can be evaluated as a dynamic class.   The template object can be session-scoped, and stored as a smart-cache for the content should the client refresh the application, or window-scoped, to represent a stateful dialog with this specific browser window that would not survive a browser refresh, or request-scoped and only kept around for the duration of this request.  As properties change, the cache is invalidated, and changes incrementally sync'd back to the server.  When nothing has changed, the template can be served directly from memory as one long string.  When the browser refreshes, all session state that has been synchronized is preserved.
-* After being converted to Javascript, the template is evaluated when the Javascript file is loaded.  On the client side, the template tag objects map onto DOM elements.  Any changes made to the template objects are reflected in the DOM and vice versa, incrementally.  By evaluating templates on the server, search engines can index them and the browser can display the initial page load faster, and using less bandwidth.  By incrementally updating the same template on the client, websites improve their interactivity. 
+* When you run the 'scc' command with a set of layers, global templates can be converted to static html files in your doc root.  This works great for static pages where all of the info is defined at compile-time.  You can re-run scc periodically to update any files which change using the incremental build features.
+
+* If you include a server layer (e.g. jetty.schtml), your templates will be rendered on-demand as requests come in.  The URL requests matches the @URL annotation on the template, or refers to the template directly by the path - e.g. TodoList.html
+
+* On the server, you can use dynamic mode for your templates.  Change the template and hit 'refresh'.  Unlike stateless template systems, a lot more is going on behind the scenes because of the dynamic runtime.  The existing template page type is 'updated' - meaning fields, inner types, etc. are removed or added as necessary.  Any instances that exist are patched as necessary.  Framework hooks run so that page types are unregistered and registered if their @URL annotation changes.  This is the type of complex functionality a framework needs to support for an efficient and flexible management UI that allows customization of running apps.
+
+* The template or tag object can have a scope annotation to define the lifecycle for the tag object.  By default scopes include: global (one per server), appGlobal (one per application), session (one per browser-session), appSession (one per browser-session per app window), window (one per app-window) and request (lives only for the duration of the request).  The scopes work as a hierarchical cache for client-state, providing an incremental refresh, efficient real-time views of data and help developers implement proper traceable application security policies.  With the synchronization system, they provide a consistent, secure, efficient way for clients to share information - propagating only those changes that may be required to update client views.
+
+* After being converted to Javascript, the template is evaluated when the Javascript file is loaded.  On the client side, the template tag objects map onto DOM elements.  Any changes made to the template objects are reflected in the DOM and vice versa, incrementally.  By evaluating templates on the server, search engines can index them and the browser can display the initial page load faster, and using less bandwidth.  By incrementally updating the same template on the client, websites improve their interactivity.  With server-tags, you can choose to run certain tag-code on the server and simply communicate the necessary DOM events and html changes across the wire).
 
 ## StrataCode's Java to Javascript Engine
 

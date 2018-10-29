@@ -60,7 +60,7 @@ Here's the unitConverter's user interface implemented in HTML:
 
 <% ) %>
 
-<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/unitConverter/jsui","UnitConverter.schtml", false, false) %>
+<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/unitConverter/html/core","UnitConverter.schtml", false, false) %>
 
 <%= MarkDownPage.markDown(%>
 

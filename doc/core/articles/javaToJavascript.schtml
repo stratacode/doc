@@ -9,11 +9,15 @@
 
 ## Java to javascript converter
 
-Much of today's application development is happening in the browser and it's a big advantage to use the same language for client/server applications.  To address this need, StrataCode offers a robust conversion of Java to Javascript.  StrataCode generates readable, debuggable javascript that is close to what a Java programmer would have written anyway (i.e. using the same names, the same order in the file, formatted, etc).
+Much of today's application development is happening in the browser and it's a big advantage to use the same language for client/server applications.  To address this need, StrataCode offers a robust conversion of Java to Javascript, generating readable, debuggable javascript that is close to what a Java programmer would have written anyway (i.e. using the same names in the same order, indented properly, etc).
 
-Since layers can run on the client, server or both, StrataCode supports [isomorphic](http://nerds.airbnb.com/isomorphic-javascript-future-web-apps/) Java.  Web page requests generate HTML on the server so the browser draws it as quickly as possible.  The page then begins loading the javascript version of the code to perform any dynamic HTML updates.  You write the code once, StrataCode generates the client and server versions.  
+Since layers can run on the client, server or both, StrataCode supports [isomorphic](http://nerds.airbnb.com/isomorphic-javascript-future-web-apps/) Java.  Web page requests generate HTML on the server so the browser draws it as quickly as possible.  The page then begins loading the javascript to perform any dynamic HTML updates.  You write the code once, StrataCode generates the client and server versions.  
 
 StrataCode provides schtml and scss formats which extend html and css to allow dynamic updates.  Some pages are fully reactive - i.e. generated entirely from data binding, and others generate HTML from a mix of data binding and code.  If necessary, you can mix Java and HTML using the full power of Java.  You have inheritance, layers, data binding, tag macros, and java when you need it.  
+
+The schtml language supports synchronization which allows a template, or a tag object component of a template to run only on the server, only on the client, or on both client and server.  When the code for a tag object is running on the client only, there's no code generated on the server at all - a pure javascript app is generated.  When the code for a tag object is generated on the server only, it supports the same incremental updates and interactivity as the client-only version.  The only difference is that the code to perform the updates is running on the server.  Event generating tags on the client such as an input tag's value or a select tag's selectedIndex are sent over to the server as they change.  Data binding events fire there to cause the changed parts of the template to be re-rendered and synchronized back to the client on the next sync, where those changes are applied.
+
+When your entire web page is on the server, the system avoids downloading the Java utilities so the download size is small (TODO: this part is not done but when it is, fill in the code size here).
 
 Read more in the [documentation](webFramework.html).
 

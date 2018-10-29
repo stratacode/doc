@@ -69,11 +69,11 @@ From your /home/StrataCode directory run:
 
 * Unit converter in the web framework:
 
-        scc example/unitConverter/jsui
+        scc example/unitConverter/html/clientServer
 
 * With the program editor:
 
-        scc editor/js/mixin example/unitConverter/jsui 
+        scc editor/js/mixin example/unitConverter/html/clientServer 
 
 If you have problems after changes, use the '-a' option to build all files or remove the layer's build directory in /home/StrataCode/build
 

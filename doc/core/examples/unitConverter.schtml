@@ -98,7 +98,7 @@ There's a String to Number converter we'll use from the UI controls.  This layer
          <div class="exampleTitle">Adding the JS/HTML UI</div>
 
 The first user interface we'll look at is implemented using StrataCode's HTML Template library, schtml:
-<%= sc.lang.HTMLLanguage.INSTANCE.styleFile("example/unitConverter/jsui", "UnitConverter.schtml", false, false) %>
+<%= sc.lang.HTMLLanguage.INSTANCE.styleFile("example/unitConverter/html/core", "UnitConverter.schtml", false, false) %>
 
          </div>
 

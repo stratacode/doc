@@ -15,11 +15,11 @@ Framework developers that want to add new Javascript libraries write Java class 
 
 ### Packaging into JS Files
 
-After Java files have been converted to JS, each type's JS code is stored into a temporary file.  Those temporary files are then assembled into one or more JS files loaded by the browser.  There are two mechanisms you can use for controlling how this packaging is performed.
+After Java files have been converted to JS, each type's JS code is stored into an intermediate file.  Those intermediate files are then assembled into one or more JS files loaded by the browser.  There are two mechanisms you can use for controlling how this packaging is performed.
 
-One option is to use the jsModuleFile annotation on your classes.  When you do this, all Java types using the same module are put into the same file.  That file must have an ordered list of dependencies against all other types in how they are packaged in JS files.
+One option is to use the jsModuleFile annotation on your classes.  When you do this, all Java types using the same module are put into the same file.  That file must have an ordered list of dependencies against all other types in how they are packaged in JS files.  It's a conflict if one jsModuleFile depends on another which depends back on itself.  TODO: this is primarily a problem when one class extends another in a different module which extends a class back on itself.  Because we are loading the classes in each module file all-at-once, we need to determine the proper order and can't include a module file which may require the constructor of a downstream module to already be loaded.  Today, we treat all dependencies the same as well so there's no way to figure out the proper order, if there is one which preserves the 'extends order'.  I think the JS way to solve this is to create the classes dynamically from objects, so each class resolves it's extends class as soon as it's needed but something about that seems must introduce overhead.
 
-By default, StrataCode figures out all of the entry points required for a given HTML file, and puts all unassigned Java types that are used by those entry points into that file.  With this approach, types which are not referenced are not included in the resulting JS file making it smaller, but the resulting JS file is not reused and not cached in the browser.
+If you don't use modules, StrataCode figures out all of the entry points required for a given HTML file, and puts all unassigned Java types that are used by those entry points into that file.  With this approach, types which are not referenced are not included in the resulting JS file making it smaller, but there's no reuse of the lower-level pieces so they'll be downloaded again for each application loaded into the browser.
 
 ### Java Runtime
 
@@ -29,9 +29,9 @@ A subset of Java's utility libraries (ArrayList, HashMap, etc.) have been added 
 
 To use the JS library, include js.core for basic Java to Javascript functionality.  Mark your type with @MainInit or just have a main method and it will be called by default after all of the types have been loaded. 
 
-Include the js.template layer if you want to use schtml files as well that are compiled to .java files, then to .js files for loading along with the default runtime.
+Include the js.schtml layer if you want to use schtml files as well that are compiled to .java files, then to .js files for loading along with the default runtime.
 
-There are two base layers which configure how template pages are assembled.  In the js.allInOne layer, all of the code in the application is put into a single index page.  This is great for test programs or those cases where an entire app is contained in a single page.  The other mode, js.appPerPage, is included by js.template by defualt and generates separate javascript and HTML files for each template which defines the <html> tag. 
+There are two base layers which configure how template pages are assembled.  In the js.allInOne layer, all of the code in the application is put into a single index page.  This is great for test programs or those cases where an entire app is contained in a single page.  When you have separate applications for each page, use js.schtml which generates separate javascript and HTML files for each top-level template page (i.e. a template page with a surrounding html tag or one which extends the 'Page' class).
 
 ### Controlling Compilation
 
