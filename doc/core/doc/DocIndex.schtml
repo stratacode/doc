@@ -17,7 +17,9 @@
                  </div>
 
                  <div id="capsuleTitle" class="capsuleTitle">
-                    <span class="closeCapsule" id="closeCapsule" clickEvent="=: currentContent = null" visible=":= capsuleExpanded">X</span>
+                    <span class="closeCapsule" id="closeCapsule" clickEvent="=: currentContent = null" visible=":= capsuleExpanded">
+                        <img src="/images/closeX.png" style="vertical-align:middle"/>
+                     </span>
                  </div>
 
                  <li id="CapsuleMenuItem" abstract="true" class=':= currentContent == menuContent ? "capsuleMenuItem capsuleMenuItemSelected" : "capsuleMenuItem"'

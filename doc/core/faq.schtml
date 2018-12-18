@@ -43,7 +43,7 @@ When you let any piece of code modify any other piece of code, it makes tooling 
 
 ### What would make a good pilot project?
 
-A Java based platform that needs a faster, more efficient customization framework, or SaaS platform looking to build a management UI that's highly customizable.  Really it's appropriate for anyone building [Java/Javascript](javaToJavaScript.html) applications and who is intrigued by layers.  Or just use it as a build, customization, deployment tool.  If you need to [process Java code](exSimpleParser.html), or [build a new parser or IDE](parseletsIntro.html), you might find StrataCode has the right APIs.  We have some cycles to do custom platform development for you, or you might want access to the code to improve it yourself.  You'd like to invest and benefit from what StrataCode potential for building a better software engine.
+A Java based platform that needs a faster, more efficient customization framework, or SaaS platform looking to build a management UI that's highly customizable.  Really it's appropriate for anyone building [Java/Javascript](articles/javaToJavaScript.html) applications and who is intrigued by layers.  Or just use it as a build, customization, deployment tool.  If you need to [process Java code](example/simpleParser.html), or [build a new parser or IDE](articles/parseletsIntro.html), you might find StrataCode has the right APIs.  We have some cycles to do custom platform development for you, or you might want access to the code to improve it yourself.  You'd like to invest and benefit from what StrataCode potential for building a better software engine.
 
 ### What about IOS?  
 

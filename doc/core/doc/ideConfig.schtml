@@ -33,15 +33,15 @@ First install the plugin itself into IntelliJ:
 
 Create a directory inside of your ~/IdeaProjects for the project called scTestProject and inside of that a bundles directory.  Inside of "bundles" check out the git repositories for the coreFramework:
 
-    % cd ~/IdeaProjects/scTestProject/bundles/
-    % git clone https://github.com/stratacode/coreFramework.git
+    cd ~/IdeaProjects/scTestProject/bundles/
+    git clone https://github.com/stratacode/coreFramework.git
 
 * In IntelliJ create a new Empty StrataCode project (here called "scTestProject") that points to ~/IdeaProjects/scTestProject
 
 * If you want, you can additionally check out the examples bundle here:
 
-    % cd ~/IdeaProjects/scTestProject/bundles
-    % git clone https://github.com/stratacode/examples.git
+    cd ~/IdeaProjects/scTestProject/bundles
+    git clone https://github.com/stratacode/examples.git
 
 * To create simple layers of your own without creating a new bundle, place your layer directories into:
 
@@ -62,17 +62,19 @@ use IntelliJ's New-&gt;"Module..." and create a module /home/StrataCode.  You ca
 To build and debug StrataCode itself from source, along with the apps built on it, download the 'sc' source distribution.  Inside of it there are three directories - coreRuntime, fullRuntime, and system, each organized as separate IntelliJ modules you can import into your project.
 
 From the Project Structure dialog, click on "Modules" and then "+", then "Import module".
-Import all three IntelliJ modules into your project: fullRuntime/fullRuntime.iml, coreRuntime/coreRuntime.iml and system/sc.iml.  This will let you debug the StrataCode source, and ensures that StrataCode uses the debugger source when it runs an application.
+Import all three IntelliJ modules into your project in this order: fullRuntime/fullRuntime.iml (first), coreRuntime/coreRuntime.iml (second) and then system/sc.iml.  This will let you debug the StrataCode source, and ensures that StrataCode uses the debugger source when it runs an application.
 
-In your project, select a Java SDK with version 1.6, 1.7 or 1.8
+In your project, select a Java SDK with version 1.6, 1.7 or 1.8.
 
-After importing all three modules, click "Ok" on the Project Structure dialog to save those modules before you try to create an SC module.  If it does not find the 'sc' module when it creates a new StrataCode module, it will instead add a dependency on "SCLib" a pre-configured intelliJ library that points to the SC runtime libraries. 
+In the project structure dialog, click on Libraries and then "+" to add a new library from Maven and enter in: "jline:jline:2.15-SNAPSHOT" as the maven spec.
+
+If you are going to use the StrataCode plugin to create a StrataCode module, make sure to save changes in project structure before trying to create a StrataCode module.  Otherwise, your StrataCode module will depend on a library called SCLib - the StrataCode runtime that comes with the plugin.
 
 If you have already created an SC module and later want to add the "sc" source module, go to the module, remove the dependency on the "SCLib" library and add module dependencies on fullRuntime, coreRuntime and sc/system (in that order).  The fullRuntime has to be ahead of coreRuntime in the dependency list so we pick up the complete versions of the runtime apis.
 
 Make the project to compile the StrataCode source (so the StrataCode plugin can find the classes for StrataCode itself).
 
-One final step - for StrataCode itself to find it's own source, edit the file StrataCodeModule/.stratacode/scSourcePath to point to the 'sc' directory you checked out from git (the one that contains coreRuntime, fullRuntime, and system).  This is important so that any source code required to generate Javascript comes from your git repository, not the "scrt-core-src.jar" file that's part of SCLib.
+One final step - for StrataCode module, so it can find it's own source, create the file StrataCodeModule/.stratacode/scSourcePath with one line pointing to the 'sc' directory you checked out from git (the directory that contains coreRuntime, fullRuntime, and system).  This is important so that any source code required to generate Javascript comes from your git repository, not the "scrt-core-src.jar" file that's part of SCLib.
 
 ### Option #5: Installation Without StrataCode Source
 

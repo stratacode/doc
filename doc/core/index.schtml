@@ -51,7 +51,7 @@
 
    <div id="javaBox" extends="InfoBox" detailBox="= javaDetail" rowIndex="= 0">
       <div class="infoBoxTitle">Java extensions</div>
-      Code-processor that incrementally changes your code as you use new features.
+      Java transpiler - reads your code, makes incremental, type-aware changes before compiling (e.g. converting field to getX/setX property)
    </div>
 
    <div id="featBox" extends="InfoBox" detailBox="= featDetail" rowIndex="= 0">
@@ -71,7 +71,7 @@
       <div id="openArrowContainer" style="position: relative; width: 0px; height: 0px">
          <div class="openArrow" style='= " left: " + (columnIndex * 300 + 128) + "px"'/>
       </div>
-      <img id="detailCloseIcon" src="./images/closeBox.png" style="float: right" clickEvent="=: BaseDetailBox.this.visible = false">
+      <img id="detailCloseIcon" src="./images/closeX.png" style="float: right" clickEvent="=: BaseDetailBox.this.visible = false">
    </div>
 
    <div id="javaDetail" extends="BaseDetailBox">

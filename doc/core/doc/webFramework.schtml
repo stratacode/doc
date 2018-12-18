@@ -10,17 +10,15 @@
 
 ## StrataCode web framework: schtml, javaScript, sync
 
-Why another web framework?  Here are some [advantages](webFrameworkAdvantages.html).
+Why another web framework?  Here are the [advantages](webFrameworkAdvantages.html).
 
-Let's get started:
-
-Download and install StrataCode if you haven't already.  If you have the examples bundle, you can run:
+To run a simple example, download and install StrataCode if you haven't already.  If you have the examples bundle, you can run:
 
     scc -v -vs example/simpleSync/main
 
 This builds and runs a "hello world" web application using the framework layers: js.schtml, jetty.schtml, and js.sync.  The -v option enables basic verbose logging and -vs enables verbose sync so you can see what's happening. 
 
-The application consists of three layers - UI, model, and server.   The UI and model layers run on both the client and the server.  The server layer runs only on the server.
+There are three types of application layers - UI, model, and server.   The UI and model layers run on both the client and the server.  The server layer runs only on the server.
 
 <% ) %>
 
@@ -76,23 +74,21 @@ The StrataCode webframework supports the ability to take one declarative code mo
 
 ### Default runtime for templates
 
-Some templates or tags have to run on the server perhaps due to a dependency on the database.  For templates, put them in a layer that extends jetty.schtml or the database layers which will tie them to the server only. 
+Some templates or tags have to run on the server.  The code might use the database, or libraries that don't exist in the browser.  Put these templates in a layer that extends a server specific layer like jetty.schtml, or any jpa layer.
 
-Other templates may only run in the client, e.g. a standalone javascript application or one that talks to a server that's not built from these layers.  Have client-only layers extends js.schtml and not any server-only layers like jetty.schtml.  
+Other templates may only run in the client, e.g. a standalone javascript application or one that talks to a server that's not built from these layers.  Have these client-only layers extends js.schtml or any layer that only runs on the server.  
 
-When a layer extends another which has an explicit dependency on only one runtime, it inherits those constraints by default.  If a layer extends both a client-only layer (e.g. js.schtml) and a server-only layer (e.g. jetty.schtml) it runs in both because it inherits both dependencies.  If it extends no layers that are fixed to a runtime, it runs in all of the runtimes in which it's referenced.  When you put an unrestricted layer on the command line, it's included in all runtimes.
+If a layer extends layers that depend on more than one runtime (e.g. js.schtml and jetty.schtml), it will run in both runtimes, unless you override the defaults in the layer definition file.  Some layers are free floating - and do not depend on any runtime.  You can add those layers on the command line and they are included in all runtimes. 
 
-Layers that need schtml, but have neither client or server dependencies can extend html.schtml to run in either.  Before you run your application, you will need to add either js.schtml or jetty.schtml to see anything.  With just html.schtml, you will generate a tag object not rendered by any framework but available as an API.  For a simple layer which you want to run in more than one configuration, you can choose either js.schtml, jetty.schtml or both by adding them as additional layers in the run configuration or add them on the scc command line. 
+Layers that need schtml, but have neither client or server dependencies can extend html.schtml so that they can run in either.  Before you run your application, you will need to add either js.schtml or jetty.schtml to see anything.  With just html.schtml, you will generate a tag object not rendered by any framework but available as an API.  For a simple layer which you want to run in more than one configuration, you can choose either js.schtml, jetty.schtml or both by adding them as additional layers in the run configuration or add them on the scc command line. 
 
 For layers that extend only jetty.schtml, schtml template pages run in a server-only mode where the tag class is generated for only the server runtime.  But any dynamic elements or logic are detected in the page, and force the inclusion of a small javascript client that implements a subset of the sync protocol to manage basic dynamic html functionality using a server refresh for each application event.
 
-### Default runtime for tags
-
-TODO: The server-only tag library does not yet support forms and dynamic tag rendering but these are planned.  It will be easy to support forms and server-side page refreshes so a lot more functionality will work in this model.  Of course since there will not be a JS runtime, there will be not customized code running in the browser.  In a nutshell, with the server-only model, we know which tags objects and attributes are used in data binding expressions at compile time, and which can change on the client from user input.   We'll include a list of ids/attributes to listen on, along with a small, handwritten JS client.  It will read manage a list of listeners for the appropriate html/DOM events, input events, manage polling, and read and write sync requests using the same JSON sync format.  It will support real-time apps, just without application specific Javascript and client-side rendering.  The server will re-render tags and send over html to update the client incrementally.  It will also accept POST requests and see if they match any forms, and apply the updates that way.  This model has lots of advantages and can probably support a great deal of the feature set of the existing sync framework without the relatively large download size required by the JS code.  There are some nice development and security advantages of the server-only model as well.   When you mark a tag as 'exec=server' it will behave according to the server-only model, even if you included the js.schtml layer.  That way, you can opt-in on a tag-by-tag basis to choose the best model for different pages or even sections of pages.
-
 ### Html and javascript only applications
 
-When the framework layers in your stack include js.schtml, but not jetty.schtml, you'll build a website from only html and javascript files.  You can open those files on the file system in your browser or publish them to a plain file based web server.  In this configuration, StrataCode generates .java files from the schtml and sc files in your project, then converts those files to .js which is loaded by the browser.   
+Sometimes, it's nice to be able to build a simple "serverless" website that contains only Javascript and html - no server at all.  StrataCode lets you build these applications in a way that does not tie you into this architecture.  Should you ever need to move parts of your application to the server, you can add a server runtime and break your app up into layers.
+
+When the framework layers in your stack include only js.schtml, and no server dependences like jetty.schtml, StrataCode builds a website from only html and javascript files.  You can open those files on the file system in your browser or publish them to a plain file based web server.  In this configuration, StrataCode generates .java files from the schtml and sc files in your project, then converts those files to .js which is loaded by the browser.   
 
 After you build your project, the layer's build directory contains a directory called web - the top-level directory for your site for any static files.  Any schtml templates which are global and can be rendered at compile time will generate a .html file here.  But if you use session or window scoped pages, you'll need a jetty server.  Your browser opens to the index.html file unless you run StrataCode with the -nw (no window) option or modify the defaults in a layer definition file you include.
 
@@ -273,9 +269,11 @@ Here's an example that demonstrates reusable tag macros:
 
 <%= MarkDownPage.markDown(%>
 
-## Client/Server Java tag API
+## Client/Server Tag Object API
 
-StrataCode provides a thin wrapper on top of the core Javascript document object model api (DOM) to let you manipulate tags in a way that works on client and server.  This API provides bindable properties you can use in your templates to change the HTML, or react to events such as click, mouse move, change, or resize.  It exposes wrappers to some Javascript variables, such as innerWidth, and innerHeight which you can use in binding expressions.  You can manually refresh nodes (only required if they were not generated as declarative).  Tag classes expose all of the standard DOM events so that you can do reverse-only bindings on them: e.g. in your schtml, for any tag, you can add the attribute: clickEvent="=: myMethod()".  This is a nice syntax to avoid the need for function closures or interfaces.
+StrataCode provides a single api that runs both in Java on the server and in Javascript in the browser.  You can write code that runs either in the browser, on the server or both.
+
+StrataCode provides a wrapper on top of the core Javascript document object model api (DOM) to let you manipulate tags in a way that works on client and server.  This API provides bindable properties you can use in your templates to change the HTML, or react to events such as click, mouse move, change, or resize.  It exposes wrappers to some Javascript variables, such as innerWidth, and innerHeight which you can use in binding expressions.  You can manually refresh nodes (only required if they were not generated as declarative).  Tag classes expose all of the standard DOM events so that you can do reverse-only bindings on them: e.g. in your schtml, for any tag, you can add the attribute: clickEvent="=: myMethod()".  This is a nice syntax to avoid the need for function closures or interfaces.
 
 The tag classes match the DOM hierarchy and tag names.  They live in the sc.lang.html package:
 * Node - This tag is used for tags and attributes.

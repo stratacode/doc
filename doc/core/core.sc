@@ -10,7 +10,11 @@ import sc.doc.PageLayout;
 import sc.doc.ArticlePage;
 import sc.doc.MarkDownPage;
 
-public doc.core extends servlet.options.globalScope, doc.tag, jetty.schtml, js.schtml {
+/** 
+ * The basic documentation layer.  It has components that require server features although some pages can partially run
+ * in the browser the JS runtime is included. 
+ */
+public doc.core extends doc.tag, jetty.schtml, servlet.options.globalScope {
    {
       System.setProperty("markDown.cmd", getRelativeFile("bin/markdown"));
    }

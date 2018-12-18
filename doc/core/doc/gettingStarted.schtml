@@ -16,9 +16,9 @@ Prerequisites: Java, Git, Unix (linux or mac)
 
 ## Build StrataCode from Source
 
-      % mkdir /home/scc
-      % cd /home/scc
-      % git clone https://github.com/stratacode/system.git 
+      mkdir /home/scc
+      cd /home/scc
+      git clone https://github.com/stratacode/system.git 
 
 and read the Readme for setup.  https://github.com/stratacode/system.  It's easy to build with your IDE, StrataCode or Gradle.
 
@@ -28,24 +28,24 @@ When built with StrataCode, it produces the "scc" command script.  In your IDE, 
 
 A StrataCode project contains one or more bundles of StrataCode layers in the bundles directory.  You can create a directory from the IntelliJ plugin or by hand with:
 
-      % mkdir /home/StrataCode
-      % cd /home/StrataCode
-      % mkdir bundles
-      % cd bundles
-      % git clone https://github.com/stratacode/coreFramework.git
+      mkdir /home/StrataCode
+      cd /home/StrataCode
+      mkdir bundles
+      cd bundles
+      git clone https://github.com/stratacode/coreFramework.git
 
 You can add additional layer bundles as well:
 
-      % git clone https://github.com/stratacode/example.git
-      % git clone https://github.com/stratacode/managementUI.git
-      % git clone https://github.com/stratacode/ecommerce.git
+      git clone https://github.com/stratacode/example.git
+      git clone https://github.com/stratacode/managementUI.git
+      git clone https://github.com/stratacode/ecommerce.git
 
 So that the 'scc' command can find it's own source code:
 <% ) %>
 
-<pre><code>% cd /home/StrataCode
-% mkdir conf
-% cat &gt; conf/scSourcePath
+<pre><code>cd /home/StrataCode
+mkdir conf
+cat &gt; conf/scSourcePath
 /home/scc/system
 </code></pre>
 
