@@ -19,7 +19,7 @@ The schtml language supports synchronization which allows a template, or a tag o
 
 When your entire web page is on the server, the system avoids downloading the Java utilities so the download size is small (TODO: this part is not done but when it is, fill in the code size here).
 
-Read more in the [documentation](webFramework.html).
+Read more in the [documentation](../doc/webFramework.html).
 
 Here's an example.  This java implementation of selection sort:
 <% ) %>
