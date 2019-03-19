@@ -17,7 +17,7 @@ StrataCode provides schtml and scss formats which extend html and css to allow d
 
 The schtml language supports synchronization which allows a template, or a tag object component of a template to run only on the server, only on the client, or on both client and server.  When the code for a tag object is running on the client only, there's no code generated on the server at all - a pure javascript app is generated.  When the code for a tag object is generated on the server only, it supports the same incremental updates and interactivity as the client-only version.  The only difference is that the code to perform the updates is running on the server.  Event generating tags on the client such as an input tag's value or a select tag's selectedIndex are sent over to the server as they change.  Data binding events fire there to cause the changed parts of the template to be re-rendered and synchronized back to the client on the next sync, where those changes are applied.
 
-When your entire web page is on the server, the system avoids downloading the Java utilities so the download size is small (TODO: this part is not done but when it is, fill in the code size here).
+When your entire web page is on the server, the system avoids downloading the Java utilities so the download size is small (~14k) but offers most of the same features using a JS native implementation of sync.
 
 Read more in the [documentation](../doc/webFramework.html).
 
@@ -31,9 +31,9 @@ Here's an example.  This java implementation of selection sort:
 
 ## Status
 
-The Java to Javascript converter is a healthy beta.  Because most Java code is dependent on runtime libraries that may not be available, it's not a seamless way to run any Java code in the browser.   We've tested it on over 100K lines of Java without workarounds, adding any needed classes from the JDK as required.  Currently it uses the Apache java utilities which stoped evolving at Java 1.6.  Java 1.8 Lambdas have been implemented in the code-generation, but not really tested due to the missing libraries.
+The Java to Javascript converter is a healthy beta.  Because most Java code depends on runtime libraries that may not be available, it's not a seamless way to run any Java code in the browser.   We've tested it on over 100K lines of Java without workarounds, adding any needed classes from the JDK as required. Currently it uses the Apache java utilities which support only Java 1.6 features. Java 1.8 Lambdas have been implemented in the code-generation, but not tested due to the missing libraries.
 
-No optimization has been done yet to remove unused code or optimize download size but those are planned.  There's a flexible library system and the class emulation is higher than other Java to JS implementations so footprint is reduced that way.
+No optimization has been done yet to remove unused code or optimize download size but there are lots of ways to reduce the download size. There's a flexible library system and the class emulation is higher than other Java to JS implementations so footprint is reduced that way.
 
 Currently, your entire JS app is downloaded after the page is rendered but we plan to allow separate subsets of layers to be progressively loaded.  For large client applications, you'll be able to start interacting with the app with the base layers, while successive layers are downloaded.
 

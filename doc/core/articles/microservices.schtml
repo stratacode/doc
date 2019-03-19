@@ -46,7 +46,7 @@ When StrataCode builds these two processes now, it detects all of the methods wh
 
 Eventually we add more developers and create a separate team for the remote service.  Now it's just a matter of moving those layers into the new git repo and including that in the list of repos required for the application.  When programmers do a new sync of the application, they are in sync automatically.
 
-Down the road, when major feature changes are required - perhaps an incompatible domain model change is required, you can use layers to isolate the deprecated types, properties, and methods.  Again, no contracts change but now you can separately build the old compatible version, and the new incompatible version separately.  Clients can opt-in to the new version.  Static typing would let you discover any references to the old version quickly.  Code processing could even be used to find and alter references to code that refers to incompatible features.  Until the migration is complete, you can dispose of the deprecated layer and any tests that refer to it.
+Down the road, when major feature changes are required - perhaps an incompatible domain model change is required, you can use layers to isolate the deprecated types, properties, and methods.  Again, no contracts change but now you can separately build the compatible and incomaptible versions. Clients can opt-in to the new version.  Static typing lets you discover any soon to be invalid references to the old version quickly. Code processing could even be used to find and alter references to code that refers to incompatible features automatically in some cases. Until the migration is complete, you can dispose of the deprecated layer and any tests that refer to it.
 
 ## More freedom with layers
 

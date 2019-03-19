@@ -56,15 +56,15 @@ By default you are synchronizing to the default destination - the server if you 
 
 ### Scopes: managing object lifecycle
 
-Scopes are a feature of the StrataCode code generation system that let you manage an object's lifecycle - i.e. how it is created, how references are resolved, and when it is stopped.  They let you use declarative that can do more.   You have a single name space of objects, even when the instances in that name-space are created and deleted at different times (e.g. per-request, per-user, per-session, etc), and perhaps driven by additional runtime parameters (e.g. per-merchant, per-store, per entry in a list).  StrataCode manages the object lifecycle using code generation, so your code is consistently run in a context that makes sense with minimal awareness of when objects are being created and destroyed.
+Scopes are a feature of the StrataCode code generation system that let you manage an object's lifecycle - i.e. how it is created, how references are resolved, and when it is stopped.  They let you use declarative objects, with a single name space that are created and deleted at different times (e.g. per-request, per-user, per-session, etc), and perhaps driven by additional runtime parameters (e.g. per-merchant, per-store, per entry in a list).  StrataCode manages the object lifecycle using code generation, so your code is consistently run in a context that makes sense with minimal awareness of when objects are being created and destroyed.
 
-Scopes make StrataCode's synchronization system very flexible and powerful.
+Scopes make StrataCode's synchronization system very flexible and powerful because the scopes let you share data in just the right way.
 
 The default scope is called "global" and is equivalent to using static variables in Java.  In the web server context, the session scope manages objects which are per client browser.  Request scope disposes of instances after each request for stateless applications. 
 
 You can use scopes for even more dynamic lifecycles such as per-list item.  In that case, you can inject additional variables for the list index and current list item. 
 
-Scopes are a flexible hinge point so frameworks can add scopes like per-product catalog, per-inventory source etc.  Even templates which are written for a single catalog can then be used in a multi-catalog scenario as long as at any given time.  The key constraint is the framework must be able to choose a single catalog and make it available for each template.  
+Scopes are a flexible hinge point so frameworks can add scopes like per-product catalog, per-inventory source etc.  Even templates which are written for a single catalog can then be used in a multi-catalog scenario as long as they are rendered in the context of a given product. 
 
 Scopes are a safe name-space sandbox for the current context to access all of the types and properties it needs, declaratively in a strongly-typed compile time model without worrying about lifecycle or dynamic behavior.  At the same time they can implement rich dynamic behavior: organizing cells into a grid, or line-items in an order.  When you change the scope of an object in a subsequent layer, they let you reuse logic in new contexts - e.g. adding multi-tenant or multiple shipping addresses as a feature by flipping a switch.
 

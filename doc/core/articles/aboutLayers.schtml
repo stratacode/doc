@@ -15,13 +15,13 @@ As a thought experiment, you might find it interesting to think about where you 
 
 Now let's think about the natural world and consider the places where "layered designs" occur.  You find layers in the structure of just about anything - organic or inorganic.  For a clear example, take a look at the structure of the brain.  Layers are a fundamental way complexity is organized in nature.  So we see layers in both the computational and natural worlds frequently and yet in modern programming languages, there's no unifying way to use them for organizing software we build.  Instead, layers appear here and there as ad-hoc features.  Unlike in nature, programmers do not today use them as the essential organizational abstraction.  What if we changed all of that and introduced layers as both a feature for organizing programs, as well as a language construct for composing types?
 
-StrataCode attempts to answer that question by using layers to add a hinge point to our design flexibility for building and maintaining large, complex systems.  They are the next evolution of oriented programming, letting you refine or extend a class or instance without renaming.  Plugins built into the language and the replace and merge operations built into the modular structure.
+StrataCode attempts to answer that question by using layers to add a hinge point to our design flexibility for building and maintaining larger, and more complex systems more easily. You can use layer oriented programming to build traditional module structures, or use layers to refine or extend a class, or change the configuration of an instance without renaming.  Plugins built into the language and the replace and merge operations built into the modular structure.
 
 ## More flexible than modules
 
 Like modules, they are a packaging mechanism with dependencies.  We say that a layer may extend one or more other layers which ensures those other layers are below it in the stack.  Where you'd use a module before, you'll use a layer with StrataCode.  Unlike modules though, layers can include changes, or apply deltas to what's underneath.  The process works like layers in Photoshop but where we merge by name, not pixel position.  
 
-## Still Statically Typed
+## Still statically typed
 Layers preserve encapsulation and are statically typed, adhering to the <a href="http://en.wikipedia.org/wiki/SOLID_(object-oriented_design)">SOLID principles</a> of O/O design.  They may replace or add to an object's interface or override but cannot remove a previously defined contract.  They also cannot depend on a layer that comes after them in the current list of layers.  Just like Java, you have traceable code paths, edit time errors, find usages, refactoring and more.  They are similar to <a href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&cad=rja&ved=0CDYQFjAB&url=http%3A%2F%2Fdl.acm.org%2Fcitation.cfm%3Fid%3D1885647&ei=vLBRUsaBNaGqiAK7moCICA&usg=AFQjCNGUS5M8Ep_9HKm8GO_terTa9cMT_g&bvm=bv.53537100,d.cGE">Delta oriented programming</a> and can also be used for product feature-lines.
 
 ## Modules and circular references

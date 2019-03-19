@@ -22,7 +22,7 @@ StrataCode build files are written in StrataCode and are edited like normal file
 
 ## Maven 
 
-Layer's can include maven libraries in one of two ways.  Your projects can use maven itself for builds and/or installs of dependencies, then just configure the layer to use the resulting .jar in the classpath.  A lighter weight approach uses StrataCode's built-in support for maven repositories and POM files, eliminating the need to install maven and make better use of layers for customization.  One interesting advantage of layers, is the potential to switch back and forth between source and compiled forms of different aspects of your projects through a central point - i.e. putting a src layer in front of a compiled one, or to move source between one git repository and another in a more compatible way.
+Layers can include maven libraries in one of two ways.  Your projects can use maven itself for builds and/or installs of dependencies, then just configure the layer to use the resulting .jar in the classpath.  A lighter weight approach uses StrataCode's built-in support for maven repositories and POM files, eliminating the need to install maven and make better use of layers for customization.  One interesting advantage of layers, is the potential to switch back and forth between source and compiled forms of different aspects of your projects through a central point - i.e. putting a src layer in front of a compiled one, or to move source between one git repository and another in a more compatible way.
 
 ## StrataCode project file organization
 

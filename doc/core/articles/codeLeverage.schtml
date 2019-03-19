@@ -63,7 +63,7 @@ As the needs for your system become more complicated, instead of refactoring obj
 
 <% ) %>
 
-<img id="layersByDep" style="margin:0px auto;display:block;width:75%" src="../images/layersByDep.png" alt="Dependencies between Modules and Layers"/>
+<img id="layersByDep" style="margin:0px auto;display:block;width:55%" src="../images/layersByDep.png" alt="Dependencies between Modules and Layers"/>
 
 <%= MarkDownPage.markDown(%>
 
@@ -73,11 +73,11 @@ For example, let's say you have a class called UserAccount which both defines th
 
 Additionally, with layers you can eliminate recursive references that might develop between modules, even without changing the APIs.  
 
-<img id="depsWithModules" style="margin:0px auto;display:block;width:75%" src="../images/moduleDeps.png" alt="Dependencies with Modules"/>
+<img id="depsWithModules" style="margin:0px auto;display:block;width:55%" src="../images/moduleDeps.png" alt="Dependencies with Modules"/>
 
 Code that adds the recursive dependency is put in a new layer that modifies types:
 
-<img id="depsWithLayers" style="margin:0px auto;display:block;width:75%" src="../images/layerDeps.png" alt="Dependencies with Layers"/>
+<img id="depsWithLayers" style="margin:0px auto;display:block;width:55%" src="../images/layerDeps.png" alt="Dependencies with Layers"/>
 
 <%= MarkDownPage.markDown(%>
 

@@ -244,7 +244,7 @@ foo extends bar {
                   <div id="webContent" extends="CapsuleContent">
                      <div class="capsuleContentTitle">Web Framework</div>
                      <p>
-                     The StrataCode web framework adds a Java to Javascript converter, the schtml template language and the tag object API.  Client-only, server-only, or isomorphic client/server operation with no explicit RPC code. (<a href="webFramework.html">more</a>)
+                     The StrataCode web framework adds a Java to Javascript converter, the schtml template language and the tag object API.  Client-only, server-only, or isomorphic client/server operation with sync to reduce explicit RPC code. (<a href="webFramework.html">more</a>)
                      </p>
                   </div>
                   <div id="jettyContent" extends="CapsuleContent">
