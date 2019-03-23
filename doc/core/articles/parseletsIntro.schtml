@@ -20,6 +20,8 @@ Parselets additionally supports error recovery when parsing a file that does not
 
 It also includes the ability to take diffs between one version of a file and the next and to do a fast 'reparse' of the AST - useful for fast editing of large files in the IDE.
 
+AST's can be efficiently serialized and restored. The parse-node tree is also efficiently serialized so when you reparse the same file, it's several times faster.
+
 The features behind parselets made building the StrataCode IntelliJ plugin possible, and building the plugin helped parselets evolve into a capable environment.  Any language written in parselets can use those features making it much easier to build IDEs for new languages.  Unlike most plugins, the most challenging IDE features were built using parselets, and the same code that powers the management UI framework, and the dynamic runtime.  This makes the same features available in the code editing and navigation features found in the management UI and available for future IDE support.
 
 <% ) %>

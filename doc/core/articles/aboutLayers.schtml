@@ -26,7 +26,15 @@ Layers preserve encapsulation and are statically typed, adhering to the <a href=
 
 ## Modules and circular references
 
-As modules grow in size, they tend to develop circular dependencies.  For example, Module A depends naturally on Module B but as the project grows, some minor aspect of B may develop a dependency on some minor aspect of A, possibly due to a poor modularization decision.  Refactoring to eliminate the circular dependency would work but breaks compatibility and so may not be an option.  Allowing the new circular dependency creates severe code management problems.  Conceptually now A and B must be updated in lockstep.  You lose many of the benefits of modularization in the first place.  Changes in B may depend on changes in A and vice versa.  It becomes impossible to test a new version of A with an old version of B and vice versa.  That reduces your ability to detect when the interfaces of your modules change in an incompatible way. 
+Today we use modules, not layers. As modules grow in size, they tend to develop circular dependencies.  For example, Module A depends naturally on Module B but as the project grows, some minor aspect of B may develop a dependency on some minor aspect of A, possibly due to a poor modularization decision.  Refactoring to eliminate the circular dependency would work but breaks compatibility and so may not be an option. The API contract has been "burned in stone" as they say. Allowing the new circular in the long term though creates severe code management problems. Conceptually now A and B must be updated in lockstep.  You lose many of the benefits of modularization in the first place.  Changes in B may depend on changes in A and vice versa.  It becomes impossible to test a new version of A with an old version of B and vice versa.  That reduces your ability to detect when the interfaces of your modules change in an incompatible way. 
+
+The circular reference is not a pattern that would form in nature. In nature, a new thing would come along to modify what's been burned in stone, even though it involves fixed type names which are tied to the modular structure. Nature is good at repurposing names with modifications and yet our programming languages don't recognize that at the structural level. 
+
+Our code models are mostly based on graphs of objects. But nature's code - DNA is linear. There's no room for circular references and yet lots of room for modification of the same name. 
+
+While life has lots of circular references in form, they are all built from layered processes and layered structures. In our programming language, the code itself is like the DNA and so we should have a layered structure at the core and that is in the language itself. It's the evolutionary component which means, it's not fundament to how you build your code, but how it lives long term.
+
+StrataCode uses code processing and a self-aware dynamic runtime with management UIs to fill in the missing gaps in the biology metaphor. A system which is aware of itself, can reproduce itself with a declarative grammar that structures the modifications, even when then human is in the loop of those modifications.
 
 ## Layers eliminate circular references 
 
@@ -48,7 +56,7 @@ Version 1 of both designs is the same.  But in both designs for version 2 we nee
 
 ## Dealing with complex types
 
-It's very difficult to keep two complex types in your system from developing a circular dependency between them - e.g. "User" and "Order".  The most intuitive types are built from natural entities in the system and two complex entities may need to depend on each other to implement certain features.  By splitting complex types into well organized layers, you can support these types of use cases beautifully, and make those large files easier to navigate as well.
+It's very difficult to keep two complex types in your system from developing a circular dependency between them - e.g. "User" and "ShoppingCart".  The most intuitive types are built from natural entities in the system and two complex entities may need to depend on each other to implement certain features.  By splitting complex types into a small number of well organized layers, you can support these types of use cases beautifully, and make those large files easier to navigate as well.
 
 ## Mechanics of layers
 
@@ -62,11 +70,12 @@ Certain layers are designed as "build layers".  These layers are validated and c
 
 ## Why layers?
 
-Why objects, why methods, etc.  Consider that object-oriented design may have missed a key "hinge point" for code customization.  Layers add the the ability to refine types and refactor code to keep dependencies separate from complex types.   Some languages add "mixin features" in an ad-hoc way that undermines code traceability and design integrity.  Perhaps the lack of layers has helped fuel the growth for dynamically typed languages because O/O frameworks are awkward when applied to certain problems.  
+Why objects, why methods, etc.  Consider that object-oriented design may have missed a key "hinge point" for code customization.  Layers add the the ability to refine types and refactor code to keep dependencies separate from complex types.   Some languages add "mixin features" in an ad-hoc way that undermines code traceability and design integrity.  Perhaps the lack of layers has helped fuel the growth for dynamically typed languages because O/O frameworks are awkward when applied to certain problems. The addition of dynamic layers allows you to work with dynamically modified types, but still retain the concept of types. 
 
 At the end of the day, it's difficult to describe the need for layers, because clarity of this design principle appears at higher design complexity than most have the need to consider.  You'll realize the benefits when maintaining large, highly customized code bases, often distributed over many developers, like those commonly found in enterprise applications and frameworks.  In those situations, layers provide major benefits by helping to improve workflows for enterprise systems, separating design, administration, business rules, workflow, and code. 
 
-When combined with StrataCode's declarative features, layers provide a hinge point for customizing any property of any object.  You can replace any DOM element of any HTML file.  Append to or replace any component.  Override any formula.  Though layers add a new concept, the IDE and management UI frameworks make it easy to build powerful, customizable applications.
+When combined with StrataCode's declarative features, layers provide a hinge point for customizing any property of any object. 
+You can replace any element of any HTML file.  Append to or replace any component.  Override any formula.  Though layers add a new concept, the IDE and management UI frameworks make it easy to build powerful, customizable applications.
 
 ## Pure domain models   
 

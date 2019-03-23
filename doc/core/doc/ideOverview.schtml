@@ -1,0 +1,27 @@
+<html extends="DocPage">
+<head title="IDE Config"/>
+
+<body>
+   <div id="content">
+      <div id="pageContent" exec="server">
+         <h2>StrataCode IntelliJ plugin config</h2>
+          You configure a StrataCode module which points to a StrataCode project directory that includes a bundles subdirectory. Folders inside of bundles are 'source folders' in the project:
+           <img style="margin:0px auto;display:block" src="../images/projectStructure.png" alt="IntelliJ plugin" width="90%"/>
+         <h2>Like Java with .sc* files</h2>
+           <p>
+Code editing, navigation, debugging, find usages, rename:
+         <p>
+           <img style="margin:0px auto;display:block" src="../images/ideOverview.png" alt="IntelliJ plugin" width="90%"/>
+
+         <p>
+         Features:
+         <p>
+         <ul>
+         <li><a href="layersView.html">Layers view</a>
+         <li><a href="runConfig.html">Run configurations</a>
+         </ul>
+         <br>
+      </div>
+   </div>
+</body>
+</html>

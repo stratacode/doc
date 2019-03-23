@@ -593,3 +593,8 @@ h2 {
 #docOverview {
    height: 398px;
 }
+
+.insetBox {
+   padding: 15px;
+   background-color: #DDD;
+}

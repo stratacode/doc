@@ -12,9 +12,15 @@ If you're interested in hands on, contact Jeff Vroom for more info.
 
 There are some old videos that might still be helpful but lots of names have changed [demo videos](../videos.html).  
 
-Prerequisites: Java, Git, Unix (linux or mac)
+Prerequisites: Experience with Java, Git, Unix (linux or mac, some windows support)
 
-## Build StrataCode from Source
+## Download StrataCode runtime
+
+Get the [IntelliJ plugin](ideConfig.html) which includes the runtime or download a release from github. This installs the scc command and all the libraries you need to create a project.
+
+## Option: Build from source
+
+Currently StrataCode is not open source while we determine the right license and find a way to support developers building development tools.  Contact Jeff for access to the source tree as it's a lot more fun to build when you have the source. Once you have access, you can run:
 
       mkdir /home/scc
       cd /home/scc
@@ -26,7 +32,7 @@ When built with StrataCode, it produces the "scc" command script.  In your IDE, 
 
 ## Create a StrataCode Project
 
-A StrataCode project contains one or more bundles of StrataCode layers in the bundles directory.  You can create a directory from the IntelliJ plugin or by hand with:
+A StrataCode project contains one or more bundles of layers in the bundles directory.  You can create a directory from the IntelliJ plugin or by hand with:
 
       mkdir /home/StrataCode
       cd /home/StrataCode
@@ -34,13 +40,13 @@ A StrataCode project contains one or more bundles of StrataCode layers in the bu
       cd bundles
       git clone https://github.com/stratacode/coreFramework.git
 
-You can add additional layer bundles as well:
+You can add additional layer bundles as well (inside of the 'bundles' directory):
 
       git clone https://github.com/stratacode/example.git
       git clone https://github.com/stratacode/managementUI.git
       git clone https://github.com/stratacode/ecommerce.git
 
-So that the 'scc' command can find it's own source code:
+Add this so that the 'scc' command can find it's own source code:
 <% ) %>
 
 <pre><code>cd /home/StrataCode
@@ -59,11 +65,11 @@ From your /home/StrataCode directory run:
 
         scc editor/swing/main example/expertSystem/main
 
-* Unit converters on swing
+* Unit converter in swing
 
         scc example/unitConverter/swingui
 
-* With the program editor:
+* with the program editor:
 
         scc editor/swing/main example/unitConverter/swingui
 
@@ -75,7 +81,7 @@ From your /home/StrataCode directory run:
 
         scc editor/js/mixin example/unitConverter/html/clientServer 
 
-If you have problems after changes, use the '-a' option to build all files or remove the layer's build directory in /home/StrataCode/build
+If you have problems after code changes, use the '-a' option to build all files or remove the layer's build directory in /home/StrataCode/build
 
 There's a usage for the scc command and type "help" at the command line.
 

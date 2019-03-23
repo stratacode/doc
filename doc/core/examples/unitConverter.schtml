@@ -25,10 +25,10 @@
          </div>
 
          <div id="genCodeVis" exec="client,server">
-             <a clickEvent="=: ucGeneratedCode.displayed = !ucGeneratedCode.displayed"><%= ucGeneratedCode.displayed ? "Hide" : "Show" %></a> the generated code.
+             <a clickEvent="=: ucGeneratedCode.displayed = !ucGeneratedCode.displayed"><%= ucGeneratedCode.displayed ? "Hide" : "Show" %></a> the generated code.<br>&nbsp;
          </div>
 
-         <div id="ucGeneratedCode" style=':= displayed ? "" : "display:none"'>
+         <div id="ucGeneratedCode" class="insetBox" style=':= displayed ? "" : "display:none"'>
             <%! boolean displayed = false; %>
           
          <div id="serverSection2" exec="server">
@@ -88,10 +88,10 @@ Here's a purely declarative layer which defines three more converter types:
 <%= sc.lang.SCLanguage.INSTANCE.styleFile("example/unitConverter/extendedModel", "UnitConverter.sc", false, false) %>
 Notice we omit the "class" operator in front of the type name.  This is how you modify a type in a previous layer.  This name has to match the file name and there has to be a type with this type name in the previous layer.  These are the same sanity checks Java uses to be sure code is well-formed before compiling it. 
 <p>
-If you run: "sc example.unitConverter.extendedModel", it generates one UnitConverter.java file that has 6 converters in example/unitConverter/extendedModel/build/java/sc/example/unitConverter/UnitConverter.java.  At any given time, there's only one stack of layers, implementing a single set of types for each runtime, just like in Java.
+If you run: "sc example.unitConverter.extendedModel", it generates one UnitConverter.java file that has 6 converters in the generated UnitConverter.java file.  At any given time, there's only one stack of layers, implementing a single set of types for each runtime, just like in Java.
 <p>
          <div class="exampleTitle">Adding Shared UI Components</div>
-Now we'll add a layer called example.unitConverter.coreui, to add some UI code shared by more than one platform:
+Now we'll add a layer called example.unitConverter.coreui to be the view model of the UnitConverter application. It contains all of the UI code shared by more than one platform. It will define properties which can we bind to and use directly from the platform specific view layers.
 <%= sc.lang.SCLanguage.INSTANCE.styleFile("example/unitConverter/coreui", "UnitConverter.sc", false, false) %>
 There's a String to Number converter we'll use from the UI controls.  This layer introduces two properties.  The property currentConverter is set when currentConverterIndex changes by calling the get method.  This binding also fires if the list contents changes. 
 <p>
@@ -109,12 +109,12 @@ The first user interface we'll look at is implemented using StrataCode's HTML Te
 
          <p>
 
-         <div id="schtmlIntro" style=':= displayed ? "" : "display:none"'>
+         <div id="schtmlIntro" class="insetBox" style=':= displayed ? "" : "display:none"'>
             <%! boolean displayed = false; %>
          
             <div id="serverSection4" exec="server">
                <div class="exampleTitle">Quick SCHTML Intro</div>
-      SCHTML looks like HTML with some JSP-like tags thrown in.  You also can define any attribute to be a Java expression with or without data binding.  To do this, you can specify HTML attributes using rules that work like excel.  If you prefix the attribute value with an operator: =, :=, =:, or :=: followed by a space, the value is treated as a Java expression.  You can only do this for attributes which have a backing property of that name in the underlying tag object.  So for example, you can set the value attribute of an input tag, but not a body tag.  You cannot set expressions for certain properties like 'extends' or 'id'.  You can only use data binding expressions with properties of objects that are bindable (or can be made bindable via code-gen).
+      SCHTML looks like HTML with some JSP-like tags thrown in.  You also can define any attribute to be a Java expression with or without data binding.  To do this, you can specify HTML attributes using rules that work like excel.  If you prefix the attribute value with an operator =, :=, =:, or :=: followed by a space, the value is treated as a Java expression.  You can only do this for attributes which have a backing property of that name in the underlying tag object.  So for example, you can set the value attribute of an input tag, but not a body tag.  You cannot set expressions for certain properties like 'extends' or 'id'.  You can only use data binding expressions with properties of objects that are bindable (or can be made bindable via code-gen).
       <p>
       Since this layer also modifies the UnitConverter object, we have a UnitConverter object in scope to use in our tags.  The select tag sets the optionDataSource to the converters list we defined.  The selectedIndex uses a bi-directional binding to the currentConverterIndex property in the coreui layer.  We evaluate the optionData value defined for each select option as the text to display using the JSP-like <%= templateSnippets.expressionOp %> java-expression <%= templateSnippets.closeOp %> operator.  
       <p>

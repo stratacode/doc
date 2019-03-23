@@ -8,15 +8,19 @@
 
 <%= MarkDownPage.markDown(%>
 
-## Status
+## IntelliJ Plugin 
 
-The IntelliJ plugin for StrataCode supports the most important features which make IntelliJ so powerful for Java programmers.  These features are supported on all of the major StrataCode language formats: .sc, .scj, .schtml, and sct.  IntelliJ plugins are fairly easy to create for Parselets-based languages because features are moved down to the lowest-level possible - i.e. contained in base classes for specific types of nodes which can be shared or customized as needed for each language element.
+The IntelliJ plugin for StrataCode supports the most important features which make IntelliJ so powerful for Java programmers.  These features are supported on all of the major StrataCode language formats: sc, scj, schtml, sct, sccss, scxml, and scr.  IntelliJ plugins are fairly easy to create for Parselets-based languages because features are moved down to the lowest-level possible - i.e. contained in base classes for specific types of nodes which can be shared or customized as needed for each language element.
+
+## Overview of features
+
+[Annotated screen shots](ideOverview.html)
 
 ## Installation Instructions 
 
 First install the plugin itself into IntelliJ:
 
-* Download the sc4idea.jar file
+* Download the sc4idea.jar file from the github releases page
 * Go to IntelliJ's Preferences, Plugin tab and choose "Install from disk"
 * Select the sc4idea.jar and press OK.  Find the StrataCode plugin in the plugins list, and enable it.  Then restart IntelliJ.
 
@@ -25,8 +29,8 @@ First install the plugin itself into IntelliJ:
 * Run IntelliJ and choose 'Create New Project' from the setup wizard or ...  
 * Choose StrataCode from the list of available project types
 * Choose your JDK and click Next
-* Enable 'Install layers from repository URL and use the default URL (https://github.com/stratacode/)
-* Enter a comma separated list of bundle names to install.  Enter 'coreFramework, example'.  You can also add managementUI and/or doc.
+* Enable Install layers from repository URL and use the default URL (https://github.com/stratacode/)
+* Enter a comma separated list of bundle names to install.  Enter a comma separated list including at least 'coreFramework, example'.  Add 'managementUI, doc' if desired.
 * Enter a name for your project and click OK to build the project.  It will take a few seconds to check the code out of git, and generate the indexes.
 
 ### Option #2: Manually create StrataCode project
@@ -47,17 +51,17 @@ Create a directory inside of your ~/IdeaProjects for the project called scTestPr
 
      ~/IdeaProjects/scTestProject/layers/
 
-Each directory in the layers directory can contain a layer definition file, or it can be a layer group which is a directory containing other layer groups or layer directories.
+Each directory in this layers directory can itself contain a layer definition file, or sub-directories defining layer groups which contain layer directories.
 
 ### Option #3: Add a StrataCode module to a Java project
 
-You can create an empty Java project or use an existing one.  Add a StrataCode module to the project which points to a directory that has one or more layer bundles using IntelliJ's New-&gt;"Module..." option (do not use "New-&gt;Module from existing sources).  For example, if you have: 
+You can create an empty Java project or add a StrataCode module to an existing project. Either way, add a StrataCode module to the project which points to a directory that has one or more layer bundles using IntelliJ's New-&gt;"Module..." option (do not use "New-&gt;Module from existing sources).  For example, if you have: 
 
     /home/StrataCode/bundles/coreFramework
 
 use IntelliJ's New-&gt;"Module..." and create a module /home/StrataCode.  You can then exclude or include bundles in that directory as you'd like to be included in that project.
 
-### Option #4: Installation With StrataCode Source 
+### Option #4: Installation with StrataCode source 
 
 To build and debug StrataCode itself from source, along with the apps built on it, download the 'sc' source distribution.  Inside of it there are three directories - coreRuntime, fullRuntime, and system, each organized as separate IntelliJ modules you can import into your project.
 
@@ -76,7 +80,7 @@ Make the project to compile the StrataCode source (so the StrataCode plugin can 
 
 One final step - for StrataCode module, so it can find it's own source, create the file StrataCodeModule/.stratacode/scSourcePath with one line pointing to the 'sc' directory you checked out from git (the directory that contains coreRuntime, fullRuntime, and system).  This is important so that any source code required to generate Javascript comes from your git repository, not the "scrt-core-src.jar" file that's part of SCLib.
 
-### Option #5: Installation Without StrataCode Source
+### Option #5: Installation without StrataCode source
 
 The sc4idea plugin also will usually be bundled with the sc.jar file so you do not need the StrataCode source to use the IDE.
 
@@ -92,15 +96,9 @@ NOTE: it's important that fullRuntime be ahead of coreRuntime in the dependency 
 
 Also add a dependency on the JLine library.  If necessary, add the Jline library (version 2.x) from Maven or from the jar file included in the SC distribution.
 
-## Creating a StrataCode Module
-
-FIXME!
-
-Checkout the 'layers' git repository and place that directory inside of your module directory.  Accept the defaults - including the source path of 'layers'.  That name should match the name of the 'layers' directory you put in your module's directory.
-
 ## Instructions for Debugging the sc4idea plugin:
 
-TODO: these instructions probably need some updating
+TODO: these instructions probably need some updating but they are based on the normal instructions for debugging an IntelliJ plugin. 
 
 * Enable the Groovy plugin
 * Install the IntelliJ PluginDev plugin
@@ -119,6 +117,7 @@ To deploy the plugin:
 
 
 NOTE:
+
 * If you build from source, note that IntelliJ SDK or someone copies the class files from the intelliJ build directory
   into some sandbox directory in your home directory (on mac it is:
 
@@ -130,16 +129,11 @@ NOTE:
    might end up with the wrong run.  Whe installed a simple shell script to workaround this problem - the run configuration
    for the sc4idea
 
-<% ) %>
-
-<pre>
             #!/bin/sh
             PLUGINDIR=/Users/jvroom/Library/Caches/IntelliJIdea13/plugins-sandbox/plugins/sc4idea/classes
             BUILDDIR=/jjv/vroomsys/out/production/fullRuntime
-
             cp $BUILDDIR/sc/type/PTypeUtil*.class $PLUGINDIR/sc/type/
             cp $BUILDDIR/sc/type/Type*.class $PLUGINDIR/sc/type/
-</pre>
 
 * There are cases where you need to clean out this directory, like if you rename the module - the one for the old module
    might still get loaded into the classpath and precede the one you are building.
@@ -147,6 +141,8 @@ NOTE:
 ## Additional settings
 
 * If you have problems with improper reformatting after inserting a close brace, under: Editor, General, Smart Keys, disable "Reformat block on typing '}'"
+
+<% ) %>
 
      </div>
    </div>

@@ -8,11 +8,13 @@
 
 <%= MarkDownPage.markDown(%>
 
-# StrataCode Build and Packaging System 
+## StrataCode Build and Packaging System 
 
 Layers make a great way to manage your project's build configuration and allow you to build and run your applications in one step.  While you may initially just wrap an existing project in a layer, over time you'll probably find it helpful to move towards using 'scc' as your primarily build and configuration tool.  That's because in this approach, everything can be specified and updated incrementally without breaking existing published contracts.  You have more flexible ways of specifying dependencies, and managing 'transitive dependencies' using the layer stack.  And you'll have more flexible ways to manage different build/run configurations, all while preserving control and traceability using Java types in your build files.  These build files are also manageable with your IDE and are written in Java for flexibility and consistency. 
 
-With the layered approach, to build or run anything, the scc command is run with one or more layers.  Those layers may extend other layers which forces them to be included and are organized into an ordered stack.  The stack is then separated into one or more overlapping stacks, one per process or separate runtime.  So you can sync, build and/or run all processes with one command, regardless of how complex your system is and on how many systems it's deployed.  Layers control all of the variables including the deployment configuration.  The classPath for each of these is generated and all of the source files in the stack are processed, generating any code, compiling it and running it, and/or generating a script to run it without the dynamic runtime.  Testing is declarative, enabled via an option, so testing many configurations of the same system is easy.  
+With the layered approach, to build or run anything, the scc command is run with one or more layers.  Those layers may extend other layers which pull them into an ordered stack.  This initial stack defines a set of processes and runtimes - e.g. java_Desktop, java_Server, and js. The layers in the initial stack are added to a runtime only if they belong. So the result is separate stacks for each runtime where some layers are in more than one and some are not.
+
+So you can sync, build and/or run all processes with one command, regardless of how complex your system is and on how many systems it's deployed.  Layers control all of the variables including the deployment configuration.  The classPath for each of these is generated and all of the source files in the stack are processed, generating any code, compiling it and running it, and/or generating a script to run it without the dynamic runtime.  Testing is declarative, enabled via an option, so testing many configurations of the same system is easy.  
 
 All layers have a [layer definition file](layerDefinition.html), written in 'dynamic StrataCode' which specifies the 'extends' layers it requires to be below it in the stack.  This file can define components to add maven artifacts, add new file processors, adjust build/project settings, add to the classPath or source path, or import types for code in the layer and sub-layers.  Components in a sub-layer can override features in a base-layer in the same way that StrataCode lets you override features in application classes.
 
@@ -26,7 +28,7 @@ With layers as your build and packaging system, you can:
 
 Any new build system needs to do a lot to be sufficient for this task.  StrataCode has the core capabilities and many of the needed integrations:
 
-* Work with standard Java tools (e.g. git, ant, maven) or incrementally replace them. 
+* Work with standard Java tools (e.g. git, ant, maven) or can over time replace them
 * Support different runtime environments (e.g. servlets, android, javascript client/server, desktop, gwt)
 * Support different deployment environments (dev, stage, prod)
 * Universal one step build/run or multi-process deployments
@@ -38,7 +40,7 @@ Any new build system needs to do a lot to be sufficient for this task.  StrataCo
 * Easily add command line hooks for various phases
 * Rich command line interface to run code on all processes, or selectively choose a process for easy test-script and admin-scripts.
 
-## Layered System - Dynamic Java Code Processing
+## Layered System - dynamic Java code processing
 
 The dynamic layered system powers both the 'scc' command and the IntelliJ plugin.  It provides a complete language processing environment, including parsing and model generation framework that supports robust Java emulation, incremental Java code-transformations with or without type resolution and code validation.  Grammars support a variety of formats, including Java, StrataCode, HTML, XML, and CSS.  At the API level, the LayeredSystem has a srcPath, an external classPath, a system classPath, and a classLoader.
 
@@ -70,7 +72,7 @@ Layer's can add srcPath entries, directory trees that are used to find src files
 
 There are two types of source files in a Layer - those which prefix the package prefix of the layer and those that do not.  If the generated file needs to be put into a package specific directory, like a .class file, that language or file processor will prepend the package.  If it's a file in the document root, it will not prepend the package.
 
-### Mixing Two Styles of Source Organization
+### Mixing two styles of source organization
 
 Layer can be used with a typical java project directory organization (i.e. src/main/java/...), but also offer new ways of organizing files to eliminate unnecessary directories and organize modules based on features.
 
@@ -80,31 +82,35 @@ Most Java projects use a heavily type-specific organization of assets - e.g. sep
 
 Locality of reference - keeping all assets of a feature together - however is a great way to make code easier to navigate and read, especially when you are extending or patching an existing system but often long-term as well.  StrataCode's ability to distribute files that are in the same directory to different remote directories based on their type, let's you take maximum advantage of locality of reference without compromising security or control in the production system.  It's ability to merge directories and later merge layers, let's you evolve code in a way that keeps it separate while it's in development, and easily merged later when it's "part of the core" and no longer changing. 
 
-## Active Layers
+## Active layers
 
 To run a StrataCode application, you specify a set of active layers to either the scc command or an IntelliJ run configuration.  All of the dependent layers (those specified in the 'extends' clause of the layer) are pulled in to create a single stack of layers that's ordered based on dependencies.  Layers can define their own classes and object instances using Java's 'class' and StrataCode's 'object' operators, called layer components.  You can layer components for "build time" logic including definitions of file processors, languages, or repositories containing assets of information stored in git or maven.  These are called layer components. They can also modify the classes or objects of any layers they extend.  For example, you might change the version of a dependency in some base layer, disable a component, or replace it entirely by redefining a new class or instance to replace it. 
 
-## Changes to Existing Practices
+## Changes to existing practices
 
 With most build systems, you start a new project by copying the project boilerplate or running a new project wizard.  With StrataCode, you simply extend the base layer, set any required properties and override any features you want to change.
 
 With most build systems, you are forced to specify version numbers of packages you don't care about, just so you have control to customize them should you need to.  With StrataCode, the default is to inherit the base package's version so you remove redundancy right there.  If you have dependent layers which both set a version, the layer order is automatically defined so you get the right version.  If you have unrelated layers which both set a version, the order you choose for them defines the dependency order.  That typically just requires adding a new dependency to establish precedence of packages.
 
-## Build/Run Steps
+## Build/run steps
 
-Here are the high-level steps to building/running a StrataCode application:
+Here are the high-level steps involved in building/running a StrataCode application:
 
 * All layers in the layer stack are created
 * All init methods are run in stack order.  Any process or runtime constraints are defined here.  Layers can include or exclude themselves from specific processes and runtimes.
 * If there's more than one runtime/process, the stack is split into separate stacks and those new stacks are created and initialized.
-* All start methods are run.  At this point, the srcPath, and classPath for the layer should be defined.  
-* All validate methods are run.  One more step for additional error checking that's dependent on having all types resolveable.  Layers should ensure their basic requirements are satisfied and no incompatible layers are matched in the same stack.
+* All layer start methods are run.  At this point, the srcPath, and classPath for the layer should be defined.  
+* All layer validate methods are run.  One more step for additional error checking that's dependent on having all types resolveable.  Layers should ensure their basic requirements are satisfied and might look for any incompatible layersor configuration to be sure this is a valid stack. 
 
 You can mix and match two code styles in your layer definition files: component based, or using init, start, validate methods and the lower level APIs.  
 
-## Layer Components
+## Layer components
 
-You define layer components using the object keyword using any class.  Main layer components include: [LayerFileProcessor](/javadoc/sc/layer/LayerFileProcessor.html), [Language](/javadoc/sc/lang/Language.html), [RepositoryPackage](/javadoc/sc/repos/RepositoryPackage.html), [MvnRepositoryPackage](/javadoc/sc/repos/mvn/MvnRepositoryPackage.html).
+Layer components are objects defined inside of the layer definition file. They are created and merged together when the layer stack is created. By the time the start method runs, the layer components will have been initialized and merged so the last layer's change to each property will be reflected in the component. It's a very simple and powerful way to define build properties that can be easily overridden downstream. Using the @BuildInit annotation you can even inject them into the generated code.
+
+Layer components can be basic objects to hold information, or they can extend components specifically designed to augment the LayeredSystem.
+
+Main layer components include: [LayerFileProcessor](/javadoc/sc/layer/LayerFileProcessor.html), [Language](/javadoc/sc/lang/Language.html), [RepositoryPackage](/javadoc/sc/repos/RepositoryPackage.html), [MvnRepositoryPackage](/javadoc/sc/repos/mvn/MvnRepositoryPackage.html).
 
 With RepositoryPackage, you define the url of a package directory.  You can set srcPaths, classPaths, webPaths, testPaths, variables to extend the system.
 
@@ -112,15 +118,15 @@ With MvnRepositoryPackage, you can use type = 'git-mvn'; and set the url to poin
 
 If your package directory is more complex, you can nest RepositoryPackage components.  For example you can use a RepositoryPackage to retrieve a source dir, and a MvnReposioryPackage inside to add a maven artifact from a sub-directory of the git package.
 
-## Init, Start Methods
+## Defining init, start methods
 
 Your Layer objects are being created and executed using the same dynamic code engine as with dynamic objects and layers.  That means that you have the full power of defining Java classes, extending libraries etc. that you have with regular Java.  In general, we like to keep these files as declarative as possible so the layer component method is preferred.  But layer definition files are essentially interpreted Java that's run to generate your project's build and run configuration.
 
 To use this power, just add code to your Layer's class constructor, or it's  init, start, or validate methods as needed.  When you use layer components, under the hood it's init, start, and validate methods are being called during those lifecycle phases of the layer so it's easy to mix, match, and debug, both styles.
 
-## Layer Fields
+## Layer fields
 
-Layers can add fields to store properties which can be used during the build/run cycle.  Instead of duplicating a verison number in a number of mvn or git URLs, define a new field and build those URLs on the fly.
+Layers can add fields to store properties which can be used during the build/run cycle.  Instead of duplicating a version number in a number of mvn or git URLs, define a new field and build those URLs on the fly.
 
 ## The "scc" Command
 
@@ -134,7 +140,7 @@ If your layers are stored under different root directories, set the layerPath to
 
 The layer path cannot contain zip or jar files currently.  They must be expanded directories.
 
-## External Repository Integrations
+## External repository integrations
 
 Repositories in StrataCode store code in source or compiled form that is maintained in external systems.  StrataCode provides several repository implementations: git, maven, scp, and a generic URL download over http or ftp.  See: [IRepositoryManager](/javadoc/sc/repos/IRepositoryManager.html), 
 
@@ -160,13 +166,13 @@ Define a git package which downloads a maven project where the maven module we p
 
 <%= MarkDownPage.markDown(%>
 
-## Dynamic and Compiled Layers
+## Dynamic and compiled layers
 
 A layer becomes dynamic when you prefix the layer's name with the dynamic attribute in its definition file or use the -dyn option before the layer name on the command line.  A layer which extends another dynamic layer either directly or indirectly is also by definition dynamic.  As your system system evolves, you typically make layers dynamic during development, then remove the dynamic keyword and compile them into the core for deployment.  
 
 Using the -dyn option helps you temporarily run the system with one or more layers as dynamic.  
 
-## Running StrataCode Applications With the Interpreter
+## Running StrataCode applications with the interpreter
 
 To run any StrataCode application, just run scc with the relative path name of the layers involved.  You set the -lp (layer path) option to include the layer root directories.  StrataCode searches for the first layer definition file which matches the layer name you provide.  It then figures out what needs to be compiled, compiles it if necessary and then runs the main.  This usually takes place all in one process - the same Java virtual machine.  Any layers names you specify after -dyn option are treated as 'dynamic layers', even if they do not specify the 'dynamic' keyword.  Layers they extend are also treated as dynamic, unless they specify compiledOnly=true in their layer definition file.   This is a quick way to run a feature in dynamic mode when you intend to make live customizations to the code.  You can change the source files, and do 'cmd.refresh();' or run with the program editor and press refresh there.
 
@@ -181,7 +187,7 @@ Layers can add to the system classpath to include any classes they require for t
 
 If you use the @[MainSettings](/javadoc/sc/obj/MainSettings.html) annotation to specify a run script for your applications main method(s), or extend a framework that does, StrataCode will put the classpath into the generated run scripts for your application.  When your application consists of only compiled layers, you can run with only the core StrataCode runtime, only a small amount of code needed when you use data binding etc.  In this environment StrataCode generates the run script to run your standalone application.
 
-## Multiple Processes and Runtimes
+## Multiple processes and runtimes
 
 Complex system development requires building systems which span more than one process, for example the client and server parts of a tightly coupled application or different services in a micro-services framework.  They also span more than one runtime environment - e.g. Javascript in the browser, Java on the server, Android, or Java Desktop.
 
@@ -189,11 +195,11 @@ StrataCode layers let you make the process of developing in such environments re
 
 StrataCode takes care of building and running all processes to ease development workflows, all from a single command: scc list-of-layers  .
 
-## Command Line and Multiple Processes/Runtimes
+## Command line and multiple processes/runtimes
 
 The command interpreter by default will run all statements on all applicable runtimes or processes.  When a method or property only exists in one runtime or process, it's only sent to that runtime/process.  You can set the cmd.targetRuntime property to specify a specific runtime or process name for subsequent commands.
 
-## StrataCode Initialization
+## StrataCode initialization
 
 If you are customizing a StrataCode framework, the low-level details will be helpful:
 

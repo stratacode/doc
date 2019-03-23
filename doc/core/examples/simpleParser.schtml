@@ -11,7 +11,7 @@
 </div>
 
 <div class="filename">example/simpleParser/SimpleParser.java:</div>
-<%= sc.lang.SCLanguage.getSCLanguage().styleFile(null, "bundles/example/example/simpleParser/src/sc/simpleParser/SimpleParser.java", false, false) %>
+<%= sc.lang.SCLanguage.getSCLanguage().styleFile(null, sc.layer.LayeredSystem.getCurrent().getMainLayeredSystem().getStrataCodeDir("bundles/example/example/simpleParser/src/sc/simpleParser/SimpleParser.java"), false, false) %>
 
       </div>
    </div>

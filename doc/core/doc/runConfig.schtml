@@ -1,0 +1,31 @@
+<html extends="DocPage">
+<head title="Run configurations"/>
+
+<body>
+   <div id="content">
+      <div id="pageContent" exec="server">
+         <h2>Run configurations</h2>
+
+         Editing a run configuration:
+           <img width="90%" style="margin:0px auto;display:block" src="../images/editRunConfiguration.png" alt="Edit run configuration"/>
+
+         The run configuration for a StrataCode application consists mainly of a list of compiled and dynamic layers to run.
+         You can also specify options to the 'scc' command (e.g. -v for verbose)
+         and JVM parameters.  There are some configurable options: 
+           <ul>
+           <li> Build all files: If you made small changes, you can turn this off for an incremental recompile but it is not reliable yet for large scale changes.
+           <li> Create gen source module: If set, a module called genSource is created with the generated source each time you run or debug an application. You can also remove this module from your project by hand. When you have this enabled, you can debug either the StrataCode source or the generated source and navigate back and forth using shift+command+G
+           <li> Internal build - experimental
+           </ul>
+
+          <h2>Run a single layer</h2>
+          When you are only running one layer as a compiled layer, you can right click on the layer definition file and choose the run or debug options:
+           <img width="90%" style="margin:0px auto;display:block" src="../images/runByLayer.png" alt="Run by layer shortcut"/>
+           <p>
+
+         <a href="ideOverview.html">Back to IDE overview</a>
+
+      </div>
+   </div>
+</body>
+</html>

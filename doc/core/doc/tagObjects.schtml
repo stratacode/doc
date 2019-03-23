@@ -15,7 +15,7 @@ Each schtml template generates a hierarchical object definition that parallels t
 
 <% ) %>
 
-<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("doc/core","MyPage.schtml", false, false) %>
+<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("doc/core/","doc/MyPage.schtml", false, false) %>
 
 <%= MarkDownPage.markDown(%>
 
@@ -37,7 +37,7 @@ By default, the tag object extends a Java class found by mapping the tag name (e
 
 The tag can use the 'extends' attribute to change the implementation class on a tag-by-tag basis.  The default tag classes, Body, Form, Input, Table, Div, Span, etc. handle the DOM to model synchronization for that tag type.  When you use the extends attribute in a tag, the extended class must extend one of those classes.  
 
-Perhaps the most common use of extends is to extend a type that is another template.  In this case, the type of the template must match the referring tag.  For example, a table tag extends a template file which contains just a table tag and its body.  You inherit all of the functionality of the previous implementation and retain the performance benefits of single-inheritance when you use extends.  By default, the extending tag inherits the attributes and body of the extended template, but it can modify the base tag's attributes and content in flexible ways.
+Perhaps the most common use of extends is to extend a type that is another template.  In this case, the type of the template must match the refering tag.  For example, a table tag extends a template file which contains just a table tag and its body.  You inherit all of the functionality of the previous implementation and retain the performance benefits of single-inheritance when you use extends.  By default, the extending tag inherits the attributes and body of the extended template, but it can modify the base tag's attributes and content in flexible ways.
 
 Here is a one page sample which demonstrates the extends attribute using the inner tag/classes "personTemplate":
 

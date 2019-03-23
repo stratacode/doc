@@ -30,7 +30,13 @@ To start a new project with most systems, you use a "create project" wizard whic
 
 And the next time you upgrade your tool you may be required to manually update those files.  Your intent for how you customized your project is buried.  The way you want to organize your source files is defined by your framework, not by design of the developers for this particular type of project.
 
-With StrataCode, when a layer extends a base-layer, it picks up all of the previous layer's project files, which includes the definitions of file formats and a default directory organization for this layer.  You only need to specify files or settings you need to change, and you can change pretty much anything in the downstream layer, although it's best to stick with 'additive changes', that do not take away from the published contract for upstream layers.  With framework features, you can layer your configuration - so each layer contains only the properties you want to set in that project, inheriting the rest.  StrataCode combines the layers and generates one or more standard project directories.  So your deployment configuration and tooling from that point on can be the same.  This pattern both supports today's project structures, and let's you incrementally adopt a better way.  One that reduces the project configuration, and improves the relevance of any configuration that's actually there.
+With StrataCode, when a layer extends a base-layer, it picks up all of the previous layer's project files, which includes the definitions of file formats and a default directory organization for this layer.  You only need to specify files or settings you need to change, and you can change any modifiable apis exposed by the downstream layer. 
+
+It's best practice to stick with 'additive changes', that do not remove exposed features of the published contract for upstream layers but there's currently no strict enforcement of that principle. You can replace one class with another one that implements a different contract, as long as the end result can satisfy all statically typed references caught by StrataCode and compile as Java.
+
+With framework features, you can layer your configuration - so each layer contains only the properties you want to set in that project, inheriting the rest.  StrataCode combines the layers and generates one or more standard project directories, usually one for each runtime or process. So your deployment configuration and tooling from that point on can be the same.  This pattern both supports today's project structures, and let's you incrementally adopt a better way.  One that reduces the project configuration, and improves the relevance of any configuration that's actually there.
+
+Unlike many project and build configurations, StrataCode supports an incremental refresh which quickly finds changed files and copies them to the build directory. This becomes particularly useful in large, multi-process environments when the manual restart time is large.
 
 ## Git
 
@@ -43,8 +49,8 @@ Some branches in git can be avoided by creating layers which patch or replace co
 Each layer can be thought of as supplying a set of API contracts - classes, properties, and types.  They can be delivered in source or binary form, as long as these types are available to upstream code.  When you can isolate how dependencies affect developers or other members of the team, you can optimize workflows - minimizing merge conflicts and making it easier to maintain compatibility over the lifetime of the project.  Layers let you separate contracts from classes, processes, and git-repositories.  They let you manage contracts between dependencies better.  Mix and match, move and reassemble, plug and play.  Some simple use cases:
 
 * have one version of a layer retrieve a package as source, the other via a maven artifact - switch back and forth based on the need to debug the artifact, versus need for faster compiles
-* layers which do not modify contracts act just like filters - options, you can turn on/off
-* use layers to build code quickly, then refactor into shared, client and server layers - where the overlap defines the synchronization layer
+* layers which do not modify contracts act just like filters - options, you can turn on/off. Even when a particular option affects several files in different parts of the product, you keep that option's code separate. And using static typing and the generated code, you can quickly navigate back and forth.
+* use layers to build code quickly, then refactor into shared, client and server layers - where the overlap defines the synchronization layer. Develop as monolith, deploy as separate services as needed with minimal redesign required.
 
 ## Options for Module Packaging
 
@@ -64,7 +70,7 @@ Anyone who has worked in a big Java application is aware of how difficult it can
 
 Maven provides a flexible but intricate system to specify, inherit, exclude and resolve conflicts between the versions you inherit from transitive dependencies.  The order in which modules are sorted is determined by the order in which the dependency graph is traversed.  That's based on the order of dependencies in each pom.xml file, and the number of levels of indirection before you reach a given module.  So dependencies inherited that are further away are overridden by those that are closer to the first build component.
 
-Layers work in a similar way, but simplify the specification of dependencies, and allow a more intuitive way to override them.  With layers, it's the stacking order that determines precedence in all things.  That order is based on dependencies primarily but there are more ways to control the stacking order.  Layers are organized into framework, application, and configuration stacks which are independently sorted.  The order of the layers, and dependencies can be traced using the IDE, and quickly overridden in a way that you can carefully ensure that override only shows up in the right situations.   
+Layers work in a similar way, but simplify the specification of dependencies, and allow a more intuitive way to override them.  With layers, it's the stacking order that determines precedence in all things.  That order is based on dependencies primarily but there are more ways to refine the stacking order if the rare case the default is not what you want.  Layers are organized into framework, application, and configuration stacks which are independently sorted.  The order of the layers, and dependencies can be traced using the IDE, and quickly overridden in a way that you can carefully ensure that override only shows up in the right situations.   
 
 It's also easy to separate the transitive dependencies into a new layer - so you can include a package, but not include it's dependencies.  Or switch transitive dependencies by switching a layer.  That's a better alternative than excluding dependencies, since who knows when those will actually be required rules on your dependencies.  This way, a required dependency is always included but these packages of dependencies can be included optionally.  Dependencies can be represented as separate layers, features by themselves by with a simple layer definition file that has no code.
 
@@ -75,6 +81,13 @@ Most types of software projects require some way to tag builds with a version nu
 StrataCode offers the [BuildInit](/javadoc/sc/obj/BuildInit.html) annotation to provide a simple, declarative way to turn an expression that runs at build time into the initialization value for a property at run time.  See the [BuildTag](exBuildTag.html) example.
 
 Read more and see examples in the [documentation](../doc/runtime.html).
+
+## Generation of deployment files
+
+The ops team typically employs tools like chef and puppet to generate configuration files that need to change at deployment time. Machine names, ports, passwords etc need to be available to the application at runtime.
+
+The layers and code-processing are well designed to tackle this problem as well, using the same toolset as developers. Configuration moves fluidly: compiled into the application or stored on the file system, from a development git repo to an operations repo where either can copy from or layer on the other. The list of layers is all either needs to communicate the precise configuration to the other and it's all traceable in the IDE. All easily configurable with auto-configuring management UIs.
+
 <% ) %>
    </div>
 

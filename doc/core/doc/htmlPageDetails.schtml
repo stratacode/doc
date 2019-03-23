@@ -1,0 +1,35 @@
+<html extends="DocPage">
+
+<body>
+
+   <div id="content">
+       <div id="pageContent" exec="server">
+
+<%= MarkDownPage.markDown(%>
+
+## Implementation of HtmlPage
+
+<% ) %>
+
+<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("html/schtml","tag/HtmlPage.schtml", false, false) %>
+
+<%= MarkDownPage.markDown(%>
+
+The HtmlPage template sets the @URL annotation to indicate that this page object should be assigned a URL (as long as it is not abstract). 
+
+The template also defines initial JS variables in the page for windowId and appId and loads any JS files required by this page after the body tag so that they are loaded after the page is rendered.
+
+It sets the @Scope annotation to define the lifecycle of the page (appSession, window, global, etc).
+
+It sets @MainInit so that this page's object instance is created when the app is started.
+
+It sets @JSSettings(jsModulePattern) to specify that all Java code inside of this class goes into a separate .js file.
+
+Because these schtml files turn into StrataCode types, you can modify them or replace them to customize the content for your application without having to change each page. When you want to choose a different base template for a specific page, use extends on that page. If you define your own class, make sure it inherits from the appropriate tag class - e.g. sc.lang.html.HtmlPage for top-level HTML templates, and sc.lang.html.Div for a template which defines a div tag.
+
+<% ) %>
+
+     </div>
+   </div>
+</body>
+</html>

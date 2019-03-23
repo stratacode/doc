@@ -55,8 +55,8 @@
    </div>
 
    <div id="featBox" extends="InfoBox" detailBox="= featDetail" rowIndex="= 0">
-      <div class="infoBoxTitle">Java improvements</div>
-      Properties, data binding, objects, multiple inheritance, and more.
+      <div class="infoBoxTitle">StrataCode language</div>
+      Java with properties, data binding, objects, multiple inheritance, templates, and more.
    </div>
 
    <div id="jsBox" extends="InfoBox" detailBox="= jsDetail" rowIndex="= 0">
@@ -80,14 +80,17 @@
          <li>Breath new life into old Java with code processing - and run it in the browser after converting to Javascript.
          <li>Keeps Java's strengths: libraries, code completion, find usages, edit time errors, refactoring, runtime speed, standard syntax, etc.
          <li>Supports all of Java's syntax and can be used to customize and refactor existing Java applications.   
-         <li>Manage multi-process, multi-runtime systems.  Use shared and platform specific layers, annotations to control selective code inclusion.
-         <li>Automate platform specific dependencies, project organizations, and build dependencies.
-         <li>Build your own Java code processing tools easily from easy APIs.
+         <li>Layer your build files, use static typing and Java syntax. Reduce copying, allow simple project dir organization. Re-arrange project files smoothly, change git repos without complex "flag day" changes.
+         <li>Manage multi-process, multi-runtime systems with custom deployment configuration using a single command and list of layers. 
+         <li>Use dynamic layers for runtime configuration, or compiled for "best of both worlds" development and deployment flexibility.
+         <li>Eliminate need for separate operations configuration management tools.
+         <li>Java command line and test scripts - static typing, find-usages, refactor etc. Run java expressions one command at a time. Change your current type. Script mode or edit mode for making tweaks to any file at the command line, or generate a new file. Target any process. Test framework validates client and server HTML, server and client logs for more awareness and "actionable" diffs when tests fail.
+         <li>Build your own Java code processing tools from intuitive, powerful APIs.
       </ul>
    </div>
 
    <div id="featDetail" extends="BaseDetailBox" columnIndex="= 1">
-      <span class="infoBoxTitle">New features</span> - Just the right additions to Java for more concise code that's easier to read and write. 
+      <span class="infoBoxTitle">StrataCode language</span> - Just the right additions to Java syntax for more concise, readable code. 
       <ul>
          <li>Real properties in Java: automatic, customizable getX/setX conversion.
          <li>Data binding operators for Java expressions: forward :=, reverse =:, and bi-directional :=:.  Easy, fast, customizable.
@@ -99,7 +102,7 @@
    </div>
 
    <div id="jsDetail" extends="BaseDetailBox" columnIndex="= 2">
-      <span class="infoBoxTitle">Java to javascript</span> - Run your Java code in the browser, easily and efficiently. 
+      <span class="infoBoxTitle">Java to javascript</span> - Run Java code in the browser. 
       <ul>
          <li>Java to Javascript: readable JS code, usable JS objects, debuggable without a simulator</li>
          <li>Best Java to JS translation yet - Generates code with APIs callable from Javascript</li>
@@ -122,7 +125,7 @@
 
    <div id="syncBox" extends="InfoBox" detailBox="= syncDetail" rowIndex="= 1">
       <div class="infoBoxTitle">Data synchronization</div>
-      Simply build a new breed of highly efficient, declarative, reliable and manageable client/server applications.
+      Efficient, declarative, reliable and manageable client/server applications.
    </div>
 
    <div class="newRow"/>
@@ -131,15 +134,15 @@
       <div class="infoBoxTitle">Customization with Layers</div>
       <ul>                                                                                                
         <li>A powerful new language for universal customization, without any upfront design.
-        <li>Cut and paste refactoring of code and programs, without breaking compatibility.
-        <li>Photoshop-like organization of code, files, and data.
-        <li>Layers are interchangeable modules that can do more: you can simply modify features to avoid copying
+        <li>Cut and paste refactoring of classes without changing APIs.
+        <li>Photoshop-like layered organization of code, files, and data.
+        <li>Layers are modules that can also modify features, and more flexibly share code between versions.
 
-        <li>With StrataCode, you manage code more effectively:
-            <ul><li>Separate business rules and configuration from code </li>
-                <li>Partition client from server with overlapping code that runs on both</li>
-                <li>Share code between Desktop, browser, and mobile code bases</li>
-                <li>Separate code based on dependencies for maximum reuse</li> 
+        <li>With layers, you can:
+            <ul><li>Separate business rules and configuration from code as needed with cut/paste not redesign.</li>
+                <li>Share code between separate client and server versions of the same class. Overlapping layers can be synchronized.</li>
+                <li>Share code between desktop, browser, and mobile versions</li>
+                <li>Separate code based on dependencies for maximum reuse, improved readability and manageability</li> 
             </ul>
         </li>
         <li>Layers for workflow, testing, customization, A/B testing.  Complements version control for updates.</li>
@@ -157,13 +160,14 @@
    </div>
 
    <div extends="BaseDetailBox" id="syncDetail" columnIndex="= 2">
-      <span class="infoBoxTitle">Data Synchronization</span> - Let's you write code in a normal way, and scales up to complex data models supporting a rich feature set.
+      <span class="infoBoxTitle">Data synchronization</span> - Write rich featured client/server apps with less, more declarative code. 
       <ul><li>Use StrataCode synchronization to build client/server apps with almost no explicit coding.  
           <li>Put the parts of your types you want to synchronize into separate layers. 
-          <li>StrataCode generates code to track property changes automatically.  
-          <li>When your client or server syncs, those changes are put into a runtime layer and applied on the other side.  
-          <li>You can run methods easily when values change using data binding.  
-          <li>Methods can run on client, server or both.  This is no toy!  It's easy to use. (<a href="articles/syncFramework.html">more info</a>).
+          <li>Include framework layers which define at least one client and one server process. Server specific layers include "server only" framework layers. StrataCode organizes all specified processes with the right layers.
+          <li>StrataCode then generates code to track property changes automatically for synchronized properties - those explicitly marked or in shared layers marked with sync mode "automatic".  
+          <li>When your client or server syncs, those changes are serialized and applied on the other side.  
+          <li>You can run methods when values change using data binding.  
+          <li>Methods can run on client, server or both. Not a toy! Designed to be easy to debug, and scale to large complex problems. (<a href="articles/syncFramework.html">more info</a>).
       </ul>
    </div>
 
@@ -189,9 +193,9 @@
       <span class="infoBoxTitle">HTML templates</span> - the best features of the best template engines all in one.
       <ul>
          <li>Java objects for tags - inheritance, interfaces, multiple inheritance with flexible 'tag' and 'attribute' merge.
-         <li>Generate static HTML, stand-alone JS apps or full-featured client/server applications.
-         <li>Evaluate tag content on client for dynamic updates.  Evaluate others on the server for load time and SEO.  Or evaluate tags on both for the best of both worlds.
-         <li>Build stateless apps for simplicity or easily build stateful apps for efficiency, lots of features, without losing robustness (e.g. bookmarkable, stateful refresh, and client-based session-failover)
+         <li>Generate static HTML, stand-alone rich JS apps, server-side dynamicHTML apps, or fully isomorphic client/server applications all from the same code.
+         <li>Render tags in the browser for quick updates. Render others on the server for load time and SEO. Or render all on both for the best of both worlds.
+         <li>Build stateless apps or flexible, powerful declarative stateful apps for efficiency and better state management
          <li>Client/server API for DOM with data binding
          <li>Customize templates with layers:
             <ul>
@@ -227,21 +231,21 @@
 
    <div class="defaultDetailBox">
    <p>
-<a href="about.html">Jeff Vroom</a> (jeff@jvroom.com) began realizing the vision for StrataCode ten years ago and is the primary contributor.  It's a relatively small, readable, maintainable code base with no core dependencies. It's easy to adopt incrementally. StrataCode makes a great build and configuration management tool for your existing Java project. Use the code-processing features and APIs to manage your code with more awareness. Leverage data binding with three easy new operators: forward, reverse, and bi-directional bindings between properties and expressions. The dynamic Java runtime gives you one language for build files, customized code, configuration and adds an easier API to create frameworks and tools. Build quick, and customizable management UIs from your domain models. Build apps from scratch with declarative frameworks that leverage the layered pattern, data sync, Java to JS, HTML to Java. Deploy apps as static html, server-only or client/server using the same code: fully isomorphic Java. Provides an efficient state model for declarative state lifecycle management: global, per-session, per-window, per-request, multi-tenant, etc.
+<a href="about.html">Jeff Vroom</a> (jeff@jvroom.com) began realizing the vision for StrataCode ten years ago and is the primary contributor.  It's a relatively small, readable, maintainable code base with no core dependencies. StrataCode makes a great build and configuration management tool for your existing Java project. Use the code-processing features and APIs to manage your code with more awareness. Leverage data binding with three new operators: forward, reverse, and bi-directional bindings between properties and expressions. The dynamic Java runtime gives you one language for build files, customized code, configuration and adds an API to create frameworks and tools. Build quick, and customizable management UIs from your domain models. Build apps from scratch with declarative frameworks that leverage the layered pattern, data sync, Java to JS, HTML to Java. Deploy apps as static html/js, server-only or client/server using the same code: fully isomorphic Java. Provides an efficient state model for declarative state lifecycle management: global, per-session, per-window, per-request, multi-tenant, etc.
 <p>
 To get started, StrataCode supports git, maven, and an IntelliJ plugin that integrates well with Java. The test-suite processes code from dozens of standard Java projects, validating type references and catching most errors before compilation. 
 </p>
 <p>
-It's easy to write and debug grammars for new languages and to transform or transpile code. The API lets you make incremental changes to source files by changing properties in the AST objects, or modifying a list property. For example, to change the type name, set the ClassDeclaration.typeName property or to edit the statements of a method, add or remove statements from the MethodDefinition.body property. The IntelliJ plugin is also built on top of this API, using a single declarative grammar to support severa languages: scj, sc, schtml, sct, scr, and sccss.
+It's easy to write and debug grammars for new languages and to transform or transpile code. The API lets you make incremental changes to source files by changing properties in the AST objects, or modifying a list property. For example, to change the type name, set the ClassDeclaration.typeName property or to edit the statements of a method, add or remove statements from the MethodDefinition.body property. The IntelliJ plugin is also built on top of this API, using a single declarative grammar to support several languages: scj, sc, schtml, sct, scr, and sccss.
    <p>
 Integrated with <a href="doc/webFramework.html">HTML/Javascript</a>, <a href="doc/swingCommandLine.html">Swing</a>, <a href="doc/gettingStartedAndroid.html">Android</a>, OpenGL, OpenCV, <a href="doc/moreFrameworks.html">JUnit, Servlets, Jetty</a>, OpenJPA, Hibernate, and <a href="doc/wicket.html">Wicket</a>.   Designed for rapid and flexible future integrations. 
    <p>
-  <a href="contact.html">Contact us</a> for more information.  StrataCode's runtime and IDE will be free to download during the trial period but is not yet open source. If you need something built today, contact Jeff and he'll help you build it better with StrataCode.
+   StrataCode's runtime and IDE will be free to download during the trial period but is not yet open source. We are looking for feedback on the right license but we'd like to make an affordable, sustainable developer's tool. If you need something built today, contact <a href="contact.html">Jeff</a> and he'll help you build it better with StrataCode.
 
 Although in the early stages, it is already great tool and set of frameworks for building apps from scratch, with a fairly high level of support. It would also be useful to refactor large existing Java code bases, supporting continual evolution during the refactoring process. It can also be used to build or upgrade an existing SaaS platform, or build your own language oriented tools in Java. Extend the IntelliJ plugin, add your own formats and features.
   </p>
   <p>
-Everyone wants faster software, built easier that's more pleasant to use. That means empowering not only end-users but also back-office employees, administrators, operations, designers, and other people that use and customize the solution. Also providing customizable management UIs, to hand solutions off to people who customize solutions to hand solutions off to people who customize their own solution. The end goal for StrataCode has been to use layers, more rapid language development and incremental transpilation to provide developers with a way to build software more efficiently at all levels.
+Everyone wants faster software, that takes less work to build and more pleasant to use. StrataCode helps that goal by empowering not only end-users but also back-office employees, administrators, operations, designers, and other people that use and customize the solution. We believe it can empower a new class of applications, built from layered domain models, annotated with layered configuration, driven by management UIs that can reach down into the code for customized rules and operations.
   </p>
   <p>
   Read more in these <a href="articles">articles</a>.

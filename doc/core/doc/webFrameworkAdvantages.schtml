@@ -10,19 +10,23 @@
 
 ## Flexible, strongly typed, mixed client/server web framework
 
-The StrataCode web framework supports an extended form of HTML that gives you the power of Java mixed with HTML.  Tags can extend other tags either in code or template form, override attributes, use data binding expressions for attributes or content for incremental refresh.  High level tag operations support repeating tags and easy ways to bind your forms to data models.
+The StrataCode web framework supports an extended form of HTML that gives you the power of the StrataCode language mixed with HTML. Using inheritance, data binding, components, properties, etc. you can build almost everything keeping code out of the page, minimize code duplication and build robust, type safe templates. 
+And when you're prototyping or find it faster to do it all in one file, you can do everything with some Java in the page. 
+
+Tags can extend other tags either in code or template form, set properties via attributes, declare new properties, use data binding expressions for attributes or content for incremental refresh.  Tags support a 'repeat' attribute which you can set to an array or list. The tag is itself repeated once for each element with a repeatVar you can use to bind to the element.
 
 ## Declarative/procedural web framework that supports efficient content rendering
 
 * Readable, toolable HTML templates 
 * Data binding for automatic, incremental refresh of content and attributes
-* Non-declarative tags can use "bulk refresh" style - i.e. an output method that renders that tag when any contents change
-* No hidden, complex framework to manage incremental updates.  In the browser, tag objects map to DOM nodes, listen for DOM events, and update the DOM as it's properties change.  On the server, tags listen for changes from the client and refresh efficiently.  On both client and server, refresh uses a two-stage process.  As properties change, tag contents are invalidated.  Later, after the option has completed, invalid tags are refreshed.  This is an elegant, efficient declarative model, that still allows you to debug applications.
+* Set refreshBindings=true on tags which need to have bindings checked because they depend on properties which do not send change events.
+* Same syntax can be used to generate a single 'output' method when the reactive style for a tag is not a match.
+* Unlike many frameworks, you can step into and out of the code in the debugger. You can set breakpoints in your setX or getX methods and walk into and out of data binding executions or the rendering of a template. Why spend your time reading the code and trying to figure it out when you can just have all the state there in front of you at the time the bug occurs. In the browser, tag objects map to DOM nodes, listen for DOM events, and update the DOM as it's properties change.  On the server, tags listen for changes from the client using the sync protocol and refresh efficiently after each sync.  On both client and server, refresh uses a two-stage process.  As properties change, tag contents are invalidated. Later, after all inputs have been applied and all tags revalidated are the tags refreshed. Any unchanged tags can use the cached contents. Changes are refreshed in a single pass. Because you can set breakpoints in set/get methods, the protocols are designed for readability, and there are multiple logging options, you can trace what's going on and find and fix problems.
 
 ## Advantages
 
-* Runs on client, server, or both in a mix.  One code base - different ways to run the same logic for different patterns of code or to optimize download size.
-* For server-content heavy applications a tiny footprint that still provides real time, testing, and other advanced web framework features.
+* Runs on client, server, or both from the same syntax. One code base - different ways to run the same logic for different patterns of code or to optimize download size.
+* For applications which need lots of code to refresh, you can use the server-only model. The client has a very small Javascript file that still provides a fully featured webframework including: real time, flexible test scripts, and other advanced features.
 * For client-heavy applications, efficient incremental updates from Java code using Java libraries (e.g. LinkedHashMap).
 * Isomorphic Java: Fast initial page loads of complex, dynamic pages, followed by incremental page updates. 
 * Use server-side rendering for some features, client-side for others and easily change between the two models.
@@ -33,16 +37,17 @@ The StrataCode web framework supports an extended form of HTML that gives you th
 
 The default tag types, Body, Form, etc. implement a subset of the Javascript DOM API that works on both the client and the server.  For declarative changes, i.e. those which can be converted into data binding expressions, the updates are incrementally refreshed automatically as properties change.  If you need to change the HTML yourself in code, you use the DOM api and refreshes again are scheduled automatically.  You do not have to choose whether this code runs on the client or server.  That will be managed by the frameworks you include when your application is run, or controllable via the exec attribute or the [@Exec](/javadoc/sc/obj/Exec.html) annotation.
 
-## Client/Server Transparency
+## Client/server transparency
 
-Most frameworks require the application code to explicitly partition itself into client and server by separating the code and managing the communication.  With StrataCode, framework layers generate code to manage the sychronization of each type.  For each type name, there may be a version that runs on the client or a version that runs on the server or both, synchronizing properties back and forth.
+Most frameworks require the application code to explicitly partition itself into client and server by separating the code and managing the communication.  With StrataCode, framework layers generate code to manage the synchronization of each type.  For each type name, a version is generated to run on the client, another on the server and code is injected to manage the synchronization back and forth.
 
-Server layers include code that uses database operations.  Code that should run on the server for security operations.  By simply setting properties that are shared by client layers, you get client/server connectivity for free.
+Server layers typically include code that uses database operations and so are tied on the server. Or may include that that must run on the server for security, or may include that's run on both client and server (e.g. form field validation). By simply setting properties that are shared by client layers, you get client/server connectivity for free.
 
 For example, if you define these properties in a layer shared by client and server:
+
     {
        String queryParam
-       List<Result> results
+       List results
     }
 
 then a server-only layer defines:
@@ -51,7 +56,7 @@ then a server-only layer defines:
        results := query(queryParam)
     }
 
-when the client sets queryParam, the change is sent to the server on the next sync.  The server responds to the change of queryParam, calls the query(queryParam) method and sets the results property to the result.  That change is queued to go back to the client in the resopnse to the sync.
+when the client sets queryParam, the change is sent to the server on the next sync.  The server responds to the change of queryParam, calls the query(queryParam) method and sets the results property to the result.  That change is queued to go back to the client in the response to the sync.
 
 To do an insert you can use a reverse binding on the server - to call a method in response to client changes.   In the shared layer you have:
 
@@ -79,27 +84,47 @@ To support push, the server can initiate the sync over a web socket or be polled
 
 This same framework will similarly support very efficient integrations with other languages like Php, Python, .NET and IOS without too much effort.    
 
-## One Template Language, Different Ways to Evaluate 
+## One template language, different ways to evaluate 
 
-StrataCode templates can run in several different ways:
+StrataCode templates can run in several different ways: 
 
-* When you run the 'scc' command with a set of layers, global templates can be converted to static html files in your doc root.  This works great for static pages where all of the info is defined at compile-time but assembled via application code.  You can re-run scc periodically to update any files which change using the incremental build features which can easily tie into static file distribution systems for efficient management of periodically changing content that's widely distributed.
+1.  Generate a static html file by evaluating the template at build time. This is the default for any template types which are 'global scoped' and can be evaluated at build time.
+2. Client-only mode: Generate a static html file that includes javascript to render in the browser for that page
+3.  Client-server mode: Build a class for the template in each of two runtimes from the same set of layers. A java_Server process runs a version to serve the initial HTML when the page is rendered. A js version runs in the browser. At the same time, it can also build/manage the RPC interface between the two using the sync framework.
+4.  Server-only mode: Generate a template class on the server only which renders the template in response to server requests. The stags.js file can be used for a small client download which listens for input and select DOM events and uses the same sync protocol to update server. In response, the server sends back DOM updates for an efficient, real time dynamic implementation of pages.
 
-* If you include a server layer (e.g. jetty.schtml), your templates can also be rendered on-demand in response to server requests.  In this case, the PageDispatcher matches URL requests to the @URL annotation on the template, or refers to the template directly by the path - e.g. TodoList.html
+## Static HTML Files
+When you run the 'scc' command with a set of layers, global templates can be converted to static html files in your doc root.  This works great for static pages where all of the info is defined at compile-time but assembled via application code.  You can re-run scc periodically to update any files which change using the incremental build features which can easily tie into static file distribution systems for efficient management of periodically changing content that's widely distributed.
 
-* On the server, you can run your templates in either compiled mode for efficient runtime, or dynamic mode which allows you to change the template and hit 'refresh' in the browser to see the changes.  For declarative tag objects (as opposed to stateless ones which are converted to a simple output method), a lot more is going on behind the scenes because of the dynamic runtime.  The existing template page type is 'updated' - meaning fields, inner types, etc. are removed or added as necessary.  Any instances that exist are patched as necessary.  Framework hooks run so that page types are unregistered and registered if their @URL annotation changes.  If you need to change a simple formula on a complex page, you need this architecture to support an efficient, flexible "excel like" management UI that allows rapid customization. 
+## Server HTML Files
 
-* The template or tag object can have a scope annotation to define the lifecycle for the tag object.  The coreFramework provides these scopes: global (one per server), appGlobal (one per application), session (one per browser-session), appSession (one per browser-session per app window), window (one per app-window) and request (per request or transaction).  The scopes are combined to form a single hierarchical, layered name space for state management.  This design provides a number of benefits.  You can lookup names without knowing their scope, which makes it easier to change the scope of a name.  You can trace all of the statement in a given scope for security - to understand what state is exposed to what users.   For debuggability - navigating the scopes, watching property changes, tracing how state moves from client to server and back again.  The sharing of scopes is synchronized in the server, and transmits events between clients to provide real time data with flexible, declarative sharing arrangements.  You can share data between windows of the same user, or users of the same application, or all users of the server. 
+If you include a server layer (e.g. jetty.schtml), your templates can also be rendered on-demand in response to server requests.  In this case, the PageDispatcher matches URL requests to the @URL annotation on the template, or refers to the template directly by the path - e.g. TodoList.html
 
-* In the browser you can run a template page or tag object by converting the code to JS or in 'server tag' mode.  
+On the server, you can run your templates in either compiled mode for efficient runtime, or dynamic mode which allows you to change the template and hit 'refresh' in the browser to see the changes.  For declarative tag objects (as opposed to stateless ones which are converted to a simple output method), a lot more is going on behind the scenes because of the dynamic runtime.  The existing template page type is 'updated' - meaning fields, inner types, etc. are removed or added as necessary.  Any instances that exist are patched as necessary.  Framework hooks run so that page types are unregistered and registered if their @URL annotation changes.  If you need to change a simple formula on a complex page, you need this architecture to support an efficient, flexible "excel like" management UI that allows rapid customization. 
 
-* A tag object converted to JS picks up where the server version left off.  It listens for DOM events and incrementally updates the tag object from the same code, and if sync is enabled, it sends those changes to the server where they are applied to the server objects.  Also if sync is enabled, any changes from the server incrementally update the tag objects which then update the browser's DOM model for the web page.
+## Client templates in javascript
 
-* A tag object rendered using 'server tags' supports the same apis as the JS tag object but in a different way.  In this case, user interaction events on the tag are sent to the server.  Those changes update the server tag objects which send changes to the tag's attributes or body to the client.  Those changes are incrementally applied to the DOM.  When an entire template page uses server tags only, the download size drops to only a single small "stags.js" javascript file (when minified ~10K) providing an efficient way to provide "server heavy apps" that still include dynamic and/or real time functionality.
+A template class can also be converted to a Java class, that's then converted to Javascript and run in the browser. It picks up where the static html file or server rendered HTML left off. It listens for input and DOM events and incrementally updates the tag object, triggering any data binding expressions and running code in the browser. If sync is enabled, it sends those changes in a batch to the server where they are applied to the server objects.  Also if sync is enabled, any changes from the server incrementally update the tag objects which then update the browser's DOM model for the web page.
 
-## StrataCode's Java to Javascript Engine
+## Server only templates in javascript
 
-StrataCode's has a unique Java to Javascript conversion capability.  Built on the StrataCode parselets, it is simple, flexible, customizable, and produces readable, usable Javascript code with intuitive type, method and property names.  Unlike GWT, you can use this Javascript code from other Javascript easily as it exposes Java-like apis directly in Javascript, using predictable conversion rules and flexible special casing as required for name conflicts.  You keep your code in Java or StrataCode using maintainable, statically typed APIs.  
+If you only include jetty.schtml, and not js.schtml the template is rendered on the server only. It's basically the same class by the 'serverTag' flag is also set. In this case, it supports the same features but implemented in a different way. There's only a small javascript file (~10K) that's downloaded, along with some metadata about which DOM events are used on the server. It adds listeners for these events and sends batches to the server. The server similarly sends changes back as updates to the tag objects using the sync protocol. The small JS file parses those changes and updates the DOM. This simple model supports realtime just like the client-server model.
+
+## Mixing modes of operation
+
+When your layer set includes both js.schtml and jetty.schtml, you can selectively designate whether to run a given template on the client-only, server-only, or both. 
+
+For a template which is rendered in client/server mode, you can designate that rendering switch to either the client mode, or the server mode for a given child. Right now, you can switch from both to client-only or server-only but not back again. This is used for example so that static sections of a template only run on the server, even when you have some dynamic tags to run on the client. It is most commonly used when you have a server-only dependency in a template page that you also want to run on the client. Although I can imagine wanting part of a template to only run on the client, i.e. to display some browser specific info, it hasn't been useful yet.
+
+## Life cycles of templates and tag objects
+
+The template can have a scope annotation to define its lifecycle. Each scope defines one or more ScopeContexts - hashtables which store the id to instance mapping for the object instances that use that scope. For templates the object is the instance of the template class generated. The global scope has a single ScopeContext that's used and so everyone shares the same instance.  ScopeContexts are stored in a directed graph where a child can inherit from more than one parent.
+
+The coreFramework provides these scopes by default: global (one per server), appGlobal (one per application running on the server), session (one per browser-session), appSession (one per browser-session per app), window (one per each specific application window) and request (one per request or transaction).  The scopes are combined to form a single hierarchical, layered name space for state management.  This design provides a number of benefits.  You can lookup names without knowing their scope, which makes it easier to change the scope a name binds to when you are refactoring, or running the code in a new way. You can trace all of the statements that read or write to a given scope for security auditing - to understand what state is exposed to end users. For debuggability - navigating the scopes, watching property changes, tracing how state moves from client to server and back again.  The sharing of scopes is synchronized in the server, and transmits events between clients to provide real time data with flexible, declarative sharing arrangements.  You can share data between windows of the same user, or users of the same application, or all users of the server. 
+
+## StrataCode's Java to Javascript engine
+
+Built on parselets, the Java to JS converter is relatively straightforward implementation, flexible, customizable, and produces readable, usable Javascript code with intuitive type, method and property names.  Unlike GWT, you can use this Javascript code from other Javascript easily as it exposes Java-like apis directly in Javascript, using predictable conversion rules and flexible special casing as required for name conflicts.  You keep your code in Java or StrataCode using maintainable, statically typed APIs.  
 
 Click [here](jsFramework.html) for more info on StrataCode's Javascript conversion framework.
 
