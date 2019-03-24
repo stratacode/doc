@@ -25,6 +25,7 @@
          <div extends="ArticleIndex" title="Parsing and modifying code" url="parseletsIntro.html"/>
          <div extends="ArticleIndex" title="Microservices with layers" url="microservices.html"/>
          <div extends="ArticleIndex" title="Customizable enterprise systems" url="enterprise.html"/>
+         <div extends="ArticleIndex" title="Improving security" url="security.html"/>
       </div>
 
       <div id="pageContent">

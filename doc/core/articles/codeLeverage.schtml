@@ -47,7 +47,7 @@ When you use code-generation in this way, application source code can stay indep
 
 <%= MarkDownPage.markDown(%>
 
-## Learning to Code with Layers
+## Learning to code with layers
 
 Learning layers can be a lot like learning object-oriented programming.  Not all programmers take to that metaphor for designing their code, but everyone can code against a well designed object-oriented API.  The same should hold true for layers.  You can use them like modules and start out using StrataCode as a build tool, and use APIs and applications built with layers just like Java.  
 
@@ -81,7 +81,7 @@ Code that adds the recursive dependency is put in a new layer that modifies type
 
 <%= MarkDownPage.markDown(%>
 
-## Layer Basics
+## Layer basics
 
 To build and run any StrataCode application just specify a layer, or the set of layers you want to run.  One command first performs code-generation, then compilation, then runs the code if desired.  The resulting build directories represent typical projects for the runtimes you are using.  Any processes that need to be started are started automatically by the framework layers you include.
 
@@ -110,7 +110,7 @@ In the IDE's "Run Configuration" editor, you choose a set of compiled layers, or
 In the Layers View, you can see all of the layers accessible in your project.  
 You can filter layers by runtime, process, type.  You can view all of the available or 'inactive' layers.  Or after you've started a program, you can use layers view for the active layers.
 
-## Code-Processing and Management UIs
+## Code-processing and management UIs
 
 One great way to empower users of your system, and allow it to scale, is to build a great management UI - the user interface that customizes the system itself.  With StrataCode, developers can easily create layers for specific slices of configuration, rules, queries, or even simple methods.  They can delegate the management of these assets to others in the organization.  New versions of the application can be created from the hinge points defined for these application slices.  Rather than requiring the developer to build a new plugin API or explicit management UI, they get both for free by using layers directly by using a framework and exposing slices of their domain model.  A layer template can be defined by setting annotations or creating a simple annotation-only layer that lists properties, methods, or types.
 
@@ -118,7 +118,7 @@ The same dynamic code framework which powers the IDE, also is available in the d
 
 These management UIs can support immediate viewing of changes for rapid prototyping in many cases - whether you are changing styles in a stylesheet, segmentation rules for your customers, or adding a new category of products.  When your components are reactive, they can respond to property changes without restarts.  If they are dynamic you can change methods and add fields in many cases as well.  
 
-## Scalability of Management UIs
+## Scalability of management UIs
 
 The realty is that most SaaS platforms have their management UIs directly edit the live site, so updates are immediate.  If you want a test/staging environment you can set one up and now deal with maintaining two complete copies of your system.  It takes discipline, or good tools to avoid problems.
 
@@ -128,14 +128,14 @@ Layers provide a solution to help SaaS platforms improve management of customiza
 
 In a way, layers are a different form of separable 'pull request', a set of deltas to code, but where it assembles the stack for a specific version at system build/run time.
 
-## Usability of Management UIs
+## Usability of management UIs
 
 Management UIs are best when they can target specific types of users - e.g. a designer, administrator, merchandiser.
 For each type of user of your system, you can have different "layer templates" - each of which can change overlapping sets of types and properties.  When you create a new template, it can copy some default slice of code, or it may start out empty.  The base layers it extends will define the set of types and properties they can change.  As changes are made to this layer, source files for the affected types are incrementally updated.  At any given time, the management UI can show the "diff" of changes made in the source files, as well as the changes made from the previous layer.  
 
 To make this flexibility manageable, everything is traceable with tools.  You can quickly find all layers for a given type, property, or method.  You can find all usages to an identifier and change names just like with Java.  Read, modify, and write any source file in any layer without being a language expert using the provide APIs.
 
-## Layers and Source Control
+## Layers and source control
 
 Layers complement the strengths of source control systems and provide an alternative when you encounter source control problems.  The strengths of source-control are too numerous to mention, but they break down when you try to incorporate files edited by tools which do not support incremental, localized changes that are easily represented by diff'ing the old and new version.  Or when you have have two sets of files in the same source repository which have completely different workflow constraints - i.e. being edited by different groups on different time scales and review processes.  Or whenever a single repository is too large.  They are not great at migrating files and maintaining history when you reorganize, although hopefully that limitation will be fixed.  
 
@@ -149,7 +149,7 @@ To keep layers from piling up over time, one layer can be merged into another an
 
 If you've used monkey patching, overlays, or written a patch-script you've worked your way around the lack of this essential metaphor when you need it.  Instead you can do it in a more manageable way by adding a layer.  
 
-## Frameworks Built on Layers
+## Frameworks built on layers
 
 StrataCode has evolved into a rich, well designed code-processing framework with a relatively small, clean, easy-to-read-and-debug code base.  The power of code-generation combined with layers opens up opportunities for framework development and I have had lots of experience building frameworks.  It's evolved over years, and integrations with several frameworks have improved the design to be "good enough" for most applications.
 
@@ -161,12 +161,12 @@ If you want to use StrataCode with your existing projects, just point a layer at
 
 For brief introductions to the frameworks read these articles or for details, consult the [documentation](../doc).
 
-* [Layered Build and Packaging System](buildAndPackaging.html)
+* [Layered build and packaging system](buildAndPackaging.html)
 * [Java to Javascript](javaToJavascript.html)
-* [Synchronization Using Layers](syncWithLayers.html)
-* [Persistence Using Layers](persistWithLayers.html)
-* [Dynamic Runtime](dynamicRuntime.html)
-* [Parsing and Modifying Code](parseletsIntro.html)
+* [Synchronization using layers](syncWithLayers.html)
+* [Persistence using layers](persistWithLayers.html)
+* [Dynamic runtime](dynamicRuntime.html)
+* [Parsing and modifying code](parseletsIntro.html)
 
 <% ) %>
    </div>

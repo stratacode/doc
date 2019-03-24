@@ -52,7 +52,7 @@ Each layer can be thought of as supplying a set of API contracts - classes, prop
 * layers which do not modify contracts act just like filters - options, you can turn on/off. Even when a particular option affects several files in different parts of the product, you keep that option's code separate. And using static typing and the generated code, you can quickly navigate back and forth.
 * use layers to build code quickly, then refactor into shared, client and server layers - where the overlap defines the synchronization layer. Develop as monolith, deploy as separate services as needed with minimal redesign required.
 
-## Options for Module Packaging
+## Options for module packaging
 
 In most project and build configurations, each module or project contains a lot of scaffolding - directories (and features) you might not need for any particular type of module: tests, configuration, source, documents, documentation, etc.  When a project has lots of files of different types, it makes sense to separate them by type first.  It makes things easier to find and reduces the size of your directories.
 

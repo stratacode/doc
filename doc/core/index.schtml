@@ -104,12 +104,11 @@
    <div id="jsDetail" extends="BaseDetailBox" columnIndex="= 2">
       <span class="infoBoxTitle">Java to javascript</span> - Run Java code in the browser. 
       <ul>
-         <li>Java to Javascript: readable JS code, usable JS objects, debuggable without a simulator</li>
-         <li>Best Java to JS translation yet - Generates code with APIs callable from Javascript</li>
+         <li>Java to Javascript: readable JS code, usable JS APIs, debuggable without a simulator</li>
          <li>Layered, isomorphic HTML/Java templates - run code on client, server or both with one syntax</li>
          <li>Supports many standard Java classes: ArrayList, HashMap, LinkedHashMap, etc.</li>
          <li>Libraries, modules, automatic dependency detection and ordering</li>
-         <li>Code patching for live code updates and building app customization UIs</li>
+         <li>Code patching for refreshable, stateful apps and better management customization UIs</li>
       </ul>
    </div>
 
