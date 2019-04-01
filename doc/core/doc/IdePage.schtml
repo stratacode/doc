@@ -1,0 +1,60 @@
+<html abstract='true' extends='DocPage'>
+
+<body>
+   <div id="content">
+      <li id="IdeIndex" abstract="true" class=':= ideSelected ? "ideIndexSelected" : "ideIndexEntry"'>
+         <%! 
+            String url; 
+            String title;
+            boolean ideSelected := containsIdeUrl(Window.window.location.href, url); 
+            boolean containsIdeUrl(String href, String pageUrl) {
+               if (href == null || pageUrl == null)
+                  return false;
+               return href.contains(pageUrl);
+            } 
+          %>
+          <a href='= "/doc/" + url'><div class="ideIndexTitle"><%= title %></div></a>
+      </li>
+      <div id="pageContent" exec="server">
+         <%! 
+            IdeIndex getNextTag() {
+               Object[] childTags = ideNav.ideIndexList.getObjChildren(true);
+               for (int i = 0; i < childTags.length; i++) {
+                  IdeIndex childTag = (IdeIndex)childTags[i];
+                  if (childTag.ideSelected) {
+                     return i == childTags.length - 1 ? null : (IdeIndex)childTags[i+1];
+                  }
+               }
+               return null;
+            }
+         %>
+         <h2>IntelliJ plugin topics:</h2>
+         <div id="ideNav">
+            <ul id="ideIndexList">
+            <li extends="IdeIndex" url="ide/overview.html" title="Overview"/>
+            <li extends="IdeIndex" url="ide/config.html" title="Install/configure"/>
+            <li extends="IdeIndex" url="ide/layersView.html" title="Layers view"/>
+            <li extends="IdeIndex" url="ide/runConfig.html" title="Run and debug"/>
+            <li extends="IdeIndex" url="ide/modNav.html" title="Navigate by the layers in a type"/>
+            <li extends="IdeIndex" url="ide/propNav.html" title="Navigate by property"/>
+            <li extends="IdeIndex" url="ide/newLayer.html" title="New layer"/>
+            <li extends="IdeIndex" url="ide/newType.html" title="New type"/>
+            <li extends="IdeIndex" url="ide/debugPlugin.html" title="Debug sc4idea plugin"/>
+            </ul>
+         </div>
+
+         <div id="nextNav" orderValue="1.0">
+            <br/>
+            <span id="nextNav" visible=":= nextTag != null">
+               Next topic:
+                 <div class="ideIndexEntry" style="display: inline-block; width: 250px">
+                   <a  href='= "/doc/" + nextTag.url'>
+                      <div class="ideIndexTitle"><%= nextTag.title %></div></a>
+                 </div>
+            </span>
+            <br/>
+         </div>
+      </div>
+   </div>
+</body>
+</html>

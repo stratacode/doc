@@ -18,7 +18,7 @@
 
                  <div id="capsuleTitle" class="capsuleTitle">
                     <span class="closeCapsule" id="closeCapsule" clickEvent="=: currentContent = null" visible=":= capsuleExpanded">
-                        <img src="/images/closeX.png" style="vertical-align:middle"/>
+                        <img src="/images/closeX.png" width="16px" style="vertical-align:-3px"/>
                      </span>
                  </div>
 
@@ -30,7 +30,7 @@
               </div>
 
               <div id="javaAdditions" extends="Capsule">
-                  <div id="capsuleTitle">Java Additions</div>
+                  <div id="capsuleTitle">Language features</div>
                   <div id="javaCapsuleMenu" class="capsuleMenu">
                       <ul id="javaMenuList">
                           <li id="objectMenu" menuContent="= objectContent" extends="CapsuleMenuItem">object</li>
@@ -108,7 +108,7 @@ interface RedStyle extends Style {
               </div>
 
               <div id="fileTypes" extends="Capsule">
-                  <div id="capsuleTitle">File Types</div>
+                  <div id="capsuleTitle">File types</div>
                   <div id="fileCapsuleMenu" class="capsuleMenu">
                       <ul id="fileMenuList">
                           <li id="scFileMenu" menuContent="= scFileContent" extends="CapsuleMenuItem">.sc</li>

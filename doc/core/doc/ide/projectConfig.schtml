@@ -1,0 +1,10 @@
+<html extends="IdePage">
+<head title="Project config"/>
+
+<body>
+   <div id="content">
+      <div id="pageContent" exec="server">
+      </div>
+   </div>
+</body>
+</html>

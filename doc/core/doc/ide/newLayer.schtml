@@ -1,0 +1,19 @@
+<html extends="IdePage">
+<head title="New layer"/>
+
+<body>
+   <div id="content">
+      <div id="pageContent" exec="server">
+         <div id="sectionContent">
+            <h2>New layer</h2>
+            Access the New-&gt;StrataCode layer dialog by right clicking on a directory in the bundles directory, the layers directory, or a layer group inside of one of those directories. Make sure the folder is a source folder of a StrataCode module in IntelliJ's project structure dialog. If that folder is already the currently selected folder, just use the File-&gt;New menu or the command-N shortcut<p/>
+              <img style="margin:0px auto;display:block" src="/images/ide/chooseNewLayer.png" alt="New layer menu"/>
+              <p/>
+              Optionally specify a package. Choose whether this layer is always a dynamic layer, and whether all types, fields, methods are public by default. Click on Add... to add layers for this layer to extend.
+              <img style="margin:0px auto;display:block" src="/images/ide/newLayer.png" alt="New layer"/>
+              <p/>
+         </div>
+      </div>
+   </div>
+</body>
+</html>

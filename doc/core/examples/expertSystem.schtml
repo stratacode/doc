@@ -32,7 +32,7 @@ And the list of factors used by the leader to describe the situation:
 
 <%= sc.lang.SCLanguage.getSCLanguage().styleFile("example/expertSystem/modelNames","LeadershipStyle.sc", false, false) %>
 
-      This file also just populates an enumerated type but because it has lots of text, it is written in SCT, StrataCode's template language.  SCT is just Java turned inside out.  You start in template model, then break into Java and back out again with the JSP-like escpae tags.  It's nice because it's easy to change a file from SCT to SC or vice versa.  It also means SCHTML and other template language variants have the full power of Java behind them.
+      This file also just populates an enumerated type but because it has lots of text, it is written in .sct, StrataCode's template language.  .sct is just Java turned inside out.  You start in template mode, then break into Java and back out again with the JSP-like escape tags. It's possible to convert any .sc file to a .sct file and back again, or cut and paste between the two. Because .sct is the base class for .schtml, it and other template-based formats variants are as flexible as Java.
 
 <%= sc.lang.TemplateLanguage.getTemplateLanguage().styleFile("example/expertSystem/modelNames","SituationalFactor.sct", false, false) %>
 

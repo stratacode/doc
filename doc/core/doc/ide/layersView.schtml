@@ -1,0 +1,82 @@
+<html extends="IdePage">
+<head title="Layers view"/>
+
+<body>
+   <div id="content">
+      <div id="pageContent" exec="server">
+         <div id="sectionContent">
+            <h2>Layers view</h2>
+            Opened from a tab on the right side of the Intellij window, the LayersView exposes a powerful tool for managing and understanding your code's dependencies. View layers in one of three modes:
+            <p/>
+              <b>Inactive:</b> shows all layers in the project<br/>
+              <b>Active:</b> shows layers in last debug/run session<br/>
+              <b>Current:</b> inactive layers loaded in this IDE session.
+              <p/>
+              Active layers:
+              <img style="margin:0px auto;display:block" src="/images/activeInactiveLayers.png" alt="Active layers"/>
+              <br/>
+              Inactive layers:
+              <p/>
+              <img style="margin:0px auto;display:block" src="/images/inactiveLayersJS.png" alt="Inactive layers"/>
+              <br/>
+            <h2>Layers organized by process or runtime</h2>
+             Some layers are tied to one or more processes or runtimes by calling includeRuntime(), includeProcess(), excludeRuntime() or excludeProcess() in the init() method in the layer definition file. Framework layers further can define a new process or runtime. Most application layers inherit runtime restrictions from the layers they extend. From that information, StrataCode organizes layers using these process/runtime constraints into separate "layered systems", each of which defines a particular process. This layers view shows you the layers in each layered system for both the active and inactive views.
+             <p/>
+             Here are the active layers in the server process running the doc.core layer running in compiled client/server mode:
+              <p/>
+              <img style="margin:0px auto;display:block" src="/images/layersViewRuntimes.png" alt="Layers view runtimes"/>
+              <p/>
+              Here are the active layers in the JS runtime for the same application:
+              <p/>
+              <img style="margin:0px auto;display:block" src="/images/activeLayersJS.png" alt="Client layers"/>
+              <br/>
+
+            <h2>Layers organized by type</h2>
+            The layer definition file as a best practice contains metadata to identify the type of code in that particular layer: framework, model, ui, etc.  
+            <p>
+            Here are the available framework layers that you can use with the Java server process:
+            <p/>
+              <img style="margin:0px auto;display:block" src="/images/layersViewTypes.png" alt="Layers view runtimes"/>
+              <p/>
+            <h2>Dynamic layers</h2>
+            A dynamic layer has a green icon in the layers view. With doc.core as a dynamic layer, layers view shows:
+              <p/>
+              <img class="centerImageBlock" src="/images/ide/dynLayersView.png" alt="Dynamic layers view"/>
+              <p/>
+            <h2>Filter by name</h2>
+            Show only layers matching a pattern (use * for wildcards - e.g. *core or *model)<p/>
+              <img style="margin:0px auto;display:block" src="/images/ide/filterLayers.png" alt="Filter layers"/>
+              <p/>
+            <h2>Layer selection</h2>
+              Layer selection is tied to file selection in both directions. When selecting EditorFrame.schtml, layers view selects it's layer: editor.js.core. Now editor.coreui is blue because it defines a super layer of EditorFrame. 
+              <p/>
+              <img style="margin:0px auto;display:block" width="100%" src="/images/ide/layerSelection.png" alt="Layer selection"/>
+              <p/>
+              After selecting editor.coreui in the layer's view, the editor opens to EditorFrame.sc in that layer. Now editor.js.core is blue because it is a sub layer of EditorFrame.
+              <p/>
+              <img style="margin:0px auto;display:block" width="100%" src="/images/ide/layerSelection2.png" alt="Layer selecting modified type"/>
+              <p/>
+            <h2>Enable layer options</h2>
+            The layer options menu is available by clicking on the 'gear' icon in the upper right corner of Layers view. These options add additional info after the layer name.
+            <p/>
+            Show layer package - the package assigned to the layer. When a layer has a package, all files in that layer's directory start out in that package. 
+              <p/>
+              <img style="margin:0px auto;display:block" src="/images/ide/layerPackage.png" alt="Layer package"/>
+              <p/>
+            Show layer details - 'build' for buildLayers, 'annotation' for annotation layers, codeType = Framework, Model, etc.
+              <p/>
+              <img style="margin:0px auto;display:block" src="/images/ide/layerDetails.png" alt="Layer details"/>
+              <p/>
+            Show sync annotations - Auto-sync as shown here turns on synchronization for layers that are used in more than one runtime.
+              <p/>
+              <img style="margin:0px auto;display:block" src="/images/ide/layerSync.png" alt="Layer sync"/>
+              <p/>
+            Show layer's with runtime constraints - The jetty.lib layer is excluded from the js, gwt, and android runtimes and defines a process called "Server" in the java runtime.
+              <p/>
+              <img style="margin:0px auto;display:block" src="/images/ide/layerRuntime.png" alt="Layer runtime"/>
+              <p/>
+         </div>
+      </div>
+   </div>
+</body>
+</html>

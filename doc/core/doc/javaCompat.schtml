@@ -10,7 +10,7 @@
 
 This section describes both the basics around importing existing Java code, and at a language level, the compatibility between StrataCode code and Java code.
 
-## Importing Compiled Java Libraries
+## Importing compiled Java libraries
 
 StrataCode is designed to make it easy to work with large Java code bases.  As a first step, you can simply import pre-compiled Java libraries and use them from StrataCode.  You cannot modify these types using the modify operator, bind to property change events (unless the compiled code uses the Bind.sendEvent api through some hook you can register), or use other features with them that require that StrataCode generate the code for these types.
 

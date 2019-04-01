@@ -1,0 +1,26 @@
+<html extends="IdePage">
+<head title="Navigate by type"/>
+
+<body>
+   <div id="content">
+      <div id="pageContent" exec="server">
+         <div id="sectionContent">
+            <h2>Navigate by the layers in a type</h2>
+            Line markers, used in Java for when a class or method overrides an implementation, are used in StrataCode for layers as well. For types, line markers include both super or sub classes and super or sub layers. Here are the 'sub' line markers for EditorFrame. One class extends EditorFrame and two layers modify it:
+            <p/>
+
+              <img style="margin:0px auto;display:block; max-width: 90%" src="/images/ide/modSubLineMarkers.png" alt="Navigate to sub layer"/>
+
+            <p>
+
+            The editor.swing.core layer of EditorFrame has two super types accessible from it's up-arrow line marker. It extends the swing.core AppFrame class and it modifies the EditorFrame in coreui:
+            </p>
+              <img style="margin:0px auto;display:block; max-width: 90%" src="/images/ide/modSuperLineMarkers.png" alt="Navigate to super layer"/>
+            <p>
+            &nbsp;
+            </p>
+         </div>
+      </div>
+   </div>
+</body>
+</html>

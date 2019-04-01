@@ -8,6 +8,8 @@ import sc.doc.templateSnippets;
 import sc.doc.Example;
 import sc.doc.PageLayout;
 import sc.doc.ArticlePage;
+import sc.doc.doc.DocPage;
+import sc.doc.doc.IdePage;
 import sc.doc.MarkDownPage;
 
 /** 

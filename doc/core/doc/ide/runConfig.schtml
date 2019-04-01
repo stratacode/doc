@@ -1,0 +1,80 @@
+<html extends="IdePage">
+<head title="Run and debug"/>
+
+<body>
+   <div id="content">
+      <div id="pageContent" exec="server">
+         <div id="sectionContent">
+            <h2>Run and debug</h2>
+
+            Like Java, create a run configuration to run or debug a program. Choose <i>StrataCode application</i> from the list of configuration types: 
+            <p/>
+              <img style="margin:0px auto;display:block; max-width: 90%" src="/images/ide/createRunConfig.png" alt="Create run configuration"/>
+            <p/>
+            Choose one or more layers for the application instead of Java's main class: 
+            <p/>
+              <img style="margin:0px auto;display:block; max-width: 90%" src="/images/ide/createRunConfig2.png" alt="Choose layer"/>
+            <p/>
+            One of the included layers will specify an @MainSettings annotation to define a main method to run. This is usually in a framework layer one of your layers extends. Components can specify @MainInit or extend a framework class which has that annotation if they need to be initialized when the application is run.
+            <p/>
+            Editing a run configuration:
+            <p/>
+              <img style="margin:0px auto;display:block; max-width: 90%" src="/images/ide/runConfig.png" alt="Edit run configuration"/>
+            <p/>
+            The run configuration requires at least one layer in the compiled or dynamic layers lists.  Add additional options to the 'scc' command (e.g. -v for verbose, -vs verbose sync, -vb verbose binding, -vh verbose html, -tv test verify - headless, -tw test verify - window)
+            and JVM parameters.  The options: 
+              <ul>
+              <li> Build all files: If you made small changes, you can turn this off for an incremental recompile, though beware that it is not yet reliable for more significant code changes.
+              <li> Create gen source module: a single module called genSource is created/updated with the generated source each time you run or debug an application. To keep things simple/manageable, only one genSource module exists at a time for the project.  You can delete this module from your project to return to a "source only" view. The genSource module enables debugging of either the StrataCode source or the generated source. It offers line-by-line navigation between the two using shift+command+G
+              <li>'Require dynamic runtime' and 'Internal build' - are experimental options where the plugin does the code generation and compile steps itself. After processing and compiling the project, it runs 'scc' with the list of layers if either 'Require dynamic runtime' is set or a framework layer is used that requires the dynamic runtime (like the web framework currently). Otherwise, it could launch and debug the application without scc.
+              </ul>
+            The default VM parameters include -Xmx1024m to allow for a large heap for Java.  This is required because the launched program will compile the system if necessary before running the program in the same process. If your application does not use features of the dynamic runtime, it can generate a standalone jar file and customizable scripts and install environments. Features like data binding and components will depend upon either the coreRuntime or fullRuntime packages only. 
+            <p/>
+             <h2>Fast way to run one layer</h2>
+             When running one layer in compiled mode, right click on the layer definition file and choose the run or debug options:
+            <p/>
+              <img style="margin:0px auto;display:block; max-width: 90%" src="/images/runByLayer.png" alt="Run by layer shortcut"/>
+              <p>
+              Just like with Java, this creates a temporary run configuration you can then customize and save.
+
+            <h2>Generated source and the genSource module</h2>
+            When you run or debug an application with 'Create gen source module' enabled, you'll see a genSource module added to your project:
+            <p/>
+              <img style="margin:0px auto;display:block; max-width: 90%" src="/images/ide/genSourceModule.png" alt="Gen source module"/>
+            <p/>
+            This module is replaced or updated each time.
+            <p/>
+            It's important to recognize the generated source when navigating. For example, here there's a TodoList in the genSource module, as well as an option to choose one of several layers:
+            <p/>
+              <img style="margin:0px auto;display:block; max-width: 90%" src="/images/ide/gotoClassGenSource.png" alt="Goto class with gen source"/>
+            <p/>
+            <h2>Navigate to/from generated source</h2>
+            From a source line in the editor view, use the keyboard shortcut shift-command-g (or choose 'View Generated Source" in the 'Run' menu) to navigate to the same line in the generated source:
+            <p/>
+              <img style="margin:0px auto;display:block; max-width: 90%" src="/images/ide/navToGenSrc.png" alt="Navigate to gen source"/>
+            <p/>
+            The generated source: 
+            <p/>
+              <img style="margin:0px auto;display:block; max-width: 90%" src="/images/ide/navFromGenSrc.png" alt="Navigate from gen source"/>
+            <p/>
+            The same key also goes back from the generated source to the original.
+            <h2>Debugging generated source</h2>
+            Single-stepping through code navigates to the source by default. To navigate by the generated source, choose 'Debug Generated Source' under the Run menu.
+            <h2>Generated source is marked read-only</h2>
+            Because the generated source can look just like the original, it's easy to forget and try to change a generated file. To avoid this disasterous situation, these files are marked read-only. The editor won't allow it and the 'View generated source' shortcut quickly navigates to the right file to change. If this safeguard is defeated and a generated file is modified, on the next code generation renames the file, rather than replacing it. Look for a warning on the console.
+            <h2>Debugging dynamic layers</h2>
+            Unfortunately, dynamic layers do not yet support source level debugging. If you need to set breakpoints, or single-step through code it's best to compile the layers with that code. This is not a large project to add but so far has not been a major obstacle. There's a lot of potential debugging options with a code-simulator built right on top of the AST. 
+            <p>
+            Given the simplicity of the system, it's somewhat tedious in comparison but straightforward to step into the dynamic runtime code to do the debugging. For example, stop in AbstractMethodInvocation.invoke() when methodName == "some method". Add an empty or dummy if statement when conditional breakpoints are too slow. Look in ExecutionContext for the current variable state. Step in or over the various execStatements, invoke, and eval methods. The toString() methods in most major objects provide traceability and are useful for ad-hoc breakpoints:
+<pre><code>      
+            // "Code cairn" - example offering convenient breakpoint for the dynamic runtime
+            if (statement.toString().equals("foo(bar);")
+               System.out.println("***");
+
+</code></pre>
+            </p>
+         </div>
+      </div>
+   </div>
+</body>
+</html>

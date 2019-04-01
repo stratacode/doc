@@ -8,7 +8,7 @@
 
 <%= MarkDownPage.markDown(%>
 
-## StrataCode Build and Packaging System 
+## StrataCode build and packaging system
 
 Layers make a great way to manage your project's build configuration and allow you to build and run your applications in one step.  While you may initially just wrap an existing project in a layer, over time you'll probably find it helpful to move towards using 'scc' as your primarily build and configuration tool.  That's because in this approach, everything can be specified and updated incrementally without breaking existing published contracts.  You have more flexible ways of specifying dependencies, and managing 'transitive dependencies' using the layer stack.  And you'll have more flexible ways to manage different build/run configurations, all while preserving control and traceability using Java types in your build files.  These build files are also manageable with your IDE and are written in Java for flexibility and consistency. 
 
@@ -56,11 +56,11 @@ You can use StrataCode as a development tool from code by constructing a Layered
 
 The layered system supports a set of inactive layers, and an optional 'type index' for all layers it finds in the layer path.  It also supports a set of active layers, those that you are building and running (e.g. as specified on the scc command line or through an IDE run configuration). 
 
-## Layer Definition Files
+## Layer definition files
 
 Layers are defined with layer definition files which are coded in interpreted StrataCode (a superset of Java), not XML or Groovy like most build systems.  There is one syntax and toolset you can use to manage all aspects of your development.  You have the benefits of static typing and IDE support to build and validate your entire project at once. 
 
-## Languages and File Processors
+## Languages and file processors
 
 Layer definition files can add new file types to be processed of two different types: languages, and file processors.  Languages add new types of files that are parsed and transformed during the build.   File processors are applied in layer order to merge the directory trees found in layers into the one build directory, letting you build up any resulting project by picking the "latest" file.  By defining a new file in a new layer, you can override a file in the previous directory tree when generating the build directory.
 

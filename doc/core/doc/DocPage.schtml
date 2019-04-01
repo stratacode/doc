@@ -3,36 +3,42 @@
 <body>
    <div id="content" extends="PageLayout" section="documentation">
 
-      <div id="DocIndex" abstract="true" class=':= "pageIndexEntry " + (containsString(pageURL, url) ? "pageIndexSelected" : "")'>
+      <div id="DocIndex" abstract="true" class=':= "pageIndexEntry " + (containsPath(pageURL, url) ? "pageIndexSelected" : "")'>
          <%! String title, url, pageURL := Window.window.location.href; 
-             boolean containsString(String base, String sub) {
-                if (base == null || sub == null)
+             String subDir = null;
+             boolean containsPath(String url, String path) {
+                if (url == null || path == null)
                    return false;
-                return base.contains(sub);
+                if (url.contains(path))
+                   return true;
+                if (subDir != null && url.contains(subDir))
+                   return true;
+                return false;
              }%>
-         <a href='= url'><div class="pageTitle"><%= title %></div></a>
+         <a href='= "/doc/" + url'><div class="pageTitle"><%= title %></div></a>
       </div>
 
       <div id="pageIndex" class="pageIndex" exec="server">
          <div extends="DocIndex" title="Understanding StrataCode" url="understandingSC.html"/>
-         <div extends="DocIndex" title="Getting Started" url="gettingStarted.html"/>
+         <div extends="DocIndex" title="Getting started" url="gettingStarted.html"/>
+         <div extends="DocIndex" title="IntelliJ plugin" url="ide/overview.html" subDir="/ide/"/>
          <div extends="DocIndex" title="Components" url="components.html"/>
-         <div extends="DocIndex" title="Layers: Modifying Types" url="modify.html"/>
-         <div extends="DocIndex" title="Data Binding" url="dataBinding.html"/>
-         <div extends="DocIndex" title="Defining Layers" url="layerDefinition.html"/>
-         <div extends="DocIndex" title="Web Framework" url="webFramework.html"/>
+         <div extends="DocIndex" title="Layers: modifying types" url="modify.html"/>
+         <div extends="DocIndex" title="Data binding" url="dataBinding.html"/>
+         <div extends="DocIndex" title="Defining layers" url="layerDefinition.html"/>
+         <div extends="DocIndex" title="Web framework" url="webFramework.html"/>
          <div extends="DocIndex" title="Synchronization" url="syncFramework.html"/>
-         <div extends="DocIndex" title="Android Framework" url="gettingStartedAndroid.html"/>
-         <div extends="DocIndex" title="Java Compatibility" url="javaCompat.html"/>
-         <div extends="DocIndex" title="Build and Package System" url="runtime.html"/>
-         <div extends="DocIndex" title="Template Language" url="templateLang.html"/>
-         <div extends="DocIndex" title="Generated Code" url="genCode.html"/>
+         <div extends="DocIndex" title="Android framework" url="gettingStartedAndroid.html"/>
+         <div extends="DocIndex" title="Java compatibility" url="javaCompat.html"/>
+         <div extends="DocIndex" title="Build and packaging system" url="runtime.html"/>
+         <div extends="DocIndex" title="Template language" url="templateLang.html"/>
+         <div extends="DocIndex" title="Generated code" url="genCode.html"/>
          <div extends="DocIndex" title="Debugging" url="debugging.html"/>
-         <div extends="DocIndex" title="Parsing and Code Gen Framework" url="parser.html"/>
-         <div extends="DocIndex" title="Dynamic Runtime" url="dynamicRuntime.html"/>
-         <div extends="DocIndex" title="Framework Development" url="frameworkDev.html"/>
+         <div extends="DocIndex" title="Parsing and code gen framework" url="parser.html"/>
+         <div extends="DocIndex" title="Dynamic runtime" url="dynamicRuntime.html"/>
+         <div extends="DocIndex" title="Framework development" url="frameworkDev.html"/>
          <div extends="DocIndex" title="Servlets, Junit, Jetty" url="moreFrameworks.html"/>
-         <div extends="DocIndex" title="Other Integrations" url="testIntegrations.html"/>
+         <div extends="DocIndex" title="Other integrations" url="testIntegrations.html"/>
       </div>
 
       <div id="pageContent">

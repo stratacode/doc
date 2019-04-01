@@ -7,7 +7,7 @@
 
 <%= MarkDownPage.markDown(%>
 
-## The Motivation for layers
+## Motivation for layers
 
 by Jeff Vroom
 

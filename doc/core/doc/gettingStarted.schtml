@@ -16,7 +16,7 @@ Prerequisites: Experience with Java, Git, Unix (linux or mac, some windows suppo
 
 ## Download StrataCode runtime
 
-Get the [IntelliJ plugin](ideConfig.html) which includes the runtime or download a release from github. This installs the scc command and all the libraries you need to create a project.
+Get the [IntelliJ plugin](ide/config.html) which includes the runtime or download a release from github. This installs the scc command and all the libraries you need to create a project.
 
 ## Option: Build from source
 
@@ -87,7 +87,7 @@ There's a usage for the scc command and type "help" at the command line.
 
 See [known issues](https://github.com/stratacode/issues/issues?state=open).
 
-[IDE Setup](ideConfig.html).
+[IDE Setup](ide/config.html).
 
 <% ) %>
 
