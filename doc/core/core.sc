@@ -16,7 +16,7 @@ import sc.doc.MarkDownPage;
  * The basic documentation layer.  It has components that require server features although some pages can partially run
  * in the browser the JS runtime is included. 
  */
-public doc.core extends doc.tag, jetty.schtml, servlet.options.globalScope {
+public doc.core extends doc.tag, jetty.schtml {
    {
       System.setProperty("markDown.cmd", getRelativeFile("bin/markdown"));
    }

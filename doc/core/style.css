@@ -284,11 +284,11 @@ h2 {
 
 .navbar {
    background-color: #FFFFFF;
-   background:radial-gradient(#FFFFFF,#CACACA 300%);
+   /* background:radial-gradient(#FFFFFF,#CACACA 300%); */
    padding-left: 1%;
    padding-right: 1%;
-   padding-bottom: 12px;
-   padding-top: 12px;
+   padding-bottom: 4px; 
+   padding-top: 4px;
 
    margin-left: 0px;
    margin-right: 0px;
@@ -300,6 +300,7 @@ h2 {
 }
 
 .nav {
+   padding-left: 10px;
    display:inline;
    list-style:none;
    width:80%;

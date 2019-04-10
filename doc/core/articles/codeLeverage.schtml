@@ -71,13 +71,9 @@ For example, let's say you have a class called UserAccount which both defines th
 
 <% ) %>
 
-Additionally, with layers you can eliminate recursive references that might develop between modules, even without changing the APIs.  
+## One way dependencies
 
-<img id="depsWithModules" style="margin:0px auto;display:block;width:55%" src="../images/moduleDeps.png" alt="Dependencies with Modules"/>
-
-Code that adds the recursive dependency is put in a new layer that modifies types:
-
-<img id="depsWithLayers" style="margin:0px auto;display:block;width:55%" src="../images/layerDeps.png" alt="Dependencies with Layers"/>
+Additionally, with layers you can eliminate recursive references that might develop between modules, even without changing the APIs. Using the modify operator, introduce dependencies in a new layer so that independent code stays independent. APIs do not change in an incompatible way as you modify types. Even when the code at runtime generates modules which all depend upon each other, layers within the source code can still be tested and used independently.  Read more in [Motivation for layers](aboutLayers.html).
 
 <%= MarkDownPage.markDown(%>
 
@@ -161,6 +157,7 @@ If you want to use StrataCode with your existing projects, just point a layer at
 
 For brief introductions to the frameworks read these articles or for details, consult the [documentation](../doc).
 
+* [Motivation for layers](aboutLayers.html)
 * [Layered build and packaging system](buildAndPackaging.html)
 * [Java to Javascript](javaToJavascript.html)
 * [Synchronization using layers](syncWithLayers.html)

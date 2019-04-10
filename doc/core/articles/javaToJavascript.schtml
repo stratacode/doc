@@ -19,9 +19,9 @@ It's also possible to use the Java to JS converter by itself.
 
 Here's an example.  This java implementation of selection sort:
 <% ) %>
-   <%= sc.lang.JavaLanguage.INSTANCE.styleFile("example/simple", "SortTest.scj", false, false, false) %>
+   <%= sc.lang.JavaLanguage.INSTANCE.styleFile("example/simple", "SortTest.scj", false, false, true) %>
    is converted to this javascript:
-   <%= sc.lang.js.JSLanguage.INSTANCE.styleBuildFile("example/simple", "js", "js/types/example_simple_SortTest.js", false, false, false) %>
+   <%= sc.lang.js.JSLanguage.INSTANCE.styleBuildFile("example/simple", "js", "js/types/example_simple_SortTest.js", false, false, true) %>
 
 <%= MarkDownPage.markDown(%>
 

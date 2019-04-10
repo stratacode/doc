@@ -41,7 +41,7 @@ Annotation your GWTModule class with the @GWTModule annotation.
 
 <% ) %>
 
-<%= sc.lang.SCLanguage.INSTANCE.styleFile("example/unitConverter/gwtui","UnitConverter.sc", false, false, false) %>
+<%= sc.lang.SCLanguage.INSTANCE.styleFile("example/unitConverter/gwtui","UnitConverter.sc", false, false) %>
 
 <%= MarkDownPage.markDown(%>
 

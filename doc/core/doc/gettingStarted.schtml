@@ -8,17 +8,19 @@
 
 <%= MarkDownPage.markDown(%>
 
-If you're interested in hands on, contact Jeff Vroom for more info.
-
-There are some old videos that might still be helpful but lots of names have changed [demo videos](../videos.html).  
-
 Prerequisites: Experience with Java, Git, Unix (linux or mac, some windows support)
 
-## Download StrataCode runtime
+## Option #1: IntelliJ plugin
+
+The easiest way to get started is with the IntelliJ plugin.
 
 Get the [IntelliJ plugin](ide/config.html) which includes the runtime or download a release from github. This installs the scc command and all the libraries you need to create a project.
 
-## Option: Build from source
+## Option #2: Download scc runtime
+
+Download a release of the 'scc' command and libraries. (TODO: link to github releases or maybe host the files ourselves after a license agreement?)
+
+## Option #2: Build from source
 
 Currently StrataCode is not open source while we determine the right license and find a way to support developers building development tools.  Contact Jeff for access to the source tree as it's a lot more fun to build when you have the source. Once you have access, you can run:
 
@@ -85,9 +87,7 @@ If you have problems after code changes, use the '-a' option to build all files 
 
 There's a usage for the scc command and type "help" at the command line.
 
-See [known issues](https://github.com/stratacode/issues/issues?state=open).
-
-[IDE Setup](ide/config.html).
+See [known issues or report a bug](https://github.com/stratacode/issues/issues?state=open).
 
 <% ) %>
 

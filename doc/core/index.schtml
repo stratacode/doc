@@ -1,6 +1,6 @@
 <%@ import sc.lang.html.Element; %>
 <html>
-<head title="StrataCode Programming Language"/>
+<head title="StrataCode"/>
 <body>
 
 <div id="content" extends="PageLayout">
@@ -84,7 +84,7 @@
             <li>Layer your build files, use static typing and Java syntax. Reduce copying, allow simple project dir organization. Re-arrange project files smoothly, change git repos without complex "flag day" changes.
             <li>Manage multi-process, multi-runtime systems with custom deployment configuration using a single command and list of layers. 
             <li>Use dynamic layers for runtime configuration, or compiled for "best of both worlds" development and deployment flexibility.
-            <li>Eliminate need for separate operations configuration management tools.
+            <li>Manage configuration for operations and deployment all in one tool.
             <li>Java command line and test scripts - static typing, find-usages, refactor etc. Run java expressions one command at a time. Change your current type. Script mode or edit mode for making tweaks to any file at the command line, or generate a new file. Target any process. Test framework validates client and server HTML, server and client logs for more awareness and "actionable" diffs when tests fail.
             <li>Build your own Java code processing tools from intuitive, powerful APIs.
          </ul>
@@ -160,12 +160,11 @@
 
       <div extends="BaseDetailBox" id="syncDetail" columnIndex="= 2">
          <span class="infoBoxTitle">Data synchronization</span> - Write rich featured client/server apps with less, more declarative code. 
-         <ul><li>Use StrataCode synchronization to build client/server apps with almost no explicit coding.  
-             <li>Put the parts of your types you want to synchronize into separate layers. 
-             <li>Include framework layers which define at least one client and one server process. Server specific layers include "server only" framework layers. StrataCode organizes all specified processes with the right layers.
-             <li>StrataCode then generates code to track property changes automatically for synchronized properties - those explicitly marked or in shared layers marked with sync mode "automatic".  
-             <li>When your client or server syncs, those changes are serialized and applied on the other side.  
-             <li>You can run methods when values change using data binding.  
+         <ul><li>Put the parts of your types you want to synchronize into separate layers. 
+             <li>Include framework layers which define at least one client and one server process.  
+             <li>Split classes into shared client/server layers and server-only layers. 
+             <li>StrataCode generates code for two-processes, tracks property changes for synchronized properties and handles back and forth updates.
+             <li>Fall back to explicit RPC calls when needed or even better use declarative, automatic RPC using data binding.
              <li>Methods can run on client, server or both. Not a toy! Designed to be debuggable, and to scale to large complex problems. (<a href="articles/syncFramework.html">more info</a>).
          </ul>
       </div>
@@ -231,7 +230,7 @@
 
    <div class="defaultDetailBox">
    <p>
-Just over ten years ago, <a href="about.html">Jeff Vroom</a> (jeff@jvroom.com) began a project to build a framework based on layers, looking to build tools and frameworks he prefers over others. After finally achieving that goal, a beta release of StrataCode is available. For those who like developing frameworks, it's a relatively small, readable, maintainable code base with no core dependencies. 
+Just over ten years ago, <a href="about.html">Jeff Vroom</a> (jeff@jvroom.com) began this project, an ambitious attempt to build a framework based on layers and code-processing that he prefers over other available tools. After finally achieving that goal, a beta release of StrataCode is now available. For those who like developing frameworks, it's a relatively small, readable, maintainable code base with no core dependencies. 
 </p>
 <p>
 StrataCode makes a great build and configuration management tool for existing Java projects. Unlike similar tools you do less copying of build configurations and have more flexibility for customizing your environments. 
@@ -243,13 +242,13 @@ It also offers code-processing features and APIs to manage your code with more a
 To get started, StrataCode supports git, maven, and an <a href="/doc/ide/overview.html">IntelliJ plugin</a> that integrates well with Java. The test-suite processes code from dozens of standard Java projects, validating type references and catching most errors before compilation. 
 </p>
 <p>
-Grammars in StrataCode are debuggable, making it much easier to add new languages and to transform or transpile code. The API lets you make incremental changes to source files by changing properties in the AST objects. For example, to change the type name, set the ClassDeclaration.typeName property or to edit the statements of a method, add or remove statements from the MethodDefinition.body property. 
+Grammars in StrataCode are debuggable, making it easier to add new languages and to transform or transpile code. The API lets you make incremental changes to source files by changing properties in the AST objects. For example, to change the type name, set the ClassDeclaration.typeName property or to edit the statements of a method, add or remove statements from the MethodDefinition.body property. 
 </p>
-The IntelliJ plugin is also built on top of this API, using a single declarative grammar to support several languages: scj, sc, schtml, sct, scr, and sccss.
+The IntelliJ plugin is also built on top of this API, supporting several languages: scj, sc, schtml, sct, scr, and sccss.
    <p>
 Integrated with <a href="doc/webFramework.html">HTML/Javascript</a>, <a href="doc/swingCommandLine.html">Swing</a>, <a href="doc/gettingStartedAndroid.html">Android</a>, OpenGL, OpenCV, <a href="doc/moreFrameworks.html">JUnit, Servlets, Jetty</a>, OpenJPA, Hibernate, and <a href="doc/wicket.html">Wicket</a>. Designed for rapid and flexible future integrations. 
    <p>
-   StrataCode's runtime and IntelliJ plugin will be free to download during the trial period. It is not yet open source. We are looking for feedback on the right license but we'd like to make an affordable, sustainable developer's tool that has some way to compensate the developers who build great tools. If you need something built today, contact <a href="contact.html">Jeff</a> and if possible he'll help you build it better with StrataCode.
+   StrataCode's runtime and IntelliJ plugin will be free to download during the trial period. It is not yet open source. We are looking for feedback on the right license but we'd like to make a sustainable developer's tool that has some way to compensate the developers who build great tools. We are looking for projects to build with StrataCode so if you need something built, contact <a href="contact.html">Jeff</a> and perhaps he can help you build it.
   </p>
   <p>
 Although still in beta, it is already great tool and set of frameworks for building apps from scratch, with a fairly high level of support. It would also be useful to refactor large existing Java code bases, supporting continual evolution during the refactoring process. It can also be used to build or upgrade an existing SaaS platform, or build your own language oriented tools in Java. Extend the IntelliJ plugin, add your own formats and features.
