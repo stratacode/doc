@@ -13,9 +13,11 @@ See [this article](../articles/dynamicRuntime.html) for a high-level view of goa
 
 An application running under the dynamic runtime has access to the LayeredSystem which is currently running.  If you want your code to run only in compiled mode, without the dynamic runtime, or in Javascript, use only the methods in the static classes [DynUtil](/javadoc/sc/dyn/DynUtil.html) and [PTypeUtil](/javadoc/sc/type/PTypeUtil.html).  These classes provide basic reflection and let you use many of the features of the LayeredSystem which you might need in framework-level code that you want to use without the LayeredSystem and the rest of the dynamic runtime.  You can get and set properties, invoke methods, etc. in a way that works for dynamic types, or compiled types even in Javascript or without the LayeredSystem.
 
-When you have the dynamic runtime, you have an important option to choose for classes - should the system track "live dynamic types".  When this is true for a type, we code-generate an additional code into the constructor to register each instance for a given class.  We can return the list of instances of any of these tracked types, and update these instances in response to code changes.  This requires the use of DynUtil.dispose() for instances you manage yourself.  Top-level object instances and their children are usually disposed automatically by the framework code that creates them (e.g. when a session expires, or at the end of a request, or when a managed list of components gets smaller). 
+When you have the dynamic runtime, you have an important option to choose for classes - should the system track "live dynamic types".  When this is true for a type, code is added to the generated version of the constructor to register each instance for a given class.  APIs can then provide the list of instances of these of these managed dynamic types, and update these instances in response to code changes like a property change. 
 
-You can set the liveDynamicTypes flag globally with an 'scc' command line option, on a specific type via CompilerSettings, or in a layer to restrict the setting to a specific group of types in that layer.
+It's usually necessary for managed types to explicitly call DynUtil.dispose() if they are no longer needed. Top-level object instances and their children are usually disposed automatically by the framework code that creates them (e.g. when a session expires, or at the end of a request, or when a managed list of components gets smaller). 
+
+Set the liveDynamicTypes flag globally with an 'scc' command line option, on a specific type via CompilerSettings, or in a layer to restrict the setting to a specific group of types in that layer.
 
 ## IDynObject
 

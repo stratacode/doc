@@ -8,32 +8,71 @@
 
 <%= MarkDownPage.markDown(%>
 
-## Sync documentation
+## Client/server synchronization using layers
 
-For motivation and an overview of why to use synchronization, read [this article](../articles/syncWithLayers.html).
+The synchronization library supports rich, interactive apps, with graph-based data models, reducing the number of RPC calls, eliminating the need for most data transfer objects, all using a statically typed protocol - for efficient runtime, clear error messages, and many features that can be configured. 
 
-This section discusses how to use the sync framework and some details on how it works under the hood.
+For more motivation and an overview of why to use synchronization, read the article [Synchronization with layers](../articles/syncWithLayers.html).
 
-### Sync runtimes
+## Sync overview
 
-You typically run StrataCode with a single list of layers, some of which may be limited to run only on the client, some only on the server and the rest run on both.  The layer definition file specifies it's process and runtime requirements and the system automatically partitions the stack of layers into a set of stacks, one for each process or runtime.  Framework layers add additional processes (see IProcessDefinition) - e.g. jetty.lib adds java_Server and swing.core adds java_Desktop. They can also add additional runtimes e.g. js.lib adds the "js" runtime (see IRuntimeProcessor). At this time, layers also set up synchronization rules between processes, and configure the system to start all processes or generate scripts to be run to deploy code and/or run the code.
+Many of the operations with the sync library work the same on the client and the server. The client initiates a sync, that may contain a set of object instances, property updates to already-sync'd instances, and remote method calls. The server processes the client's sync, fires change events, invokes remote methods. As these operations run, they may generate changes to sync'd objects. Those changes are returned in the reply. If the server has no changes to send back, it might 'wait', if realtime with long polling is enabled. 
 
-At build time, the type systems all processes are available to detect remote methods, either because the remote method only exists in another runtime or an annotation indicates we should make a remote method call to another runtime for this call.
+Both the client and server perform the same basic steps to initialize synchronized objects:
 
-The definition of a process indicates if it supports synchronous remote calls or not. When asynchronous calls are not available, an attempt to make a synchronous call generates an error. It's possible though to run async remote methods in data binding expressions so there's a natural conversion from synchronous to asynchronous calls that's still readable.
+* Register synchronized types and instances. At this stage, choose whether instances are synchronized as on-demand or eagerly.
+* Tune the options for synchronizing properties. For relationships, use the property-level on-demand flag to avoid sending too much data to the other side too soon.
+
+Once a client connects to the server, it receives the 'initial sync' of all eagerly synchronized instances. An on-demand sync instance is only included if it's referenced by another eagerly fetched instance.
+
+Each sync instance is registered with a scope that determines it's lifecycle. The instance is stored in the ScopeContext for that scope so that it's visible to the right set of clients. The client might have only one scope, but the server typically has a scope dedicated for each client, as well as optional shared scopes like global, application, session, window, and request.
+
+## Register sync types and instances
+
+To use a type with synchronization, first register the class with a list of properties and their options to be synchronized.
+
+### Using APIs
+
+The APIs provide access to the sync library without code generation.
+
+A type is synchronized by calling SyncManager.addSyncType(...) with either the Class, or a dynamic type object. It's provided with a list of synchronized properties and their option. For example, here's the snippet used add the sync type for the Javascript "window.location object:
+
+     SyncManager.addSyncType(Location.class, new SyncProperties(null, null, new Object[] {"href", "pathname", "search"}, null, 0, WindowScopeDefinition.scopeId));
+
+When an instance is created, SyncManager.addSyncInst(...) is called with the instance and some additional options.  The addSyncInst call adds a listener for property changes. Here's the snippet for the addSyncInst call for Location:
+
+    SyncManager.addSyncInst(wctx.window.location, false, false, "window", null);
+
+Like other instances that use data binding, synchronized instances must be disposed with DynUtil.dispose(inst).
+
+### Using code gen
+
+When using code-generation to register types and instances, annotate classes, objects and properties with the [@Sync](/javadoc/sc/obj/Sync) annotation, or put them in a layer and annotate the layer itself with @Sync.
+
+When building both client and server at once, automatic sync mode can be set on the layer sync types and properties that are overlapping between the client and server by default. 
+
+When a type is marked with @Sync, the addSyncType/addSyncInst calls are inserted into the generated code to track type and instance creation.
+
+## Sync protocol
+
+The protocol between client and server is designed to be readable and organized - so when you change "firstName" and "lastName" of a User object, it comes across as two property changes of the User type. Serializers are implemented in JSON and SCN (a StrataCode layer that is parsed and applied, or if the remote side does not parse SCN, it's converted to the local language (e.g. javascript).
+
+## Sync runtimes
+
+If StrataCode builds both client and server at the same time, and @Sync(syncMode=SyncMode.Automatic) is set, layers that overlap between different processes and generates code to synchronize just the overlapping classes, objects, and properties back and forth. 
+
+StrataCode takes the single list of layers provided, determines which processes are needed and generates separate stacks for each. These stacks may overlap and these overlapping layers provide the default for what info should be synchronized. Often these are the model and view model layers. 
+
+## Automatic remote methods
+
+Compiling client and server together also permits automatic detection and handling of remote methods. A method is considered remote either because the method only exists in one process and is called from the other, or if it exists in both, because it's marked with an annotation to be called remotely for a given process.
+
+Some processes (like the brower) do not support synchronous remote calls. In that case, use of a remote method from code is not allowed. But it's always possible to invoke remote methods from data binding expressions.
 
 ### SyncMode
 
-The synchronization framework implements client/server communication in an automatic or directed way, based on how you configure your frameworks.  The @Sync(syncMode) annotation enables or disables synchronization for a given layer, type or property.
+When using code generation, use the @Sync annotation to explicitly mark a layer, type, or property as synchronized. @Sync has an optional sync mode:
 
-You can set the sync mode explicitly using the @Sync annotation, inherit it from the current layer, or have it computed automatically based on the which types and properties exist in more than one runtime.  This gives you complete control over which objects and properties are synchronized without having to specify @Sync on every class just by how you structure your code in layers.
-
-When you do need to configure the Sync mode manually use @Sync:
-
-      // Turn off synchronization 
-      @Sync(syncMode=SyncMode.Disabled)
-      public class MyClass ...
-    
 The syncMode may be one of: 
 
 * Enabled: Turn on synchronization in both directions (the default if you use @Sync with no syncMode value)
@@ -42,84 +81,102 @@ The syncMode may be one of:
 * ClientToServer: Turn on sync from ClientToServer only.
 * ServerToClient: Turn on sync for ServerToClient only.
 
-To override the type-level syncMode for any given property, just set the @Sync annotation on that property.
+For example, to disable synchronization: 
 
-A property inherits the first @Sync annotation of the first type which sets @Sync mode after it's defined in a type hierarchy.  This lets you change the syncMode in the type hierarchy, e.g. turn it off for a base class and all of the properties defined in that base class, then turn it on in a sub-class so any new properties added will be synchronized.  If your base classes do not set @Sync, even the base class properties will inherit the @Sync on the subclass.   
+      // Turn off synchronization 
+      @Sync(syncMode=SyncMode.Disabled)
+      public class MyClass ...
+    
+Settting @Sync on a type overrides the setting from the layer. Setting it on a property overrides the type and layer.
 
-If there is no @Sync tag on a type, it uses the @Sync attribute defined for the layer.  If there's no @Sync tag for the layer or the type, the type inherits the @Sync annotation defined on a base-class.  
+A property inherits the first @Sync annotation of the first type which sets @Sync mode after it's defined in a type hierarchy.  This lets you change the syncMode in the type hierarchy, e.g. turn it off for a base class and all of the properties defined in that base class, then turn it on in a sub-class so any new properties added will be synchronized.
 
-By default, setting @Sync on a type will not affect inherited properties from a base class.  You can change that by setting @Sync(includeSuper=true), or by adding a property assignment or just 'override propertyName' in the subclass.  Whenever a type the layer of a type refers to a property, it's @Sync attribute will apply, even if the property is not defined in that type.
+By default, setting @Sync on a type will not affect inherited properties from a base class.  You can change that by setting @Sync(includeSuper=true), or by adding a property assignment or add the property to the current layer of the subclass with: 'override propertyName;'.  
 
 If no @Sync annotation is found for a property, type, or layer that property is not synchronized.  
 
 * Question: Should we implement export and import annotation attributes for @Sync?  We also could add exportSuper.  Currently the default is for a sub-type to inherit the @Sync of it's base type but we could make that settable with exportSuper.   Currently a given layer inherits the @Sync for its base layers but that could be settable by having the base-layer set exportSync=false or the currently layer setting importSync=false.
 
-### Destinations
+## SyncProperties and SyncPropOptions
 
-By default you are synchronizing to the default destination - the server if you are on the client and the client if you are on the server.  To sync between servers, there is a way to configure destinations.  In this case, the server will generate different sync profiles for each destination and manage different sync states for each destination.
+The addSyncType call takes an instance of SyncProperties to specify the list of properties and their options. When all properties in the list have the same options, String names can be used in the property list and where defaultPropOptions sets the options for all properties in the list. If one or more properties have different options, create an instance of SyncPropOptions to wrap the option flags and property name and store the SyncPropOption in the list.
 
-### Scopes: managing object lifecycle
+The SyncPropOptions are:
 
-Scopes are a feature of the StrataCode code generation system that let you manage an object's lifecycle - i.e. how it is created, how references are resolved, and when it is stopped and recycled.  They let you use declarative objects, with a single name space that are created and deleted at different times (e.g. per-request, per-user, per-session, etc), and perhaps driven by additional runtime parameters (e.g. per-merchant, per-store, per entry in a list).  StrataCode manages the object lifecycle using code generation, so your code is consistently run in a context that makes sense with minimal awareness of when objects are being created and destroyed. Application programmers generally include framework layers that define their desired default policies. 
+* SYNC_INIT: Send the initial value to the remote side.
+* SYNC_ON_DEMAND: Do not send the value of this property until it's requested with SyncManager.fetchProperty
+* SYNC_SERVER: For on-demand properties, since fetchProperty can be called on either the client or the server, this flag indicates that this is the server process for this property.
+* SYNC_CLIENT: The opposite of SYNC_SERVER.
+* SYNC_RECEIVE_ONLY: Set on the server only and used for security to authorize the setting of the specified property without listening for changes or sending the initial value to the client.
+* SYNC_CONSTANT: Do not listen for changes on this property, but do send the initial value.
 
-Scopes make StrataCode's synchronization system flexible and powerful because the scopes let you share data in a flexible way, that adheres precisely to security and business policies enforced by the chosen framework. 
+See more in the [javadoc for SyncPropOptions](/javadoc/sc/sync/SyncPropOptions).
 
-The default scope is called "global" and is equivalent to using static variables in Java - one per process. A web server runs more than one application so it supports appGlobal to offer a way to store data that's local to that application. It also supports a session scope that manages objects which are per client browser and appSession which are per-app per session, window which are per-browser window and request scope which disposes of instances after each request for stateless applications. 
+## SyncManager and SyncDestination
 
-You can use scopes for even more dynamic lifecycles such as per-list item.  In that case, you can inject additional variables for the list index and current list item. 
+The SyncManager stores the set of SyncContexts, one for each scope. Each SyncContext stores the set of currently synchronized instances along with some metadata as well as two SyncLayer's. One SyncLayer represents the 'initial sync', the other the pending changes (those that have not been applied to the remote side).
 
-Scopes are a flexible hinge point so frameworks can add scopes like per-product catalog, per-inventory source etc.  Even templates which are written for a single catalog can then be used in a multi-catalog scenario as long as they are rendered in the context of a given product. 
+Each SyncManager has a SyncDestination that manages the connection to the other side. The SyncDestination has configurable properties such as 'realTime=true/false' to turn on off real time, waitTime and pollTime used for implementing real time connections using HTTP. 
 
-Scopes are a safe name-space sandbox for the current context to access all of the types and properties it needs, declaratively in a strongly-typed compile time model without worrying about lifecycle or dynamic behavior.  At the same time they can implement rich dynamic behavior: organizing cells into a grid, or line-items in an order.  When you change the scope of an object in a subsequent layer, they let you reuse logic in new contexts - e.g. adding multi-tenant or multiple shipping addresses as a feature by flipping a switch.
+When a process is talking to more than process with different interfaces, it will have two SyncManagers and two SyncDestinations.
 
-To implement a scope, framework code has the necessary hooks available so they do not require much code at all.  A new scope can use thread-local state to pass parameters to code placed into the generated getX methods to lookup the right instance.  A scope can add variables to the object's creation.  In this case, you frequently generate a method to create a new instance passing those variables (e.g. the current list index, the current item).  The framework manages creating new items, updating those properties, etc. behind the scenes so your code is simple and declarative and always reflecting the current context.
+## Scopes: managing object lifecycle
+
+Scopes are a feature of the StrataCode code generation system that manage an object's lifecycle - i.e. how it is created, how references are resolved, and when it is stopped and disposed. Frameworks built using scopes ensure that there is a CurrentScopeContext set in ThreadLocal storage before application code is called. The CurrentScopeContext defines the list of scopeContexts which apply to the current thread's execution.
+
+This gives application code a single name space that can manage instances that are created and deleted at different times (e.g. per-request, per-user, per-session, etc). A framework may define its own scopes using additional context parameters (e.g. per-merchant, per-store, per entry in a list). The ScopeContext manages the object's lifecycle using code generation, so code is consistently run in a context that makes sense with minimal need to explicitly create and destroy components. Application layers generally extend framework layers that define their desired policies. 
+
+Scopes make StrataCode's synchronization system flexible and powerful. When changes are made to shared scopes, changes propagate to all clients for real-time collaboration.
+
+The default scope is called "global" and is equivalent to using static variables in Java - one per process. A web server typically runs more than one application so it supports appGlobal to offer a way to store data that's separate for each. It also supports a session scope that manages objects which are per client browser and appSession which are per-app per session, window which are per-browser window and request scope which disposes of instances after each request for stateless applications. 
+
+You can use scopes for even more dynamic lifecycles such as per-list item.  In that case, the code generation system permits adding context variables for the list index and current list item. 
 
 ### Scopes on inner objects
 
-When you attach a scope attribute to an inner object, it basically allows that scope a chance to generate the getX method defined as part of the parent class. If it's a static inner class, it works just like a scope on a top-level class. 
+When scope is set on an inner object, it allows that scope a chance to generate the getX method defined as part of the parent class. If it's a static inner class, it works just like a scope on a top-level class. 
 
-When it's a scope defined on an inner instance class, it must first validate that it's allowed in that situation. It has the option to use the parent instance as part of it's creation, get the id from the parent and do a global lookup into a different system to retrieve the instance, or whatever you can do as part of the getX method. It can store a variable in the parent instance to cache it or not. This is a flexible hinge point for framework developers to make sure the returned instance is the right one and valid in the current context.
-
-### Scope APIs
-
-At runtime, framework code or code generated from framework code can use the scope apis to control the objects in each scope.  These APIs include the registry for which scope exist.  There's a method to resolve an object instance given it's type name (for a global object reference).  You also can find all of the child objects of a particular parent that have a given scope.
+When it's a scope defined on an inner instance class, can use the parent instance as part of it's creation but may not store the new field as part of the parent type. Instead it might use the parent's id along with other info from the current thread's context to retrieve the item. 
 
 Scopes can force the use of static inner objects so the system generates static getX methods.  That lets you nest objects with scopes inside each other without fear of dependencies or data leakage - e.g. if you embed a per-user instance as a child of a global instance, as long as the global instance is only accessed in the context of a user's session, this works properly without data being stored in the global instance itself that belongs to the user.
 
-Objects and classes can be assigned a scope via the @Scope annotation or the scope&lt;scopeName&gt; operator.  Some scopes will add additional fields to the current context which you can use in your object definitions.  Just as with other objects, the framework manages the create and destroy calls for you.  Framework developers can attach default scopes for classes with a specific base type, or defined in a specific layer.  In this way, a framework can isolate a sandbox for a specific type of application code, and use that code in very flexible ways, all using simple declarative code.
+### Scope APIs
 
-### SyncContext
+At runtime, framework code or generated code can use the scope apis to manage object instances in each scope. Metadata about the available scopes and their relationships using ScopeDefinition. A ScopeDefinition can have parent and child scopes.
+
+For a given ScopeDefinition, the APIs provide access to its current ScopeContext. The ScopeContext manages the id to instance mapping for objects in that scope. Each ScopeContext has a list of the parent and child ScopeContexts. ScopeContext provides a method to get or set instances by id, or to iterate through all instances in the scope.
+
+Objects and classes can be assigned a scope via the @Scope annotation or the scope&lt;scopeName&gt; operator.  Some scopes will add additional fields to the current context used by code generation to register or find instances in that scope. Just as with other objects, the framework manages the create and dispose calls for you. Framework developers can set a scope on a base-type and have it be inherited by all instances. By then changing the framework layer, the same app can run in a different mode unchanged.  
+
+The goal is for frameworks to manage object lifecycle not application code. That keeps application code simple and free of dependencies on the specific framework for reuse in new contexts.
+
+## SyncContext
 
 The SyncContext stores all of the synchronized state for another process, or a scope shared by more than one process. When it is shadowing another process, it keeps a cache of its view of the other side's view of the state. When it is shadowing a scope, it keeps a cache of the state up to the last change event it's propagated. 
 
-On the client, session, window, and global scopes are collapsed into one SyncContext because each browser is only managing one window and one user's session. On the server however, each scope may have its own SyncContext or use it's parent's syncContext.
+On the client, session, window, and global scopes are collapsed into one SyncContext because each browser is only managing one window and one user's session. On the server however, each scope will have its own SyncContext. 
 
-The SyncContext organizes changes in SyncLayers.  These record changes for a given batch for each sync group.  When an instance is synchronized, it is added to the SyncContext.  The SyncContext adds property change listeners on all synchronized properties and registers the initial state. Any property values which implement IChangeable have a different listener added to them that listens for change events on the current property value as well. In this case, we can queue up a change even when the properties setX call has not been made. Instead, maybe an element of a list was changed.
+The SyncContext organizes changes in SyncLayers.  These record changes for a given batch for each sync group.  When an instance is synchronized, it is added to the SyncContext.  The SyncContext adds property change listeners on all synchronized properties and registers the initial state. Any property values which implement IChangeable have a different listener added to them that listens for change events on the current property value as well. In this case, changes are queued even when the properties setX call has not been made. Instead, maybe an element of a list was changed.
 
-When property changes come in for a given instance, they are applied to the SyncContext according to the current syncState.  This is a global, thread-local status flag that's set by the framework.  It can have one of five values:
+When property changes come in for a given instance, they are applied to the SyncContext according to the current syncState. This is a thread-local status flag usually managed by the framework code. It can have one of five values:
 
-* Initializing: we are currently creating a set of objects according to their default state, at instance creation time.  This state is assumed to be pre-synchronized because we synchronize the objects state at compile time.
+* Initializing: the app is creating a set of objects in their default "initial state".  This state lets the sync framework determine when a property value may already be set on the remote side. If the client and server use the same value for initializing a given property, the server does not have to send the initial value to the client.
 * RecordingChanges: this is the normal runtime state of the application.  Any changes made in this state are recorded by the SyncContext into the current SyncLayer.
 * ApplyingChanges: this state is set by the SyncDestination while it applies changes from the remote side.  In this state, changes update the "previous value" - i.e. the current known values on the remote side.  
 * Disabled: this state is set when the application code is making changes known to be already synchronized.  For example, when a list control is creating a declarative list of children from some synchronized value, it can turn off synchronization to prevent these changes from being sent to the server when they are redundant.
-* InitializingLocal: like Initializing only these changes are being restored to us from a session reset so treat them like they are local changes
+* InitializingLocal: used when initializing from a 'session reset' request - where the client is restoring state lost when the server's session was lost. 
 
-You can save and restore the SyncState via the method SyncManager.setSyncState though typically this should only be done by framework code.
+Framework code uses SyncManager.setSyncState to control this thread-local variable.
 
-The SyncLayer records property change events as well as object creation events. It keeps all of the changes in order and detects when a change has been overridden and omits any changes which have been superceeded.
+## IChangeable
 
-### IChangeable
+The StrataCode data binding system supports the IChangeable interface for objects to issue events generated programmatically.  Use IChangeable both when defining an object like sc.util.ArrayList which updates by value or an object which updates all of its properties at once.  When StrataCode detects an IChangeable on object "a" in an "a.b" reference chain, another listener is added to update that expression when object a calls Bind.sendChangedEvent(a, null). If the value of "b" is IChangeable the binding will also update when it's value is fired.
 
-The StrataCode data binding system supports the IChangeable interface for objects to issue events generated programmatically.  You use IChangeable both when you define an object like sc.util.ArrayList which updates by value or an object which updates all of its properties at once.  When StrataCode detects an IChangeable on object "a" in an "a.b" reference chain, a listener is added to update that expression when object a calls
-Bind.sendChangedEvent(a,null).   If the value of "b" is IChangeable the binding will also update when it's value is fired.
-
-The synchronization system similarly listens on IChangeable in both ways.  When the default event fires, all properties of that object are "refreshed".  If their value has changed, they are synchronized.  If the default event fires on a property value, the owner property is refreshed.
-
-### Cloneable
+## Cloneable
 
 Property types that are synchronized should be cloneable using Java's normal clone method.  An initial copy is made and stored so the sync system can revert changes and also reconize the deltas in what has changed to send diffs in a more concise format.
 
-### SyncManager
+## SyncManager
 
 Each SyncManager manages the sync state for a given destination.  The client only has one SyncManager, the server will have one for all clients, and one for each server to server connection.
 
@@ -127,61 +184,70 @@ The SyncManager stores the list of sync types.  Each sync type has a list of syn
 
 The SyncManager also manages adding of synchronized instances.  As instances are added to the sync manager, it is either given or finds the right scope for that instance, and places the instance under control of the proper SyncContext.  
 
-### Synchronization format
+## Synchronization format
 
 The SyncLayer serializes itself using a SerializationFormat which enables serialization of the sync layer, and the "applySyncLayer" process which deserializes the sync layer and applies it in a SyncContext.
 
-Currently two SerializationFormats are supported: stratacode and json.  
+Currently two SerializationFormats are supported: json and StrataCode's scn.  
 
 In both formats, the client sends down a layer of changes, the server responds with its own layer of changes.  
 
-This format uses a package declaration, modify definitions, property assignments, field definitions for new objects when there are constructor args, otherwise object statements. It's basically a layer of changes that are applied on the remote side so it can support simple state serialization as well as code updates. It's also designed to be readable for easy debugging.
+The sync format itself looks a lot like a serialized layer. It includes a package declaration, modify definitions to change properties of an existing instance, and property assignments.  This format includes a way to define a new object with or without constructor arguments and assign it to an id. It supports remote method calls and their responses.
 
 Frameworks can customize the handling of a particular instance type by registering a SyncHandler for an instance.  The SyncHandler can substitute a different instance or override how the value is turned into a string in the language format.  The SyncHandler can generate code to add or remove an element from a list or use the built-in features provided in the SerializationFormat. 
 
-Using the stratacode format makes it easier to read the changes going over the wire because the serialization format is readable (though generated) StrataCode.  
-When you enable trace and verbose on the SyncManager you can easily detect properties getting synchronized that should not or vice versa.  You also have diagnostics up front as which types and properties are synchronized and with what options.
+Both formats support readable changes over the wire. Use the -vs option to the scc command to see the back and forth exchange.
 
-When the server has changes to send to the client it can either use JSON, or it convert the StrataCode language into Javascript where you can just eval the JS.  In general, the JSON format will a lot faster for the server but perhaps the javascript version will in some cases be faster for the client.
+## Updating code using the sync layer
 
-When your updates include code changes, as detected by the StrataCode refresh process, those are processed with the same system.  In this way, your client application can stay in sync, even as you are making updates to the code on both the client and server (as long as the frameworks support updating the classes which are modified).
+The sync format can include code changes as well. If running in development mode, each page refresh will check for changed code. If the server detects that the client's code has changed, it will include the updated code in the response. This provides management UIs the ability to customize the app on-the-fly while it's running. It will look for changed methods, new fields, new methods, etc. If the server is using the dynamic runtime, instances will be updated and the client will receive both code and data changes to bring the application back into sync with the code and the server.
 
-### Sync groups
+## Sync groups
 
-By default all properties on all types are updated via the same sync operation.  In rare cases, you might want to update some properties without updating others.  In these cases, you use: 
+By default all properties on all types are updated via the same sync operation.  In rare cases, an application might need to update some properties without updating others.  In these cases, use: 
 
       @Sync(groupName="highPriority")
       class HighPriorityType {
   
       }
 
-At the API level, you call SyncManager.sendSync("highPriority") explicitly to sync just the properties in that group.
+At the API level, call SyncManager.sendSync("highPriority") explicitly to sync just the properties in that group.
 
-### Traceable security
+## Traceable security
 
-StrataCode only allows your client code to manipulate objects and properties which were declared to be synchronized in the code.  This is typically code that's in client-server shared layers so it's pretty straightforward for developers to keep it partitioned from the server-only code.  All client/server communication is traceable on compile-time, typed interfaces.  You can quickly audit and incrementally update the exposed interfaces from client to server. 
+StrataCode only allows client code to manipulate objects and properties which were declared to be synchronized in the code. This is typically code that's in client-server shared layers so it's pretty straightforward for developers to keep it partitioned from the server-only code.  All client/server communication is traceable and auditable. Eliminating security concerns from application code makes that application more secure and brings more awareness to operations and security teams of the complete API the server exposes.
 
-### Initial layer
+## Initial layer
 
-The SyncContext maintains an initial layer on the server which represents the initial state of the objects created on the client.   Any changes made are stored both in the initial layer and in the current new changes to be sent on the next sync.  That way, on an ongoing basis, each sync only contains new changes.  But when the client refreshes the page, the initial sync contains all changes made so far in that session.
+The SyncContext maintains an initial layer on the server representing the initial state of the objects created on the client. Any changes made are stored both by default in the initial layer and in the pending changes layer to be sent to the other side on the next sync.  Each sync only contains new changes, but when the client refreshes the page, the initial sync contains all changes made so far in that session.
 
-This lets the synchronization mechanism retain all application state - even transient user inteface state that is not stored in the database.  That state is refreshed as part of the initial state of the application automatically.
+This lets the synchronization mechanism retain the application state that supports the user experience - even transient user inteface state that is not typically stored in the database. That state is refreshed as part of the initial state of the application automatically.
 
-### Failover 
+TODO: Need a flag to allow a property or class to "opt out" of being stored in the initial layer. There might be state that should not be restored on a refresh.
 
-When the server fails, the sync command won't find a session which matches this client. It returns an error code which causes the client to sync its state back to the server, restoring the session, current navigation, in-progress forms, etc. By keeping the state for the application on both the client and the server at the same time, and in sync, the application gets fault tolerance without requiring a stateless design backed by a database or distributed cache.  If the browser refreshes, even fine-grained application state is restored.  If the server session goes away, you pay a small one time cost to restore the session from the client. So not much overhead for the programmer, runtime system, or user experience to robustly deal with failures. Because the client and server stay in sync, they can exchange minimal information, decreasing latency and server processing overhead.
+## Failover 
 
-### Debugging synchronization
+A client/server environment performs better when sticky sessions are used. The client and server have a stateful dialog that eliminates redundant data sent in both directions. For global, session, window, etc. scopes it's important to support this operation mode.
 
-If you are using automatic mode and things are not working, first run with -vsa to turn on all synchronized logging (or -vs for a summary).  This adds additional messages to the browser's console log and the server's debug log.  The dialog between the client or server is designed to be readable whether you are using 'json' or 'scn'.
+When sticky sessions are not possible or desirable, use request scope only to store all state. The sync mechanism still works but sends all sync'd data over on each request/response. That's essentially what programmers do anyway to build stateless applications.
 
-Look for calls to addSyncType and addSyncInst in your generated class.   It's helpful run a search through the entire generated source to be sure everything you want synchronized is and vice versa.  This is particularly useful for layers using @Sync(syncMode = sc.obj.SyncMode.Automatic).  You can adjust what gets synchronized by adding @Sync annotations to override the defaults.
+When stick sessions are used, it's important to handle the case where the server fails, is restarted, or perhaps expires the client's session before the next request.
+
+In this case, the sync command won't find the sync session for the client. It returns the 'reset' error code which causes the client to sync its state back to the server, restoring the session and any key state required to implement this next request. At that point, the client resumes where it left out with only a small latency hit for the extra request and data transfer.
+
+## Debugging synchronization
+
+If synchronization is not working, first run with -vsa to turn on all synchronized logging (or -vs for a summary).  This adds additional messages to the browser's console log and the server's debug log.  The dialog between the client or server is designed to be readable whether you are using 'json' or 'scn'.
+
+Look for calls to addSyncType and addSyncInst in your generated class.  It's helpful run a search through the entire generated source to double check these calls include the right properties and flags. This is particularly useful for layers using @Sync(syncMode = sc.obj.SyncMode.Automatic). Adjust the generated calls using the @Sync annotation. 
 
 Enable -vl or -v to see the initial layers that are in each runtime.  This helps determine which layers are overlapping and displays which layers are marked with 'automatic' sync mode.
 
-The code which records a synchronized change will typically run from SyncManager.SyncChangeListener.  You can set a breakpoint in the valueInvalidated method and understand why a change is or is not being recorded.
+The code which records a synchronized change will typically run from SyncManager.SyncChangeListener. Set a breakpoint in the valueInvalidated method and understand why a change is or is not being recorded.
 
-It's helpful to set breakpoints in setX and getX methods. You can walk up and down the stack, even into data binding calls because bindings turn into helpful 'toStrings' in the debugger.
+It's helpful to set breakpoints in setX and getX methods. Walk up and down the stack, even into data binding calls because bindings turn into helpful 'toStrings' in the debugger.
+
+The SyncPropOptions may not be set correctly. SYNC_INIT flag should be set for any properties where the initial value of the property should be sent along with the initial response. If an object is being synchronized when it should not be, perhaps add @Sync(onDemand=true) to its definition. With on demand, it will only be sent across the wire when explicitly fetched from an API call or referenced from a property. Set on demand on properties and use SyncManager.fetchProperty later in code.
 
 <% ) %>
 

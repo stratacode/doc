@@ -7,6 +7,15 @@
 
       <div class="exampleTitle">Command line example</div>
 
+The command line interface supports a very flexible, and powerful way to build, control, and edit StrataCode programs line-by-line. It works in conjunction with the program editor if you run them both against the same EditorContext.  As you navigate to a type, the command line does as well and vice-versa. 
+
+It works in two modes - 'edit mode' and 'script mode'.  In edit mode, you navigate to a type (or really a specific layer of a type) and expressions, property assignments, fields, and methods you type in are added or modify those that exist in the current layer of that type.
+
+In script mode, new fields, methods etc. work just like edit mode. But for property assignments, they will only apply to the current instance.
+
+In edit mode, when there are current instances of that type, those changes will be made to the instances if possible. If not, a warning is given and you can use cmd.restart() to recompile and re-run the application (this is not super reliable yet but we can build reliable frameworks that support live programming for key management UI use cases, or automate the restart when major changes are made to an application).
+
+
 <h2>Build a swing app from the command line</h2>
 
 This example shows how to create a simple swing unitConverter application using the command line editor.

@@ -5,9 +5,34 @@
    <div id="content">
       <div id="exampleContent" exec="server">
 
-      <div class="exampleTitle">Program Editor Example</div>
+      <div class="exampleTitle">Program editor example</div>
 
-      The program editor is a demo showing the range of possible management UIs you can build from domain models.  It's the prototype for a customization platform for building "the right form, for the right user at the right time".  For each type in the system, you can view and edit instances of that type.  Because the types are partitioned into layers, the forms are also organized via layers.  You can use annotations to customize the UI.  You can also switch into editing of the types, not just the instances.  So you can customize rules, add fields, and add new types.  You can edit existing layers, or create new ones to store these customizations.
+      <p/>
+      The program editor has been designed as a test, diagnostic, and debugging platform for the dynamic aspects of StrataCode that deal with building the customizable management UIs from an annotated domain model. It's also been a nice way to test the swing and web frameworks, and to prototype different ways to organize and develop layered code. Right now it's a demonstration of the low-level capabilities that will ultimately build the 'ultimate management ui': where the right form is in front of the right user at the right time.
+      <p/> 
+      There are two tree views in the application that organize your aspect to the types and instances 
+      manipulated in the system. The top view is the typical view of the Java package type hierarchy - or the subset of those types that are filtered for this view. The bottom view is the 'by layers' view which tracks the top-view and shows you the layers that make up the selected type, or allow you to go straight to a layer. TBD is the ability to pick and choose from these views to form the best navigation structure for each class of users.
+      <p/> 
+      When you select a type, the set of layers that form that type are also displayed at the top giving you a second way to navigate the layer hierarchy. 
+      <p/> 
+      Annotations exist to customize the UI - to hide fields, mark them read-only, and more but this is an area that needs more work.  
+      <p/> 
+      
+      There are three different views: the default data view which lets you navigate the types and instances of the system. When you select an instance, a form is created to let you view and edit the properties.
+      <p/> 
+
+      There is a 'type view' which lets you see and edit the code behind the way those types were configured in the source file and change that configuration. It provides structured editing with code-completion for editing data binding expression so this becomes a way to edit the rules behind the way this instance operates. Some fields and initialization values can be customized on the fly and it's possible to build rich declarative frameworks that are editable without restarts. Or detect when restarts are required and manage them.
+      <p/> 
+      
+      There's also a code view which matches the type view, but shows you the code. It's updated on-the-fly as you make changes, or you can change the code in the code view and hit refresh as well (swing version only). Or just change the files on file system and hit refresh.
+      <p/> 
+
+      The code view shows you the various formats available for each type. For StrataCode files, you can see both the source and the generated source. For schtml files, it shows the StrataCode source which is the intermediate form schtml to Java that's not generally stored on the file system.
+      <p/> 
+
+      The editor runs on the desktop using swing, or in the browser using schtml. In the browser it runs in two modes: client/server and server only mode. In client/server the editor code is compiled into both the JS and Java runtimes and it uses the sync framework to fetch data back and forth. In server only mode, a small JS file is downloaded to parse the sync framework and manage the DOM to sync integration. The same JSON sync protocol is used in both.
+      <p/> 
+      The swing version supports more features than the web version, including a fun 3DView that shows the opengl integration.
 
       <table>
          <tr>
@@ -22,18 +47,18 @@
          </tr>
       </table>
       <ul>
-         <li>editor.model (1300 Lines):  Defines the key data structures behind the program editor. This layer runs both in the browser and on the server and so represents the data structures that StrataCode synchronizes.  There is EditorModel which stores the current type and selection and TypeTreeModel, which implements the tree view itself.
-         <li>editor.modelImpl (1800 lines): Runs just on the server in the client/server version.  This layer contains the logic which populates EditorModel and TypeTreeModel for any user interface.  It extends sys.layeredSystem in addition to the model layer.  Because sys.layeredSystem only runs on the server, this layer will only run on the server too.
-         <li>editor.coreui (1400 lines): The view model which runs on both the client and the server.  Contains some core user-interface code shared by both swing and the Javascript layers.
-         <li>editor.swing.core (2520 lines): Implements the Swing user interface.
-         <li>editor.js.core (1600 lines): Implements the Javascript user interface.  Runs on both the client and the server.
+         <li>editor.model (1600 Lines):  Defines the key data structures behind the program editor. This layer runs both in the browser and on the server and so represents the data structures that StrataCode synchronizes.  There is EditorModel which stores the current type and selection and TypeTreeModel, which implements the tree view itself.
+         <li>editor.modelImpl (2200 lines): Runs just on the server in the client/server version.  This layer contains the logic which populates EditorModel and TypeTreeModel for any user interface.  It extends sys.layeredSystem in addition to the model layer.  Because sys.layeredSystem only runs on the server, this layer will only run on the server too.
+         <li>editor.coreui (1750 lines): The view model which runs on both the client and the server.  Contains some core user-interface code shared by both swing and the Javascript layers.
+         <li>editor.swing.core (3200 lines): Implements the Swing user interface.
+         <li>editor.html.core (1900 lines): Implements the Javascript user interface.  Runs on both the client and the server.
       </ul>
 
       The swing user interface code uses data binding for all layout which is more verbose than html.  The JS version is missing some features.
       <p>
-      This example shows significant code-reuse across platform the code is easy to navigate and maintain.  Building the client/server version from the existing desktop version involved refactoring the existing code as a first step into platform dependent and independent layers.  Code which depends on swing went into the swing/core layer, and code that depends on server features, went into the editor.modelImpl layer.  Independent code went into the editor.model layer that runs the same way in all three processes: desktop, client and server.  
+      This example shows significant code-reuse across platform the code is easy to navigate and maintain.  Building the client/server version from the existing desktop version involved refactoring the existing code as a first step into platform dependent and independent layers.  Code which depends on swing went into the swing/core layer, and code that depends on server features, went into the editor.modelImpl layer.  Independent code went into the editor.model layer that runs the same way in all three processes: desktop, client and server. The resulting swing version had only cosmetic changes and so ran the same, but after refactoring the two applications shared the most difficult aspects of the domain model.
      </p>
-      <p>For the client/server version, the model essentially defines the overlapping parts - i.e. the info that's used on both the client and server.  In most cases, this layer defines the domain, and view models in a way that maximizes the reusability of this code because it will have no framework dependencies.  Most frameworks require some replication of the domain model and view model code for each UI framework or for specifying the service layer or data transfer layers.  Instead, in this approach, you use annotations to override the defaults and only resort to explicit service and transfer classes for applications that really need that extra level of control.  For code that needs to be customized for a framework, it goes into a framework specific layer.
+      <p>For the client/server version, the model essentially defines the overlapping parts - i.e. the info that's used on both the client and server.  In most cases, this layer defines the domain, and maybe the view models in a way that maximizes the reusability of this code because it will have no framework dependencies.  Most frameworks require some replication of the domain model and view model code for each UI framework or for specifying the service layer or data transfer layers.  Instead, in this approach, you use annotations to override the defaults and only resort to explicit service and transfer classes for applications that really need that extra level of control.  For code that needs to be customized for a framework, it goes into a framework specific layer.
      </p>
       
       <p>
@@ -55,9 +80,9 @@
 <p>
 Here's the code for the TreeView component for the client/server version.  It generates the HTML for each of the two trees in StrataCode on both the client and the server.  For an schtml file, the id of the top-level tag is the name of the file so we do not have to specify id='TreeView' here.  Data binding is used to specify the css class of the outer li tag and the span which defines the name of the tree element.  It's used to call 'toggleOpen' when you click on the +/- iconand whether to show the children list for a given node.
      </p>
-<%= sc.lang.HTMLLanguage.INSTANCE.styleFile("editor/js/core", "TreeView.schtml", false, false) %>
+<%= sc.lang.HTMLLanguage.INSTANCE.styleFile("editor/html/core", "TreeView.schtml", false, false) %>
 <p>
-The last 'li' tag in the file is the most interesting one.  It has the 'repeat' attribute which means it's rendered once for each element in the array.  At also extends the TreeView component which also is its enclosing class.  That allows it to have an optional set of children of its own and provides unlimited levels of nesting in a simple declarative description.
+The last 'li' tag in the file is the most interesting one.  It has the 'repeat' attribute which means it's rendered once for each element in the array. To implement a recursive tree, it extends the TreeView component which also is its enclosing class. It has an optional set of children of its own and provides unlimited levels of nesting in a simple declarative description.
 
 <p/>
    </div>

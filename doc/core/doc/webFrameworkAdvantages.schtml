@@ -10,8 +10,7 @@
 
 ## Flexible, strongly typed, mixed client/server web framework
 
-The StrataCode web framework supports an extended form of HTML that gives you the power of the StrataCode language mixed with HTML. Using inheritance, data binding, components, properties, etc. you can build almost everything keeping code out of the page, minimize code duplication and build robust, type safe templates. 
-And when you're prototyping or find it faster to do it all in one file, you can do everything with some Java in the page. 
+The StrataCode web framework supports an extended form of HTML that gives you the power of the StrataCode language mixed with HTML. Using inheritance, data binding, components, properties, etc. build configurable, rule-oriented, reactive templates. Keep code out of the page, or not based on the situation.
 
 Tags can extend other tags either in code or template form, set properties via attributes, declare new properties, use data binding expressions for attributes or content for incremental refresh.  Tags support a 'repeat' attribute which you can set to an array or list. The tag is itself repeated once for each element with a repeatVar you can use to bind to the element.
 

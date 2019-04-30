@@ -23,6 +23,8 @@
             The same thing using URL based parameters:
            </p>
    <%= sc.lang.HTMLLanguage.INSTANCE.styleFile("example/simpleBlog/urlParam", "ViewBlog.schtml", false, false) %>
+            <p>
+            The testURLs specified in the URL annotation are a directive specified here for a quick automated test of some key pages in the app. They could be specified in a separate layer.
         </div>
       </div>
    </div>
