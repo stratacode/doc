@@ -73,6 +73,8 @@ A layer with only process constraints will run according to those process rules.
 
 A layer with no constraints inherits those of it's base layer.
 
+A special flag call 'includeForInit' can be set on a layer to ensure it's only included once in a stack of layers - in the main process.  Use this flag for layers that define data initialization to avoid initializing objects both on the client and server.
+
 Once a list of layers, a layered system, are activated, StrataCode determines the set of separate processes/runtimes required and generates a list of separate layer stacks, one for each including the appropriate layers. It generates a separated LayeredSystem for each one. Each LayeredSystem maintains a list of the other systems in it's peerSystems list. This structure provides the code-processing engine the global view of all processes and runtimes in the system, and the ability to generate code that considers the 'overlap' between processes and runtimes.
 
 For the most part application layers will establish their constraints by extending the framework layers they require.  When it's necessary to customize placement in a runtime,  you can add an includeRuntime or excludeRuntime method call to the layer definition file.  It's important to put this in the init method (or it's also ok to put it in an instance scoped statement block).  
