@@ -38,9 +38,9 @@ StrataCode components offer these options.  You write your initial code using si
 
 How do you separate code from configuration at all then?  All your code may start out in one layer for prototyping because it's so easy to split layers and how convenient to have all files in one directory when you are writing code for a new project.  Because of the static typing model presented by a layer, you can combine or separate intermediate layers as long as you preserve the results expected by the layers you publish.  When following this approach, your initial solution is simpler and easier to maintain and evolves to meet needs big or small later.   You can split out layers of configuration as needed for any audience.
 
-The layered approach to component assembly provides customization without upfront planning, a solution that improves code reusability substantially.  
+The layered approach to component assembly provides customization without upfront planning, a solution that improves code reusability.  
 
-One of the more important hidden features provided by IOC is the ability to write up graphs of components, even those graphs which contain cycles - i.e. recursive references.  When you run into this in a design, you add the @Component annotation to the class and StrataCode changes the way the code is expressed in the generated class to support recursive references and a multi-step initialization phase.
+One of the more important hidden features provided by IOC is the ability to wire together graphs of components, even when those graphs contain cycles - i.e. recursive references.  To support this case in StrataCode just add the @Component annotation to the class. StrataCode changes the way the code is expressed in the generated class to support recursive references and a multi-step initialization phase.
 
 It's not entirely seamless to move from regular Java classes to using StrataCode's @Component annotation, but it's a graceful transition when you find you need it in a design.  Many basic classes require no code changes when you add the @Component annotation.  Under the hood, processed code that's compiled, any code and any non-trivial references from the constructor or instance initializers are moved to a preInit method.  This method is called after the object is constructed and available via it's own getX method.  For more complex classes, the developer may need to move code into an 'init()' or 'start()' method, so that dependent references are all initializes to the necessary level (preInit, init, or start).
 
@@ -48,7 +48,7 @@ Since your original code is transformed in this process, maintaining the structu
 
 ## Creating Object Instances
 
-StrataCode adds to the Java syntax a new keyword: "object" that works a lot like Scala's object keyword.  It defines a new variable and creates an instance for that variable automatically when it's accessed or through custom rules defined at code-generation time.  A framework developer has control over how the 'object' keyword is converted to Java by customizing templates, and attaching them to a type, base-type or parent-type (where a type can be a class or object).  You can also add annotations to the layers which define the objects giving you even more control.  Each layer becomes a sandbox designed for customizing a particular type of asset.  
+StrataCode adds to the Java syntax a new keyword: "object" that works a lot like Scala's object keyword.  It defines a new variable and creates an instance for that variable automatically when it's accessed or through custom rules defined at code-generation time.  A framework developer has control over how the 'object' keyword is converted to Java by setting annotations and attaching custom code-templates to a type or base type. Annotation layers let framework developers customize even compile classes this way.  Each layer becomes a sandbox designed for customizing a particular type of asset.  
 
 Here are a couple of simple examples that show typical code that's generated.
 
@@ -128,9 +128,13 @@ StrataCode offers a nice solution for the Java programmer.  You can add the @Com
 
 For simple cases, there are no code changes required once you add @Component.  But for complex cases, you may need to move code from your constructor into an init() or start() method that's called alter, once all dependencies are satisfied.  Because these methods are all called automatically, you can just define an init() or start() method and put the code there.  If your framework already has an "init()" or "start()" method that conflicts, use IAltComponent and override _init() or _start().
 
+## Constructor properties
+
+Normally a property assignment is initialized as part of the init code for the instance, or in the preInit method for an @Component. For important properties, where null checks become awkward, use constructor properties. This is set via an annotation: @CompilerSettings(constructorProperties="name1,name2"). The initialization value for a constructor property cannot refer to other properties of the instance since they will be run before the instance is created and passed to a generated constructor. This generated constructor is automatically propagated to all sub-objects that might inherit from a base object.
+
 ## Issues/Warnings
 
-Note: Currently the constructor code is run before these reference instance variables are assigned.  Should this be fixed?  It would be nice if by the time constructor code is run, all instance variables are at least assigned.  
+Note: When using @Component, the constructor code is run before reference properties are assigned unless they are constructor properties. It would be nice if by the time constructor code is run, all instance variables are at least assigned unless a recursive reference prevents it. 
 
 It would be nice to be able to configure the list of stages required for a given component class (e.g. init, start, validate, etc.)
 

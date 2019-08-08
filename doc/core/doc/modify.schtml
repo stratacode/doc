@@ -12,7 +12,9 @@
 
 One of the most subtle and important features of StrataCode is the ability for one layer to modify the types in a layer it extends.  
 
-Modifying a type is similar to extending a type in a base class, but with a couple key differences.  A modify operation only uses a single type name and does not create a new type like extends.  Modifications occur at code-generation time - applying to the same runtime class. When you use extends, you create a new name that exists at runtime. Layers are typically a few different aspects of the same thing combined - e.g. domain model, view model, UI, persistence.
+Modifying a type is similar to extending a type in a base class, but with a couple key differences.  A modify operation only uses a single type name and does not create a new type like extends.  Modifications occur at code-generation time - applying to the same runtime class. When you use extends, you create a new name that exists at runtime. 
+
+Layers can be used to separate different aspects of the same thing, but using a combined namespace. One great way to use layers is to separate code based on the nature of the code or framework dependencies added by the code. For business applications, define domain and view models that have no dependencies on external frameworks, so they can be reused in any situation. Extend those layers with UI and database layers that enhance the same types injecting framework dependecies downstream. With this pattern, you reduce the copies of that logic and ensure that all dependencies are traceable with find usages, replace etc.
 
 Just like with 'extends' though, when you modify a type you can override property values and methods, and use the super operator to refer to the previous implementation.  You can add new fields, new methods or property assignments.  A layer can replace the class entirely in a previous layer, or it can replace a field definition, changing it's type and initializer, or it can just replace the initializer.  It can modify the extends or implements statements of the superclass.  
 
