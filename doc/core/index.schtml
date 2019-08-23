@@ -165,7 +165,7 @@
              <li>Split classes into shared client/server layers and server-only layers. 
              <li>StrataCode generates code for two-processes, tracks property changes for synchronized properties and handles back and forth updates.
              <li>Fall back to explicit RPC calls when needed or even better use declarative, automatic RPC using data binding.
-             <li>Methods can run on client, server or both. Not a toy! Designed to be debuggable, and to scale to large complex problems. (<a href="articles/syncFramework.html">more info</a>).
+             <li>Methods can run on client, server or both. Designed to be debuggable, and to scale to large complex problems. (<a href="articles/syncFramework.html">more info</a>).
          </ul>
       </div>
 
@@ -257,7 +257,7 @@ Although still in beta, it is already great tool and set of frameworks for build
 Everyone wants faster software, that takes less work to build and more pleasant to use. StrataCode helps that goal by empowering not only end-users but also back-office employees, administrators, operations, designers, and other people that use and customize the solution. We believe it can empower a new class of applications, built from layered domain models, annotated with layered configuration, driven by management UIs that can reach down into the code for customized rules and operations.
   </p>
   <p>
-  Read more in these <a href="articles">articles</a>.
+  Read more in these <a href="articles/">articles</a>.
   </p>
    </div>
 </div>

@@ -8,7 +8,7 @@
 
 <%= MarkDownPage.markDown(%>
 
-## Layer Definition Files
+## Layer definition files
 
 You define a new layer by creating a layer definition file in a source directory in your layer path.  The layer definition file is an ordinary StrataCode file named with the directory name.  E.g. foo/foo.sc, foo/bar/bar.sc
 
@@ -24,7 +24,7 @@ and:
     foo.bar {
     }
 
-## Running the scc Command
+## Running the scc command
 
 When you run the scc command, you specify a list of layers to run: e.g.
 
@@ -41,7 +41,7 @@ As a convenience, you can also run a specific layer when you are in that layer's
     % cd foo/bar
     % scc .
 
-## Layer Packages
+## Layer packages
 
 When the layer definition file specifies a package, that package is used as the top-level package for all files in that layer.  In other words, a file in the layer's directory will be in that package.  You can omit the package line in your .java and .sc files and StrataCode will insert it for you automatically and create the extra directories in the generated source paths. 
 
@@ -61,7 +61,7 @@ In general application layers work in the same package so use the default.
 
 A layer with no package can customize any type, and can have a normal directory structure including a 'src'. You will need to set "inheritPackage = false" to make a global layer if it extends another layer which exports its package.
 
-## Processes and Runtimes
+## Processes and runtimes
 
 StrataCode supports multiple runtimes - 'java', 'js', 'android', and 'gwt'.   Some layers are suitable for any runtime but some have restrictions.   Layers can set constraints by including or exclude runtimes.  By default a layer picks up the constraints from it's base layers unless those constraints conflict - in which case it's put in any runtime allowed by one of it's base layers.  So if a layer extends both 'js' and 'java' base layers, without including or excluding runtimes on its own, it's put in both runtimes. 
 
@@ -73,7 +73,7 @@ A layer with only process constraints will run according to those process rules.
 
 A layer with no constraints inherits those of it's base layer.
 
-A special flag call 'includeForInit' can be set on a layer to ensure it's only included once in a stack of layers - in the main process.  Use this flag for layers that define data initialization to avoid initializing objects both on the client and server.
+A flag called 'includeForInit' can be set on a layer to ensure it's only included once in a stack of layers - in the main process.  Use this flag for layers that define data initialization to avoid initializing objects both on the client and server.
 
 Once a list of layers, a layered system, are activated, StrataCode determines the set of separate processes/runtimes required and generates a list of separate layer stacks, one for each including the appropriate layers. It generates a separated LayeredSystem for each one. Each LayeredSystem maintains a list of the other systems in it's peerSystems list. This structure provides the code-processing engine the global view of all processes and runtimes in the system, and the ability to generate code that considers the 'overlap' between processes and runtimes.
 
@@ -83,7 +83,7 @@ Because StrataCode needs to create and initialize the layer to determine its con
 
 The Layer.start method will never be called on an excluded layer.  After being initialized, excluded layers are removed from the list of layers in that runtime.
 
-## Configuring Builds
+## Configuring builds
 
 In StrataCode, layer definition files also specify build and other properties that control how the project is built for a given runtime.  This is especially true for framework layers which control how the generated project is constructed.  Layer definition files are interpreted StrataCode files, so you can customize them with plain old Java or you can use StrataCode features like objects, components, and data binding.  Methods in the layer (e.g. init, start, and validate) are run in the order in which the layers are added to the layered system.  They are initialized in the three phases.  First all of the init methods are called, then for non-excluded layers, all of the start methods are called.  Finally, before files are used in that layer, the validate methods are called. 
 
@@ -95,7 +95,7 @@ Layered modules can work that way too or, they can only store customizations, ev
 
 Different layers can have different levels of complexity... one layer might have only a few files in the top-level directory, the other might define a more traditional software project.
 
-## Activating Layers
+## Activating layers
 
 Layers are loaded either in the inactive or active state.  An inactive layer is used for code navigation and editing operations in the IDE, to style code for producing the documentation, or other code analysis software that is not working with a specific layer stack.
 

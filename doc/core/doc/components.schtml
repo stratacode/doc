@@ -22,7 +22,7 @@ Most Java programmers have encountered component frameworks that implement an in
 
 While the syntax changes are small, framework developers can plug into this framework to customize how specific types of components are built.  For example, a framework developer can customize the code generated for a specific type of 'object' instance like how in the swing framework the inner component automatically adds itself as a child of the parent.  With StrataCode components, you can use the defaults, or enable/disable features using annotations, or specify a new code-template for a class replacing the default.  
 
-Framework developers can also provide implementations of the IDynChildManager and IDynObjManager interfaces to support 'dynamic components'.  These apis to allow your application to manage dynamic collections of components, where you can change the code on-the-fly for better tooling around customization. For example, in the swing framework in a dynamic layer, if you refresh a file in which an inner object has been added or removed, the appropriate addChild/removeChild call is made for live updates. The same thing could be used to update a database schema or other stateful representation that corresponds to a type in the system.
+Framework developers can also provide implementations of the IDynChildManager and IDynObjManager interfaces to support 'dynamic components'.  These apis allow your application to manage dynamic collections of components, where you can change the code on-the-fly for better tooling around customization. For example, in the swing framework in a dynamic layer, if you refresh a file in which an inner object has been added or removed, the appropriate addChild/removeChild call is made for live updates. The same thing could be used to update a database schema or other stateful representation that corresponds to a type in the system.
 
 ## Simplifying Component Oriented Design
 
@@ -130,7 +130,7 @@ For simple cases, there are no code changes required once you add @Component.  B
 
 ## Constructor properties
 
-Normally a property assignment is initialized as part of the init code for the instance, or in the preInit method for an @Component. For important properties, where null checks become awkward, use constructor properties. This is set via an annotation: @CompilerSettings(constructorProperties="name1,name2"). The initialization value for a constructor property cannot refer to other properties of the instance since they will be run before the instance is created and passed to a generated constructor. This generated constructor is automatically propagated to all sub-objects that might inherit from a base object.
+Normally a property assignment is initialized as part of the init code for the instance, or in the preInit method for an @Component. There is no guarantee these properties will be initialized before binding expressions run and so the value might be null, even when initialized. For important properties, where null checks become awkward, use constructor properties. This is set via an annotation: @CompilerSettings(constructorProperties="name1,name2"). The initialization value for a constructor property cannot refer to other properties of the instance since they will be run before the instance is created and passed to a generated constructor. This generated constructor is automatically propagated to all sub-objects that might inherit from a base object.
 
 ## Issues/Warnings
 

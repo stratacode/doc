@@ -3,15 +3,15 @@
    <div id="navbar" class="navbar" exec="server">
       <span class="logo"><a href="index.html"><img src="/images/logo.png" style="vertical-align:middle"/></a></span>
       <ul id="nav" class="nav">
-         <li> <a href="articles" class=':= section.equals("articles") ? "sectionSelected": ""'>Articles</a>
-         <li> <a href="examples" class=':= section.equals("examples") ? "sectionSelected": ""'>Examples</a>
-         <li> <a href="doc" class=':= section.equals("documentation") ? "sectionSelected": ""'>Documentation</a>
-         <li> <a href="faq.html" class=':= section.equals("faq") ? "sectionSelected": ""'>FAQ</a>
-         <li> <a href="about.html" class=':= section.equals("about") ? "sectionSelected": ""'>About</a>
-         <li> <a href="contact.html" class=':= section.equals("contact") ? "sectionSelected": ""'>Contact</a>
+         <li> <a href="articles/" class=':= section.equals("articles") ? "sectionSelected": ""'>Articles</a></li>
+         <li> <a href="examples/" class=':= section.equals("examples") ? "sectionSelected": ""'>Examples</a></li>
+         <li> <a href="doc/" class=':= section.equals("documentation") ? "sectionSelected": ""'>Documentation</a></li>
+         <li> <a href="faq.html" class=':= section.equals("faq") ? "sectionSelected": ""'>FAQ</a></li>
+         <li> <a href="about.html" class=':= section.equals("about") ? "sectionSelected": ""'>About</a></li>
+         <li> <a href="contact.html" class=':= section.equals("contact") ? "sectionSelected": ""'>Contact</a></li>
       </ul>
    </div>
 
    <!-- <span class="layeredBkg" style="float:left; width:940px; margin: 0; padding: 0; position: relative; left:-20px;">&nbsp;</span> -->
-   <p>
+   <p/>
 </div>

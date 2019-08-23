@@ -10,13 +10,13 @@
 
 ## Web framework overview
 
-The web framework uses layers and code-generation to support the building of efficient components and applications. 
+The web framework uses layers and code-generation to support the building of efficient, highly declarative components and applications.
 
 Some key features:
 
 ### Flexible runtime
 
-The .schtml format supports dynamic HTML applications that might run on the server, in the browser, or both when used with the Java to Javascript converter.
+.schtml files run on the server, in the browser, or both using the Java to Javascript converter. For more control, mix modes on a single page.
 
 <br><img src="../images/schtml3ways.jpg" style="border: solid 1px #0">
 
@@ -42,15 +42,35 @@ Tags use the 'extends' attribute to inherit from other tags. The new attributes 
 
 ### Layers for flexibility, customization
 
-Templates can also be layered. When one schtml files modifies a downstream file, the attributes and body are combined just like extends.
+Templates can also be layered. When an schtml follows another with the same name in the stack, the body/attributes are combined just like extends.
 
-Create customized versions of templates without copying. Manageable versioning using static typing, inheritance and the IDE, similar to Java. 
+Create customized versions of templates without copying. Manage these copies using static typing, inheritance and the IDE, similar to Java.
 
 Organize application code according to dependencies and run code in multiple ways without refactoring. Keep UI code independent of the server and it can always run as a client-only version for rapid development, even when the server becomes large.
 
 ### Synchronization
 
-Use real-time data for interactivity, or just better test scripts during development.
+Use real-time data for interactivity in customer facing applications, or only use it for better test scripts and tools during development and customization.
+
+### URL to page object mapping 
+
+Query/URL parameters mapped via URL patterns map to properties in the tag object. Properties populated from the URL when the page is loaded, and URL updated as properties change. 
+
+### Window, document, location 
+
+Synchronized objects available to Java on client or server to expose window dimensions, url properties, mouse/keyboard events, and focus.
+
+### Customizable base tag classes
+
+Minimize markup required, maximize control over apps.
+
+### Single page or multi page apps
+
+Easily mix and match these styles using schtml.
+
+### Flexible management of server state
+
+Declaratively control whether pages maintain state or not, when are components shared by sessions, applications, windows and requests using the 'scope' operator.
 
 ### Command line, testing
 
@@ -96,19 +116,21 @@ The &lt;%= directive works like JSP to output an expression as content. When use
 
 <%= MarkDownPage.markDown(%>
 
-For the server's version of the HelloWorld class, there's a forward binding which recomputes the value of 'reply' when the message property changes. The change to reply will be sync'd back to the client so the user sees that message printed in the JS console as well as the server's console. 
+For the server's version of the HelloWorld class, there's a forward binding which recomputes the value of 'reply' when the message property changes. The change to reply will be sync'd back to the client so the user sees that message printed in the JS console as well as the server's console.
 
 ## How clientServer mode works
 
-In clientServer mode, the UI and model layers run on both the client and the server. The initial HTML for the page is rendered on the server and displayed in the browser, then browser downloads the JS files, and then initialization code in the page runs. When that's complete, optionally the HTML is re-rendered on the client. It's usually the same so there's no flicker. 
+In clientServer mode, the UI and model layers run on both the client and the server. The initial HTML for the page is rendered on the server and displayed in the browser. The browser then downloads and runs the JS files. The browser may re-render the page the first time or the tag objects will map directly onto the DOM objects generated in the server.
 
-When the user changes the input tag's value, the binding runs on the client to update the 'message' property. That change is sync'd to the server in a JSON request. When message property on the server changes, it updates the binding for the reply property. The reply property change is then sync'd back to the client in the response. This exchange happens all in one XHR request, logs in both client and server consoles show the exchange using the -vs option.
+When the user changes the input tag's value, the binding runs on the client to update the 'message' property of it's version of the HelloWorld instance. That change is sync'd to the server in a JSON request. That JSON request is applied on the server and changes the message property that is bound to an expression that changes the reply property.
+That change is sync'd back to the client in the response JSON. This exchange happens all in one XHR request. The logs in both client and server consoles show the exchange using the -vs option.
 
 ## How server-only mode works
 
-In server only mode, no application code runs in the browser. One fixed, relatively small .js file is loaded to manage the back and forth communication with the server. The initial page response contains the server-rendered HTML and some embedded data that defines the list of 'server tags' - those which trigger events the server needs. 
+In server only mode, no application code runs in the browser. Instead, one small .js file manages the back and forth communication with the server supporting real time and most of the schtml features using the same protocol.
+The initial page response contains the server-rendered HTML and some embedded data that defines the list of 'server tags' - those which trigger events the server needs. On each sync the browser makes to the server, this list of server tags is updated if necessary along with the HTML of any changed tags.
 
-For the simpleSync example, the input tag is a server tag. When it's value changes, the change is sent the server using an XHR request and applied to the server-side instance for that input tag for that window. That change triggers bindings which causes the innerHTML of the div tag to be returned in the response. 
+For the simpleSync example, the input tag is a server tag. When it's value changes, the change is sent the server using an XHR request and applied to the server-side instance for that input tag for that window. That change triggers bindings which causes the innerHTML of the div tag to be returned in the response.
 
 ## UnitConverter HTML UI 
 
@@ -171,14 +193,14 @@ Specify the layers as command line args to scc by passing layers like clientServ
 
 When a .schtml file starts with &lt;html&gt; it's treated as a top-level page and assigned a URL unless it's marked with abstract='true'. Other .schtml files generate a type in the system that can be used with extends inside of another template or used from code.
 
-## URLs and mapping to template pages
+## URLs, query parameters and mapping to properties of templates 
 
-At build time, the code generator collects a list of URLs defined by top-level pages in the system using the @URL annotation. For a given page, set @URL(pattern=".."). The pattern can be a fixed string value (as per the UnitConverter example), or contain page variable mappings using the PatternLanguage. 
-Use the @QueryParam annotation on a top-level page variable for it to be mapped automatically onto query parameters in the URL.
+At build time, the code generator collects a list of URLs defined by pages in the system. The @URL annotation identifies a page type and controls it's URL mapping. Set @URL(pattern="..") where the pattern can be a static string (see the UnitConverter example), or can be mapped to properties in the page object using specific type mappings defined in the PatternLanguage. 
+Use the @QueryParam annotation on a top-level page property to map it to a query parameter in the URL.
 
 See the [simpleBlog example](../examples/simpleBlog.html) for use of @QueryParam and @URL based parameters using patterns.
 
-If the .schtml page does not include an @URL annotation, and the top level tag is 'html', the page object that's generated extends the default HtmlPage object in the html.schtml layer which sets @URL with no pattern. When no pattern is specified, the file name with the resultSuffix is used, e.g. PageName.html.  The layer's configuration sets or inherits the path prefix to prepend for files in it's directory. By default, files are accessed from their path relative to the layer's directory. So files in the layer directory itself are accessed with /fileName.html. 
+If the .schtml page does not include an @URL annotation, but the top level tag is 'html', the page object that's generated extends the default HtmlPage base class defined in the html.schtml layer. The @URL annotation is then inherited by all templates that include an html tag. Because HtmlPage does not specify a pattern, the file name is used instead with the extension .html (see the Template resultSuffix property). So PageName.schtml is access via PageName.html. The layer's configuration sets or inherits the path prefix to prepend for files in it's directory. By default, files are accessed from their path relative to the layer's directory. So .schtml files in the layer directory are accessed as /fileName.html.
 
 ## The TodoList example
 
@@ -412,7 +434,7 @@ Set the repeat attribute of a tag to a java.util.List or array (Object[]), and t
 
 The 'wrap' property controls whether the repeat tag is itself repeated. With wrap='false', the tag with the repeat attribute is itself rendered once for each element. With wrap='true', only the body of the tag is repeated.
 
-The default value for 'wrap' depends on the tag name. For dl, and ul (which both are typically list containers), wrap defaults to true. For all other tags wrap defaults to false. 
+The default value for 'wrap' depends on the tag name. For dl, and ul (which both are typically list containers), wrap defaults to true. For all other tags wrap defaults to false.
 
 Use the class sc.util.ArrayList or send change events on the list value for the repeat tag to update as the list changes. For incremental changes made to the list, incremental changes are made to the corresponding DOM in common cases. See the EditBooks example:
 
@@ -427,6 +449,10 @@ Use the class sc.util.ArrayList or send change events on the list value for the 
 When different array elements need different tag objects for display, use the repeatWrapper attribute to specify an implementation of the [IRepeatWrapper](/javadoc/sc/lang/html/IRepeatWrapper.html) interface. In the createElement method, create and return a tag object for each element. 
 
 TODO: should we just look at the 'extends' or 'implements' of the repeat tag and if it implements IRepeatWrapper, we can use the definition of the tag as the repeatWrapper and avoid one extra class.  We currently don't seem to use the inner tag class which gets generated in almost all of the places we use repeatWrapper. 
+
+## Replacing content with other tags
+
+Use the replaceWith attribute to specify an expression that evaluates to a template object to use in place of the current tag. If the expression evaluates to null, the current tag is rendered. If the expression evaluates to another tag object, that tag object is added to the page as content that replaces the owner tag entirely.
 
 ## Tag properties
 
@@ -466,11 +492,12 @@ These attributes which apply to any tag affect the code generation process:
 * repeat - refers to a List or array of items.  The tag is replicated once for each item.  Use repeatVarName to specify the name of the variable to store the array element.
 * repeatVarName - used with repeat to define a variable name other than "repeatVar" to hold the value.
 * repeatWrapper - used with repeat to specify the extends class for the repeat wrapper class
-* serverContent - set this to true on a tag object you do not want rendered in the client. It's similar but slightly different than exec="server". When you set exec="server", when building the client version this object is omitted entirely so it won't be present when rendering the initial .html file. We also use serverContent in stubs inserted into the client tag objects to represent chunks of content where we should preserve the existing innerHTML of the DOM object when the parent is being re-rendered.
-* exec - set to either 'client', 'server' or 'default'.  use this when you have a file that's shared by both client and server but where you only want the tag to be included in either the client or server's version of the page object. Use 'default' to handle the case where you want it in the client for client-only applications and the server for client-server applications.
-* tagMerge - specifies how the tag and it's attributes are merged with any modified tag object, the extends and implements tag objects. A value of 'merge' is the default. Set it to 'replace' for this tag to entirely replace the previous one. Set it to append, or prepend. Affects both the body and attributes unless bodyMerge is set. See the [javadoc for MergeMode](/javadoc/sc/lang/html/MergeMode.html) for more info.
+* replaceWith - used with an expression that evaluates to another tag object (usually a separate tag template). Use this to switch between completely different versions of content that occupy the same space. If the expression evaluates to null, the owner tag is rendered instead. 
+* serverContent - set this to true on a tag object you do not want rendered in the client. It's similar but slightly different than exec="server". When you set exec="server", when building the client version this object is omitted entirely so it won't be present when rendering the initial .html file. Use serverContent so that this tag object but not it's children are included in the content. Use serverContent in stubs inserted into the client tag objects to represent chunks of content where we should preserve the existing innerHTML of the DOM object when the parent is being re-rendered.
+* exec - set to either 'client', 'server' or 'default'. This attribute is helpful when a file is shared by both client and server processes but where the tag should be included in only one version of the page object. Use 'default' for the case where you want it in the client for client-only applications and the server for client-server applications.
+* tagMerge - specifies how the tag and it's attributes are merged with the tag object it overrides by modifying a tag object in a previous layer, or overriding a tag object it extends or implements. A value of 'merge' is the default. Set it to 'replace' for this tag to entirely replace the previous one or set it to 'append', or 'prepend'. This attribute affects both the body and attributes unless bodyMerge is set. See the [javadoc for MergeMode](/javadoc/sc/lang/html/MergeMode.html) for more info.
 * bodyMerge - specifies just how the body of the tag is merged, for when you want to merge the body of the tag differently from the attributes. Same values as tagMerge.
-* addBefore, addAfter - set to the id of an inherited tag used to place this tag either before or after.
+* addBefore, addAfter - set to the id of an inherited tag used to place this tag either before or after. Use this for more flexible control of individual tags during a merge of one tag body with it's inherited tag body.
 
 ## Document, Location, Window
 
@@ -480,7 +507,7 @@ Set window.location.pathname to change the browser's URL from either the server 
 
 Listen to changes to window.innerWidth/innerHeight to receive notifications of the window resize. 
 
-Use document to listen for global mouse events.
+Use document to listen for global mouse events. See example.html.mouseMove.
 
 javadoc: [Document](/javadoc/sc/lang/html/Document.html), 
 [Location](/javadoc/sc/lang/html/Location.html), 

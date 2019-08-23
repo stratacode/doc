@@ -5,8 +5,9 @@
    <div id="content">
       <div id="exampleContent" exec="server">
 
+The documentation for this example is contained in the Readme file:
 <div class="filename">example/simpleParser/Readme.md:</div>
-<div class="code">
+<div style='border: 1px solid #000047; padding: 6px'>
 <%= MarkDownPage.markDown(sc.util.FileUtil.getFileAsString(sc.layer.LayeredSystem.getCurrent().getMainLayeredSystem().getStrataCodeDir("bundles/example/example/simpleParser/Readme.md"))) %>
 </div>
 

@@ -8,11 +8,11 @@
       <div class="exampleTitle">Build Tag</div>
 
 <p>
-This example shows how to tag a build with info from when it was built.  Here we include a version number, git hash, timestamp, user, in the generated .java file so it's an accurate reflection of when the code was built.  There are several features demonstrated: 
+This example shows how to tag a build with info from when it was built.  Here the version number, git hash, timestamp, and user name are put into the generated .java file so it's an accurate reflection of when the code was built.  There are several features demonstrated: 
 <ul>
-<li>how to define a property in a layer for use by subsequent layers (scmVersion).   
+<li>How to define a property in a layer for use by subsequent layers (scmVersion).   
 <li>Running shell commands in a layer definition file.
-<li>Using @BuildInit annotation to initialize a runtime property to the value of a build-time expression.   You can think of build time expressions as run in the context of the buildLayer, which can reference layer components, or layer fields in any layer in the current build stack.  It can also use the "layeredSystem" property or any static methods available in the dynamic runtime.  If there are errors in the build time expression, those will be visible at compile time (TODO: support edit time resolution here like we do for schtml attributes?).
+<li>Using the @BuildInit annotation to initialize a runtime property to the value of a build-time expression. The build-time expressions are run in the context of the buildLayer using the dynamic runtime so they can refer to layer components, or layer fields in any layer in the current build stack but not the class being generated.  It can also use the "layeredSystem" property or any static methods available in the dynamic runtime.  If there are errors in the build time expression, those will be visible at compile time (TODO: support edit time resolution here like we do for schtml attributes?).
 <li>How to initialize a runtime property from layered .properties files 
 </ul>
 

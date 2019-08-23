@@ -9,7 +9,7 @@
 
 ## Generated Code
 
-StrataCode is a code pre-processor, which means it reads your Java/StrataCode source code, incrementally transforms the parts that use features built on code-generation, and saves the result. 
+StrataCode is a code pre-processor or transpiler. It reads your Java/StrataCode and other formats of source code, incrementally transforms the parts that use features built on code-generation, and saves the result. 
 The generated code is designed to be readable and maintainable, and transformed incrementally from the original source.  So you can easily switch back and forth between the generated and the original code view. (In the IntelliJ plugin, once you've run a StrataCode Application, you navigate back and forth between the code view and the generated code view using shift+command+G.  There's an option in the "Run" tab to Debug the generated source.)
 
 Many Java frameworks use runtime byte-code enhancement, which adds startup overhead and makes it much harder to trace the code, understand the performance impact, and debug problems.  Using StrataCode's easy, incremental code-processing libraries makes framework hooks easier to build and manage.  We can expand our thinking on what types of code-processing we can use to manage code more efficiently in the long term.

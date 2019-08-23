@@ -9,12 +9,12 @@
             <p/>
    The IntelliJ plugin for StrataCode adds Java-like support for the formats: .sc, .scj, .schtml, .sct, .sccss, .scxml, and .scr. This includes edit-time errors, code hinting, navigation, find usages, rename, debugging and more. Many features work when StrataCode calls Java. Navigate back and forth between lines in the source and the corresponding lines in the generated code. Debug either the original or the generated source. Set the "Debug Generated Source" option to step through the generated source.
             <p/>
-            <img style="margin:0px auto;display:block" src="/images/ide/overview.png" alt="IntelliJ plugin" width="90%"/>
+            <img style="margin:0px auto;display:block" src="/images/ide/overview.png" alt="IntelliJ plugin"/>
             <p/>
    Full featured schtml template editing with line markers to navigate sub/super tags, code hinting and navigation for data
    binding expressions, warnings for unrecognized tags and attributes:
             <p/>
-            <img style="margin:0px auto;display:block" src="/images/ide/schtmlOverview.png" alt="SCHTML editing overview" width="90%"/>
+            <img style="margin:0px auto;display:block" src="/images/ide/schtmlOverview.png" alt="SCHTML editing overview"/>
          </div>
       </div>
    </div>

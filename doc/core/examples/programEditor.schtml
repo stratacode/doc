@@ -48,10 +48,10 @@
       </table>
       <ul>
          <li>editor.model (1600 Lines):  Defines the key data structures behind the program editor. This layer runs both in the browser and on the server and so represents the data structures that StrataCode synchronizes.  There is EditorModel which stores the current type and selection and TypeTreeModel, which implements the tree view itself.
-         <li>editor.modelImpl (2200 lines): Runs just on the server in the client/server version.  This layer contains the logic which populates EditorModel and TypeTreeModel for any user interface.  It extends sys.layeredSystem in addition to the model layer.  Because sys.layeredSystem only runs on the server, this layer will only run on the server too.
-         <li>editor.coreui (1750 lines): The view model which runs on both the client and the server.  Contains some core user-interface code shared by both swing and the Javascript layers.
-         <li>editor.swing.core (3200 lines): Implements the Swing user interface.
-         <li>editor.html.core (1900 lines): Implements the Javascript user interface.  Runs on both the client and the server.
+         <li>editor.modelImpl (2200 lines): Runs just on the server in the client/server version. This layer contains the logic which populates EditorModel and TypeTreeModel for any user interface.  It extends sys.layeredSystem in addition to the model layer.  Because sys.layeredSystem only runs on the server, this layer will only run on the server too.
+         <li>editor.coreui (1850 lines): The view model which runs on both the client and the server. Contains some core user-interface code shared by both swing and the Javascript layers.
+         <li>editor.swing.core (2600 lines): Implements the Swing user interface.
+         <li>editor.html.core (2200 lines): Implements the Javascript user interface. Runs on both the client and the server.
       </ul>
 
       The swing user interface code uses data binding for all layout which is more verbose than html.  The JS version is missing some features.

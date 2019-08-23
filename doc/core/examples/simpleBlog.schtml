@@ -8,23 +8,37 @@
          <div id="serverSection1" exec="server">
             <div class="exampleTitle">Simple Blog Example</div>
 
+            <p>
             This example has two domain model objects - Blog and Post.  You can choose your blog, then choose a post in that blog.  It runs in three different modes:
+            </p>
 
-            server only: <code>scc example.simpleBlog.queryParam jetty.schtml</code>
-            client only: <code>scc example.simpleBlog.queryParam js.schtml</code>
-            client/server: <code>scc example.simpleBlog.queryParam jetty.schtml js.schtml</code>
+            server only: <code>scc jetty.schtml example.simpleBlog.queryParam</code>
+            client only: <code>scc js.schtml example.simpleBlog.queryParam</code>
+            client/server: <code>scc jetty.schtml js.schtml example.simpleBlog.queryParam</code>
 
             <p>
-            Here's the ViewBlog template page that shows the use of QueryParam annotations to bind page properties to query parameters in the URL:
+            The simpleBlog example has several different but similar implementations to show how to build both page-by-page and single-page applications using both query parameters and URL based parameters.  
+            </p>
+            <p>
+            Here's the ViewBlog template page that shows the use of QueryParam annotations to bind page properties to query parameters in the URL using a "page-by-page" navigation style:
            </p>
    <%= sc.lang.HTMLLanguage.INSTANCE.styleFile("example/simpleBlog/queryParam", "ViewBlog.schtml", false, false) %>
-
             <p>
-            The same thing using URL based parameters:
+            The @URL annotation specifies a fixed pattern as the base URL. Two page properties are populated from the URL using @QueryParam. The testURLs attribute specifies example URLs to request in test mode and are accessible as links in the default index page for convenience. Ordinarily they would be specified in a separate layer.
+            </p>
+            <p>
+            Here's a different version of the ViewBlog template using URL parameters:
            </p>
    <%= sc.lang.HTMLLanguage.INSTANCE.styleFile("example/simpleBlog/urlParam", "ViewBlog.schtml", false, false) %>
             <p>
-            The testURLs specified in the URL annotation are a directive specified here for a quick automated test of some key pages in the app. They could be specified in a separate layer.
+            Now the pattern specifies the mapping from page property to place in the URL, along with the data type. 
+            </p>
+            <p>
+            Here's a one page version of the ViewBlog template back to using query parameters:
+           </p>
+   <%= sc.lang.HTMLLanguage.INSTANCE.styleFile("example/simpleBlog/onePage", "ViewBlog.schtml", false, false) %>
+            <p>
+            The link uses a clickCount binding that inserts href='#' (if href is not specified). That creates a new browser history state without leaving the page and runs the clickCount reverse-only binding to call the switchToBlog or switchToPost methods. Those methods just change the @QueryParam properties that then automatically update the URL and handle the back button.
         </div>
       </div>
    </div>

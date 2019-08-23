@@ -27,7 +27,7 @@ But it takes a lot of work to design, build and maintain a great plugin framewor
 
 ## Object oriented
 
-When you can't find a plugin platform that matches your needs, your next option is to use object oriented programming APIs with inheritance and essentially build your own plugins using code.  Instead of copying code, refactor so the customizations are separated in a subclass.  But object oriented programming by itself is inadequate to make easily customizable systems.  Most frameworks are build using a [factory pattern](https://en.wikipedia.org/wiki/Factory_method_pattern) to separate the use of an instance from it's concrete type to allow the type to be customized. But this pattern breaks as soon as the second plugin you install into one application needs to customize the same class.
+When you can't find a plugin platform that matches your needs, your next option is to use object oriented programming APIs with inheritance and essentially build your own plugins using code.  Instead of copying code, refactor so the customizations are separated in a subclass.  But object oriented programming by itself is inadequate to make easily customizable systems.  Most frameworks use a [factory pattern](https://en.wikipedia.org/wiki/Factory_method_pattern) to separate the use of an instance from it's concrete type to allow the type to be customized. But this pattern breaks as soon as the second plugin you install into one application needs to customize the same class.
 
 ## Inversion of control
 
