@@ -8,7 +8,7 @@
       <div class="exampleTitle">Build Tag</div>
 
 <p>
-This example shows how to tag a build with info from when it was built.  Here the version number, git hash, timestamp, and user name are put into the generated .java file so it's an accurate reflection of when the code was built.  There are several features demonstrated: 
+This example shows how to tag a build with info from when it was built using code generation.  Here the version number, git hash, timestamp, and user name are put into the generated .java file so it's an accurate reflection of when the code was last generated.  There are several features demonstrated: 
 <ul>
 <li>How to define a property in a layer for use by subsequent layers (scmVersion).   
 <li>Running shell commands in a layer definition file.

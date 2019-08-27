@@ -47,7 +47,11 @@ One of the most significant ways you can alter a type or field is to specify a '
 
 Here's the servlet/core layer definition file which defines the @URL annotation handler and scope handlers for window, and appSession scope.  It also managed type groups for all of the servlets.
 
+<% ) %>
+
 <%= sc.lang.SCLanguage.INSTANCE.styleFileNoTypeErrors("servlet/core","core.sc", true) %>
+
+<%= MarkDownPage.markDown(%>
 
 ## CompilerSettings
 

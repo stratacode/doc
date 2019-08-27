@@ -20,7 +20,7 @@
               <img style="margin:0px auto;display:block" src="/images/inactiveLayersJS.png" alt="Inactive layers"/>
               <br/>
             <h2>Layers organized by process or runtime</h2>
-             Some layers are tied to one or more processes or runtimes by calling includeRuntime(), includeProcess(), excludeRuntime() or excludeProcess() in the init() method in the layer definition file. Framework layers further can define a new process or runtime. Most application layers inherit runtime restrictions from the layers they extend. From that information, StrataCode organizes layers using these process/runtime constraints into separate "layered systems", each of which defines a particular process. This layers view shows you the layers in each layered system for both the active and inactive views.
+             Some layers are tied to one or more processes or runtimes by calling includeRuntime(), includeProcess(), excludeRuntime() or excludeProcess() in the init() method in the layer definition file. Framework layers further can define a new process or runtime. Most application layers inherit runtime restrictions from the layers they extend. From that information, StrataCode organizes layers using these process/runtime constraints into separate "layered systems", each of which defines a particular process. Layers view organizes layers by layered system for both the active and inactive views.
              <p/>
              Here are the active layers in the server process running the doc.core layer running in compiled client/server mode:
               <p/>
@@ -32,7 +32,7 @@
               <br/>
 
             <h2>Layers organized by type</h2>
-            The layer definition file as a best practice contains metadata to identify the type of code in that particular layer: framework, model, ui, etc.  
+            The layer definition file as a best practice can set the codeType property to identify the type of code in that particular layer: framework, model, ui, etc.  
             <p>
             Here are the available framework layers that you can use with the Java server process:
             <p/>

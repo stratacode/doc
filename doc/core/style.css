@@ -320,15 +320,15 @@ h2 {
    display:inline;
 }
 
-.nav a:hover, .nav a.active {
-    color: #000;
+.nav a:hover {
         /* background-color: #EDF5FD; */
         /* background-color: #c3eaea; */
         /*background-color: #BEDCFA;*/
-        border-bottom: 3px solid #7CB0F1;
+        border-bottom: 3px solid #9CD0FF;
 }
 .nav a.active {
     font-weight: bold;
+    border-bottom: 3px solid #7CB0F1;
     }
 
 .layer1 {
