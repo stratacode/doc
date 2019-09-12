@@ -69,6 +69,14 @@ Compiling client and server together also permits automatic detection and handli
 
 Some processes (like the brower) do not support synchronous remote calls. In that case, use of a remote method from code is not allowed. But it's always possible to invoke remote methods from data binding expressions.
 
+## Runtime selection with annotations
+
+Although layers are a convenient way to partition code into processes and runtimes, sometimes it's helpful to assign a given field, method or property assignment to a given runtime without splitting it into a separate layer. 
+
+To exclude the definition from a runtime, use the [@Exec](/javadoc/sc/obj/Exec.html) annotation (equivalent to the exec attribute in schtml).
+
+To change callers to treat a method as remote even when the method is still included in the calling runtime, use the [@Remote](/javadoc/sc/obj/Remote.html) annotation.
+
 ### SyncMode
 
 When using code generation, use the @Sync annotation to explicitly mark a layer, type, or property as synchronized. @Sync has an optional sync mode:
