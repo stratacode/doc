@@ -70,7 +70,9 @@ Easily mix and match these styles using schtml.
 
 ### Flexible management of server state
 
-Declaratively control whether pages maintain state or not, when are components shared by sessions, applications, windows and requests using the 'scope' operator.
+Build stateless pages with scope='request' or stateful pages that update incrementally and use caching for low-latency, low-overhead interactive sites.
+
+Scope data to the window (scope='window'), or the browser's session for that particular single-page app (appSession). When components are shared across pages, use scope='session' for caching and synchronized state management. Use scope='global' or 'appGlobal' to share state for the entire server process, or for only that page in that process. Events are properly sequenced and delivered across scopes for efficient synchronization, and collaboration when real-time is required.
 
 ### Command line, testing
 
@@ -225,6 +227,10 @@ When a tag only uses logic that can be converted to binding expressions, the gen
 
 To make a tag reactive, use fields in the tag object, not local variables (i.e. use &lt;%! not &lt;% to define a variable value used in the tag body). If you need conditional logic, use the ? expression, not an if statement. Use the repeat attribute instead of a loop.
 
+Tag objects that rely on features that require stateful behavior must be defined in a reactive context. When in a procedural context, tag objects behave a lot like a traditional JSP in the features they offer. When an application requires a highly procedural rendering process, it makes sense to break out the declarative/reactive components into separate objects and use a render method to convert those objects into HTML.
+
+TODO: Currently if a tag object has an 'id' it's required that it be defined in a reactive context. Because id is also used for css, it means you will get an error for valid HTML that should work. It would be easy to allow id to be used in a procedural context but for now I'm using it to help call attention to the difference. If a tag has an 'id' and it gets moved into a procedurla context, it flags an error. If a tag has an id, you can refer to it using Java. It would be possible to increase the scope of uses of tag objects procedurally that we could even manage... basically keep track of the tag objects created in a method call and destroy them after the method call. Or maybe keep them around until the next call and do some type of refresh between the old and new lists generated. 
+
 ## Generating css using the .sccss format
 
 Because css contains so many ways to set styles on an element, over time big projects can become hard to maintain unless managed carefully. Using simple classes as selectors as the main approach makes it easier to trace from the html element to the styles it uses. Css does not really have variables or expressions. It's common to use a wrapper language to add these features and then generate css at build time.
@@ -233,7 +239,7 @@ StrataCode does not yet have the ideal css wrapper language. We'd like to offer 
 
 As a first step, the current .sccss extension uses the same base template language that sits underneath .schtml files (and other formats like .scxml) but generates css instead of html. It supports the same &lt;% %&gt; operators as .schtml but only one class is generated with one large outputBody method.
 
-These templates can either be evaluated at build/compile time, or when the .css file is requested, or in the JS runtime as properties change for "isomorphic dynamic css".
+These templates can either be evaluated in the server at build/compile time, or when the .css file is requested. In the browser, dynamic sccss files also can be updated on the fly as properties change. The model supports fully "isomorphic dynamic css" and will only improve with better integration of the concepts of layering and data binding are added to the syntax.
 
 Here's an example:
 
@@ -269,7 +275,7 @@ Here's an example:
 
 ## Relative URLs
 
-Many web frameworks require absolute URLs in all references but relative URLs improve the reusability of components. For tag attributes that refer to URLs, like href and src, an absolute URL is rendered just as it was provided. But relative URLs will be rewritten using a function called getRelURL() that works even if the source template is included or extended from a template with a different top-level URL. It also reacts to changes made to the top-level page URL if your page needs to change it based on local navigation. 
+Many web frameworks require absolute URLs in all references but relative URLs improve the reusability, and management of components. For tag attributes that refer to URLs, like href and src, an absolute URL is rendered just as it was provided. But relative URLs will be rewritten using a function called getRelURL() that works even if the source template is included or extended from a template with a different top-level URL. It also reacts to changes made to the top-level page URL if your page needs to change it based on local navigation. 
 
 TODO: We'd like to provide warnings in the IDE for URLs which cannot be resolved, offer navigation from the IDE for tag attributes and have a flag to display warnings for unresolveable URLs at build time. Detecting and avoiding broken links to internal pages is an important problem to get right.
 
@@ -333,7 +339,7 @@ If the variable's value will change, to have the binding also change use a forwa
 
 The tag object API is supported on both the server and in the browser.
 
-It exposes useful features of the JS "document object model", aka the DOM, to Java code. It provides bindable properties so templates can react to events such as click, mouse move, change, or resize. Other bindable properties let code bind to values like clientWidth, and clientWidth. Tags can be controlled with properties like style, visible, and more.
+It exposes the most important features of the JS "document object model", aka the DOM, to Java code. It provides bindable properties so templates can react to events such as click, mouse move, change, or resize. Other bindable properties let code bind to values like clientWidth, and clientWidth. Tags can be controlled with properties like style, visible, and more.
 
 Here is a list of the main classes and links to the api doc:
 
@@ -355,7 +361,7 @@ This class serves as a good example for how framework features are implemented a
 
 Set the 'visible' attribute to false to remove this tag from the parent's body.
 When set back to true, the parent's body is re-rendered to include the tag again.
-When the tag is invisible, it's useful to specify a substitute in some cases.  To support this, you can add a child tag with the special id="alt".  When the parent is invisible, the alt tag is put in it's place and vice versa. At runtime you sometimes need to refer to the tag's id in code. For the alt tag the id is: "&lt;parentId&gt;_alt" (e.g. foo_alt if the parent tag has id="foo"). 
+When the tag is invisible, it's useful to specify a substitute in some cases.  To support this, add a child tag with the special id="alt".  When the parent is invisible, the alt tag is put in it's place and vice versa. At runtime, to refer to the alt tag in code use "&lt;parentId&gt;_alt" (e.g. foo_alt if the parent tag has id="foo"). 
 
 <% ) %>
 
@@ -366,7 +372,9 @@ When the tag is invisible, it's useful to specify a substitute in some cases.  T
 
 Alternatively, control the tag visibility using the style attribute as in normal HTML, but using a binding to make the tag appear and disappear. With a boolean property called 'vis' use <code>style=':= vis ? "display:none" : ""'</code>
 
-TODO: Currently when your tag is not visible, the bindings still run which means there is more overhead than necessary and care must be taken to avoid errors in the bindings in that state (like adding null tests). We should fix by activating/de-activating the bindings, or possibly creating/destroying the object.  A 'switch' option might be nice so you can have one instance which morphs into different implementations based on binding expressions.
+Another way to control the contents rendered for a tag is to use the replaceWith attribute below.
+
+TODO: Currently when your tag is not visible, the bindings still run which means there is more overhead than necessary and care must be taken to avoid errors in the bindings in that state (like adding null tests). We should fix by activating/de-activating the bindings, or possibly creating/destroying the object.
 
 ## Detecting mouse over
 
@@ -542,7 +550,7 @@ To annotate the class corresponding to the page itself, you use:
 
 ## Live in-browser programming
 
-StrataCode as a framework supports changing the code while the application is running.  Just as these changes can sometimes be applied to the server code at runtime without a restart, they can be converted to Javascript code and run on the client.  When the changes are more complex, the complete javascript on the server is regenerated and the client page is told to refresh.  If the server tag types are dynamic, they too can be easily updated and refreshed.   If you use compiled tag types, the server may need to restart because of changes to compiled code. 
+StrataCode as a framework supports changing the code while the application is running. With the right framework support, many changes can be applied to both the server and client code at runtime without a restart of the server process or a refresh of the browser window.
 
 ### Implementation details
 

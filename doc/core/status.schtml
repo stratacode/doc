@@ -1,0 +1,42 @@
+<html extends="MainPage">
+<head title="Status of StrataCode features"/>
+
+<body>
+
+   <div id="content" section="contact">
+       <div id="mainContent" exec="server">
+
+<%= MarkDownPage.markDown( %>
+# Status of StrataCode features
+This is a rough overview of the status of StrataCode components based on our current testing: 
+## code-processor
+* beta: parselets, java support, sc, sct, schtml formats
+* alpha: modelCache (may need to clear modelCache directory from time to time)
+* pre-alpha: incremental compilation (beyond using it to run an app with no file changes)
+## frameworks
+* beta data binding, components, properties, sync (missing large collection support), java-to-js web framework (most features) 
+* alpha: cross-scope bindings for collaboration, web security, request scope, server tags, merging layers of schtml
+## management ui:
+* pre-alpha support for most features
+* missing 'find' page, more refinement overall
+
+## intellij plugin:
+* beta except for: find-usages/refactoring (references feature missing inheritance, field to getX/setX mapping). Editing of layer definition files (sometimes requires an IDE restart or flush caches), debugger sometimes breaks in generated code and messes up for some block transitions, and anonymous class breakpoints only work when setting in the generated code, editing scr files. Incremental parse has been disabled and needs to be changed to even be re-enabled.
+
+## Next major features designed only
+
+Layered persistence framework - plugin persistence, layer-by-layer, using code-gen to provide static type bindings with declarative and reconfigurable backends that handle the full data base lifecycle - i.e. refresh turns into a way to apply any schema changes or update data required to make that change. Use expression syntax to form 'where' clauses using the most expressive query language with best attempt to join across data stores. Leverage data binding logic for customizable aspects of queries, using a 'query template' that provides available inputs, then push that up through the management UI so it's a customizable query engine. Use this in the 'find' panel which will have options for all, matching, query-methods, and this new customizable query generator.
+
+Built-in clusterability. Just like how today we can build a layer stack that turns into a multi-process system, we can add an additional process to a given install when required, used to route requests to the appropriate child process. This so-called 'router' process would pick up only the required layers needed to handle URL routing. So it might need to parse URLs to extract windowIds, session ids, etc. for stateful routing. It would need to potentially run the authentication logic so it would know what layers to extract for that.
+
+It also could handle the forking of new programs when a new layer configuration is requested, it could create the new process and handle the routing. 
+
+It would be able to manage either push style request routing or message style where the client processes connect back in to handle requests.
+
+If necessary of course we could just generate config files etc from the layer definitions and deploying to kubernetes or whatever but I like the idea of continuing to push the layer abstraction so that a given system deployment is expressible from a single layer stack for traceability, manageability, etc.
+
+<% ) %>
+     </div>
+   </div>
+</body>
+</html>

@@ -246,12 +246,12 @@ Grammars in StrataCode are debuggable, making it easier to add new languages and
 </p>
 The IntelliJ plugin is also built on top of this API, supporting several languages: scj, sc, schtml, sct, scr, and sccss.
    <p>
-Integrated with <a href="doc/webFramework.html">HTML/Javascript</a>, <a href="doc/swingCommandLine.html">Swing</a>, <a href="doc/gettingStartedAndroid.html">Android</a>, OpenGL, OpenCV, <a href="doc/moreFrameworks.html">JUnit, Servlets, Jetty</a>, OpenJPA, Hibernate, and <a href="doc/wicket.html">Wicket</a>. Designed for rapid and flexible future integrations. 
+Integrated with <a href="doc/webFramework.html">HTML/Javascript</a>, <a href="doc/swingCommandLine.html">Swing</a>, <a href="doc/gettingStartedAndroid.html">Android</a>, OpenGL, OpenCV, <a href="doc/moreFrameworks.html">JUnit, Servlets, Jetty</a>, JPA. Designed for rapid and flexible future integrations. 
    <p>
    StrataCode's runtime and IntelliJ plugin will be free to download during the trial period. It is not yet open source. We are looking for feedback on the right license but we'd like to make a sustainable developer's tool that has some way to compensate the developers who build great tools. We are looking for projects to build with StrataCode so if you need something built, contact <a href="contact.html">Jeff</a> and perhaps he can help you build it.
   </p>
   <p>
-Although still in beta, it is already great tool and set of frameworks for building apps from scratch, with a fairly high level of support. It would also be useful to refactor large existing Java code bases, supporting continual evolution during the refactoring process. It can also be used to build or upgrade an existing SaaS platform, or build your own language oriented tools in Java. Extend the IntelliJ plugin, add your own formats and features.
+Although still in beta-ish quality <a href="status.html">(status)</a>, it is already great tool and set of frameworks for building apps from scratch, with a fairly high level of support. It would also be useful to refactor large existing Java code bases, supporting continual evolution during the refactoring process. It can also be used to build or upgrade an existing SaaS platform, or build your own language oriented tools in Java. Extend the IntelliJ plugin, add your own formats and features.
   </p>
   <p>
 Everyone wants faster software, that takes less work to build and more pleasant to use. StrataCode helps that goal by empowering not only end-users but also back-office employees, administrators, operations, designers, and other people that use and customize the solution. We believe it can empower a new class of applications, built from layered domain models, annotated with layered configuration, driven by management UIs that can reach down into the code for customized rules and operations.
