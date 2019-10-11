@@ -3,7 +3,7 @@
 
 <body>
 
-   <div id="content" section="contact">
+   <div id="content" section="status">
        <div id="mainContent" exec="server">
 
 <%= MarkDownPage.markDown( %>
