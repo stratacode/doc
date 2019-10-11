@@ -9,7 +9,41 @@
 
 ## Improving security
 
-Going forward, one of the major questions you have to ask of your frameworks is how secure are the applications built with that solution. StrataCode lets you reduce the number of frameworks and framework patterns in your solution, replacing libraries with code-generation patterns. I believe this approach improves the strength of the patterns you do use. Framework code can be built to establish secure defaults, and enforce code boundary contraints at the structure level. Frameworks can improve security by having a global view of all application code: creating lists of all queries, all public web pages, all exposed rpc methods and using those lists to build contracts enforced by your database, proxy etc. Set default annotations at the layer, class, or property level so code does the right thing by default. Use layer sandboxes to expose just the right public apis, and enforce the just right security constraints for the role of that portion of the code.  Today, it's common practice to use byte-code enhancement on your compiled code to insert security and monitoring. You can do the same thing and more with code-processing because the result is readable and debuggable.
+Going forward, one of the major questions you have to ask of your frameworks is how secure are the applications built with that solution. StrataCode has been carefully designed to improve security long term in several ways.
+
+### Reduce dependencies
+
+StrataCode lets you reduce the number of frameworks and framework patterns in your solution, replacing libraries with code-generation patterns. I believe this approach improves the strength of the patterns you do use. Framework code can be built to establish secure defaults, and enforce code boundary contraints at the structure level. Frameworks can improve security by having a global view of all application code: creating lists of all queries, all public web pages, all exposed rpc methods and using those lists to build contracts enforced by your database, proxy etc. Set default annotations at the layer, class, or property level so code does the right thing by default. Use layer sandboxes to expose just the right public apis, and enforce the just right security constraints for the role of that portion of the code.  Today, it's common practice to use byte-code enhancement on your compiled code to insert security and monitoring. You can do the same thing and more with code-processing because the result is readable and debuggable.
+
+### Review depencies
+
+Good code hygiene
+
+### Layer sandboxes
+
+Layer definition files can include security constraints, inherited or not by the layers they extend. Although net yet implemented, it would be easy to add 'white list' security constraints to limit the visibility of types in that layer. These constraints could be enforced in the IDE, at code-gen time, and even injected into generated code for extra security.
+
+The security constraints could be defined on specific scopes - e.g. eliminate writes to global scope. Or layers, e.g. hide all types imported by this layer from this type of application layer.
+
+### Sandboxing code
+
+A technical challenge for SaaS platforms is how to let customers write code that runs on a server without compromising security. Layer sandboxes provide the mechanism to retrict the api set visible to the application code. 
+
+For compiled layers, inject monitoring and resource monitoring/limit code snippets.
+
+For dynamic layers, it's possible to abort execution using code invoked by the dynamic runtime without code generation.
+
+### Use layers to modularize code based on access dependencies
+
+One challenge with enforcing security policies in code is that it cuts across a complex features like 'User' or 'Product'.
+
+Some aspects of a large type internally need to violate security policies applied to application code. But these are the types most commonly customized by application code.
+
+It's possible to add calls to every method and field access but it makes code less readable and adds unnecessary overhead for trusted code.
+
+Layers allow breaking apart large types into pieces that make sense like user.internal and user.application with different security policies.
+
+Code gen allows injection of these calls at runtime when they are needed.
 
 <% ) %>
 
