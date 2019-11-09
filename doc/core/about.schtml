@@ -8,9 +8,10 @@
 
 <%= MarkDownPage.markDown(%>
 
-## About
+### About
 
-* Jeff Vroom, the author of StrataCode has built three successful platforms.  He has a passion for creating innovative, forward thinking software patterns including:
+Jeff Vroom, the author of StrataCode has built three successful platforms.  He has a passion for creating innovative, forward thinking software patterns including:
+
  * A data binding system in '92 (AVS/Express)
  * A layered IOC framework with ORM in '96 (ATG dynamo, nucleus, jhtml)
  * A declarative, data sync framework in 2005 (Flex Data Services)
@@ -20,19 +21,18 @@
 Bill Wright has done a number of interesting things in his life, including service in the Marine Corps, fifteen years playing rugby around the world, and being considered for the host job on the Wheel of Fortune.  He also has an extensive IT sales, marketing and business strategy background.
 
 * He first met Jeff at ATG, where he ran Global Accounts such as Vodafone, Sun Microsystems and Hewlett-Packard. He was given an annual ATG award for sales and global strategic leadership in 2001.
-* He worked on business strategy and alliances for VMware, and was responsible for identifying and building new verticals (Wireless Infrastructure, Unified Communications, Manufacturing and Business Intelligence).  He was also VMware’s Global Strategic Alliances Executive of the Year in 2011.
+* He worked on business strategy and alliances for VMware, and was responsible for identifying and building new verticals (Wireless Infrastructure, Unified Communications, Manufacturing and Business Intelligence).  He was also VMware's Global Strategic Alliances Executive of the Year in 2011.
 
 He co-founded and sold an application company called Cremote, which featured one of the first home electronics remote control applications for the iPhone.   
 
-### Credits
+#### Credits
 
 Jeff has had help from many people. Natalya Hung for advice on the syntax, help debugging and writing many of the early samples. Bill Wright for advice and help making StrataCode a sustainable reality. Laena Wilder for inspiration on too many levels to list them all. Rollin Crittendon for his help contributing to the CSS grammar and feedback on features.
 
-### Project Status 
+#### Project Status 
 
-StrataCode is ready for developers to download and use for building applications.  It's in a beta stage now in terms of quality and features.  Some interfaces will still change slightly based on feedback.
-
-[Here](https://github.com/stratacode/issues/issues?state=open) are the open bugs.
+The [current status](status.html), and 
+[open bugs](https://github.com/stratacode/issues/issues?state=open) 
 
 <%)%>
 

@@ -15,9 +15,9 @@ Going forward, one of the major questions you have to ask of your frameworks is 
 
 StrataCode lets you reduce the number of frameworks and framework patterns in your solution, replacing libraries with code-generation patterns. I believe this approach improves the strength of the patterns you do use. Framework code can be built to establish secure defaults, and enforce code boundary contraints at the structure level. Frameworks can improve security by having a global view of all application code: creating lists of all queries, all public web pages, all exposed rpc methods and using those lists to build contracts enforced by your database, proxy etc. Set default annotations at the layer, class, or property level so code does the right thing by default. Use layer sandboxes to expose just the right public apis, and enforce the just right security constraints for the role of that portion of the code.  Today, it's common practice to use byte-code enhancement on your compiled code to insert security and monitoring. You can do the same thing and more with code-processing because the result is readable and debuggable.
 
-### Review depencies
+### Review dependencies
 
-Good code hygiene
+With code processing, frameworks can extra info at build time, run additinal security checks, flag dependency changes and more.  
 
 ### Layer sandboxes
 
@@ -44,6 +44,8 @@ It's possible to add calls to every method and field access but it makes code le
 Layers allow breaking apart large types into pieces that make sense like user.internal and user.application with different security policies.
 
 Code gen allows injection of these calls at runtime when they are needed.
+
+In general, breaking a single type into pieces adds complexity but here splitting the code adds clarity and robustness since it's possible to cleanly separate code with different layers of responsibility without changing the API contract.
 
 <% ) %>
 

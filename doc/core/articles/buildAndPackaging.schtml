@@ -18,7 +18,7 @@ StrataCode is more than just a build tool though.  It's a complete code-processi
 
 ## Full IDE for editing build files
 
-StrataCode build files are written in StrataCode and are edited like normal files in IDE with code-hinting and edit-time validation.
+StrataCode build files are written in StrataCode and are edited like normal files in IntelliJ with code-hinting and edit-time validation, or use the mini-IDE that's part of the management UI that runs in the browser.
 
 ## Maven integration
 

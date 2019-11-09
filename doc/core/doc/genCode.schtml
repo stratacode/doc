@@ -118,7 +118,7 @@ A simple component object compiles to something similar but with a get<i>Name</i
 
 ## Code gen for .schtml
 
-See the [tag objects](tagObjects.html] for info on code generation of .schtml.
+See the [tag objects](tagObjects.html) for info on code generation of .schtml.
 
 <% ) %>
      </div>

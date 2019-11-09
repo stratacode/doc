@@ -19,39 +19,58 @@
           <div style="clear:both"/>
       </div>
 
-      <div extends="VideoBox" title="StrataCode introduction" length="9 mins" date="May 2014" videoId="9sen3axrOB0">
+      <div extends="VideoBox" title="StrataCode overview" length="6 min" date="Oct 2019" videoId="DpfIHbBkzV0">
          <%! intro = %>
-            Introduction to StrataCode.  Download the presentation (<a href="scIntro.pdf">PDF</a>).
+            Overview of StrataCode design.  Download the presentation (<a href="scOverview.pdf">PDF</a>).
          <% ; %>
       </div>
 
-      <div extends="VideoBox" title="StrataCode web demo: preview" length="13 mins" date="May 2014" videoId="1e4RSsiONdE">
+      <div extends="VideoBox" title="StrataCode layered code in IntelliJ" length="3 mins" date="Oct 2019" videoId="34UYoql-fso">
          <%! intro = %>
-            Demo of the StrataCode Web Framework.
+            Demo showing project organization, layers view, find class, 
+            nav to/from generated source with unitConverter and management UI.
+         <% ; %>
+      </div>
+
+      <div extends="VideoBox" title="StrataCode web framework demo" length="3.5 mins" date="Oct 2019" videoId="Q-7ImN0cEVA">
+         <%! intro = %>
+            Demo of TodoList.schtml and web framework features. Shows an app with management UI running in server only mode, a glimpse of the protocol and generated code.  
+         <% ; %>
+      </div>
+
+      <div extends="VideoBox" title="Web framework in client/server mode " length="3 mins" date="Nov 2019" videoId="2ZfVklX3Osg">
+         <%! intro = %>
+         Using the TodoList example, shows isomorphic Java, server rendering of HTML, updating in Java converted to Javascript running in the browser. Synchronization and scopes for efficient and flexible state management.
+         <% ; %>
+      </div>
+
+      <div extends="VideoBox" title="Management UI demo" length="3 mins" date="Nov 2019" videoId="nMvFpN1wzuU">
+         <%! intro = %>
+            Shows more features of the web framework with the simple blog example, and customization features of the management UI.
          <% ; %>
       </div>
 
       <div extends="VideoBox" title="StrataCode introduction" length="20 mins" date="Sept 2012" videoId="GIZHieLlvvo">
          <%! intro = %>
-             Older, longer introduction to StrataCode (then known as LayerCake). Download the presentation (<a href="preso.pdf">PDF</a>).
+            Old, longer introduction to StrataCode (then known as LayerCake). Download the presentation (<a href="preso.pdf">PDF</a>).
          <% ; %>
       </div>
 
       <div extends="VideoBox" title="Basic demo only" length="7 mins" date="Sept 2012" videoId="uF28e3VliBQ">
          <%! intro = %>
-            Shows interactively the unitConverter and expertSystem examples using the Swing editor.  Introduces basic language concepts.
+           Old demo showing the unitConverter and expertSystem examples using the Swing editor.  Introduces basic language concepts.
          <% ; %>
       </div>
 
       <div extends="VideoBox" title="Advanced demo" length="12 mins" date="Sept 2012" videoId="GUo0XWiC0s8">
          <%! intro = %>
-   Demonstrates the swing editor running using dynamic layers.  The program editor demonstrated editing the code for the unit converter and the program editor itself.  Demonstrates more complex data binding expressions, layer definition files, adding objects, code view editing code, the fun 3d view which shows the openGL integration.
+   Old demo demonstrates a previous version of the swing editor running using dynamic layers.  The program editor demonstrated editing the code for the unit converter and the program editor itself.  Demonstrates more complex data binding expressions, layer definition files, adding objects, code view editing code, the fun 3d view which shows the openGL integration.
          <% ; %>
       </div>
 
       <div extends="VideoBox" title="StrataCode frameworks" length="10 mins" date="Sept 2012" videoId="d33hFCVKcMc">
          <%! intro = %>
-   Shows android, wicket, gwt integrations.  Even though this is a year old, the last 2 minutes accurately describes the now built web framework.
+   Old demo showing android, wicket, gwt integrations. The last 2 minutes accurately describes the now built web framework.
          <% ; %>
       </div>
 

@@ -32,6 +32,7 @@ Instead of using RPC as the base abstraction, what if the system modelled the sy
 With this design, the framework can also help manage versions and compatibility, and generate statically typed classes by transforming the original source. Errors are caught at edit time, or runtime, and debugging is done on the transformed version that is a lot more natural than code generated from XML or inserted into the byte code.
 
 Thinking about client/server programming as synchronization first requires two important concepts that are fairly commonly used already:
+
 * identify when an object has a unique id versus when it's part of the value of another object.
 * for objects with an id, ensure the protocol respects the "highlander principle' - guaranteeing a single instance with the same id in each process. Sometimes these types of objects are called entities.
 
@@ -62,15 +63,15 @@ When the client refers to a method that's only defined in the server, the system
 
 Synchronization is implemented with a fairly small library usable as an API or hooks can be inserted into the transformed application code. Metadata and method hooks required for synchronization is inserted in the transformed version, preserving readability and debuggability.  
 
-Synchron is based on the same data binding change events. Just as with data binding, fields are converted to get/set methods and the set method has a call to send a change event. When a new synchronized instance is created, it calls an addSyncInst api that's inserted into the constructor or init code. 
+When a property is synchronized, it's automatically made bindable, converted into getX and setX methods where the setX fires a change event. Additionally, an addSyncInst call is inserted into the constructor or create method.
 
 ## Sync features
 
-One of the advantages of declarative frameworks is the ability to enable/disable complex features with simple configuration. Details about how implementation occurs is hidden. 
+One of the advantages of declarative frameworks is the ability to enable/disable features with configuration. Details about the implementation is in the generated code, so it's still debuggable but does not affect the source itself.
 
 ### Eliminate async response handlers
 
-With data binding and data sync, there's no need for asynchronous programming or function closures. Expose a set of methods to declarative programmers in the same way that excel exposes functions. The declarative programmer can use them in data binding expressions without needing to know if the method runs on the client or the server. And the implementation can change later without changing the code that uses the method binding. 
+With data binding and data sync together, the need for explicit asynchronous programming and function closures goes way down. Instead, expose methods that can be used in data binding expressions, or trigger method calls using binding change events. The code runs whether the method is in the same or a remote process. 
 
 Forward bindings are useful for running queries on the server.
 
@@ -82,9 +83,9 @@ When multiple changes fire at the same time, often due to chained bindings or me
 
 The same data binding expressions will work in either a client/server environment, or single-process which makes it easier to reuse domain model code, even when the domain model has remote methods. This is particularly valuable when a business user is editing data-binding expressions that control some combination of client and server functionality.
 
-## Realtime
+## Realtime, offline
 
-Synchronization as a pattern also works in both directions.  The client can queue up changes for the server and vice versa.  When using polling, the client picks up any queued changes waiting for it.  When using a realtime connection, the client can see the results immediately.
+Synchronization as a pattern also works in both directions and can tolerate temporary network disconnects. The client queues up changes for the server and vice versa. When using polling, the client picks up any queued changes waiting for it.  When using a realtime connection, the client can see the results immediately.
 
 ## Sync and scopes
 

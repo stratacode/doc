@@ -21,6 +21,7 @@ If you want to dig into manipulating source code yourself, read about the [Parse
 If you just want to use the APIs, without layers, go straight to the [simpleParser example](../examples/simpleParser.html).
 
 Framework layers are just regular layers that tend to do more:
+
 * Default imports of classes used by this framework
 * Set properties to control how code generation is performed for this runtime
 * Add annotation and scope processors - to control generated code for specifically marked types, properties, and methods

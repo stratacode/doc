@@ -17,7 +17,7 @@
 
       <div class="tagGraphic">
          <center>
-            <a class="videoLink" href="videos.html"><img src="./images/screen1-small.png" id="tagImg"><br>Watch the intro videos</a>
+            <a class="videoLink" href="videos.html"><img src="./images/ide-small.png" id="tagImg"><br>Watch the intro videos</a>
          </center>
       </div>
 
@@ -181,8 +181,8 @@
       </div>
 
       <div extends="InfoBox" id="bizBox" detailBox="= bizDetail" rowIndex="= 2">
-         <div class="infoBoxTitle">Scalable solutions</div>
-         More efficient model for building and managing custom and customizable forms and applications.
+         <div class="infoBoxTitle">IDE and Management UI</div>
+         IntelliJ plugin for developers and an annotation driven management UIs that allow end-user customization.
       </div>
 
       <div class="newRow"/>

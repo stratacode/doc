@@ -23,8 +23,8 @@
        new ExampleInfo("Todo List", "A todo list sample that demonstrates the web and sync frameworks.", "todoList.html"),
        new ExampleInfo("Expert System", "Simple real-world expert system - demonstrating separation of rules, content from the app.", "expertSystem.html"),
        new ExampleInfo("Program Editor", "A large example, written in swing and the web framework, showing code-sharing, sync and how StrataCode scales", "programEditor.html"),
-       new ExampleInfo("Simple Blog", "Simple blog sample showing @QueryParam and @URL", "simpleBlog.html"),
-       new ExampleInfo("Simple Parser", "A standalone Java example showing how to use the code parsing APIs without defining a layer.", "simpleParser.html"),
+       new ExampleInfo("Simple Blog", "Simple blog sample showing @QueryParam and @URL, multi-page versus single-page apps", "simpleBlog.html"),
+       new ExampleInfo("Simple Parser", "A standalone Java example showing how to use the code parsing APIs as a library that can read, navigate, modify, write code from source and class paths.", "simpleParser.html"),
        new ExampleInfo("Build Tag", "Add version, build time, scm info via code generation and customizing build scripts. ", "buildTag.html"),
        new ExampleInfo("Command line", "Builds a swing unit converter using the command line", "swingCommandLine.html")
      };

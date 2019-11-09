@@ -7,33 +7,46 @@
        <div id="mainContent" exec="server">
 
 <%= MarkDownPage.markDown( %>
-# Status of StrataCode features
-This is a rough overview of the status of StrataCode components based on our current testing: 
+## Status of StrataCode features
+Status of various StrataCode components based on current testing: 
+
+* Note: some names and interfaces may change based on feedback
+
 ## code-processor
 * beta: parselets, java support, sc, sct, schtml formats
 * alpha: modelCache (may need to clear modelCache directory from time to time)
 * pre-alpha: incremental compilation (beyond using it to run an app with no file changes)
+
 ## frameworks
-* beta data binding, components, properties, sync (missing large collection support), java-to-js web framework (most features) 
-* alpha: cross-scope bindings for collaboration, web security, request scope, server tags, merging layers of schtml
+* beta: data binding, components, properties, sync (although it's missing large collection support), java-to-js web framework (although missing some apis you might need, they are easy to add) 
+* alpha/pre-alpha: cross-scope bindings for collaboration, web security, request scope, server tags, merging layers of schtml
+
 ## management ui:
-* pre-alpha support for most features
-* missing 'find' page, more refinement overall
+* alpha support for existing features
+* missing 'find' page, delete, more refinement overall and more customizability
 
 ## intellij plugin:
-* beta except for: find-usages/refactoring (references feature missing inheritance, field to getX/setX mapping). Editing of layer definition files (sometimes requires an IDE restart or flush caches), debugger sometimes breaks in generated code and messes up for some block transitions, and anonymous class breakpoints only work when setting in the generated code, editing scr files. Incremental parse has been disabled and needs to be changed to even be re-enabled.
+* beta except for: find-usages/refactoring (feature missing inheritance, field to getX/setX mapping). Editing of layer definition files (sometimes requires an IDE restart or flush caches), debugger sometimes breaks in generated code and messes up for some block transitions, and anonymous class breakpoints only work when setting in the generated code, editing scr files 
 
-## Next major features designed only
+## Java to Javascript
 
-Layered persistence framework - plugin persistence, layer-by-layer, using code-gen to provide static type bindings with declarative and reconfigurable backends that handle the full data base lifecycle - i.e. refresh turns into a way to apply any schema changes or update data required to make that change. Use expression syntax to form 'where' clauses using the most expressive query language with best attempt to join across data stores. Leverage data binding logic for customizable aspects of queries, using a 'query template' that provides available inputs, then push that up through the management UI so it's a customizable query engine. Use this in the 'find' panel which will have options for all, matching, query-methods, and this new customizable query generator.
+The Java to Javascript converter is a healthy beta.  Because most Java code depends on runtime libraries that may not be available, it's not a seamless way to run any Java code in the browser. The test suite contains over 100K lines of Java that's converted without workarounds, JDK classes added as needed. Currently it uses the Apache java utilities which support only Java 1.6. Java 1.8 Lambdas have been implemented in the code-gen by converting to inner classes, but that conversion has not been tested due to the missing libraries.
 
-Built-in clusterability. Just like how today we can build a layer stack that turns into a multi-process system, we can add an additional process to a given install when required, used to route requests to the appropriate child process. This so-called 'router' process would pick up only the required layers needed to handle URL routing. So it might need to parse URLs to extract windowIds, session ids, etc. for stateful routing. It would need to potentially run the authentication logic so it would know what layers to extract for that.
+The converter uses a relatively high level of emulation of native Java classes to keep download size manageable. It's easy to replace any class with a native version using an annotation. Right now, the code is still readable and no optimizations to remove unused code so lots of future optimization potential even though performance is not bad. 
 
-It also could handle the forking of new programs when a new layer configuration is requested, it could create the new process and handle the routing. 
+Currently, your entire JS app is downloaded after the page is rendered but the layered organization would be a perfect way to separate subsets of layers to be progressively loaded. Just mark layers in your stack as 'download layers' and the rest could be automated. For large client applications, you'll be able to start interacting with the app with the base layers, while successive layers are downloaded. The static type system would help manage the dependencies to be sure each individual stack defined a valid application and framework hooks installed to help provide a smooth transition from one to the next.
 
-It would be able to manage either push style request routing or message style where the client processes connect back in to handle requests.
+## Futures
 
-If necessary of course we could just generate config files etc from the layer definitions and deploying to kubernetes or whatever but I like the idea of continuing to push the layer abstraction so that a given system deployment is expressible from a single layer stack for traceability, manageability, etc.
+These are a few ideas for how StrataCode might evolve:
+
+* Management UI customization for editing templates - navigate from UI to form view and code view, new tag, new attribute, resize for fixed position elements, etc. Direct manipulation of UI controls - e.g. setting styles, alignment rules, etc. right from the widget.
+
+* Layered persistence framework - plugin persistence, layer-by-layer, using code-gen to provide static type bindings with declarative and reconfigurable backends that handle the full data base lifecycle - i.e. refresh turns into a way to apply any schema changes or update data required to make that change. Use expression syntax to form 'where' clauses using the most expressive query language with best attempt to join across data stores. Leverage data binding logic for customizable aspects of queries, using a 'query template' that provides available inputs, then push that up through the management UI so it's a customizable query engine. Use this in the 'find' panel which will have options for all, matching, query-methods, and this new customizable query generator.
+
+* Built-in clustering by generating a router process, from additional framework layers. It will be configured with info necessary to configure and deploy to remote servers the code for the other processes, and contain management UIs to manage the cluster. 
+
+It will dispatch requests to the right process and coordinate the update of the child processes in a distributed system. The router will leverage both code-gen to generate fixed assets for 'static typed' routing configuration, and dynamic layers for reloading and on-the-fly updates to cluster config. During the build process, it can use the entire the layer stack to build the system routing map: all processes, URLs, apis, requests, etc and which process handles which ones, along with security constraints. Plugins will allow it to parse out session ids, or whatever it needs.  It will generate the config and code necessary to do the dispatch, compile and run sub-processes, oversee remote installs, deploy updates, start/stop servers etc. The goal is that scalability is just a set of layers added on to the stack. For a new install, these layers can guide the initial config and deployment and build the management UIs required to update and maintain it. From one declarative assembly of processes and APIs, we can support both HTTP and message style dispatch and easily switch back and forth. 
 
 <% ) %>
      </div>

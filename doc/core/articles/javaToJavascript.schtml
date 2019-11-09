@@ -23,15 +23,11 @@ Here's an example.  This java implementation of selection sort:
    is converted to this javascript:
    <%= sc.lang.js.JSLanguage.INSTANCE.styleBuildFile("example/simple", "js", "js/types/example_simple_SortTest.js", false, false, true) %>
 
-<%= MarkDownPage.markDown(%>
-
 ## Status
 
-The Java to Javascript converter is a healthy beta.  Because most Java code depends on runtime libraries that may not be available, it's not a seamless way to run any Java code in the browser.   We've tested it on over 100K lines of Java without workarounds, adding any needed classes from the JDK as required. Currently it uses the Apache java utilities which support only Java 1.6 features. Java 1.8 Lambdas have been implemented in the code-gen by converting to inner classes, but that conversion has not been tested due to the missing libraries.
+See the [status](../status.html) page.
 
-The converter uses a relatively high level of emulation of native Java classes to keep download size manageable. It's easy to replace any class with a native version using an annotation. Right now, the code is still readable and no optimizations to remove unused code so lots of future optimization potential even though performance is not bad. 
-
-Currently, your entire JS app is downloaded after the page is rendered but the layered organization would be a perfect way to separate subsets of layers to be progressively loaded. Just mark layers in your stack as 'download layers' and the rest could be automated. For large client applications, you'll be able to start interacting with the app with the base layers, while successive layers are downloaded. The static type system would help manage the dependencies to be sure each individual stack defined a valid application and framework hooks installed to help provide a smooth transition from one to the next.
+<%= MarkDownPage.markDown(%>
 
 <% ) %>
 
