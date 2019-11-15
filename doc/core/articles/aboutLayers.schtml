@@ -63,7 +63,7 @@ Layers give you the best of both worlds: the option to enforce one-way dependenc
 Here's a diagram comparing the way dependencies evolve in your code from one version to the next, comparing a typical modular organization to one using layers:
 <% ) %>
 
-<img style="margin:0px auto;display:block" src="../images/deps.png" alt="Dependencies between Modules and Layers"/>
+<img class="centerImageBlock" src="../images/deps.png" alt="Dependencies between Modules and Layers"/>
 
 <%= MarkDownPage.markDown(%>
 Version 1 of both designs is the same.  But in both designs for version 2 we need two new dependencies.   Some minor feature added to module C now depend on some minor feature of types in A and similarly a minor feature in module E now depends on D.  With modules only, these new dependencies take away many of the benefits of modularity leaving essentially one hairball of code.   When using layers, we can make the same changes without creating a hairball by adding these new minor features in a new layer.  This layer modifies types C and E creating new versions of these types which have the feature, but only when that layer is present.  With layers, only code which requires the new features needs to depend on the new layer.   The bulk of the existing code does not have the new dependency.   Tests and older code can continue to use the older independent versions retaining the benefits of the existing module structure.  APIs do not change as code moves from one layer to the next.  To get the same benefit with modules, we'd have to create new classes which breaks the existing APIs.

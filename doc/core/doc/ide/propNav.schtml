@@ -9,12 +9,12 @@
             Line markers for properties let you navigate the inheritance tree just like they do for types and methods. A property assignment at the top-level of a class can navigate to it's super and sub definitions. A super definition is either the definition of the property itself, or an assignment it overrides. A sub definition is any assignment in a sub layer. A field can navigate to any property assignments of that field.
             <p/>
 
-              <img style="margin:0px auto;display:block; max-width: 90%" src="/images/ide/navToField.png" alt="Navigate to field"/>
+              <img class="centerImageBlock" src="/images/ide/navToField.png" alt="Navigate to field"/>
 
             <p>
             Navigate to all places property value1 is assigned:
             </p>
-              <img style="margin:0px auto;display:block; max-width: 90%" src="/images/ide/navFromField.png" alt="Navigate from field"/>
+              <img class="centerImageBlock" src="/images/ide/navFromField.png" alt="Navigate from field"/>
             <p>
             &nbsp;
             </p>

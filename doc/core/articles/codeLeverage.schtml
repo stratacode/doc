@@ -73,11 +73,11 @@ For example, let's say you have a class called UserAccount which both defines th
 
 <% ) %>
 
+<%= MarkDownPage.markDown(%>
+
 ## One way dependencies
 
 Additionally, with layers you can eliminate recursive references that might develop between modules, even without changing the APIs. Using the modify operator, introduce dependencies in a new layer so that independent code stays independent. APIs do not change in an incompatible way as you modify types. Even when the code at runtime generates modules which all depend upon each other, layers within the source code can still be tested and used independently.  Read more in [Motivation for layers](aboutLayers.html).
-
-<%= MarkDownPage.markDown(%>
 
 ## Layer basics
 

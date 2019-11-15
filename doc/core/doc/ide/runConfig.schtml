@@ -9,17 +9,17 @@
 
             Like Java, create a run configuration to run or debug a program. Choose <i>StrataCode application</i> from the list of configuration types: 
             <p/>
-              <img style="margin:0px auto;display:block; max-width: 90%" src="/images/ide/createRunConfig.png" alt="Create run configuration"/>
+              <img class="centerImageBlock" src="/images/ide/createRunConfig.png" alt="Create run configuration"/>
             <p/>
             Choose one or more layers for the application instead of Java's main class: 
             <p/>
-              <img style="margin:0px auto;display:block; max-width: 90%" src="/images/ide/createRunConfig2.png" alt="Choose layer"/>
+              <img class="centerImageBlock" src="/images/ide/createRunConfig2.png" alt="Choose layer"/>
             <p/>
             One of the included layers will specify an @MainSettings annotation to define a main method to run. This is usually in a framework layer one of your layers extends. Components can specify @MainInit or extend a framework class which has that annotation if they need to be initialized when the application is run.
             <p/>
             Editing a run configuration:
             <p/>
-              <img style="margin:0px auto;display:block; max-width: 90%" src="/images/ide/runConfig.png" alt="Edit run configuration"/>
+              <img class="centerImageBlock" src="/images/ide/runConfig.png" alt="Edit run configuration"/>
             <p/>
             The run configuration requires at least one layer in the compiled or dynamic layers lists.  Add additional options to the 'scc' command (e.g. -v for verbose, -vs verbose sync, -vb verbose binding, -vh verbose html, -tv test verify - headless, -tw test verify - window)
             and JVM parameters.  The options: 
@@ -33,29 +33,29 @@
              <h2>Fast way to run one layer</h2>
              When running one layer in compiled mode, right click on the layer definition file and choose the run or debug options:
             <p/>
-              <img style="margin:0px auto;display:block; max-width: 90%" src="/images/runByLayer.png" alt="Run by layer shortcut"/>
+              <img class="centerImageBlock" src="/images/runByLayer.png" alt="Run by layer shortcut"/>
               <p>
               Just like with Java, this creates a temporary run configuration you can then customize and save.
 
             <h2>Generated source and the genSource module</h2>
             When you run or debug an application with 'Create gen source module' enabled, you'll see a genSource module added to your project:
             <p/>
-              <img style="margin:0px auto;display:block; max-width: 90%" src="/images/ide/genSourceModule.png" alt="Gen source module"/>
+              <img class="centerImageBlock" src="/images/ide/genSourceModule.png" alt="Gen source module"/>
             <p/>
             This module is replaced or updated each time.
             <p/>
             It's important to recognize the generated source when navigating. For example, here there's a TodoList in the genSource module, as well as an option to choose one of several layers:
             <p/>
-              <img style="margin:0px auto;display:block; max-width: 90%" src="/images/ide/gotoClassGenSource.png" alt="Goto class with gen source"/>
+              <img class="centerImageBlock" src="/images/ide/gotoClassGenSource.png" alt="Goto class with gen source"/>
             <p/>
             <h2>Navigate to/from generated source</h2>
             From a source line in the editor view, use the keyboard shortcut shift-command-g (or choose 'View Generated Source" in the 'Run' menu) to navigate to the same line in the generated source:
             <p/>
-              <img style="margin:0px auto;display:block; max-width: 90%" src="/images/ide/navToGenSrc.png" alt="Navigate to gen source"/>
+              <img class="centerImageBlock" src="/images/ide/navToGenSrc.png" alt="Navigate to gen source"/>
             <p/>
             The generated source: 
             <p/>
-              <img style="margin:0px auto;display:block; max-width: 90%" src="/images/ide/navFromGenSrc.png" alt="Navigate from gen source"/>
+              <img class="centerImageBlock" src="/images/ide/navFromGenSrc.png" alt="Navigate from gen source"/>
             <p/>
             The same key also goes back from the generated source to the original.
             <h2>Debugging generated source</h2>

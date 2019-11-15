@@ -29,7 +29,7 @@
          Element[][] detailBoxRows = {
              {javaDetail, featDetail, jsDetail},
              {layerDetail, ruleDetail, syncDetail},
-             {htmlDetail, liveDetail, bizDetail}
+             {htmlDetail, liveDetail, toolDetail}
          };
       %>
 
@@ -180,8 +180,8 @@
          Live, real-time programming for business and technical users.
       </div>
 
-      <div extends="InfoBox" id="bizBox" detailBox="= bizDetail" rowIndex="= 2">
-         <div class="infoBoxTitle">IDE and Management UI</div>
+      <div extends="InfoBox" id="bizBox" detailBox="= toolDetail" rowIndex="= 2">
+         <div class="infoBoxTitle">IDE and management UI</div>
          IntelliJ plugin for developers and an annotation driven management UIs that allow end-user customization.
       </div>
 
@@ -215,15 +215,11 @@
          </ul>
       </div>
 
-      <div extends="BaseDetailBox" id="bizDetail" columnIndex="= 2">
-         <div class="infoBoxTitle">Better for Business</div>
+      <div extends="BaseDetailBox" id="toolDetail" columnIndex="= 2">
+         <div class="infoBoxTitle">IDE and management UI</div>
          <ul>
-            <li>Ideal for enterprise apps such as ERP, eCommerce, content management, CRM, personalized websites, etc. that need product evolution and customization for mission critical systems.</li>
-            <li>StrataCode does for software development and integration what Excel did for the accounting world.</li>
-            <li>Even sophisticated business users can manage software changes, and merge or "layer" software programs as needed </li>
-            <li>Improves collaboration between developers and business users </li>
-            <li>Developers will save valuable programming time, and corporations can eliminate expensive consulting</li>
-            <li>Allows realtime project development between software architects, graphic designers, merchandisers, programmers, business analysts, and administrators.</li>
+            <li>IntelliJ plugin offers Java-like editing and integration with existing projects</li>
+            <li>Management UI framework allows quick annotation driven UI's built from domain model classes: create, update, delete, query UIs</li>
          </ul>
       </div>
    </div>

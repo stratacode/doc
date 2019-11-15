@@ -50,6 +50,12 @@
          <% ; %>
       </div>
 
+      <div extends="VideoBox" title="Design of the management UI" length="5 mins" date="Nov 2019" videoId="vjgcyk0gTXk">
+         <%! intro = %>
+            Shows how StrataCode scales to larger programs and how layers are used to organize code in client and server, desktop and web
+         <% ; %>
+      </div>
+
       <div extends="VideoBox" title="StrataCode introduction" length="20 mins" date="Sept 2012" videoId="GIZHieLlvvo">
          <%! intro = %>
             Old, longer introduction to StrataCode (then known as LayerCake). Download the presentation (<a href="preso.pdf">PDF</a>).

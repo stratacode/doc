@@ -7,17 +7,17 @@
          <div id="sectionContent">
             <h2>New class, object, template, or script</h2>
             Access the New-&gt;StrataCode class/object option by right clicking on a layer directory, or file or directory inside of a layer directory.<p/>
-              <img style="margin:0px auto;display:block" src="/images/ide/chooseNewType.png" alt="New class/object"/>
+              <img class="centerImageBlock" src="/images/ide/chooseNewType.png" alt="New class/object"/>
               <p/>
             Create a new class, object, .sct, .schtml, or .scr file:<p/>
-              <img style="margin:0px auto;display:block" src="/images/ide/newType.png" alt="New type"/>
+              <img class="centerImageBlock" src="/images/ide/newType.png" alt="New type"/>
               <p/>
 
             <h2>Create a new "modify type" - to modify a class or object</h2>
             When you right click on a layer definition file, or layer directory, use the 'Create new modify type' action to see this dialog:<p/>
-              <img style="margin:0px auto;display:block" src="/images/ide/modType.png" alt="Modify type dialog"/>
+              <img class="centerImageBlock" src="/images/ide/modType.png" alt="Modify type dialog"/>
             The list shows all types defined with the current layer's package prefix which are modifiable in this context.  Select the type and choose ok. This creates a new file like this:<p/>
-              <img style="margin:0px auto;display:block" src="/images/ide/modTypeCreated.png" alt="Modify type created"/>
+              <img class="centerImageBlock" src="/images/ide/modTypeCreated.png" alt="Modify type created"/>
               <p/>
             You can now customize the version of this type used when this layer is included: set properties, override methods, or add new fields or methods.
          </div>
