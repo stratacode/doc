@@ -2,7 +2,7 @@
 <head title="Configuration and Component Assembly"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -117,7 +117,7 @@ Scopes can make code more robust by enforcing constraints at compile time: so yo
 <% ) %>
    </div>
 
-   </div>
+   </div></div>
 </body>
 
 </html>

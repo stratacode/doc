@@ -72,7 +72,7 @@
          <div id="openArrowContainer" style="position: relative; width: 0px; height: 0px">
             <div class="openArrow" style='= " left: " + (columnIndex * 300 + 128) + "px"'/>
          </div>
-         <img id="detailCloseIcon" src="./images/closeX.png" style="float: right" clickEvent="=: BaseDetailBox.this.visible = false">
+         <img id="detailCloseIcon" class="closeIconSize" src="./images/closeX.png" style="float: right" clickEvent="=: BaseDetailBox.this.visible = false">
       </div>
 
       <div id="javaDetail" extends="BaseDetailBox">
@@ -182,7 +182,7 @@
 
       <div extends="InfoBox" id="bizBox" detailBox="= toolDetail" rowIndex="= 2">
          <div class="infoBoxTitle">IDE and management UI</div>
-         IntelliJ plugin for developers and an annotation driven management UIs that allow end-user customization.
+         IntelliJ plugin and annotation driven UIs built from domain models.
       </div>
 
       <div class="newRow"/>

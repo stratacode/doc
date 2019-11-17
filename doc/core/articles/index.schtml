@@ -2,12 +2,12 @@
 <head title="StrataCode Intro"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent">
            <h2>StrataCode Intro</h2>
            by Jeff Vroom
            <p>
-           StrataCode lets programmers build customizable software using code-processing which include code editing tools, transpilation, and language-to-language converters. It parses standard Java with full type-awareness and provides APIs to read and edit Java source code incrementally. The StrataCode language supports normal Java plus a few key syntax changes to support more declarative applications.
+           StrataCode lets programmers build customizable software using code-processing tools including code editing, transpilation, and language-to-language converters. It parses standard Java with full type-awareness and provides APIs to read and edit Java source code incrementally. The StrataCode language supports normal Java plus a few key syntax changes to support more declarative applications.
            Management UIs are created automatically from annotated application classes and objects, and customized using annotations and layers. The system provides many of the difficult features required by a fully customizable SaaS platform that supports excellent tooling and long-term code lifecycle management.
            </p>
            <p>
@@ -35,7 +35,7 @@ frameworks are traceable for code editing, debugging, deployment, and runtime se
           The StrataCode core language adds three new keywords <i>object</i>, <i>override</i>, and <i>scope</i> and three new operators for data binding :=, =: and :=: My hope is that most Java developers can just read the code without much training, and easily navigate and edit with the IDE. For me at least, StrataCode has evolved into a nimble, flexible, readable code base. I can debug problems quickly and the test suite grows to be sure problems stay fixed. I can write code once and run it in many different configurations.
           </p>
           <p>
-          I have built prototypes for management UIs that are complex enough that I feel comfortable building anything. What I like most is is the power of code-processing for building simple, declarative frameworks. You can then reuse application code in various ways - client-only, client/server, server-only, compiled to Javascript, with many framework options - per-window, per-request. Move tags from running on the client to on the server by setting an annotation. Running an A/B test of that new configuration, and merging the result as a new step in your deployment process. Build a management UI that automates that process in a constrained environment so you can offload a powerful type of customization. Use dynamic code and 'refresh' to reduce the round-trip times for common operations, such as editing a web page. Even one that's backed by lots of logic and has lots of current application state. Build one set of tests against the domain model and use them for all platforms and configurations. Add realtime as a feature whenneeded. Use it on every app for more comprehensive tests and diagnostics.
+          In developing the management UI framework, I now feel comfortable building anything. What I like most is is the power of code-processing for building simple, declarative frameworks. You can then reuse application code in various ways - client-only, client/server, server-only, compiled to Javascript, with many framework options - per-window, per-request. Move tags from running on the client to on the server by setting an annotation. Running an A/B test of that new configuration, and merging the result as a new step in your deployment process. Build a management UI that automates that process in a constrained environment so you can offload a powerful type of customization. Use dynamic code and 'refresh' to reduce the round-trip times for common operations, such as editing a web page. Even one that's backed by lots of logic and has lots of current application state. Build one set of tests against the domain model and use them for all platforms and configurations. Add realtime as a feature whenneeded. Use it on every app for more comprehensive tests and diagnostics.
            </p>
            <p>
            StrataCode uses its own code-processing library called Parselets, built in Java with no parser-generator. Grammars are defined using APIs using a few standard parsing operators (PEG). Those grammars have lots of options and ways of customizing their behavior with simple code snippets to form a fully featured language including:
@@ -67,7 +67,7 @@ frameworks are traceable for code editing, debugging, deployment, and runtime se
            &nbsp;
            <p/>
        </div>
-   </div>
+   </div></div>
 </body>
 
 </html>

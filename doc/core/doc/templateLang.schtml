@@ -3,7 +3,7 @@
 
 <body>
 
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -167,6 +167,6 @@ Also look at WEB-INF/web.scxml in the layers: servlet/webApp and wicket/lib.  Th
 <% ) %>
 
      </div>
-   </div>
+   </div></div>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <head title="Microservices with Layers"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -72,7 +72,7 @@ With StrataCode's robust, type-safe splitting and merging, you can use the Intel
 <% ) %>
    </div>
 
-   </div>
+   </div></div>
 </body>
 
 </html>

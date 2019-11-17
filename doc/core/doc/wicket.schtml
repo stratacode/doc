@@ -3,7 +3,7 @@
 
 <body>
 
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -63,6 +63,6 @@ See example/unitConverter/wicketAjax/UnitConverter.sc for the working ajax examp
 <% ) %>
 
      </div>
-   </div>
+   </div></div>
 </body>
 </html>

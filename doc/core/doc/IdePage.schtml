@@ -1,7 +1,7 @@
 <html abstract='true' extends='DocPage'>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
       <li id="IdeIndex" abstract="true" class=':= ideSelected ? "ideIndexSelected" : "ideIndexEntry"'>
          <%! 
             String url; 
@@ -55,6 +55,6 @@
             <br/>
          </div>
       </div>
-   </div>
+   </div></div>
 </body>
 </html>

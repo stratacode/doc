@@ -2,7 +2,7 @@
 <head title="Simple Parser Example"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
       <div id="exampleContent" exec="server">
 
       <div class="exampleTitle">Build Tag</div>
@@ -44,7 +44,7 @@ To compile a release build, you can override the defaults by adding a command li
 <code>scc -Pbuild.tag=release example.buildTag</code>
 
       </div>
-   </div>
+   </div></div>
 </body>
 
 </html>

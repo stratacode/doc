@@ -2,7 +2,7 @@
 
 <body>
 
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -142,6 +142,6 @@ NOTE on naming of generated classes.  By default, the repeatWrapper outer class 
 <% ) %>
 
      </div>
-   </div>
+   </div></div>
 </body>
 </html>

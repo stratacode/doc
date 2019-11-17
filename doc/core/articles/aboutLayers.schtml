@@ -2,7 +2,7 @@
 <head title="Motivation for layers"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -259,7 +259,7 @@ Localization does not stop at changing strings.  You might also need to adjust U
 
    </div>
 
-   </div>
+   </div></div>
 </body>
 
 </html>

@@ -2,7 +2,7 @@
 <head title="TodoList Example"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
       <div id="exampleContent" exec="server">
 
       <div class="exampleTitle">TodoList Example</div>
@@ -31,7 +31,7 @@ and a separate layer to store the data:
 We can run this layer in two different modes.  If we compile it with just the js.schtml layer, it runs in the browser only (as you see above).  If we compile it with both the js.schtml and jetty.schtml layers, it runs in a synchronized way.  As each model entry is changed, its value is sent to the server and saved.  This configuration is configured to just save the data in the user's session.
 
       </div>
-   </div>
+   </div></div>
 </body>
 
 </html>

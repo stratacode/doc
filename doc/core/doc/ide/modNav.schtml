@@ -2,7 +2,7 @@
 <head title="Navigate by type"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
       <div id="pageContent" exec="server">
          <div id="sectionContent">
             <h2>Navigate by the layers in a type</h2>
@@ -21,6 +21,6 @@
             </p>
          </div>
       </div>
-   </div>
+   </div></div>
 </body>
 </html>

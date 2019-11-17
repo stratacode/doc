@@ -2,7 +2,7 @@
 
 <body>
 
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -30,6 +30,6 @@ Because these schtml files turn into StrataCode types, you can modify them or re
 <% ) %>
 
      </div>
-   </div>
+   </div></div>
 </body>
 </html>

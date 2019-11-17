@@ -2,7 +2,7 @@
 <head title="Simple Blog Example - URL and QueryParams"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
       <div id="exampleContent">
          <!-- It would be nice to avoid these section things and just implement this behavior when exec="server" is set on a parent and exec="client" is on the child -->
          <div id="serverSection1" exec="server">
@@ -41,7 +41,7 @@
             The link uses a clickCount binding that inserts href='#' (if href is not specified). That creates a new browser history state without leaving the page and runs the clickCount reverse-only binding to call the switchToBlog or switchToPost methods. Those methods just change the @QueryParam properties that then automatically update the URL and handle the back button.
         </div>
       </div>
-   </div>
+   </div></div>
 </body>
 
 </html>

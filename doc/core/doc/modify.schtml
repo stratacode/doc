@@ -3,7 +3,7 @@
 
 <body>
 
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -171,6 +171,6 @@ Note however that in this case, the childOfB modify operator creates a new type 
 This is a subtle but important case to support.  It lets you modify the definition of any property underneath your given type, creating new types transparently as needed so that customization is only applied to the right instances.
 
      </div>
-   </div>
+   </div></div>
 </body>
 </html>

@@ -3,7 +3,7 @@
 
 <body>
 
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -199,6 +199,6 @@ Another good example of @MainSettings is StrataCode's own main which produces th
 <% ) %>
 
      </div>
-   </div>
+   </div></div>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <head title="Parseles - Parse a Model and Back Again"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -27,7 +27,7 @@ The features behind parselets made building the StrataCode IntelliJ plugin possi
 <% ) %>
    </div>
 
-   </div>
+   </div></div>
 </body>
 
 </html>

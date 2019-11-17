@@ -2,7 +2,7 @@
 
 <body>
 
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -75,6 +75,6 @@ It would not be difficult to omit unused methods from the generated Javascript f
 
 
      </div>
-   </div>
+   </div></div>
 </body>
 </html>

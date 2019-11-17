@@ -3,7 +3,7 @@
 
 <body>
 
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -103,6 +103,6 @@ StrataCode provides facilities to gather all tests registered.  In this case, ju
 <% ) %>
 
      </div>
-   </div>
+   </div></div>
 </body>
 </html>

@@ -2,9 +2,9 @@
 <head title="Project config"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
       <div id="pageContent" exec="server">
       </div>
-   </div>
+   </div></div>
 </body>
 </html>

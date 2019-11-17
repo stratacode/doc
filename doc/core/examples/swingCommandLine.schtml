@@ -2,7 +2,7 @@
 <head title="Command line example"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
       <div id="exampleContent" exec="server">
 
       <div class="exampleTitle">Command line example</div>
@@ -405,7 +405,7 @@ To see all commands, simply use cmd. followed by the TAB character.  Command-lin
 Next, add a UnitConverter web UI with the [wicket framework](wicket.html) mobile using [android](gettingStartedAndroid.html), or javascript application using [gwt](gwt.html).  
 
    </div>
-   </div>
+   </div></div>
 </body>
 
 </html>

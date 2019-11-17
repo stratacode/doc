@@ -3,7 +3,7 @@
 
 <body>
 
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -36,6 +36,6 @@ For the 'repeat' class, stop in syncRepeatTags on either the client or server or
 
 
      </div>
-   </div>
+   </div></div>
 </body>
 </html>

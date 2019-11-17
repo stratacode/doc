@@ -3,7 +3,7 @@
 
 <body>
 
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -168,6 +168,6 @@ Note on crossScope: Today, you need to set the crossScope annotation manually bu
 <% ) %>
 
      </div>
-   </div>
+   </div></div>
 </body>
 </html>

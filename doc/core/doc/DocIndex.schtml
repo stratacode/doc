@@ -2,9 +2,10 @@
 <head title="StrataCode Documentation"/>
 
 <body>
-   <div id="content">
-       <div id="pageContent" style="height: 840px">
-           Browse this overview or select a document on the left:
+   <div id="content"><div id="mainSection">
+       <div id="pageContent">
+           Use this overview, select a document on the left, 
+           or the <a href="/javadoc/">api doc</a>.
            <p>
            <div id="docOverview">
               <%! Capsule.CapsuleContent currentContent; %>
@@ -18,7 +19,7 @@
 
                  <div id="capsuleTitle" class="capsuleTitle">
                     <span class="closeCapsule" id="closeCapsule" clickEvent="=: currentContent = null" visible=":= capsuleExpanded">
-                        <img src="/images/closeX.png" width="16px" style="vertical-align:-3px"/>
+                        <img src="/images/closeX.png" class="closeIconSize"/>
                      </span>
                  </div>
 
@@ -333,11 +334,8 @@ UnitConverter extends Activity {
                   </div>
               </div>
            </div>
-           <div id="browseAPI">
-           Browse the <a href="/javadoc/">api</a> doc.
-           </div>
        </div>
-   </div>
+   </div></div>
 </body>
 
 </html>

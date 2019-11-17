@@ -2,7 +2,7 @@
 <head title="Run and debug"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
       <div id="pageContent" exec="server">
          <div id="sectionContent">
             <h2>Run and debug</h2>
@@ -75,6 +75,6 @@
             </p>
          </div>
       </div>
-   </div>
+   </div></div>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <head title="StrataCode Generated Code"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -122,6 +122,6 @@ See the [tag objects](tagObjects.html) for info on code generation of .schtml.
 
 <% ) %>
      </div>
-   </div>
+   </div></div>
 </body>
 </html>

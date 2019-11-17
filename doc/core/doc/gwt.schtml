@@ -3,7 +3,7 @@
 
 <body>
 
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -52,6 +52,6 @@ Object children are by defalt added to the body tag of the page so there's nothi
 <% ) %>
 
      </div>
-   </div>
+   </div></div>
 </body>
 </html>

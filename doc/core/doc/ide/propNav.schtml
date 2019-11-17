@@ -2,7 +2,7 @@
 <head title="Navigate by property assignment"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
       <div id="pageContent" exec="server">
          <div id="sectionContent">
             <h2>Navigate by property</h2>
@@ -20,6 +20,6 @@
             </p>
          </div>
       </div>
-   </div>
+   </div></div>
 </body>
 </html>

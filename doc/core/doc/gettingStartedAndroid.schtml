@@ -3,7 +3,7 @@
 
 <body>
 
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -135,6 +135,6 @@ Like other StrataCode layers, you can freely mix project files and source files 
 <% ) %>
 
      </div>
-   </div>
+   </div></div>
 </body>
 </html>

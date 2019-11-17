@@ -2,7 +2,7 @@
 <head title="Leveraging your code"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -170,7 +170,7 @@ For brief introductions to the frameworks read these articles or for details, co
 <% ) %>
    </div>
 
-   </div>
+   </div></div>
 </body>
 
 </html>

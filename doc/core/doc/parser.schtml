@@ -3,7 +3,7 @@
 
 <body>
 
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -498,6 +498,6 @@ The format context also keeps track of certain options to suppress spacing and t
 <% ) %>
 
      </div>
-   </div>
+   </div></div>
 </body>
 </html>

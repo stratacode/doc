@@ -2,7 +2,7 @@
 
 <body>
 
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 
@@ -46,6 +46,6 @@ For more information on data binding, look at the Java doc for the sc.bind.Bind 
 
 
      </div>
-   </div>
+   </div></div>
 </body>
 </html>

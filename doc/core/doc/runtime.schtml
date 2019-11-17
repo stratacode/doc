@@ -3,7 +3,7 @@
 
 <body>
 
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -322,6 +322,6 @@ A metadata property stored in the layer for use by the editor.  Lets you tag lay
 <% ) %>
 
      </div>
-   </div>
+   </div></div>
 </body>
 </html>

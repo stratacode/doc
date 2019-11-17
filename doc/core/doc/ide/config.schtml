@@ -3,7 +3,7 @@
 
 <body>
 
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
          <div id="sectionContent">
 
@@ -127,6 +127,6 @@ If you have problems with the editor improperly reformatting a .sc* file after y
 <% ) %>
          </div>
       </div>
-   </div>
+   </div></div>
 </body>
 </html>

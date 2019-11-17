@@ -2,7 +2,7 @@
 <head title="Synchronization with Layers"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -126,7 +126,7 @@ See these examples of basic applications built using synchronization: <a href="/
 <% ) %>
    </div>
 
-   </div>
+   </div></div>
 </body>
 
 </html>

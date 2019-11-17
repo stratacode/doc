@@ -32,22 +32,33 @@
 
 <body>
 
-<div id="content" extends="PageLayout" section="examples">
+   <div id="content" extends="PageLayout" section="examples">
 
-<div id="exampleIndex" class="exampleIndex">
-   <div class=':= "exampleIndexEntry" + (containsString(Window.window.location.href, example.url) ? " exampleIndexSelected" : "")'  id="exampleIndexEntry" repeat=":= allExamples" repeatVarName="example">
-      <a href='= "/examples/" + example.url'>
-         <div class="exampleIndexTitle"><%= example.exampleName %></div>
-         <div class="exampleIndexDesc"><%= example.description %></div>
-      </a>
+      <div id="mainSection">
+         <div id="exampleIndex" class="exampleIndex">
+            <div class=':= "exampleIndexEntry" + (containsString(Window.window.location.href, example.url) ? " exampleIndexSelected" : "")'  id="exampleIndexEntry" repeat=":= allExamples" repeatVarName="example">
+               <a href='= "/examples/" + example.url'>
+                  <div class="exampleIndexTitle"><%= example.exampleName %></div>
+                  <div class="exampleIndexDesc"><%= example.description %></div>
+               </a>
+            </div>
+         </div>
+
+            <div id="navDivider">
+               <%! boolean navOpen = true; %>
+               <img id="navDividerIcon" clickEvent="=: navOpen = !navOpen" src=':= navOpen ? "/images/left-arrows.svg" : "/images/right-arrows.svg"'/>
+            </div>
+
+            <style type="text/css">
+               .exampleIndex {
+                  <%= navDivider.navOpen ? "flex: 0 0 300px;" : "display: none;" %>
+               }
+            </style>
+
+         <div id="exampleContent">
+         </div>
+      </div>
    </div>
-</div>
-
-<div id="exampleContent">
-</div>
-
-</div>
-
 </body>
 
 </html>

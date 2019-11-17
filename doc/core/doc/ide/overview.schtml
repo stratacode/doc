@@ -2,7 +2,7 @@
 <head title="IDE Config"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
       <div id="pageContent" exec="server">
          <div id="sectionContent">
             <h2>Overview</h2>
@@ -17,6 +17,6 @@
             <img class="centerImageBlock" src="/images/ide/schtmlOverview.png" alt="SCHTML editing overview"/>
          </div>
       </div>
-   </div>
+   </div></div>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <head title="StrataCode - The Language That Changes Everything"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -50,7 +50,7 @@ Some changes made to compiled or dynamic types will require a recompilation and 
 <% ) %>
    </div>
 
-   </div>
+   </div></div>
 </body>
 
 </html>

@@ -3,7 +3,7 @@
 
 <body>
 
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -260,6 +260,6 @@ The SyncPropOptions may not be set correctly. SYNC_INIT flag should be set for a
 <% ) %>
 
      </div>
-   </div>
+   </div></div>
 </body>
 </html>

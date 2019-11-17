@@ -2,7 +2,7 @@
 <head title="Management UI framework - code overview"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
       <div id="exampleContent" exec="server">
 
       <div class="exampleTitle">Management UI framework - code overview</div>
@@ -82,7 +82,7 @@ The last 'li' tag in the file is the most interesting one.  It has the 'repeat' 
 
 <p/>
    </div>
-   </div>
+   </div></div>
 </body>
 
 </html>

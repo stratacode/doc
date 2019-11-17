@@ -2,7 +2,7 @@
 <head title="Improving security"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -51,7 +51,7 @@ In general, breaking a single type into pieces adds complexity but here splittin
 
    </div>
 
-   </div>
+   </div></div>
 </body>
 
 </html>

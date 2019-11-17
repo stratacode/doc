@@ -2,7 +2,7 @@
 <head title="New layer"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
       <div id="pageContent" exec="server">
          <div id="sectionContent">
             <h2>New class, object, template, or script</h2>
@@ -22,6 +22,6 @@
             You can now customize the version of this type used when this layer is included: set properties, override methods, or add new fields or methods.
          </div>
       </div>
-   </div>
+   </div></div>
 </body>
 </html>

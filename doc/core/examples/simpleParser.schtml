@@ -2,7 +2,7 @@
 <head title="Simple Parser Example"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
       <div id="exampleContent" exec="server">
 
 The documentation for this example is contained in the Readme file:
@@ -15,7 +15,7 @@ The documentation for this example is contained in the Readme file:
 <%= sc.lang.SCLanguage.getSCLanguage().styleFile(null, sc.layer.LayeredSystem.getCurrent().getMainLayeredSystem().getStrataCodeDir("bundles/example/example/simpleParser/src/sc/simpleParser/SimpleParser.java"), false, false) %>
 
       </div>
-   </div>
+   </div></div>
 </body>
 
 </html>

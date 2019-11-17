@@ -3,7 +3,7 @@
 
 <body>
 
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -130,6 +130,6 @@ Click [here](jsFramework.html) for more info on StrataCode's Javascript conversi
 <% ) %>
 
      </div>
-   </div>
+   </div></div>
 </body>
 </html>

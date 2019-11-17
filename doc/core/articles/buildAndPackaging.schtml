@@ -2,7 +2,7 @@
 <head title="Layered Build and Packaging"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -10,23 +10,27 @@
 
 Layers are a great way to manage builds, packages, versions, tests, deployment configurations, etc.  Like Gradle, StrataCode lets you define build configuration using an object oriented, interpreted language.  More concise, readable and flexible build configurations than XML.  But StrataCode uses it's extended version of Java as the build configuration language so you do not have to learn Groovy and can leverage all of the built-in Java libraries you already know.  
 
-Just keep in mind, the code in the layer definition file runs at build/run time and so can't use the code in the layer itself.  The layered, component framework you can use in build files reduces copying while improving customization potential for your builds.  Layers make it easy to define simple modules - organized by file type or dependency rather than using a lot of project scaffolding.  Modules are usually already organized by type so why not make them simpler?  You'll end up with more modules that can be managed by more people.
+Just keep in mind, the code in the layer definition file runs at build time and so can't use the code in the layer itself. It supports layered, components and configuration that reduces copying making build customizatio more manageable. Layers make it easy to define simple modules of just a few files, all organized by dependencies and settings in the layer definition file. A lot of project scaffolding moves into framework layers, and definition of rules as to where to place files in the build directory. 
+
+I think this design will allow more types of modules to be developed that are supported by developers with different skill sets and. It also makes it much easier to move a layer, or a bundle of layers from one git repository to another as the project evolves.
 
 ## Complete control over your code
 
-StrataCode is more than just a build tool though.  It's a complete code-processing environment with the ability to read and make incremental changes to your code.  Unlike tools which manipulate your application's byte-code on-the-fly, you can annotate your code to enable structured code transformations, then see and debug the delta in the generated code. You have all of the runtime safety benefits of compiled, statically typed Java code and avoid "untraceable code" side-effects created by dynamic languages, aspect-oriented programming, mixins, and other approaches.
+StrataCode is more than just a build tool, but it can look into the code and process it, validate types, build manifests, process custom annotations, and make incremental, on-the-fly changes to the code. Unlike tools which manipulate your application's byte-code on-the-fly, you can annotate your code to enable structured code transformations, then see and debug the delta in the generated code. The running app has the same the runtime safety benefits of normal Java. Code paths are traceable, auditable etc. unlike other approaches (aspect oriented programming, dynamic languages, mixins).
 
 ## Full IDE for editing build files
 
-StrataCode build files are written in StrataCode and are edited like normal files in IntelliJ with code-hinting and edit-time validation, or use the mini-IDE that's part of the management UI that runs in the browser.
+StrataCode build files are written in the sc format, using a modify that modifies the layers it extends. They are edited like normal files in IntelliJ with code-hinting and edit-time validation, or use the mini-IDE that's part of the management UI that runs in the browser.
 
 ## Maven integration
 
-Layers can include maven libraries in one of two ways.  Your projects can use maven itself for builds and/or installs of dependencies, then just configure the layer to use the resulting .jar in the classpath.  A lighter weight approach uses StrataCode's built-in support for maven repositories and POM files, eliminating the need to install maven and make better use of layers for customization.  One interesting advantage of the layered design is the ability to switch back and forth between source layers and compiled layers on a module-by-module basis where we use fine-grained modules. This will help optimize the development experience on large projects where you can't have source for everything.
+Layers can include maven libraries in one of two ways. Use maven itself for builds and/or installs of dependencies, then just configure the layer to use the resulting .jar in the classpath.  A lighter weight approach uses StrataCode's built-in support for maven repositories and POM files, eliminating the need to install maven and make better use of layers for customization. It's easy to create source and binary versions of packages and use layers to mix and match in a given environment.
 
 ## StrataCode project file organization
 
-To start a new project with most frameworks, you use a "create project" wizard which generates the default project files from the configuration you specify.  It's your job to figure out what files were generated, where the info you provided is now stored, and how to manage those configured values.  Perhaps they are not the same from one developer to the other, or one deployment to the next.  Maybe your framework stores these external properties in a separate file, or maybe not.  If you're lucky there's some way to externalize them - via environment variables but it's always ad-hoc and varies from one framework to the next.
+Most projects begin by copying an existing one, or using a create project tool to generate the boilerplate. 
+
+It's your job to figure out what files were copied or generated, and how to manage those files long term. Some configuration buried in these files might need to be separated out so it can be changed for a different developer, or changed for the production build.
 
 And the next time you upgrade your tool you may be required to manually update those files.  The intent with which you made those changes is gone so there's no clear path for the upgrade. The way you want to organize your source files is defined by your framework, not by design of the developers for this particular type of project.
 
@@ -101,7 +105,7 @@ The layers and code-processing are well designed to tackle this problem as well,
 <% ) %>
    </div>
 
-   </div>
+   </div></div>
 </body>
 
 </html>

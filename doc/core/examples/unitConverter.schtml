@@ -2,7 +2,7 @@
 <head title="UnitConverter Example"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
       <div id="exampleContent">
          <!-- It would be nice to avoid these section things and just implement this behavior when exec="server" is set on a parent and exec="client" is on the child -->
          <div id="serverSection1" exec="server">
@@ -141,7 +141,7 @@ For GWT:
 
          </div>
       </div>
-   </div>
+   </div></div>
 </body>
 
 </html>

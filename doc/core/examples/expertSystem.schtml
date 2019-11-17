@@ -1,7 +1,7 @@
 <html extends="Example">
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
       <div id="exampleContent" exec="server">
 
       <div class="exampleTitle">ExpertSystem Example</div>
@@ -41,6 +41,6 @@ And the list of factors used by the leader to describe the situation:
 <%= sc.lang.SCLanguage.getSCLanguage().styleFile("example/expertSystem/modelRules","Situation.sc", false, false) %>
 
       </div>
-   </div>
+   </div></div>
 </body>
 </html>

@@ -3,7 +3,7 @@
 
 <body>
 
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -559,6 +559,6 @@ Read about the implementation of [java to javascript](jsFramework.html) and [tag
 <% ) %>
 
      </div>
-   </div>
+   </div></div>
 </body>
 </html>

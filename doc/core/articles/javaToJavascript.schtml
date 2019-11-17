@@ -2,7 +2,7 @@
 <head title="Java to JavaScript Converter"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -33,7 +33,7 @@ See the [status](../status.html) page.
 
    </div>
 
-   </div>
+   </div></div>
 
 </body>
 

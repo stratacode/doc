@@ -2,7 +2,7 @@
 <head title="Copy or Not - The Future of Plugins"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= sc.doc.MarkDownPage.markDown(%>
@@ -15,7 +15,7 @@ Question: Have you ever had to copy lots of code to customize it, then struggled
 
 I've seen this strategy bury more than one company.  They copied, or branched in source control and changed large amounts of code to quickly make changes for the next new customer.  When you don't have time to make a nice plugin, refactor using object oriented principles to share the code, you can generate technical debt quickly.  Pretty soon, your small engineering team can no longer maintain feature demands for existing customers while making customized copies for new customers.  Or some platform evolution is required and you have to re-exert much of the same effort to migrate each your customers.  If you follow this "slash and burn" style development, as you add customers at some spoint you will lose the ability to maintain the core product and all of the customizations in way that's competitive with other platforms. You better hope your customers feel locked in and can pay for increasing levels of services. The more competitive the situation, the easier the migration, and the faster the product evolution, the more likely you'll lose in the long run.
 
-Most smart engineers take the simpler approach and use flags, or ideally the [feature toggle pattern](http://martinfowler.com/articles/feature-toggles.html#WhereToPlaceYourToggle).  Even if you engineer your feature toggles to allow them to be configured externally, without modifying the core application code, this approach runs into limits as you add more customers with disparate needs.
+Most engineers take a simpler approach and use feature toggles, or something more formal to help manage that conditional code segment in better. That design runs into limitations as the number of these grow even when using best practices.
 
 To support more customization without layers you'd use some mixture of plugin design patterns, object-oriented development, and inversion-of-control containers (or IOC).  Let's look and the strengths and weaknesses of those patterns.
 
@@ -63,7 +63,7 @@ Let's quickly return to the scenario where your customers need rapidly customize
 
 <% ) %>
       </div>
-   </div>
+   </div></div>
 </body>
 
 </html>

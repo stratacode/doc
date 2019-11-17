@@ -3,7 +3,7 @@
 
 <body>
 
-   <div id="content">
+   <div id="content"><div id="mainSection">
       <div id="pageContent" exec="server">
          <div id="sectionContent">
 
@@ -55,6 +55,6 @@ NOTE:
 
          </div>
       </div>
-   </div>
+   </div></div>
 </body>
 </html>

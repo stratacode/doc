@@ -3,7 +3,7 @@
 
 <body>
 
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -28,6 +28,6 @@ With the demos we have so far, we are only showing a glimpse of the potential.
 <% ) %>
 
      </div>
-   </div>
+   </div></div>
 </body>
 </html>

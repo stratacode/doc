@@ -2,7 +2,7 @@
 <head title="Dynamic Runtime"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -34,6 +34,6 @@ A type can be made dynamic by defining it or modifying it in a dynamic layer, or
 <% ) %>
 
      </div>
-   </div>
+   </div></div>
 </body>
 </html>

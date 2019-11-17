@@ -2,7 +2,7 @@
 <head title="Customizable enterprise systems"/>
 
 <body>
-   <div id="content">
+   <div id="content"><div id="mainSection">
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
@@ -25,7 +25,7 @@ Once you learn the tricks to use layers to separate code based on dependencies, 
 <% ) %>
    </div>
 
-   </div>
+   </div></div>
 </body>
 
 </html>
