@@ -8,39 +8,46 @@
 <%= MarkDownPage.markDown(%>
 ## Layered build and packaging 
 
-Layers are a great way to manage builds, packages, versions, tests, deployment configurations, etc.  Like Gradle, StrataCode lets you define build configuration using an object oriented, interpreted language.  More concise, readable and flexible build configurations than XML.  But StrataCode uses it's extended version of Java as the build configuration language so you do not have to learn Groovy and can leverage all of the built-in Java libraries you already know.  
+Layers are a great way to manage builds, packages, versions, tests, deployment configurations, etc. StrataCode can manage the entire, install, build, run for a system including multiple processes using layered, object oriented, interpreted components using the dynamic runtime. 
 
-Just keep in mind, the code in the layer definition file runs at build time and so can't use the code in the layer itself. It supports layered, components and configuration that reduces copying making build customizatio more manageable. Layers make it easy to define simple modules of just a few files, all organized by dependencies and settings in the layer definition file. A lot of project scaffolding moves into framework layers, and definition of rules as to where to place files in the build directory. 
+The layered design reduces copying up front, allows finer-grained modules, and simple projects to involve more members of the team in managing their slice of the system.
+Project scaffolding and process management moves into framework layers rather than impacting application code.
 
-I think this design will allow more types of modules to be developed that are supported by developers with different skill sets and. It also makes it much easier to move a layer, or a bundle of layers from one git repository to another as the project evolves.
+The design allows more flexibility in refactoring as a project evolves. Moving layers from one source repository to another or code from one layer to another are incremental and localized changes as they don't change published contracts.
 
-## Complete control over your code
+## More control over code
 
-StrataCode is more than just a build tool, but it can look into the code and process it, validate types, build manifests, process custom annotations, and make incremental, on-the-fly changes to the code. Unlike tools which manipulate your application's byte-code on-the-fly, you can annotate your code to enable structured code transformations, then see and debug the delta in the generated code. The running app has the same the runtime safety benefits of normal Java. Code paths are traceable, auditable etc. unlike other approaches (aspect oriented programming, dynamic languages, mixins).
+StrataCode can be more than just a build tool, as it can process code as well using parselet grammars that support read, modify, write of code.
+
+The code-processing features allow fast development of validation tools, generating assets like XML files, processing code incrementally with a straightforward high-level API.  Unlike tools which manipulate your application's byte-code on-the-fly, annotate code to enable structured code transformations, then see and debug the delta in the generated code. The running app has the same the runtime safety benefits of normal Java. Code paths are traceable, auditable etc. unlike other approaches (aspect oriented programming, dynamic languages, mixins).
 
 ## Full IDE for editing build files
 
 StrataCode build files are written in the sc format, using a modify that modifies the layers it extends. They are edited like normal files in IntelliJ with code-hinting and edit-time validation, or use the mini-IDE that's part of the management UI that runs in the browser.
 
-## Maven integration
+## Management UIs
 
-Layers can include maven libraries in one of two ways. Use maven itself for builds and/or installs of dependencies, then just configure the layer to use the resulting .jar in the classpath.  A lighter weight approach uses StrataCode's built-in support for maven repositories and POM files, eliminating the need to install maven and make better use of layers for customization. It's easy to create source and binary versions of packages and use layers to mix and match in a given environment.
+The management UI framework in StrataCode is great for building quick UIs for managing the build, execution, and deployment process.
+
+## Management of multi-process systems
+
+By using layers to manage all of the processes in the system, it handles all of the wiring, shared configuration, reducing the number of tools. Framework layers provide scaling and deployment options and generate router processes required to facilitate the communication at scale. As these framework layers are chosen, the management UI adapts automatically by merging aspects from the chosen features.
 
 ## StrataCode project file organization
 
-Most projects begin by copying an existing one, or using a create project tool to generate the boilerplate. 
+Most projects begin by copying an existing one, or using a create project tool to generate the boilerplate. Either way, the developer has to manage a lot of configuration up front generated by a tool, or written by someone else.
 
-It's your job to figure out what files were copied or generated, and how to manage those files long term. Some configuration buried in these files might need to be separated out so it can be changed for a different developer, or changed for the production build.
+Layers reduce copying by allowing reuse when it makes sense. Rather than copying assets into a new project, override only the configuration required, preserving the "customization intent" in the project. Keep devops, admin, localization, or other aspects of the project separate for better code management.
 
-And the next time you upgrade your tool you may be required to manually update those files.  The intent with which you made those changes is gone so there's no clear path for the upgrade. The way you want to organize your source files is defined by your framework, not by design of the developers for this particular type of project.
+StrataCode combines the layers and generates one or more standard project directories, one for each process with shared directories like 'web' for a client/server browser app. 
 
-StrataCode preserves customization intent. With StrataCode, when a layer extends a base-layer, it picks up all of the previous layer's project files, which includes the definitions of file formats and a default directory organization for this layer.  You only need to specify files or settings you need to change, and you can change any modifiable apis exposed by the downstream layer. 
+## Refresh of projects
 
-It's best practice to stick with 'additive changes', that do not remove exposed features of the published contract for upstream layers but there's currently no strict enforcement of that principle. You can replace one class with another one that implements a different contract, as long as the end result can satisfy all statically typed references caught by StrataCode and compile as Java.
+The code-processing framework support refresh, detecting changed files, determining the extent of the changes and reloading, restarting, reinstalling, as needed.
 
-With framework features, you can layer your configuration - so each layer contains only the properties you want to set in that project, inheriting the rest.  StrataCode combines the layers and generates one or more standard project directories, usually one for each runtime or process but they can share one or more directories like 'web' for a browser based app. So your deployment configuration and tooling from that point on can be the same.  This pattern both supports today's project structures, and let's you use StrataCode to make changes one-by-one. New projects use way less configuration and over time, you can use layers to reduce copies to simplify your build/runtime process. The goal is to reduce project configuration, and improve the relevance the configuration that's there.
+## Maven integration
 
-Unlike many project and build configurations, StrataCode supports an incremental refresh which quickly finds changed files and processes them, or copies them to the build directory. This becomes particularly useful in large, multi-process environments when the manual restart time is large.
+Layers can include maven libraries in one of two ways. Use maven itself for builds and/or installs of dependencies, then just configure the layer to use the resulting .jar in the classpath.  A lighter weight approach uses StrataCode's built-in support for maven repositories and POM files, eliminating the need to install maven and make better use of layers for customization. It's easy to create source and binary versions of packages and use layers to mix and match in a given environment.
 
 ## Git
 
@@ -50,7 +57,7 @@ Some branches in git can be avoided by creating layers which patch or replace co
 
 ## Layers and contracts
 
-Each layer can be thought of as supplying a set of API contracts - classes, properties, and types.  They can be delivered in source or binary form, as long as these types are available to upstream code.  When you can isolate how dependencies affect developers or other members of the team, you can optimize workflows - minimizing merge conflicts and making it easier to maintain compatibility over the lifetime of the project.  Layers let you separate contracts from classes, processes, and git-repositories. While the need to override or replace a type in this set is rare, without it you are missing an important low level operation. When you can manage the 'modify' operation, you can manage contracts between code, and your overall dependencies in a more efficient way.  Mix and match, move and reassemble, plug and play.  Some simple use cases:
+Each layer can be thought of as supplying a set of API contracts - classes, properties, and types.  They can be delivered in source or binary form, as long as these types are available to upstream code.  A layer is a flexible way to isolate dependencies from one part of the code from another. They also optimize workflows by separating code shared by team members - minimizing merge conflicts, creating slices tailored to an aspect of the system.  Because layers can be split and merged, and files can move from one to another without changing the API contracts it's easier to maintain compatibility over the lifetime of the project. Layers separate contracts from classes, processes, and git-repositories. While the need to override or replace a type in this set is rare, without it you are missing an important low level operation. When you can manage the 'modify' operation, you can manage contracts between code, and your overall dependencies in a more efficient way.  Mix and match, move and reassemble, plug and play.  Some simple use cases:
 
 * have one version of a layer retrieve a package as source, the other via a maven artifact - switch back and forth based on the need to debug the artifact, versus need for faster compiles
 * layers which do not modify API contracts (either add or modify types, methods, or properties) act just like filters - options, you can turn on/off. Even when a particular option affects several files in different parts of the product, you keep that option's code separate. And using static typing and the generated code, you can quickly navigate back and forth.
@@ -95,12 +102,6 @@ This is intentionally the only way build configuration is available to the compi
 TODO: it would not be too difficult to turn layer definition files into 'build time constants' - evaluated and replaced in the code with the build time value. I'm not sure it's worth the coding complexity it would create and the use case so far has been pretty minimal hence the BuildInit annotation.
 
 Read more and see examples in the [documentation](../doc/runtime.html).
-
-## Generation of deployment files
-
-The ops team typically employs tools like chef and puppet to generate configuration files that need to change at deployment time. Machine names, ports, passwords etc need to be available to the application at runtime.
-
-The layers and code-processing are well designed to tackle this problem as well, using the same toolset as developers. Configuration moves fluidly: compiled into the application or stored on the file system, from a development git repo to an operations repo where either can copy from or layer on the other. The list of layers is all either needs to communicate the precise configuration to the other and it's all traceable in the IDE. All easily configurable with auto-configuring management UIs.
 
 <% ) %>
    </div>

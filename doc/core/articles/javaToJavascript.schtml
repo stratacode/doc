@@ -23,11 +23,11 @@ Here's an example.  This java implementation of selection sort:
    is converted to this javascript:
    <%= sc.lang.js.JSLanguage.INSTANCE.styleBuildFile("example/simple", "js", "js/types/example_simple_SortTest.js", false, false, true) %>
 
+<%= MarkDownPage.markDown(%>
+
 ## Status
 
 See the [status](../status.html) page.
-
-<%= MarkDownPage.markDown(%>
 
 <% ) %>
 

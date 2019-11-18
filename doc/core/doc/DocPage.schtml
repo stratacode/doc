@@ -28,6 +28,7 @@
             <div extends="DocIndex" title="Data binding" url="dataBinding.html"/>
             <div extends="DocIndex" title="Defining layers" url="layerDefinition.html"/>
             <div extends="DocIndex" title="Web framework" url="webFramework.html"/>
+            <div extends="DocIndex" title="Java to javascript" url="javaToJS.html"/>
             <div extends="DocIndex" title="Synchronization" url="syncFramework.html"/>
             <div extends="DocIndex" title="Android framework" url="gettingStartedAndroid.html"/>
             <div extends="DocIndex" title="Java compatibility" url="javaCompat.html"/>

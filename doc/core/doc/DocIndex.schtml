@@ -172,7 +172,7 @@ in a "template string".
                           <li id="scCmdMenu" menuContent="= scCmdContent" extends="CapsuleMenuItem">scc command</li>
                           <li id="scIDEMenu" menuContent="= scIDEContent" extends="CapsuleMenuItem">intelliJ plugin</li>
                           <li id="scProgEdMenu" menuContent="= scProgEdContent" extends="CapsuleMenuItem">Program editor</li>
-                          <li id="scCmdlineMenu" menuContent="= scCmdlineContent" extends="CapsuleMenuItem">Command line</li>
+                          <li id="scCmdlineMenu" menuContent="= scCmdlineContent" extends="Capsule.CapsuleMenuItem">Command line</li>
                       </ul>
                   </div>
                   <div id="scCmdContent" extends="CapsuleContent">
@@ -200,16 +200,16 @@ in a "template string".
                      <p> Fully scriptable, extensible command-line based on Java but interpreted.  Commands to move up and down the layer stack to set your context.  Command completion of type names and expressions, create layers, add and remove layers, record property changes for replay, list and print the current type and select a current instance.  Evaluate expressions, add fields, set properties, add or override methods.</p>
                   </div>
               </div>
-              
+
               <div id="layers" extends="Capsule">
                   <div id="capsuleTitle">Layers</div>
                   <div id="layersMenu" class="capsuleMenu">
                       <ul id="layerMenuList">
-                          <li id="aboutLayerMenu" menuContent="= aboutLayerContent" extends="CapsuleMenuItem">About</li>
-                          <li id="newLayerMenu" menuContent="= newLayerContent" extends="CapsuleMenuItem">Adding New Layers</li>
-                          <li id="frameworkLayerMenu" menuContent="= frameworkLayerContent" extends="CapsuleMenuItem">Framework Layers</li>
+                          <li id="aboutLayerMenu" menuContent="= aboutLayerContent" extends="Capsule.CapsuleMenuItem">About</li>
+                          <li id="newLayerMenu" menuContent="= newLayerContent" extends="Capsule.CapsuleMenuItem">Adding New Layers</li>
+                          <li id="frameworkLayerMenu" menuContent="= frameworkLayerContent" extends="Capsule.CapsuleMenuItem">Framework Layers</li>
                       </ul>
-                  </div>    
+                  </div>
                   <div id="aboutLayerContent" extends="CapsuleContent">
                      <div class="capsuleContentTitle">About layers</div>
                      <p>Layers organize code by merging name-spaces like the classpath in Java but where you also can modify a type  using the same rules as inheritance.  Layers can only depend on layers they extend which preserves modularity even in large, complex systems. (<a href="modify.html">more</a>)</p>
@@ -236,10 +236,10 @@ foo extends bar {
                   <div id="capsuleTitle">Frameworks</div>
                   <div id="frameworksMenu" class="capsuleMenu">
                       <ul id="frameworksList">
-                          <li id="webMenu" menuContent="= webContent" extends="CapsuleMenuItem">Web</li>
-                          <li id="androidMenu" menuContent="= androidContent" extends="CapsuleMenuItem">Android</li>
-                          <li id="junitMenu" menuContent="= junitContent" extends="CapsuleMenuItem">JUnit</li>
-                          <li id="jettyMenu" menuContent="= jettyContent" extends="CapsuleMenuItem">Jetty</li>
+                          <li id="webMenu" menuContent="= webContent" extends="Capsule.CapsuleMenuItem">Web</li>
+                          <li id="androidMenu" menuContent="= androidContent" extends="Capsule.CapsuleMenuItem">Android</li>
+                          <li id="junitMenu" menuContent="= junitContent" extends="Capsule.CapsuleMenuItem">JUnit</li>
+                          <li id="jettyMenu" menuContent="= jettyContent" extends="Capsule.CapsuleMenuItem">Jetty</li>
                       </ul>
                   </div>
                   <div id="webContent" extends="CapsuleContent">
@@ -304,9 +304,9 @@ UnitConverter extends Activity {
                   <div id="capsuleTitle">Synchronization</div>
                   <div id="syncMenu" class="capsuleMenu">
                       <ul id="syncMenuList">
-                         <li id="aboutSyncMenu" menuContent="= aboutSyncContent" extends="CapsuleMenuItem">About</li>
-                         <li id="customSyncMenu" menuContent="= customSyncContent" extends="CapsuleMenuItem">Customizing</li>
-                         <li id="debugSyncMenu" menuContent="= debugSyncContent" extends="CapsuleMenuItem">Debugging</li>
+                         <li id="aboutSyncMenu" menuContent="= aboutSyncContent" extends="Capsule.CapsuleMenuItem">About</li>
+                         <li id="customSyncMenu" menuContent="= customSyncContent" extends="Capsule.CapsuleMenuItem">Customizing</li>
+                         <li id="debugSyncMenu" menuContent="= debugSyncContent" extends="Capsule.CapsuleMenuItem">Debugging</li>
                       </ul>
                   </div>
                   <div id="aboutSyncContent" extends="CapsuleContent">

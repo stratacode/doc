@@ -5,7 +5,7 @@
       <div id="exampleContent" exec="server">
 
       <div class="exampleTitle">ExpertSystem Example</div>
-
+       <p/>
        This example demonstrates a simple real-world business problem and how we can partition the code via layers, to separate different aspects of the code to promote better code reuse and separate files for better workflows when code is managed by a team.
 
        <p>

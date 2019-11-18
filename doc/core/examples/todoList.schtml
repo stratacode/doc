@@ -28,7 +28,16 @@ and a separate layer to store the data:
 
 <%= sc.lang.SCLanguage.getSCLanguage().styleFile("example/todo/data","TodoList.sc", false, false) %>
 
-We can run this layer in two different modes.  If we compile it with just the js.schtml layer, it runs in the browser only (as you see above).  If we compile it with both the js.schtml and jetty.schtml layers, it runs in a synchronized way.  As each model entry is changed, its value is sent to the server and saved.  This configuration is configured to just save the data in the user's session.
+This example runs in several different modes, depending on the framework layers and options. With just the js.schtml layer, it runs in the browser only (see above).  With both the js.schtml and jetty.schtml layers, it runs in client/server mode. With just jetty.schtml, it runs in server-only mode. 
+
+      <p>
+As each model entry is changed, its value is sent to the server and saved in the session using the page's scope. By default, it uses appSession scope so that two tabs in the same browser session will be synchronized (if js.sync is included).
+      <p>
+
+If servlet.options.windowScope is included, each tab will have its own state.
+      <p>
+
+There's a swingui for the TodoList application as well and it runs in dynamic mode to support on-the-fly updates to the code.
 
       </div>
    </div></div>
