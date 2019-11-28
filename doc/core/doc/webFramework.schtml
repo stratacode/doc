@@ -38,7 +38,7 @@ The .schtml file is converted to .sc, then to .java or .js. The generated code i
 
 ### Inheritance for reuse
 
-Tags use the 'extends' attribute to inherit from other tags. The new attributes and body content inherit or override those of the super tag unless the tagMerge attribute indiciates to replace, append or prepend instead.
+Tags use the 'extends' attribute to inherit from other tags. The new attributes and body content inherit and override those of the super tag unless the tagMerge attribute is set to replace, append or prepend.
 
 ### Layers for flexibility, customization
 
@@ -66,7 +66,7 @@ Minimize markup required, maximize control over apps.
 
 ### Single page or multi page apps
 
-Easily mix and match these styles using schtml.
+Easily mix and match these styles of templates. 
 
 ### Flexible management of server state
 

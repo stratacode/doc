@@ -21,7 +21,7 @@
 
       <div extends="VideoBox" title="StrataCode overview" length="6 min" date="Oct 2019" videoId="DpfIHbBkzV0">
          <%! intro = %>
-            Overview of StrataCode design.  Download the presentation (<a href="scOverview.pdf">PDF</a>).
+            Overview of StrataCode design.  Download the presentation (<a href="scOverview.pdf">PDF</a>, <a href="scOverview-notes.pdf">with presenter notes</a>).
          <% ; %>
       </div>
 

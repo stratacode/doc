@@ -12,7 +12,7 @@
 
 Here are the basics of using the framework layers built to convert Java to readable, customizable Javascript as a standalone converter without the web framework. 
 
-TODO: there are still some dependencies on the web framework that can be removed to reduce the download size
+Currently the system has primarily been tested with the web framework, but there are a number of tests that use this standalone mode and it could be easily optimized.
 
 ## Getting Started
 
@@ -20,27 +20,51 @@ First install the coreFramework bundle of layers in the bundles directory. From 
 
     (cd bundles; git clone https://github.com/stratacode/coreFramework)
 
-Put the StrataCode/bin directory in your path.  The sample files are in bundles/userLayers/sampleLayer/
+Put the StrataCode/bin directory in your path.  Create the file:
+
+<% ) %>
+
+<div class="filename">StrataCode/bundles/userLayers/sampleLayer/sampleLayer.sc</div>
+<%= sc.lang.SCLanguage.INSTANCE.styleNoTypeErrors(null, null, %>
+@sc.js.JSSettings(jsModuleFile="js/sample.js")
+sampleLayer extends js.allInOne.main {
+}
+<% ) %>
+
+The js.allInOne.main layer is a framework layer that supports running a traditional 'main' method in Javascript. 
+<p/>
+Put ordinary Java files in the sampleLayer directory, add a main with @sc.obj.MainSettings like this
+
+<div class="filename">Foo.java</div>
+<%= sc.lang.JavaLanguage.INSTANCE.style( %>
+public class Foo {
+   // run when the web page loads
+   @sc.obj.MainSettings
+   public static void main(String[] args) {
+      System.out.println("*** hello from javascript!");
+   }
+}
+<% ) %>
+
+<%= MarkDownPage.markDown(%>
 
 From this directory run:
 
      scc -v -a sampleLayer
 
-it should open your browser and in the JS console you'll see messages printed from the code.
+it should open the browser to an index page and the JS console will contain the "System.out.println" calls made in the code. 
 
-See your generated javascript file in the js/sample.js file from "Source" view in the browser, or on the file system in: build/sampleLayer/web/js/sample.js.
+See the generated javascript file in the module declared above: js/sample.js file from "Source" view in the browser, or on the file system in the build directory: build/sampleLayer/web/js/sample.js.
 
-Look at the [sampleLayer definition file](bundles/userLayers/sampleLayer/sampleLayer.sc).  It is like the build.gradle file but using Java with StrataCode extensions.  It always has the same name as the directory it is in and extends one more base layers (i.e. modules it depends on).
+In this sample, the sampleLayer.sc file contains the @JSSettings annotation which affect how the files in that layer are converted to Javascript. All files in this layer are converted to JS and put into this module. All modules references by a given application are included automatically in the resulting page. Modules cannot extend classes in other moduls that already depend on the first module.
 
-In this sample, the sampleLayer.sc file contains the @JSSettings annotation which affect how the files in that layer are converted to Javascript.  Here we specify that all files in this layer are converted into JS and included in the specifie file.
+The 'main' class is added as an entry point during the build process and all referenced code is included in the "main.js" file, unless it's put into a module.
 
-Any layer can also override files in layers that it extends.  A layer can use the StrataCode modify operator to add or override annotations in the base layer.  This gives you lots of flexibility in repackaging without having to copy source files.
+Look in [bundles/coreFramework/js](https://github.com/stratacode/coreFramework/tree/master/js) for the layers that control the Java to JS conversion.  
 
-Look in [bundles/coreFramework/js](https://github.com/stratacode/coreFramework/tree/master/js) for the layers that control the Java to JS conversion.  There's not a great separation right now of the layers used for pure Java conversion and the web framework but that will be easy to fix.
+TODO: The js.core layer could be split up to separate out the webFramework more cleanly to reduce the download size for java to js applications that don't use it.
 
-The sampleLayer extends the js.allInOne.main layer which puts all of the code in your project into a single set of Javascript files.  It's less dependent on the StrataCode web framework than js.appPerPage.main and those dependencies can be removed out by overriding files (or we should create a new core-generic layer which is completely independent of the web framework, and one that works with NodeJS).
-
-One of the problems of converting between Java and JS is the potential for handling special cases that arise.  Using annotations you can workaround these problems in the generated code.  If you can't modify the source, you can add "annotation layers" which just add annotations using a StrataCode 'modify' operator (i.e. just putting "@JSSettings(...) MyClass {}"  in the right file in a layer which extends the layer containing MyClass.
+The sampleLayer extends the js.allInOne.main layer which puts all of the code in your project into a single set of Javascript files. The web framework uses js.appPerPage.main. There should be a set of framework layers for Node.js as well.
 
 Read [the intro article](/articles/javaToJavascript.html)
 
@@ -66,18 +90,7 @@ There's a way to replace method and field names if there are any naming conflict
 
 * js/tags.js,  - not used in this sample - the SC web framework.  TODO: create a base-layer which does not include this and other SC framework JS files so the converter is usable without this dependency 
 
-* ./bundles/coreFramework/js/prebuild/JSTypeTemplate.sctjs - this is a Stratacode template file which is used to generate a JS class from a high-level code model object.  It gives you the opportunity to change many aspects of the generated Javascript code, such as the APIs to create a new class.  Other customizations can be done through annotations or by using the APIs provided in the StrataCode language runtime.
-
-## Notes about 'scc'
-
-With the scc command, use the -a option for now as the incremental builds are not very reliable.  Use the -v option to both turn on verbose to see what it's doing.  There is a -help option showing the large range of features scc supports.   Use the -c option to generate the code only without running anything.  You can disable the command-line interpreter with -ni.
-
-## Futures
-
-We would like a version which uses the OpenJDK classes to really test lambdas in JS and to get to 1M lines of code in the test suite.  Internally today, lambdas are converted to anonymous inner classes during the code conversion, for validation purposes but they could just as easily be 'saved' to do a Java 8 to Java 6/7 conversion, and then to use those features in Javascript.   There is one subtle difference in how 'this' is treated in method references that we need to workaround via code-generation that should be a day or two to fix, but that only affects some method references.
-
-Otherwise, the major limitation in the converter is that all number types in Java (int, float, Integer, etc) are converted to Javascript's single number type.  We could easily add selective workarounds for this feature by writing specific Integer, Float, Double classes (probably a native implementation just to be most efficient) and then use these selectively at code-gen time.  Some of the time you want to do that and sometimes you don't so it's not an easy choice, but with layers and annotation layers you will be able to customize that without modifying the original source code.  You can set a default for a subset of files and override for specific classes, fields, methods, etc.
-
+* ./bundles/coreFramework/js/prebuild/JSTypeTemplate.sctjs - this is a Stratacode template file which is used to generate a JS class from a high-level code model object.  By replacing this template, you can change many aspects of the generated Javascript code, even how classes are defined. There is also handwritten code using these apis that might also need to be changed if this template is changed in an incompatible way. Other customizations can be done through annotations or by using the APIs provided in the StrataCode language runtime.
 
 <% ) %>
 
