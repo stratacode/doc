@@ -165,7 +165,7 @@
              <li>Split classes into shared client/server layers and server-only layers. 
              <li>StrataCode generates code for two-processes, tracks property changes for synchronized properties and handles back and forth updates.
              <li>Fall back to explicit RPC calls when needed or even better use declarative, automatic RPC using data binding.
-             <li>Methods can run on client, server or both. Designed to be debuggable, and to scale to large complex problems. (<a href="articles/syncFramework.html">more info</a>).
+             <li>Methods can run on client, server or both. Designed to be debuggable, and to scale to large complex problems. (<a href="articles/syncWithLayers.html">more info</a>).
          </ul>
       </div>
 

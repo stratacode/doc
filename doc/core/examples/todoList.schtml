@@ -34,10 +34,26 @@ This example runs in several different modes, depending on the framework layers 
 As each model entry is changed, its value is sent to the server and saved in the session using the page's scope. By default, it uses appSession scope so that two tabs in the same browser session will be synchronized (if js.sync is included).
       <p>
 
-If servlet.options.windowScope is included, each tab will have its own state.
-      <p>
+Change the default scope using the servlet.options.windowScope layer for each tab to have its own state. Or set the scope attribute to request for all info to not use the session
 
-There's a swingui for the TodoList application as well and it runs in dynamic mode to support on-the-fly updates to the code.
+     <p>
+
+This test script uses the scr format and tests the domain model for flexibility
+<%= sc.lang.CommandSCLanguage.getCommandSCLanguage().styleFile("example/todo/model","testTodoList.scr", false, false) %>
+
+The web framework runs testX.scr automatically: 
+<code>
+    scc example/todo/clientServer -tw
+</code>
+
+For swing run:
+<code>
+    scc example/todo/swingmain -ts testTodoList.scr
+</code>
+
+Here's the swing UI layer:
+
+<%= sc.lang.SCLanguage.getSCLanguage().styleFile("example/todo/swingui","TodoList.sc", false, false) %>
 
       </div>
    </div></div>

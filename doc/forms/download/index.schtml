@@ -7,117 +7,118 @@
    %>
 <body>
 
-<div id="enterCode" visible=":= mgr.requireDownloadCode && !mgr.validCode">
-  Enter download code for access:
-  <input type="text" changeEvent="=: mgr.validateCode()" value=":=: mgr.currentCode"/>
-  <p/>
-  <div id="codeError" visible=":= mgr.invalidCode" class="error">
-     Invalid download code
-     <p/>
-  </div>
+<div id="content" extends="PageLayout" section="download">
+   <div id="mainContent" class="mainContent">
+      <h2>Download StrataCode</h2>
+      <div id="enterCode" visible=":= mgr.requireDownloadCode && !mgr.validCode">
+        StrataCode is currently in a restricted preview.
+        <p/>
+        Enter download code for access:
+        <input type="text" changeEvent="=: mgr.validateCode()" value=":=: mgr.currentCode"/>
+        <p/>
+        <div id="codeError" visible=":= mgr.invalidCode" class="formError">
+           Invalid download code
+           <p/>
+        </div>
+        No download code? Contact Jeff Vroom for availability (jeff@jvroom.com)
+      </div>
 
-   <div visible=":= !mgr.validCode">
-      No download code? StrataCode is currently under a restricted preview. Contact Jeff Vroom for availability (jeff@jvroom.com)
-   </div>
-</div>
+      <div visible=":= mgr.requireDownloadCode && mgr.validCode && !mgr.acceptedLicense">
+         <i>Download code success.</i>
+         <p/>
+      </div>
 
-<div visible=":= mgr.requireDownloadCode && mgr.validCode && !mgr.acceptedLicense">
-   Download code success.
-   <p/>
-</div>
+      <div visible=":= mgr.validCode && !mgr.acceptedLicense">
+         <p/>
+         Please accept the <a clickEvent="=: mgr.agreementVisible = true">evaluation license agreement</a>
+         <div id="agreementText" visible=":= mgr.agreementVisible">
+            <p/>
+            This is an evaluation license for experimental software. It will change when we determine the best long term
+            license and distribution model for StrataCode and the IntelliJ plugin.
+            Permission is granted to use and redistribute StrataCode libraries in the Java class file format, and code
+            generated from StrataCode freely.
+            <p/>
+            Updates will be similarly freely available during the evaluation period.
+            <p/>
+            This is preview license and the terms are expected to change and may be more or less restrictive in the future.
+            <p/>
+            There is no cost to you and no warranty implied by us.
+            We are not liable for anything that goes wrong in the software you build with StrataCode.
+            <p/>
+            No permission is granted to redistribute any source code provided.
+            <p/>
+            No decompilation or reverse engineering of libraries we provide is allowed.
+            <p/>
+            We do not have patents on any of this work.
+            We do not indemnify this work against patent infringement claims from others.
+            <p/>
+            Downloading the software implies agreement with the terms of this license.
+            <p/>
+         </div>
+         <p/>
+         <input type="button" value="I agree" clickEvent="=: mgr.licenseAccepted()"/>
 
-<div visible=":= mgr.validCode && !mgr.acceptedLicense">
-   <p/>
-   Please accept the <a clickEvent="=: mgr.agreementVisible = true">evaluation license agreement</a>
-   <div id="agreementText" visible=":= mgr.agreementVisible">
-      <p/>
-      This is an evaluation license for experimental software. It will change when we determine the best long term
-      license and distribution model for StrataCode and the IntelliJ plugin.
-      Permission is granted to use and redistribute StrataCode libraries in the Java class file format, and code
-      generated from StrataCode freely.
-      <p/>
-      Updates will be similarly freely available during the evaluation period.
-      <p/>
-      This is preview license and the terms are expected to change and may be more or less restrictive in the future.
-      <p/>
-      There is no cost to you and no warranty implied by us.
-      We are not liable for anything that goes wrong in the software you build with StrataCode.
-      <p/>
-      No permission is granted to redistribute any source code provided.
-      <p/>
-      No decompilation or reverse engineering of libraries we provide is allowed.
-      <p/>
-      We do not have patents on any of this work.
-      We do not indemnify this work against patent infringement claims from others.
-      <p/>
-      Downloading the software implies agreement with the terms of this license.
-      <p/>
-   </div>
-   <p/>
-   <input type="button" value="I agree" clickEvent="=: mgr.licenseAccepted()"/>
+         <div id="alt">
+            License accepted
+         </div>
+      </div>
 
-   <div id="alt">
-      License accepted
-   </div>
-</div>
-
-<ul id="downFileList">
-   <%! String baseFileName; %>
-</ul>
-
-<div visible=":= mgr.validCode && mgr.acceptedLicense" id="download">
-   Thank you for participating in the StrataCode preview!
-   <p/>
-   <li repeat="= mgr.downloadProducts" repeatVarName="downloadProduct">
-      <%= downloadProduct.name %> -
-      <%= downloadProduct.title %>
-      <ul>
-         <li repeat="= downloadProduct.downloadFiles" repeatVarName="fileInfo" cache="= sc.lang.html.CacheMode.Disabled">
-            <a href='= "/download/getFile?fileName=" + fileInfo.fileName + "&ext=" + fileInfo.ext + "&tag=" + fileInfo.tag + "&version=" + fileInfo.version' download>
-               <%= fileInfo.fileName + "." + fileInfo.ext %>
-               <%= fileInfo.tag %>
-               <%= fileInfo.version %>
-            </a>
-            <div style='margin-left:20px;'>
-               <%= fileInfo.versionInfo %>, File size: <%= fileInfo.size %> bytes
-            </div>
+      <div visible=":= mgr.validCode && mgr.acceptedLicense" id="download">
+         Thank you for participating in the StrataCode preview!
+         <p/>
+         <li repeat=":= mgr.downloadProducts" repeatVarName="downloadProduct">
+            <%= downloadProduct.title %>
+            <ul>
+               <li repeat="= downloadProduct.downloadFiles" repeatVarName="fileInfo" cache="= sc.lang.html.CacheMode.Disabled">
+                  <a href='= "/download/getFile?fileName=" + fileInfo.fileName + "&ext=" + fileInfo.ext + "&tag=" + fileInfo.tag + "&version=" + fileInfo.version' download>
+                     <%= fileInfo.fileName + "." + fileInfo.ext %>
+                  </a>
+                  <%= fileInfo.tag %>
+                  <%= fileInfo.version %>
+                  <div style='margin-left:20px;'>
+                     <%= fileInfo.versionInfo %>, size: <%= fileInfo.size/(1024*1024) %>m
+                  </div>
+               </li>
+            </ul>
          </li>
-      </ul>
-   </li>
-   <p/>
-   Go to: <a href="/doc/gettingStarted.html">getting started</a>
-   <p/>
-   <div id="registerBox" visible=":= mgr.showRegisterBox">
-      Enter an email for news or support:
-      <input type="text" id="emailField" value=":=: mgr.emailAddress"/>
-      <br/>
-      <div visible=":= mgr.emailErrorText.length() > 0">
-          <%= mgr.emailErrorText %>
+         <p/>
+         Then to <a href="/doc/gettingStarted.html">getting started</a>
+         <p/>
       </div>
-      <br/>
-      <input type="checkbox" checked=":= contactType == ContactType.None" clickEvent='=: contactType = ContactType.None'/>
-      Send no email - register downloads only
-      <br/>
-      <input type="checkbox"
-             checked=":= contactType == ContactType.MajorAnnouncements"
-             clickEvent='=: contactType = ContactType.MajorAnnouncements'/>
-      Send major announcements only
-      <br/>
-      <input type="checkbox"
-             checked=":= contactType == ContactType.All"
-             clickEvent='=: contactType = ContactType.All'/>
-      Send all announcements
-      <br/>
-      <input id="saveEmailButton" type="button" value="Save"
-            disabled=":= mgr.emailAddress.length() == 0"
-            clickEvent="=: mgr.updateEmail(emailField.value, contactType)"/>
 
-      <div id="alt">
-         Thank you for registering: <%= mgr.emailAddress %> contact: <%= mgr.contactType %>
-         (<a clickEvent="=: mgr.showRegisterBox = true">edit</a>)
+      <div id="registerBox" visible=":= mgr.showRegisterBox">
+         Enter an email for news or support:
+         <input type="text" id="emailField" value=":=: mgr.emailAddress"/>
+         <br/>
+         <div visible=":= mgr.emailErrorText.length() > 0">
+             <%= mgr.emailErrorText %>
+         </div>
+         <br/>
+         <input type="checkbox" checked=":= contactType == ContactType.None" clickEvent='=: contactType = ContactType.None'/>
+         Send no email - register downloads only
+         <br/>
+         <input type="checkbox"
+                checked=":= contactType == ContactType.MajorAnnouncements"
+                clickEvent='=: contactType = ContactType.MajorAnnouncements'/>
+         Send major announcements only
+         <br/>
+         <input type="checkbox"
+                checked=":= contactType == ContactType.All"
+                clickEvent='=: contactType = ContactType.All'/>
+         Send all announcements
+         <br/>
+         <input id="saveEmailButton" type="button" value="Save"
+               disabled=":= mgr.emailAddress.length() == 0"
+               clickEvent="=: mgr.updateEmail(emailField.value, contactType)"/>
+
+         <div id="alt">
+            Thank you for registering: <%= mgr.emailAddress %> contact: <%= mgr.contactType %>
+            (<a clickEvent="=: mgr.showRegisterBox = true">edit</a>)
+         </div>
+         <p/>
       </div>
    </div>
-</div>
+</div>   
    
 </body>
 </html>

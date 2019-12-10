@@ -13,7 +13,7 @@
 
 First install the plugin:
 
-* Download [sc4idea.jar](https://github.com/stratacode/sc4idea/releases) 
+* Download [sc4idea.jar](/download/) 
 * Go to IntelliJ's Preferences, Plugin tab and choose "Install from disk"
 * Select the sc4idea.jar and press OK.  Find the StrataCode plugin in the plugins list, and enable it.  Then restart IntelliJ.
 

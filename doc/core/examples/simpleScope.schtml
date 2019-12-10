@@ -1,0 +1,55 @@
+<html extends="Example">
+<head title="Command line example"/>
+
+<body>
+   <div id="content"><div id="mainSection">
+      <div id="exampleContent" exec="server">
+         <div class="exampleTitle">Simple scope</div>
+
+         This example shows an advanced use case for testing a multi-URL application using various 'scopes'.
+         It shows a bit about how scopes organize information and how to create a web framework test that contains more than
+         one window, that saves and verifies all web page contents and logs.
+         <p/>
+         To run:
+         <pre><code>scc -tw example/simpleScope</code></pre>
+
+         <p/>
+         There are five domain objects in different scopes:
+<%= sc.lang.SCLanguage.INSTANCE.styleFile("example/simpleScope", "GlobalInfo.sc", false, false) %>
+<%= sc.lang.SCLanguage.INSTANCE.styleFile("example/simpleScope", "GlobalPageInfo.sc", false, false) %>
+<%= sc.lang.SCLanguage.INSTANCE.styleFile("example/simpleScope", "PageUserInfo.sc", false, false) %>
+<%= sc.lang.SCLanguage.INSTANCE.styleFile("example/simpleScope", "UserSession.sc", false, false) %>
+<%= sc.lang.SCLanguage.INSTANCE.styleFile("example/simpleScope", "WindowSession.sc", false, false) %>
+
+         <p/>
+         A component that displays and updates properties above:
+<%= sc.lang.HTMLLanguage.INSTANCE.styleFile("example/simpleScope", "ScopeExample.schtml", false, false) %>
+
+         <p/>
+         that's used in two different applications:
+<%= sc.lang.HTMLLanguage.INSTANCE.styleFile("example/simpleScope", "ScopePageFoo.schtml", false, false) %>
+<%= sc.lang.HTMLLanguage.INSTANCE.styleFile("example/simpleScope", "ScopePageBar.schtml", false, false) %>
+
+         <p/>
+         A test wrapper that loads two windows for each application: 
+
+<%= sc.lang.HTMLLanguage.INSTANCE.styleFile("example/simpleScope", "ScopeTest.schtml", false, false) %>
+
+         <p/>
+         A test script to drive the whole thing. GlobalInfo and UserSession are shared by all four frames. 
+         GlobalPageInfo and PageUserInfo are different for ScopePageFoo and ScopePageBar but shared by the two frames for each application.  
+
+<%= sc.lang.CommandSCLanguage.INSTANCE.styleFile("example/simpleScope", "testScript.scr", false, false) %>
+         
+         The scopeContextName in the URL identifies each window, and allows the script to set properties specific to a 
+         specific one.
+         <p/>
+
+         It waits and sets some properties in the foo1 instance of ScopePageFoo and then the same for the bar2 instance
+         of ScopePageBar.
+
+      </div>
+   </div></div>
+</body>
+
+</html>

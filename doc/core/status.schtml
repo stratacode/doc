@@ -8,14 +8,19 @@
 
 <%= MarkDownPage.markDown( %>
 ## Status of StrataCode features
+
 Status of various StrataCode components based on current testing: 
 
 * Note: some names and interfaces may change based on feedback
+* not yet tested with jdk9-11
 
 ## code-processor
 * beta: parselets, java support, sc, sct, schtml formats
-* alpha: modelCache (may need to clear modelCache directory from time to time)
+* alpha: process-constraints, maven emulation, modelCache (may need to clear modelCache directory from time to time)
 * pre-alpha: incremental compilation (beyond using it to run an app with no file changes)
+
+## dynamic runtime
+Beta quality for basic Java features. Not much testing of lambdas.
 
 ## frameworks
 * beta: data binding, components, properties, sync (although it's missing large collection support), java-to-js web framework (although missing some apis you might need, they are easy to add) 

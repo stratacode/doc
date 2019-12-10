@@ -1,4 +1,7 @@
 package sc.doc.forms;
 
-public doc.forms extends jetty.schtml {
+import java.util.List;
+import sc.util.ArrayList;
+
+public doc.forms extends doc.core, jetty.schtml {
 }

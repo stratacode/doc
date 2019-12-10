@@ -62,7 +62,7 @@ scope<session> object downloadManager {
       String getVersionInfo() {
          String versionFileName = getBuildFilePath(fileName, tag, version, subDir, "version");
          try {
-            return FileUtil.getFileAsString(versionFileName);
+            return FileUtil.getFileAsString(versionFileName).trim();
          }
          catch (IllegalArgumentException exc) {
             return "no version file: " + versionFileName;

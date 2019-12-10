@@ -1,0 +1,30 @@
+<html extends="Example">
+<head title="Command line example"/>
+
+<body>
+   <div id="content"><div id="mainSection">
+      <div id="exampleContent" exec="server">
+
+      <div class="exampleTitle">Command line example</div>
+
+The command line and test script interface is designed to build flexible, manageable tests, and build or customize programs from the command line.
+
+It supports a line-by-line variant of StrataCode, so you can type in or paste in programs or code.
+
+The command line and management UI framework support can share the same EditorContext. As you navigate to a new type or layer in one, the other follows. 
+
+It works in two modes - 'edit mode' and 'script mode'.  In edit mode, all changes made to code in the command line mode either added in a new layer, or modify the existing source code (so be careful with edit mode).
+
+In script mode, new fields, methods etc. work just like edit mode. But property assignments only apply to the current instance.
+
+In edit mode, when there are current instances of that type, those changes will be made to all instances, or a restart may be required (and usually a warning is given when that's necessary).
+
+<ul>
+ <li><a href="swingCommandLine.html">Build a swing app from the command line</a></li>
+ <li><a href="simpleScope.html">Multi-window, multi-scope test</a></li>
+</ul>
+   </div>
+   </div></div>
+</body>
+
+</html>
