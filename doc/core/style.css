@@ -23,7 +23,7 @@ body {
    }
 }
 
-@media (min-resolution: 150dpi) {
+@media (min-resolution: 195dpi) {
    body {
       font-size: 140%;
    }
@@ -58,7 +58,7 @@ body {
    }
 }
 
-@media (max-resolution: 150dpi) {
+@media (max-resolution: 195dpi) {
    body {
       font-size: 100%;
    }
@@ -225,7 +225,7 @@ h2 {
   }
 }
 
-@media (min-width: 730px) and (max-width: 1030px) and (max-resolution: 150dpi) {
+@media (min-width: 730px) and (max-width: 1030px) and (max-resolution: 195dpi) {
   .tagBox {
       width: 61.5%;
   }
@@ -241,7 +241,7 @@ h2 {
   }
 }
 
-@media (min-width: 730px) and (max-width: 1030px) and (min-resolution: 150dpi) {
+@media (min-width: 730px) and (max-width: 1030px) and (min-resolution: 195dpi) {
   .tagBox {
       width: 61.5%;
   }
@@ -327,14 +327,14 @@ h2 {
   }
 }
 
-@media (max-width: 1230px) and (min-width: 800px) and (max-resolution: 150dpi) {
+@media (max-width: 1230px) and (min-width: 800px) and (max-resolution: 195dpi) {
   .infoBox {
       width: 30.1%;
       height: 120px;
   }
 }
 
-@media (max-width: 1230px) and (min-width: 800px) and (min-resolution: 150dpi) {
+@media (max-width: 1230px) and (min-width: 800px) and (min-resolution: 195dpi) {
   .infoBox {
       width: 30.1%;
       height: 190px;

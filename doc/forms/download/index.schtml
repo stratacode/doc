@@ -70,7 +70,7 @@
             <%= downloadProduct.title %>
             <ul>
                <li repeat="= downloadProduct.downloadFiles" repeatVarName="fileInfo" cache="= sc.lang.html.CacheMode.Disabled">
-                  <a href='= "/download/getFile?fileName=" + fileInfo.fileName + "&ext=" + fileInfo.ext + "&tag=" + fileInfo.tag + "&version=" + fileInfo.version' download>
+                  <a href='= "/download/getFile?fileName=" + fileInfo.fileName + "&ext=" + fileInfo.ext + "&tag=" + fileInfo.tag + "&version=" + fileInfo.version + (fileInfo.subDir == null ? "" : "&subDir=" + fileInfo.subDir)' download>
                      <%= fileInfo.fileName + "." + fileInfo.ext %>
                   </a>
                   <%= fileInfo.tag %>
@@ -82,7 +82,7 @@
             </ul>
          </li>
          <p/>
-         Then to <a href="/doc/gettingStarted.html">getting started</a>
+         After downloading, see instructions at <a href="/doc/gettingStarted.html">getting started</a>
          <p/>
       </div>
 
@@ -95,7 +95,7 @@
          </div>
          <br/>
          <input type="checkbox" checked=":= contactType == ContactType.None" clickEvent='=: contactType = ContactType.None'/>
-         Send no email - register downloads only
+         Send no email
          <br/>
          <input type="checkbox"
                 checked=":= contactType == ContactType.MajorAnnouncements"
@@ -115,8 +115,8 @@
             Thank you for registering: <%= mgr.emailAddress %> contact: <%= mgr.contactType %>
             (<a clickEvent="=: mgr.showRegisterBox = true">edit</a>)
          </div>
-         <p/>
       </div>
+      <p/>
    </div>
 </div>   
    

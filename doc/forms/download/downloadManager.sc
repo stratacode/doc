@@ -141,9 +141,12 @@ scope<session> object downloadManager {
    }
 
    void saveUser(boolean updateLicense, boolean updateEmail, boolean updateContact) {
-      Context ctx = Context.getCurrentContext();
-      if (ctx == null)
-         return;
+      UserSession session = UserSession;
+      if ((updateContact || updateEmail) && emailAddress != null && pattern.matcher(emailAddress).matches()) {
+         UserContactType uct = new UserContactType(session, emailAddress, contactType);
+         uct.save();
+      }
+
       ArrayList<String> props = new ArrayList<String>();
       if (updateLicense)
          props.add(" acceptedLicense=" + acceptedLicense);
@@ -151,6 +154,7 @@ scope<session> object downloadManager {
          props.add(" emailAddress=" + emailAddress);
       if (updateContact)
          props.add(" contactType=" + contactType);
+      Context ctx = Context.getCurrentContext();
       ctx.log("Save user:" + props + ": " + ctx.requestDetail);
    }
 }

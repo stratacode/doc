@@ -21,6 +21,10 @@ scope<request> class DownloadPage extends BasePage {
    String version;
    @QueryParam(required=true)
    String ext;
+   @QueryParam
+   String subDir;
+
+   static int CURRENT_LICENSE = 1;
 
    HashMap<String,String> mimeTypes = new HashMap<String,String>();
    {
@@ -31,7 +35,7 @@ scope<request> class DownloadPage extends BasePage {
       Context ctx = Context.getCurrentContext();
 
       if (!downloadManager.acceptedLicense) {
-         ctx.sendRedirect("/download.html");
+         ctx.sendRedirect("/download/");
          return null;
       }
 
@@ -46,12 +50,16 @@ scope<request> class DownloadPage extends BasePage {
          return null;
       }
 
-      String fullPath = downloadManager.getBuildFilePath(fileName, tag, version, null, ext);
+      String fullPath = downloadManager.getBuildFilePath(fileName, tag, version, subDir, ext);
       File file = new File(fullPath);
       if (!file.canRead()) {
          ctx.sendError(404, "No file found with fileName: " + fileName);
          return null;
       }
+
+      UserSession session = UserSession;
+      UserDownload uct = new UserDownload(session, fileName, version, CURRENT_LICENSE);
+      uct.save();
 
       HttpServletResponse response = ctx.response;
       response.setContentType(mimeType);
