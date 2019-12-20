@@ -10,11 +10,15 @@
 
 StrataCode is intended for programmers with experience using Java.
 
-It requires: Java 8, Git, Unix (linux or mac, some windows support)
+It requires: Java 8, Git, Unix (linux or mac, some windows support), 
+a machine with 4GB of memory and a fast processor for code-processing
+and compilation.
 
 ## IntelliJ plugin
 
-Download and install the [IntelliJ plugin](ide/config.html) - a full featured IDE for StrataCode to build and run applications.
+To use StrataCode from IntelliJ, download and install the [IntelliJ plugin](ide/config.html) - a full featured IDE for StrataCode to build and run applications.
+
+Follow the configuration options there. It's possible to be very productive without it using the command line scc command, or install both.
 
 ## Download the scc command
 
@@ -30,6 +34,8 @@ Run or add to ~/.bashrc:
 Test:
 
       scc -version
+      scc example/unitConverter/swingui
+      scc example/unitConverter/html/clientServer
 
 ## Build from source
 
@@ -38,7 +44,7 @@ StrataCode is not open source but would make a great open source project if ther
       mkdir /home/scc
       cd /home/scc
       git clone https://github.com/stratacode/system.git 
-      (or unzip the system.zip)
+      (or unzip the scc-src.zip)
 
 and read the Readme for setup.  https://github.com/stratacode/system.  It's not hard to build and run StrataCode programs using any IDE and there are sample gradle scripts included. 
 
@@ -60,7 +66,6 @@ You can add additional layer bundles as well (inside of the 'bundles' directory)
 
       git clone https://github.com/stratacode/example.git
       git clone https://github.com/stratacode/managementUI.git
-      git clone https://github.com/stratacode/ecommerce.git
 
 Add this configuration file so that the 'scc' command can find it's own source code:
 <% ) %>
@@ -77,27 +82,20 @@ cat &gt; conf/scSourcePath
 
 From your /home/StrataCode directory run:
 
-* Program editor and the expert system:
+* Swing management UI and the expert system:
 
         scc editor/swing/main example/expertSystem/main
 
-* Unit converter in swing
-
-        scc example/unitConverter/swingui
-
-* with the program editor:
+* Swing management UI and the unit converter
 
         scc editor/swing/main example/unitConverter/swingui
 
-* Unit converter in the web framework:
-
-        scc example/unitConverter/html/clientServer
-
-* With the program editor:
+* Web management UI and unit converter
 
         scc editor/js/mixin example/unitConverter/html/clientServer 
 
-If you have problems after code changes, use the '-a' option to build all files or remove the layer's build directory in /home/StrataCode/build.
+If you have problems after code changes, use the '-a' option to build all files or remove the layer's build directory in /home/StrataCode/build or the modelCache in ~/.stratacode/modelCache.
+
 Third party packages are installed by default in ~/.stratacode/pkgs.
 
 There's a usage for the scc command or type "help" at the command line.

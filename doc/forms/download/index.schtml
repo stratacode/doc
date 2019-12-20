@@ -70,7 +70,7 @@
             <%= downloadProduct.title %>
             <ul>
                <li repeat="= downloadProduct.downloadFiles" repeatVarName="fileInfo" cache="= sc.lang.html.CacheMode.Disabled">
-                  <a href='= "/download/getFile?fileName=" + fileInfo.fileName + "&ext=" + fileInfo.ext + "&tag=" + fileInfo.tag + "&version=" + fileInfo.version + (fileInfo.subDir == null ? "" : "&subDir=" + fileInfo.subDir)' download>
+                  <a href='= "/download/getFile?productName=" + fileInfo.product.name + "&fileName=" + fileInfo.fileName + "&ext=" + fileInfo.ext + "&tag=" + fileInfo.tag + "&version=" + fileInfo.version + (fileInfo.subDir == null ? "" : "&subDir=" + fileInfo.subDir)' download>
                      <%= fileInfo.fileName + "." + fileInfo.ext %>
                   </a>
                   <%= fileInfo.tag %>

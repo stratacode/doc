@@ -60,7 +60,7 @@ scope<session> object downloadManager {
       }
 
       String getVersionInfo() {
-         String versionFileName = getBuildFilePath(fileName, tag, version, subDir, "version");
+         String versionFileName = getBuildFilePath(product.name, product.name, tag, version, subDir, "version");
          try {
             return FileUtil.getFileAsString(versionFileName).trim();
          }
@@ -70,23 +70,25 @@ scope<session> object downloadManager {
       }
 
       long getSize() {
-         String downloadFileName = getBuildFilePath(fileName, tag, version, subDir, ext);
+         String downloadFileName = getBuildFilePath(product.name, fileName, tag, version, subDir, ext);
          return new File(downloadFileName).length();
       }
    }
 
-   public String getBuildFilePath(String fileName, String tag, String version, String subDir, String ext) {
+   public String getBuildFilePath(String productName, String fileName, String tag, String version, String subDir, String ext) {
       if (subDir == null && ext.equals("version"))
          subDir = "build";
       // Only the zip file is in the main directory - the version file at least is in build
-      return FileUtil.concat(rootDirectory, fileName, "builds", tag, version, subDir, FileUtil.addExtension(fileName, ext));
+      return FileUtil.concat(rootDirectory, productName, "builds", tag, version, subDir, FileUtil.addExtension(fileName, ext));
    }
 
    List<DownloadProduct> downloadProducts = new ArrayList<DownloadProduct>();
    {
       DownloadProduct sccProd = new DownloadProduct("scc", "StrataCode cmd (scc)");
       sccProd.addFile(new FileInfo(sccProd, "scc", "release", "latest", null, "zip"));
+      sccProd.addFile(new FileInfo(sccProd, "scc-src", "release", "latest", null, "zip"));
       sccProd.addFile(new FileInfo(sccProd, "scc", "dev", "latest", null, "zip"));
+      sccProd.addFile(new FileInfo(sccProd, "scc-src", "dev", "latest", null, "zip"));
       downloadProducts.add(sccProd);
 
       DownloadProduct sc4ideaProd = new DownloadProduct("sc4idea", "IntelliJ plugin");

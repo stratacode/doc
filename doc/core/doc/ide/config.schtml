@@ -17,7 +17,7 @@ First install the plugin:
 * Go to IntelliJ's Preferences, Plugin tab and choose "Install from disk"
 * Select the sc4idea.jar and press OK.  Find the StrataCode plugin in the plugins list, and enable it.  Then restart IntelliJ.
 
-Choose from an option below:
+If you have the StrataCode source (scc-src.zip or access to the private git repo), go to Option #2.
 
 ### Option #1: Quickstart to run examples with no StrataCode source
 
@@ -29,9 +29,9 @@ Choose from an option below:
 
 <%= MarkDownPage.markDown(%>
 
-* Choose your JDK and click Next
+* Choose your JDK (1.8) and click Next
 * Enable Install layers from repository URL and use the default URL (https://github.com/stratacode/)
-* Enter a comma separated list of bundle names to install.  Enter a comma separated list including at least 'coreFramework, example'.  Add 'managementUI, doc' if desired.
+* Enter a comma separated list of bundle names to install.  Enter a comma separated list including at least 'coreFramework, example'.  Add 'managementUI' to run the management UI examples.
 
 <% ) %>
 
@@ -49,54 +49,44 @@ Choose from an option below:
 
 <%= MarkDownPage.markDown(%>
 
-### Option #2: Manually create a StrataCode project
+* Test the configuration. First open up 'Layers view' - this may cause the indexes to be built the first time which takes a little while. 
 
-Create a directory inside of your ~/IdeaProjects for the project called scTestProject and inside of that a bundles directory.  Inside of "bundles" check out the git repositories for the coreFramework:
+Use the IDE 'goto class' operator to goto UnitConverter - expect to see several different versions of UnitConverter in different layers.
 
-    cd ~/IdeaProjects/scTestProject/bundles/
-    git clone https://github.com/stratacode/coreFramework.git
+* Create a StrataCode run configuration. Choose a set of compiled layers and/or dynamic layers, give the configuration a name and run or debug.
 
-In IntelliJ create a new Empty StrataCode project (here called "scTestProject") that points to ~/IdeaProjects/scTestProject
+### Option #2: Installation with StrataCode source 
 
-You can additionally check out the examples bundle here:
+It's best to develop StrataCode using the source. The code is generally readable, easily traceable with stack traces, and possible to debug by inspection when things go wrong.
 
-    cd ~/IdeaProjects/scTestProject/bundles
-    git clone https://github.com/stratacode/examples.git
+To build and debug StrataCode itself from source, along with the apps built on it, download the 'scc' source distribution (see Jeff for access). 
 
-To create layers without creating a new bundle, place your layer directories into:
+To checkout the StrataCode source:
 
-      ~/IdeaProjects/scTestProject/layers/
+    mkdir ~/scc
+    cd ~/scc
+    git clone https://github.com/stratacode/system.git .
 
-Each directory in this layers directory can itself contain a layer definition file, or sub-directories defining layer groups which contain layer directories.
+Or unzip the scc-src.zip into ~/scc.
 
-### Option #3: Add a StrataCode module to a Java project
-
-You can create an empty Java project or add a StrataCode module to an existing project. Either way, add a StrataCode module to the project which points to a directory that has one or more layer bundles using IntelliJ's New-&gt;"Module..." option (do not use "New-&gt;Module from existing sources).  For example, if you checked out the coreFramework git repository into this path: 
-
-    /home/StrataCode/bundles/coreFramework
-
-use IntelliJ's New-&gt;"Module..." and create a module /home/StrataCode.  You can then exclude or include bundles in that directory as you'd like to be included in that project.
-
-### Option #4: Installation with StrataCode source 
-
-It's best to develop StrataCode when you have the source itself. The code is readable and so when things go wrong, you can learn more about what's happening from the source.
-
-To build and debug StrataCode itself from source, along with the apps built on it, download the 'sc' source distribution (see Jeff for access). There are three directories in the source github repo: coreRuntime, fullRuntime, and system, each organized as separate IntelliJ modules you can import into your project.
+There are three directories in the source github repo: coreRuntime, fullRuntime, and system, each organized as separate IntelliJ modules you can import into your project.
 
 From the Project Structure dialog, click on "Modules" and then "+", then "Import module".
 Import all three IntelliJ modules into your project in this order: fullRuntime/fullRuntime.iml (first), coreRuntime/coreRuntime.iml (second) and then system/sc.iml.  This will let you debug the StrataCode source, and ensures that StrataCode uses the debugger source when it runs an application.
 
-In your project, select a Java SDK with version 1.8.
+Select a Java SDK with version 1.8.
 
 In the project structure dialog, click on Libraries and then "+" to add a new library from Maven and enter in: "jline:jline:2.15-SNAPSHOT" as the maven spec.
 
-Before you create a StrataCode module, make sure to save changes in project structure first. This allows StrataCode to see the new source modules when it creates the module so it sets up the dependencies properly. Otherwise, your StrataCode module will depend on a library called SCLib - the StrataCode runtime that comes with the plugin.
+Save changes in the project structure dialog.
+
+Create a StrataCode module. Point it to a directory that contains the 'bundles' directory 
 
 If you have already created an SC module and later want to add the "sc" source module, go to the module, remove the dependency on the "SCLib" library and add module dependencies on fullRuntime, coreRuntime and sc/system (in that order).  The fullRuntime has to be ahead of coreRuntime in the dependency list so we pick up the complete versions of the runtime apis.
 
 Make the project to compile the StrataCode source (so the StrataCode plugin can find the classes for StrataCode itself).
 
-One final manual step: In the StrataCode module directory, create the file scSourcePath with a path of: StrataCodeModule/.stratacode/scSourcePath. It's contents should be one line pointing to the 'sc' directory you checked out from git (the directory that contains coreRuntime, fullRuntime, and system). This is important so that any source code required to generate Javascript comes from your git repository, not the "scrt-core-src.jar" file that's part of SCLib.
+One final manual step: In the StrataCode module directory, create the file scSourcePath with a path of: StrataCodeModule/conf/scSourcePath. It's contents should be one line pointing to the 'sc' directory you checked out from git (the directory that contains coreRuntime, fullRuntime, and system) - e.g. ~/scc. This is important so that any source code required to generate Javascript comes from your git repository, not the "scrt-core-src.jar" file that's part of SCLib.
 
 Here are the source paths and excluded folders in the project structure dialog using source:
 
@@ -112,17 +102,37 @@ Here are the source paths and excluded folders in the project structure dialog u
 
 <%= MarkDownPage.markDown(%>
 
-## Add StrataCode source dependency
-
-If you create a module that depends on the default compiled "SCLib", without the StrataCode source, and later change your mind you can just change it using the IntelliJ project structure dialog. Once you've opened project structure, edit the module's dependencies and remove the SCLib library. Click on Import module and import coreRuntime, fullRuntime and system(sc) modules.  Add a dependency on the system module - (called sc) under the Dependencies tab by choosing + and "Module dependency...".
-
-NOTE: it's important that fullRuntime be ahead of coreRuntime in the dependency list for IntelliJ when using the source. That's because they contain overlapping files - different implementations of the same interface and the scc command needs to run with the fullRuntime version.
-
-Also add a dependency on the JLine library.  If necessary, add the Jline library (version 2.x) from Maven or from the jar file included in the SC distribution.
-
 ## Additional settings
 
 If you have problems with the editor improperly reformatting a .sc* file after you insert a close brace, go to IntelliJ's preferences. Under: Editor, General, Smart Keys, disable "Reformat block on typing '}'"
+
+## Manual steps
+
+### Create a StrataCode project
+
+Create a project directory (e.g. ~/IdeaProjects/myProj) inside of that a bundles directory.  Inside of "bundles" check out the git repositories for the coreFramework:
+
+    cd ~/IdeaProjects/myProj/bundles/
+    git clone https://github.com/stratacode/coreFramework.git
+
+In IntelliJ create a new Empty StrataCode project that points to ~/IdeaProjects/myProj
+
+Check out the examples bundle:
+
+    cd ~/IdeaProjects/myProj/bundles
+    git clone https://github.com/stratacode/examples.git
+
+In IntelliJ, to make these bundles active mark them as 'Source' directories.
+
+(TODO: there's a bug where you currently need to invalidate caches and restart after adding a layer bundle to rebuild the indexes)
+
+### Add a StrataCode module to a Java project
+
+It's easy to add StrataCode to an existing Java project. 
+
+Use New-&gt;"Module..." in IntelliJ. Choose a directory with one or more layer bundles (i.e. a bundles directory containing one or more directories that are in teh layer path - defining layer groups and directories). Make sure the bundle directories are marked as an intelliJ 'sources root' by right clicking on them and choosing 'Mark directory as...' then choosing Sources root.
+
+(Note: we've only tested using one StrataCode module per project, but in general it's easy to add, include, exclude bundles of layers from the one module so it might not be a use case we need to support).
 
 <% ) %>
          </div>

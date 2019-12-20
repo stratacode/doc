@@ -14,6 +14,8 @@ import sc.servlet.Context;
 @URL(pattern="/download/getFile")
 scope<request> class DownloadPage extends BasePage {
    @QueryParam(required=true)
+   String productName;
+   @QueryParam(required=true)
    String fileName;
    @QueryParam(required=true)
    String tag;
@@ -50,7 +52,7 @@ scope<request> class DownloadPage extends BasePage {
          return null;
       }
 
-      String fullPath = downloadManager.getBuildFilePath(fileName, tag, version, subDir, ext);
+      String fullPath = downloadManager.getBuildFilePath(productName, fileName, tag, version, subDir, ext);
       File file = new File(fullPath);
       if (!file.canRead()) {
          ctx.sendError(404, "No file found with fileName: " + fileName);
