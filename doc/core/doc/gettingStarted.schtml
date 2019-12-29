@@ -8,21 +8,20 @@
 
 <%= MarkDownPage.markDown(%>
 
+## Getting started
+
 StrataCode is intended for programmers with experience using Java.
 
-It requires: Java 8, Git, Unix (linux or mac, some windows support), 
-a machine with 4GB of memory and a fast processor for code-processing
-and compilation.
+It requires: Java 8, Git, Unix (linux and mac - windows testing in progress),
+a machine with 4GB of memory and a fast processor for code-processing and compilation.
 
 ## IntelliJ plugin
 
-To use StrataCode from IntelliJ, download and install the [IntelliJ plugin](ide/config.html) - a full featured IDE for StrataCode to build and run applications.
+To use StrataCode from IntelliJ, download a recent version of IntelliJ (either Community or Ultimate) and install the [IntelliJ plugin](ide/config.html) - a full featured IDE for StrataCode to build and run applications.
 
-Follow the configuration options there. It's possible to be very productive without it using the command line scc command, or install both.
+## Command line - scc 
 
-## Download the scc command
-
-Download the scc.zip file [here](/download/) for the scc command and libraries.  Unzip this file to create the /home/scc directory:
+To download the command line interface and libraries, download scc.zip [here](/download/). Unzip this file to create the /home/scc directory:
 
       cd /home
       unzip ~/Downloads/scc.zip
@@ -34,43 +33,42 @@ Run or add to ~/.bashrc:
 Test:
 
       scc -version
-      scc example/unitConverter/swingui
-      scc example/unitConverter/html/clientServer
 
-## Build from source
+Create a StrataCode project, and then run scc from the project directory with a list of layers.
 
-StrataCode is not open source but would make a great open source project if there's enough demand. It's a lot more fun to build when you have the source and we're looking for new partners to help so get in touch if you'd like to see more. With the source, run:
+## Create a StrataCode project
 
-      mkdir /home/scc
-      cd /home/scc
-      git clone https://github.com/stratacode/system.git 
-      (or unzip the scc-src.zip)
+A StrataCode project contains one or more bundles of layers in the bundles directory:
 
-and read the Readme for setup.  https://github.com/stratacode/system.  It's not hard to build and run StrataCode programs using any IDE and there are sample gradle scripts included. 
-
-In your IDE, just create a configuration with sc.layer.LayeredSystem as the 'mainClass'.
-
-To build with scc first install the 'scc command' and then run the bin/makeSCC script. 
-
-## Create a StrataCode Project
-
-A StrataCode project contains one or more bundles of layers in the bundles directory.  You can create a directory from the IntelliJ plugin or by hand with:
-
-      mkdir /home/StrataCode
-      cd /home/StrataCode
+      mkdir /home/myProj
+      cd /home/myProj
       mkdir bundles
       cd bundles
       git clone https://github.com/stratacode/coreFramework.git
 
-You can add additional layer bundles as well (inside of the 'bundles' directory):
+Add additional layer bundles as well (inside of the 'bundles' directory):
 
       git clone https://github.com/stratacode/example.git
       git clone https://github.com/stratacode/managementUI.git
 
+## Installing scc source
+
+The code behind 'scc' is not open source but would make a great open source project if there's enough demand. It's a lot more fun to build when you have the source and we're looking for new partners to help so get in touch if you'd like to see more. With the source, run:
+
+      mkdir ~/scc
+      cd ~/scc
+      git clone https://github.com/stratacode/system.git .
+      (or unzip the scc-src.zip)
+
+## Configure project to point to scc source
+
+When using StrataCode with it's source code, it's best for the project build to use this source for the scc libraries, rather than than the copy bundled with the scc command.
+
 Add this configuration file so that the 'scc' command can find it's own source code:
+
 <% ) %>
 
-<pre><code>cd /home/StrataCode
+<pre><code>cd /home/myProj
 mkdir conf
 cat &gt; conf/scSourcePath
 /home/scc/system
@@ -78,9 +76,9 @@ cat &gt; conf/scSourcePath
 
 <%= MarkDownPage.markDown(%>
 
-## Running StrataCode Examples
+## Running StrataCode examples
 
-From your /home/StrataCode directory run:
+From your /home/myProj directory run:
 
 * Swing management UI and the expert system:
 
@@ -94,13 +92,15 @@ From your /home/StrataCode directory run:
 
         scc editor/js/mixin example/unitConverter/html/clientServer 
 
-If you have problems after code changes, use the '-a' option to build all files or remove the layer's build directory in /home/StrataCode/build or the modelCache in ~/.stratacode/modelCache.
+## Tips
 
-Third party packages are installed by default in ~/.stratacode/pkgs.
+If you have problems after code changes, use the '-a' option to build all files or remove the layer's build directory in /home/myProj/build or the modelCache in ~/.stratacode/modelCache.
+
+Third party packages for most layers are installed by default in ~/.stratacode/pkgs when the layer is started the first time (either at build time, or when the IDE indexes the layer).
 
 There's a usage for the scc command or type "help" at the command line.
 
-See the [documentation](/doc/) or
+See the [documentation](/doc/) or current [project status](/status.html) 
 
 [known issues or report a bug](https://github.com/stratacode/issues/issues?state=open).
 
