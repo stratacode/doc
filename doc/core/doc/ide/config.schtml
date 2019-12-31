@@ -14,7 +14,7 @@
 Install or run a recent copy of IntelliJ - either the community or ultimate edition and install the StrataCode plugin:
 
 * Download [sc4idea.jar](/download/) 
-* Go to IntelliJ's Preferences, Plugins, and under the settings/gear menu, choose "Install plugin from disk"
+* Go to IntelliJ's Preferences, Plugins, and under the settings menu (click the gear icon), choose "Install plugin from disk"
 * Select the sc4idea.jar and press OK. Then restart IntelliJ.
 
 If you have the StrataCode source (scc-src.zip or access to the private git repo), go to Option #2.
@@ -40,7 +40,7 @@ If you have the StrataCode source (scc-src.zip or access to the private git repo
 
 <%= MarkDownPage.markDown(%>
 
-* Enter a name for your project and click OK to build the project.  It will take a few seconds to check the code out of git, and generate the indexes.
+Enter a name for your project and click OK to build the project.  It will take a minute or so to check the code out of git.
 
 <% ) %>
 
@@ -49,15 +49,11 @@ If you have the StrataCode source (scc-src.zip or access to the private git repo
 
 <%= MarkDownPage.markDown(%>
 
-* Test the configuration. First open up 'Layers view' - this will cause the indexes to be built the first time which takes a little while. 
-
-Use the IDE 'goto class' operator to goto UnitConverter - expect to see several different versions of UnitConverter in different layers.
-
-* Create a StrataCode run configuration. Choose one or more compiled layers and/or dynamic layers, give the configuration a name and run or debug: example.unitConverter.html.clientServer, example.unitConverter.swingui, example.unitConverter.html.clientServer, example.unitConverter.html.serverOnly, example.unitConverter.html.clientOnly, etc.
+Go to [Test the StrataCode project](#testProject)
 
 ## Option #2: Installation with scc source 
 
-It's best to develop with the source of the scc libraries. The code is generally readable, traceable, helpful toString methods, and so it's possible to debug by inspection when things go wrong.
+It's best to build StrataCode projects with the source of the scc libraries. The code is generally readable, traceable, helpful toString methods, and so it's possible to debug by inspection when things go wrong.
 
 To build and debug StrataCode itself from source, along with the apps built on it, download the 'scc' source distribution: 
 
@@ -85,13 +81,15 @@ In the project structure dialog, click on Libraries and then "+" to add a new li
 
       jline:jline:2.14.6
 
-It should ask which module to add the library to. Choose "sc".
+The dependency already exists from the 'sc' module so cancel the 'Choose modules' dialog.
 
 Press 'Ok' to save changes in the project structure dialog. The scc command should now be ready to run.
 
-### To test scc 
+### Test the scc command
 
-Add a run/debug configuration. Select 'Add configuration' in IntelliJ. Choose 'Application' to run a Java application (Note: Don't choose StrataCode Application at this point - scc is written in Java).
+Use the goto class operator to navigate to some of the main Java classes in scc: Bind, LayeredSystem, JavaLanguage, Element, Parser, Parselet.
+
+Add a run/debug configuration to run the 'scc' command. Select 'Add configuration' in IntelliJ. Choose 'Application' to run a Java application (Note: Don't choose StrataCode Application at this point - scc is written in Java).
 
 1) print the scc version:
 
@@ -103,8 +101,10 @@ Add a run/debug configuration. Select 'Add configuration' in IntelliJ. Choose 'A
 
      Main class is: sc.layer.LayeredSystem
      Program arguments: system -a -da /tmp/sccBuild -c -cc -v -Pbuild.tag=dev
-     Working directory: /home/user/scc
+     Working directory: /home/myHome/scc
      Use classpath of module: 'sc'
+
+Make sure to use the absolute path of the 'Working directory' as IntelliJ does not support ~/scc.  Use a path like /Users/jvroom/scc or /home/jvroom/scc.
 
 The result builds a runnable version of scc in /tmp/sccBuild/bin/scc. See the makeSCC script in ~/scc/bin/makeSCC for the official build script.
 
@@ -123,7 +123,7 @@ Add additional layer bundles as well (inside of the 'bundles' directory):
       git clone https://github.com/stratacode/example.git
       git clone https://github.com/stratacode/managementUI.git
 
-### Create a new StrataCode intelliJ module 
+### Create a new StrataCode IntelliJ module 
 
 Choose File, New, Module..., select type StrataCode and press 'Next'. Since the layers are installed already above, don't choose 'Install layers' (that option will just perform the steps above but does not have logic to enter passwords, etc if git is not configured by default and does not have any progress indicators). Instead, press 'Next' and enter in the Content root and Module root both to the same directory ~/myProj created above, where the Module name is usually the directory name.
 
@@ -133,17 +133,26 @@ Bundle directories that exist when the module is setup are automatically added a
 
 One final manual step: In the StrataCode module directory, create the file scSourcePath with a path of: ~/myProj/conf/scSourcePath. It's contents should be one line pointing to the 'sc' directory you checked out from git (the directory that contains coreRuntime, fullRuntime, and system) - e.g. ~/scc. This is important so that any source code required to generate Javascript comes from your git repository, not the "scrt-core-src.jar" file that's part of SCLib.
 
-### Testing
+<% ) %>
 
-Open the 'Layers' side panel on the right to build the indexes. This will take a minute or two and does not have a progress indicator yet.
+<a id="testProject"></a>
 
-Check that there are three processes: Server: java, Desktop: java, and Runtime: js.
+<%= MarkDownPage.markDown(%>
 
-Use the goto class operator to navigate to some of the main Java classes in scc: sc.bind.Bind, sc.layer.LayeredSystem, sc.lang.JavaLanguage.
+## Test the StrataCode project
 
-Use goto class to navigate to StrataCode classes: sc.servlet.PageDispatcher, sc.servlet.SyncServlet, the various layers in HtmlPage.
+Open the 'Layers' side panel on the right to build the indexes and install 3rd party dependency libraries like jetty, etc.. This will take a couple of minutes  the first time and is missing a progress indicator so be patient.
 
-Create a run configuration with the compiled layer example.unitConverter.swingui and run or debug that application.
+Once the layers view appears, check that there are three processes: Server: java, Desktop: java, and Runtime: js.
+
+Use the IDE 'goto class' operator to goto UnitConverter - expect to see several different versions of UnitConverter in different layers.
+
+Other interesting classes fron the web framework: PageDispatcher, SyncServlet, HtmlPage.
+
+Create a StrataCode run/debug configuration. Choose one or more compiled layers and/or dynamic layers and name the configuration.
+For example, add example.unitConverter.html.clientServer as either a compiled or dynamic layer (or right click on that layer and choose 'Run layer_name' or 'Debug layer_name' that will create a temporary run configuration for that layer).
+
+See [example layers](/doc/exampleLayers.html) for more examples.
 
 If you have problems, try invalidating the caches and restarting. It should take a minute or two to build the indexes the first time.
 

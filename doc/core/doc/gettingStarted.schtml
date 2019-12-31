@@ -82,19 +82,15 @@ From your /home/myProj directory run:
 
 * Swing management UI and the expert system:
 
-        scc editor/swing/main example/expertSystem/main
+        scc editor.swing.main example.expertSystem.main
 
-* Swing management UI and the unit converter
+See [example layers](exampleLayers.html) for more examples.
 
-        scc editor/swing/main example/unitConverter/swingui
+## Problems?
 
-* Web management UI and unit converter
+If you have problems after code changes, use the '-a' option to build all files or remove the layer's build directory in /home/myProj/build or the modelCache in ~/.stratacode/modelCache. 
 
-        scc editor/js/mixin example/unitConverter/html/clientServer 
-
-## Tips
-
-If you have problems after code changes, use the '-a' option to build all files or remove the layer's build directory in /home/myProj/build or the modelCache in ~/.stratacode/modelCache.
+The modelCache is a recent optimization to speed up parsing of a file and the IDE but still sometimes gets corrupted which can cause weird errors that are easily corrected by removing that directory.
 
 Third party packages for most layers are installed by default in ~/.stratacode/pkgs when the layer is started the first time (either at build time, or when the IDE indexes the layer).
 
@@ -102,7 +98,7 @@ There's a usage for the scc command or type "help" at the command line.
 
 See the [documentation](/doc/) or current [project status](/status.html) 
 
-[known issues or report a bug](https://github.com/stratacode/issues/issues?state=open).
+[known issues or report a bug](https://github.com/stratacode/issues/issues?state=open) please for any problems big or small. Email Jeff (jeff@jvroom.com). Your feedback is much appreciated.
 
 <% ) %>
 

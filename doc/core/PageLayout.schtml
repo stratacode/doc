@@ -13,6 +13,9 @@
       </ul>
    </div>
 
-   <!-- <span class="layeredBkg" style="float:left; width:940px; margin: 0; padding: 0; position: relative; left:-20px;">&nbsp;</span> -->
    <p/>
+
+   <div id="copyright" orderValue="1">
+     &copy; 2019 Jeffrey Vroom
+   </div>
 </div>

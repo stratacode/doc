@@ -323,6 +323,8 @@ When one tag extends another it inherits or overrides the attributes of the supe
 
 When using 'merge' mode for the body, any child tags of the sub tag are merged with child tags of the super tag if they have the same id. Tags with the same id inside of the body are themselves merged and so on. 
 
+When merging tags, use the orderValue attribute to change the order of tags. The default orderValue is 0, so set orderValue to 1 for a tag to be placed after all other tags in that body, and -1 for the tag to be placed before all other tags.
+
 It's best to use explicit id attributes with sub-tags used in this merge operation. Sometimes, the default id causes a tag to be merged when unintended causing content to be lost. Either use tagMerge='append' or set an id on either the super tag or the sub tag so they are not merged.
 
 Be careful not to extend a div tag from an input tag or another case where the tag implementation class does not match. 
@@ -506,10 +508,11 @@ These attributes which apply to any tag affect the code generation process:
 * tagMerge - specifies how the tag and it's attributes are merged with the tag object it overrides by modifying a tag object in a previous layer, or overriding a tag object it extends or implements. A value of 'merge' is the default. Set it to 'replace' for this tag to entirely replace the previous one or set it to 'append', or 'prepend'. This attribute affects both the body and attributes unless bodyMerge is set. See the [javadoc for MergeMode](/javadoc/sc/lang/html/MergeMode.html) for more info.
 * bodyMerge - specifies just how the body of the tag is merged, for when you want to merge the body of the tag differently from the attributes. Same values as tagMerge.
 * addBefore, addAfter - set to the id of an inherited tag used to place this tag either before or after. Use this for more flexible control of individual tags during a merge of one tag body with it's inherited tag body.
+* orderValue - when using 'merge' mode for child tags, provides a way to reorder a given child tag with respect to the others. Tags are sorted from smaller orderValues to large ones and the default value is 0. For example, use -1 on a tag so it goes before other child tags and use 1 so it goes after.
 
 ## Document, Location, Window
 
-These classes emulate parts of the corresponding JS apis.
+These classes emulate parts of the corresponding JS apis, but allow the apis to be used on either the client or the server and even to make changes on the server that affect the client.
 
 Set window.location.pathname to change the browser's URL from either the server or the client.
 

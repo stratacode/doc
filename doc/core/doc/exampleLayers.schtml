@@ -1,0 +1,61 @@
+<html extends="DocPage">
+<head title="Example layers"/>
+
+<body>
+
+   <div id="content"><div id="mainSection">
+       <div id="pageContent" exec="server">
+
+<%= MarkDownPage.markDown(%>
+
+## Example layers
+
+Here are some example configurations run in the test suite (each configuration is on a separate line)
+
+      example.unitConverter.html.clientServer
+      example.unitConverter.swingui 
+      example.unitConverter.swingui editor.swing.main
+      example.unitConverter.html.serverOnly
+      example.unitConverter.html.clientOnly
+      example.unitConverter.html.clientServer
+      example.unitConverter.html.clientServer editor.js.mixin
+      example.todo.clientOnly
+      example.todo.serverOnly
+      example.todo.swingmain
+      example.todo.swingmain editor.swing.main
+      example.todo.clientServer
+      example.todo.clientServer editor.js.mixin
+      example.remoteMethod.clientServer
+      example.remoteMethod.serverOnly
+      example.simpleSync.clientServer
+      example.simpleRepeat.clientServer
+      example.html.simpleGrid jetty.schtml
+      example.html.simpleGrid js.schtml jetty.schtml js.math.core
+      example.simpleBlog.queryParam jetty.schtml js.schtml
+      example.simpleBlog.queryParam jetty.schtml js.schtml servlet.options.windowScope
+      example.simpleBlog.urlParam js.schtml 
+      example.simpleBlog.urlParam jetty.schtml js.schtml 
+      example.simpleBlog.urlParam jetty.schtml js.schtml servlet.options.windowScope
+      example.simpleBlog.onePage js.schtml 
+      example.simpleBlog.onePage jetty.schtml js.schtml 
+      example.simpleBlog.onePage jetty.schtml js.schtml  servlet.options.windowScope
+      example.simpleBlog.onePage jetty.schtml js.schtml editor.js.mixin
+      example.expertSystem.swingui
+
+Framework layers like js.schtml, jetty.schtml are marked with compiledOnly and so are never dynamic.
+
+To run from the IDE, specify the example layer name as either compiled or dynamic. 
+include all layers on one line as either compiled or dynamic layers.
+
+To run from the command line, run "scc layer1 layer2", for compiled execution and 'scc -dyn layer1 layer' for dynamic. 
+
+Add the -v option to see the compiled set of layers and track build progress.
+
+Add -a to rebuild from scratch.
+
+<% ) %>
+
+     </div>
+   </div></div>
+</body>
+</html>
