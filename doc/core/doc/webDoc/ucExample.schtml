@@ -1,0 +1,73 @@
+<html extends="WebDocPage">
+<head title="Web Framework - UnitConverter"/>
+
+<body>
+
+   <div id="content"><div id="mainSection">
+       <div id="pageContent" exec="server">
+
+<%= MarkDownPage.markDown(%>
+
+## UnitConverter HTML UI 
+
+Here is the .schtml template for the unitConverter examples UI:
+<% ) %>
+
+<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/unitConverter/html/core","UnitConverter.schtml", false, false) %>
+
+<%= MarkDownPage.markDown(%>
+
+It uses the same model and coreui layers as the other frameworks it supports. It binds UI elements to properties like 'converters' and 'currentConverterIndex' defined in the those layers.
+
+The first line applies the @URL annotation to set a shortcut URL (overridding the default which uses the template file name).
+
+To run the clientServer version of the unit converter:
+
+    scc -v -vs example/unitConverter/html/clientServer
+
+To run the server only version:
+
+    scc -v -vs example/unitConverter/html/server
+
+The unitConverter sample also runs in the browser only, without a server:
+
+    scc -v example/unitConverter/html/clientOnly
+
+### Choosing the app's runtime
+
+The layer js.schtml defines the javascript runtime and the jetty.schtml defines the java_Server process. By including one or both layers, the app uses one or both runtime/processes.
+
+For a UI layer, unless it depends on server only or browser only features, it can extend the base layer html.schtml to permit either mode of operation.
+
+Here's the base layer for unitConverter which supports any of the three modes of operation:
+<% ) %>
+
+<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/unitConverter/html/core","core.sc", false, true) %>
+
+<%= MarkDownPage.markDown(%>
+
+Here's the layer to run for client/server mode:
+<% ) %>
+
+<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/unitConverter/html/clientServer","clientServer.sc", false, true) %>
+
+or run the server only layer:
+
+<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/unitConverter/html/server","server.sc", false, true) %>
+
+or run the client-only layer:
+
+<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/unitConverter/html/clientOnly","clientOnly.sc", false, true) %>
+
+<%= MarkDownPage.markDown(%>
+
+Specify the layers as command line args to scc by passing layers like clientServer that only specify dependencies on other layers. For example, another way to run the clientServer version:
+
+    scc example/unitConverter/html/core js/schtml jetty/schtml js/sync
+
+<% ) %>
+
+     </div>
+   </div></div>
+</body>
+</html>

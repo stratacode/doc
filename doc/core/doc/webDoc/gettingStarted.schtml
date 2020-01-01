@@ -1,0 +1,58 @@
+<html extends="WebDocPage">
+<head title="Web Framework - Getting Started"/>
+
+<body>
+
+   <div id="content"><div id="mainSection">
+       <div id="pageContent" exec="server">
+
+<%= MarkDownPage.markDown(%>
+
+## Getting started
+
+To run the simpleSync example in clientServer mode:
+
+    scc -v -vs example/simpleSync/clientServer
+
+This builds and runs a "hello world" web application using the framework layers: js.schtml, jetty.schtml, and js.sync.  The -v option enables basic verbose logging and -vs enables verbose sync so you can see the client/server communication.
+
+Use the same UI layer in server-only mode:
+
+    scc -v -vs example/simpleSync/server
+
+There are three application layers in this example: model, UI, and server. 
+
+<% ) %>
+
+<h3>Model layer</h3>
+
+<%= sc.lang.SCLanguage.getSCLanguage().styleFile("example/simpleSync/model","HelloWorld.sc", false, false) %>
+
+<h3>UI layer</h3>
+
+<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/simpleSync/ui","HelloWorld.schtml", false, false) %>
+
+<p>
+In schtml files, an html attribute can use an expression with or without data binding by prefixing the attribute value with the "=" operator, or one of the <a href="dataBinding.html">data binding operators</a>: ":=", ":=:", or "=:".  
+</p>
+<p>
+Use just the = operator for a simple one-time assignment. Use a forward data binding to update the attribute when the expression's value changes. Use a reverse binding to go in the reverse direction: either updating a property, calling a method etc.
+</p>
+<p>
+The &lt;%= directive works like JSP to output an expression as content. When used in a declarative context, the expression uses a data binding expression so the content is updated incrementally. 
+</p>
+
+<h3>Server-only layer</h3>
+
+<%= sc.lang.SCLanguage.getSCLanguage().styleFile("example/simpleSync/server","HelloWorld.sc", false, false) %>
+
+<%= MarkDownPage.markDown(%>
+
+For the server's version of the HelloWorld class, there's a forward binding which recomputes the value of 'reply' when the message property changes. The change to reply will be sync'd back to the client so the user sees that message printed in the JS console as well as the server's console.
+
+<% ) %>
+
+     </div>
+   </div></div>
+</body>
+</html>

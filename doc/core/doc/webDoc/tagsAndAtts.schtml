@@ -1,0 +1,108 @@
+<html extends="WebDocPage">
+<head title="Web Framework - Overview"/>
+
+<body>
+
+   <div id="content"><div id="mainSection">
+       <div id="pageContent" exec="server">
+
+<%= MarkDownPage.markDown(%>
+
+## Tag classes
+
+Here are the provided tag classes and links to the api doc:
+
+* [Node](/javadoc/sc/lang/html/Node.html) - The common base class for both tags and attributes.
+* [Element](/javadoc/sc/lang/html/Element.html), [HTMLElement](/javadoc/sc/lang/html/HtmlElement.html) - Used as the base classes for all tags in the page.
+* [HtmlPage](/javadoc/sc/lang/html/HtmlPage.html), [Head](/javadoc/sc/lang/html/Page.html), [Body](/javadoc/sc/lang/html/Body.html), [Div](/javadoc/sc/lang/html/Div.html), [Input](/javadoc/sc/lang/html/Input.html), [A](/javadoc/sc/lang/html/A.html), [Form](/javadoc/sc/lang/html/Form.html), [Button](/javadoc/sc/lang/html/Button.html), [Option](/javadoc/sc/lang/html/Option.html), [Select](/javadoc/sc/lang/html/Select.html), [Form](/javadoc/sc/lang/html/Form.html), [Span](/javadoc/sc/lang/html/Span.html), [Style](/javadoc/sc/lang/html/Style.html).  
+
+A tag in an schtml page with an id is converted to an object instance of the given class.
+
+## Tag properties
+
+All tag classes inherit from the same Element class, but special tag classes add additional features:
+
+### Select tag 
+
+* selectedIndex - reflects the selected index and usable in forward or reverse bindings.
+* selectedValue - also usable in forward or reverse directions, as an alternative to selectedIndex.  Set this to point to a value in the array or List for optionDataSource.  It will select that item by default.  When the value changes, it points to the currently selected value.
+* optionDataSource - set to the List to use for populating the option tags.
+
+### Input tag 
+
+* value - controls the value attribute in HTML
+* disabled - controls the disabled attribute in HTML
+* checked - controls the checked attribute for those input types which use it
+
+### Button tag
+
+Just like Input but used for the button tag.
+
+### Img tag 
+
+* src - relative URLs are rewritten 
+* width
+* height
+
+### Option tag 
+
+* selected
+* disabled
+* value 
+* optionData - returns the value this option when optionDataSource is used on the enclosing select tag.
+
+### A tag 
+
+* href - relative URLs are rewritten so that components can be used from different directories, and top-level page URLs can be changed without breaking relative links in the page.
+
+### Form tag
+
+* submitEvent - property set when the form is submitted. 
+
+Call the submit() method on the server or client to submit the form programmatically.
+
+### Body, Head tags
+
+These are 'singleton' tags - the id is the tag name.
+
+### HtmlPage tag
+
+Specifies the top level html page. 
+
+* refreshBindings - set to true in the page to refresh all bindings in the page after user interaction or changes from the server are applied. This is a somewhat expensive option to enable when there are thousands of bindings in the page but a quick way to update the page when properties are missing change events and they are difficult to add.
+
+## All tags: structural attributes
+
+These attributes which apply to any tag affect the code generation process: 
+
+* extends - refers to the type name of a tag object to use as the base class for this tag.  By default, the attributes and body are both inherited but this can be controlled via the tagMerge and bodyMerge attributes.
+* implements - specifies a list of tags objects from which to inherit attributes and content.  Also controlled by tagMerge and bodyMerge.
+* abstract - when true, the tag object is not instantiated in the parent page.  It's a way to essentially define a tag class macro which you can extend in other instances or create using an API.
+* repeat - refers to a List or array of items.  The tag is replicated once for each item.  Use repeatVarName to specify the name of the variable to store the array element.
+* repeatVarName - used with repeat to define a variable name other than "repeatVar" to hold the value.
+* repeatWrapper - used with repeat to specify the extends class for the repeat wrapper class
+* replaceWith - used with an expression that evaluates to another tag object (usually a separate tag template). Use this to switch between completely different versions of content that occupy the same space. If the expression evaluates to null, the owner tag is rendered instead. 
+* serverContent - set this to true on a tag object you do not want rendered in the client. It's similar but slightly different than exec="server". When you set exec="server", when building the client version this object is omitted entirely so it won't be present when rendering the initial .html file. Use serverContent so that this tag object but not it's children are included in the content. Use serverContent in stubs inserted into the client tag objects to represent chunks of content where we should preserve the existing innerHTML of the DOM object when the parent is being re-rendered.
+* exec - set to either 'client', 'server' or 'default'. This attribute is helpful when a file is shared by both client and server processes but where the tag should be included in only one version of the page object. Use 'default' for the case where you want it in the client for client-only applications and the server for client-server applications.
+* tagMerge - specifies how the tag and it's attributes are merged with the tag object it overrides by modifying a tag object in a previous layer, or overriding a tag object it extends or implements. A value of 'merge' is the default. Set it to 'replace' for this tag to entirely replace the previous one or set it to 'append', or 'prepend'. This attribute affects both the body and attributes unless bodyMerge is set. See the [javadoc for MergeMode](/javadoc/sc/lang/html/MergeMode.html) for more info.
+* bodyMerge - specifies just how the body of the tag is merged, for when you want to merge the body of the tag differently from the attributes. Same values as tagMerge.
+* addBefore, addAfter - set to the id of an inherited tag used to place this tag either before or after. Use this for more flexible control of individual tags during a merge of one tag body with it's inherited tag body.
+* orderValue - when using 'merge' mode for child tags, provides a way to reorder a given child tag with respect to the others. Tags are sorted from smaller orderValues to large ones and the default value is 0. For example, use -1 on a tag so it goes before other child tags and use 1 so it goes after.
+* scope - specifies the lifecycle of this tag object (similar to setting the @Scope annotation or using the 'scope' operator in sc), for example scope="session" or scope="request".
+* cache - turn on/off caching of content for the given tag (default is true).
+* visible - set to true for the tag to be displayed, false for it to be hidden. When a tag is not visible, if it has a child with the id="alt", that tag is displayed in it's place. Otherwise, the parent's body is re-rendered to omit this child if it was previously visible.
+
+## DOM Events
+
+There are properties in the tag object for each of the DOM events that are available on any element. Use reverse-only bindings to call a method when an event is fired. A reverse-only binding can also perform an assignment. These expressions can refer to the value of the Event being fired to the timestamp, currentTarget, button pressed, etc. using properties in the event.
+
+Here is the list of event properties that are supported:
+
+clickEvent, dblClickEvent, mouseDownEvent mouseMoveEvent, mouseOverEvent, mouseOutEvent, mouseUpEvent, keyDownEvent, keyPressEvent, keyUPEvent, submitEvent, changeEvent, focusEvent, blurEvent, and a special combo event: mouseDownMoveUp for tracking click, drag, release.  
+
+<% ) %>
+
+     </div>
+   </div></div>
+</body>
+</html>

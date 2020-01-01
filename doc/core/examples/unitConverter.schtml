@@ -118,7 +118,7 @@ The first user interface we'll look at is implemented using StrataCode's HTML Te
       <p>
       Since this layer also modifies the UnitConverter object, we have a UnitConverter object in scope to use in our tags.  The select tag sets the optionDataSource to the converters list we defined.  The selectedIndex uses a bi-directional binding to the currentConverterIndex property in the coreui layer.  We evaluate the optionData value defined for each select option as the text to display using the JSP-like <%= templateSnippets.expressionOp %> java-expression <%= templateSnippets.closeOp %> operator.  
       <p>
-      For more SCHTML info, see the <a href="../doc/webFramework.html">web framework documentation</a>.
+      For more SCHTML info, see the <a href="../doc/webDoc/">web framework documentation</a>.
             </div>
          </div>
          <div id="serverSection5" exec="server">

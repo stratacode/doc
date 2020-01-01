@@ -1,0 +1,58 @@
+<html abstract='true' extends='DocPage'>
+
+<body>
+   <div id="content"><div id="mainSection">
+      <li id="WebDocIndex" abstract="true" class=':= webSelected ? "webIndexSelected" : "webIndexEntry"'>
+         <%! 
+            String url; 
+            String title;
+            boolean webSelected := containsWebUrl(Window.window.location.href, url); 
+            boolean containsWebUrl(String href, String pageUrl) {
+               if (href == null || pageUrl == null)
+                  return false;
+               return href.contains(pageUrl);
+            } 
+          %>
+          <a href='= "/doc/" + url'><div class="webIndexTitle"><%= title %></div></a>
+      </li>
+      <div id="pageContent" exec="server">
+         <%! 
+            WebDocIndex getNextTag() {
+               Object[] childTags = webNav.webIndexList.getObjChildren(true);
+               for (int i = 0; i < childTags.length; i++) {
+                  WebDocIndex childTag = (WebDocIndex)childTags[i];
+                  if (childTag.webSelected) {
+                     return i == childTags.length - 1 ? null : (WebDocIndex)childTags[i+1];
+                  }
+               }
+               return null;
+            }
+         %>
+         <h2>Web framework topics:</h2>
+         <div id="webNav">
+            <ul id="webIndexList">
+            <li extends="WebDocIndex" url="webDoc/index.html" title="Index"/>
+            <li extends="WebDocIndex" url="webDoc/overview.html" title="Feature overview"/>
+            <li extends="WebDocIndex" url="webDoc/gettingStarted.html" title="Getting started"/>
+            <li extends="WebDocIndex" url="webDoc/ucExample.html" title="HTML UnitConverter example"/>
+            <li extends="WebDocIndex" url="webDoc/todoExample.html" title="HTML TodoList example"/>
+            <li extends="WebDocIndex" url="webDoc/concepts.html" title="Concepts"/>
+            <li extends="WebDocIndex" url="webDoc/tagsAndAtts.html" title="Tags and attributes"/>
+            </ul>
+         </div>
+
+         <div id="nextNav" orderValue="1.0">
+            <br/>
+            <span id="nextNav" visible=":= nextTag != null">
+               Next topic:
+                 <div class="ideIndexEntry" style="display: inline-block; width: 250px">
+                   <a  href='= "/doc/" + nextTag.url'>
+                      <div class="ideIndexTitle"><%= nextTag.title %></div></a>
+                 </div>
+            </span>
+            <br/>
+         </div>
+      </div>
+   </div></div>
+</body>
+</html>

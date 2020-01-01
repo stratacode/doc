@@ -242,7 +242,7 @@ Grammars in StrataCode are debuggable, making it easier to add new languages and
 </p>
 The IntelliJ plugin is also built on top of this API, supporting several languages: scj, sc, schtml, sct, scr, and sccss.
    <p>
-Integrated with <a href="doc/webFramework.html">HTML/Javascript</a>, <a href="doc/swingCommandLine.html">Swing</a>, <a href="doc/gettingStartedAndroid.html">Android</a>, OpenGL, OpenCV, <a href="doc/moreFrameworks.html">JUnit, Servlets, Jetty</a>, JPA. Designed for rapid and flexible future integrations. 
+Integrated with <a href="doc/webDoc/">HTML/Javascript</a>, <a href="doc/swingCommandLine.html">Swing</a>, <a href="doc/gettingStartedAndroid.html">Android</a>, OpenGL, OpenCV, <a href="doc/moreFrameworks.html">JUnit, Servlets, Jetty</a>, JPA. Designed for rapid and flexible future integrations. 
    <p>
    StrataCode's runtime and IntelliJ plugin will be free to download during the trial period. It is not yet open source. We are looking for feedback on the right license but we'd like to make a sustainable developer's tool that has some way to compensate the developers who build great tools. We are looking for projects to build with StrataCode so if you need something built, contact <a href="contact.html">Jeff</a> and perhaps he can help you build it.
   </p>

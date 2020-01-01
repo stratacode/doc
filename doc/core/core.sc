@@ -10,6 +10,7 @@ import sc.doc.PageLayout;
 import sc.doc.ArticlePage;
 import sc.doc.doc.DocPage;
 import sc.doc.doc.IdePage;
+import sc.doc.doc.WebDocPage;
 import sc.doc.MarkDownPage;
 
 /** 

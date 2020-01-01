@@ -1,5 +1,5 @@
-<html extends="DocPage">
-<head title="StrataCode Web Framework"/>
+<html extends="WebDocPage">
+<head title="Web Framework - Concepts"/>
 
 <body>
 
@@ -7,118 +7,6 @@
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
-
-## Web framework overview
-
-The web framework uses layers and code-generation to support the building of efficient, highly declarative components and applications.
-
-Some key features:
-
-### Flexible runtime
-
-.schtml files run on the server, in the browser, or both using the Java to Javascript converter. For more control, mix modes on a single page.
-
-<br><img src="../images/schtml3ways.jpg" style="border: solid 1px #0">
-
-### Declarative, reactive, IDE support
-
-Use code or data binding rules in the page to make templates reactive. As properties change in a reactive template, only the affected parts of the content are updated. The IDE suggests names even data binding expressions:
-
-<br><img src="../images/schtmlReactive.png" style="border: solid 1px #0">
-
-### Rapid development, efficient runtime
-
-Dynamic templates are interpreted using the dynamic runtime. Refresh the template for most code changes, even when the template has state.
-
-Switch to compiled mode for performance.
-
-<br><img src="../images/schtmlTwoWays.png" style="border: solid 1px #0">
-
-The .schtml file is converted to .sc, then to .java or .js. The generated code is fairly readable and useful for debugging.
-
-### Inheritance for reuse
-
-Tags use the 'extends' attribute to inherit from other tags. The new attributes and body content inherit and override those of the super tag unless the tagMerge attribute is set to replace, append or prepend.
-
-### Layers for flexibility, customization
-
-Templates can also be layered. When an schtml follows another with the same name in the stack, the body/attributes are combined just like extends.
-
-Create customized versions of templates without copying. Manage these copies using static typing, inheritance and the IDE, similar to Java.
-
-Organize application code according to dependencies and run code in multiple ways without refactoring. Keep UI code independent of the server and it can always run as a client-only version for rapid development, even when the server becomes large.
-
-### Synchronization
-
-Use real-time data for interactivity in customer facing applications, or only use it for better test scripts and tools during development and customization.
-
-### URL to page object mapping 
-
-Query/URL parameters mapped via URL patterns map to properties in the tag object. Properties populated from the URL when the page is loaded, and URL updated as properties change. 
-
-### Window, document, location 
-
-Synchronized objects available to Java on client or server to expose window dimensions, url properties, mouse/keyboard events, and focus.
-
-### Customizable base tag classes
-
-Minimize markup required, maximize control over apps.
-
-### Single page or multi page apps
-
-Easily mix and match these styles of templates. 
-
-### Flexible management of server state
-
-Build stateless pages with scope='request' or stateful pages that update incrementally and use caching for low-latency, low-overhead interactive sites.
-
-Scope data to the window (scope='window'), or the browser's session for that particular single-page app (appSession). When components are shared across pages, use scope='session' for caching and synchronized state management. Use scope='global' or 'appGlobal' to share state for the entire server process, or for only that page in that process. Events are properly sequenced and delivered across scopes for efficient synchronization, and collaboration when real-time is required.
-
-### Command line, testing
-
-Use the command line interface for controlling and organizing multi-process applications. Target commands to specific processes, or send them to all processes. Build static typed test scripts and refactor them using the IDE.
-
-## Getting started
-
-To run the simpleSync example in clientServer mode:
-
-    scc -v -vs example/simpleSync/clientServer
-
-This builds and runs a "hello world" web application using the framework layers: js.schtml, jetty.schtml, and js.sync.  The -v option enables basic verbose logging and -vs enables verbose sync so you can see the client/server communication.
-
-Use the same UI layer in server-only mode:
-
-    scc -v -vs example/simpleSync/server
-
-There are three application layers in this example: model, UI, and server. 
-
-<% ) %>
-
-<h3>Model layer</h3>
-
-<%= sc.lang.SCLanguage.getSCLanguage().styleFile("example/simpleSync/model","HelloWorld.sc", false, false) %>
-
-<h3>UI layer</h3>
-
-<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/simpleSync/ui","HelloWorld.schtml", false, false) %>
-
-<p>
-In schtml files, an html attribute can use an expression with or without data binding by prefixing the attribute value with the "=" operator, or one of the <a href="dataBinding.html">data binding operators</a>: ":=", ":=:", or "=:".  
-</p>
-<p>
-Use just the = operator for a simple one-time assignment. Use a forward data binding to update the attribute when the expression's value changes. Use a reverse binding to go in the reverse direction: either updating a property, calling a method etc.
-</p>
-<p>
-The &lt;%= directive works like JSP to output an expression as content. When used in a declarative context, the expression uses a data binding expression so the content is updated incrementally. 
-</p>
-
-<h3>Server-only layer</h3>
-
-<%= sc.lang.SCLanguage.getSCLanguage().styleFile("example/simpleSync/server","HelloWorld.sc", false, false) %>
-
-<%= MarkDownPage.markDown(%>
-
-For the server's version of the HelloWorld class, there's a forward binding which recomputes the value of 'reply' when the message property changes. The change to reply will be sync'd back to the client so the user sees that message printed in the JS console as well as the server's console.
 
 ## How clientServer mode works
 
@@ -134,92 +22,25 @@ The initial page response contains the server-rendered HTML and some embedded da
 
 For the simpleSync example, the input tag is a server tag. When it's value changes, the change is sent the server using an XHR request and applied to the server-side instance for that input tag for that window. That change triggers bindings which causes the innerHTML of the div tag to be returned in the response.
 
-## UnitConverter HTML UI 
-
-Here is the .schtml template for the unitConverter examples UI:
-<% ) %>
-
-<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/unitConverter/html/core","UnitConverter.schtml", false, false) %>
-
-<%= MarkDownPage.markDown(%>
-
-It uses the same model and coreui layers as the other frameworks it supports. It binds UI elements to properties like 'converters' and 'currentConverterIndex' defined in the those layers.
-
-The first line applies the @URL annotation to set a shortcut URL (overridding the default which uses the template file name).
-
-To run the clientServer version of the unit converter:
-
-    scc -v -vs example/unitConverter/html/clientServer
-
-To run the server only version:
-
-    scc -v -vs example/unitConverter/html/server
-
-The unitConverter sample also runs in the browser only, without a server:
-
-    scc -v example/unitConverter/html/clientOnly
-
-### Choosing the app's runtime
-
-The layer js.schtml defines the javascript runtime and the jetty.schtml defines the java_Server process. By including one or both layers, the app uses one or both runtime/processes.
-
-For a UI layer, unless it depends on server only or browser only features, it can extend the base layer html.schtml to permit either mode of operation.
-
-Here's the base layer for unitConverter which supports any of the three modes of operation:
-<% ) %>
-
-<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/unitConverter/html/core","core.sc", false, true) %>
-
-<%= MarkDownPage.markDown(%>
-
-Here's the layer to run for client/server mode:
-<% ) %>
-
-<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/unitConverter/html/clientServer","clientServer.sc", false, true) %>
-
-or run the server only layer:
-
-<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/unitConverter/html/server","server.sc", false, true) %>
-
-or run the client-only layer:
-
-<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/unitConverter/html/clientOnly","clientOnly.sc", false, true) %>
-
-<%= MarkDownPage.markDown(%>
-
-Specify the layers as command line args to scc by passing layers like clientServer that only specify dependencies on other layers. For example, another way to run the clientServer version:
-
-    scc example/unitConverter/html/core js/schtml jetty/schtml js/sync
-
 ## Top level pages versus components 
 
 When a .schtml file starts with &lt;html&gt; it's treated as a top-level page and assigned a URL unless it's marked with abstract='true'. Other .schtml files generate a type in the system that can be used with extends inside of another template or used from code.
 
 ## URLs, query parameters and mapping to properties of templates 
 
-At build time, the code generator collects a list of URLs defined by pages in the system. The @URL annotation identifies a page type and controls it's URL mapping. Set @URL(pattern="..") where the pattern can be a static string (see the UnitConverter example), or can be mapped to properties in the page object using specific type mappings defined in the PatternLanguage. 
+At build time, the code generator collects a list of URLs defined by pages in the system. The @URL annotation identifies a page type and controls it's URL mapping. Set @URL(pattern="..") where the pattern can be a static string (see the UnitConverter example), or can be mapped to properties in the page object using specific type mappings defined in the PatternLanguage. For example, use this @URL pattern to set an integer blogId and a String property called postShortName that must be a valid identifier:
+
+       @URL(pattern="/blog/[{blogId=integerLiteral}/][{postShortName=identifier}/]")
+
+Requested like:
+
+      /blog/3/myPost
+
 Use the @QueryParam annotation on a top-level page property to map it to a query parameter in the URL.
 
 See the [simpleBlog example](../examples/simpleBlog.html) for use of @QueryParam and @URL based parameters using patterns.
 
 If the .schtml page does not include an @URL annotation, but the top level tag is 'html', the page object that's generated extends the default HtmlPage base class defined in the html.schtml layer. The @URL annotation is then inherited by all templates that include an html tag. Because HtmlPage does not specify a pattern, the file name is used instead with the extension .html (see the Template resultSuffix property). So PageName.schtml is access via PageName.html. The layer's configuration sets or inherits the path prefix to prepend for files in it's directory. By default, files are accessed from their path relative to the layer's directory. So .schtml files in the layer directory are accessed as /fileName.html.
-
-## The TodoList example
-
-The TodoList example is built in two layers, the model and UI. 
-
-Here, the model layer contains the logic and for both the domain model and the view model in one:
-<% ) %>
-
-<%= sc.lang.SCLanguage.getSCLanguage().styleFile("example/todo/model","TodoList.sc", false, false) %>
-
-Here is the UI layer which modifies the model layer:
-
-<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/todo/jsui","TodoList.schtml", false, false) %>
-
-<%= MarkDownPage.markDown(%>
-
-The template page can access fields defined in the model because both layers are merged into one type.
 
 ## Reactive versus procedural tags
 
@@ -275,7 +96,7 @@ Here's an example:
 
 ## Relative URLs
 
-Many web frameworks require absolute URLs in all references but relative URLs improve the reusability, and management of components. For tag attributes that refer to URLs, like href and src, an absolute URL is rendered just as it was provided. But relative URLs will be rewritten using a function called getRelURL() that works even if the source template is included or extended from a template with a different top-level URL. It also reacts to changes made to the top-level page URL if your page needs to change it based on local navigation. 
+Many web frameworks require use of absolute URLs for all references. The web framework also supports relative URLs to improve the reusability, and management of components. For tag attributes that refer to URLs, like href and src, an absolute URL is rendered just as it was provided. But relative URLs will be rewritten using a function called getRelURL() that works even if the source template is included or extended from a template with a different top-level URL. It also reacts to changes made to the top-level page URL if your page needs to change it based on local navigation. 
 
 TODO: We'd like to provide warnings in the IDE for URLs which cannot be resolved, offer navigation from the IDE for tag attributes and have a flag to display warnings for unresolveable URLs at build time. Detecting and avoiding broken links to internal pages is an important problem to get right.
 
@@ -349,7 +170,7 @@ Here is a list of the main classes and links to the api doc:
 * [Element](/javadoc/sc/lang/html/Element.html), [HTMLElement](/javadoc/sc/lang/html/HtmlElement.html) - Used as the base classes for all tags in the page.
 * [HtmlPage](/javadoc/sc/lang/html/HtmlPage.html), [Head](/javadoc/sc/lang/html/Page.html), [Body](/javadoc/sc/lang/html/Body.html), [Div](/javadoc/sc/lang/html/Div.html), [Input](/javadoc/sc/lang/html/Input.html), [A](/javadoc/sc/lang/html/A.html), [Form](/javadoc/sc/lang/html/Form.html), [Button](/javadoc/sc/lang/html/Button.html), [Option](/javadoc/sc/lang/html/Option.html), [Select](/javadoc/sc/lang/html/Select.html), [Form](/javadoc/sc/lang/html/Form.html), [Span](/javadoc/sc/lang/html/Span.html), [Style](/javadoc/sc/lang/html/Style.html).  
 
-TODO: Should these have a 'Tag' suffix in the name?  I think DivTag, ATag would look a little better than just Div and A as class names.
+TODO: Should these have a 'Tag' suffix in the name?  Maybe DivTag, ATag would look a little better than just Div and A as class names.
 
 It's possible to substitute a custom class for a tag name using the tagPackageList. This property of the LayeredSystem specifies a list of packages to search in order for the HtmlPage, Div, etc. classes. It's usually set by framework layers to point to a local package of templates or classes to use for each class. For example, the html.core layer calls:
 
@@ -370,7 +191,6 @@ When the tag is invisible, it's useful to specify a substitute in some cases.  T
 <%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("test/html/simpleVis","Vis.schtml", false, false) %>
 
 <%= MarkDownPage.markDown(%>
-
 
 Alternatively, control the tag visibility using the style attribute as in normal HTML, but using a binding to make the tag appear and disappear. With a boolean property called 'vis' use <code>style=':= vis ? "display:none" : ""'</code>
 
@@ -463,52 +283,6 @@ TODO: should we just look at the 'extends' or 'implements' of the repeat tag and
 ## Replacing content with other tags
 
 Use the replaceWith attribute to specify an expression that evaluates to a template object to use in place of the current tag. If the expression evaluates to null, the current tag is rendered. If the expression evaluates to another tag object, that tag object is added to the page as content that replaces the owner tag entirely.
-
-## Tag properties
-
-All tag classes inherit from the same Element class, but special tag classes add additional features:
-
-### Select tag 
-
-* selectedIndex - reflects the selected index and usable in forward or reverse bindings.
-* selectedValue - also usable in forward or reverse directions, as an alternative to selectedIndex.  Set this to point to a value in the array or List for optionDataSource.  It will select that item by default.  When the value changes, it points to the currently selected value.
-* optionDataSource - set to the List to use for populating the option tags.
-
-### Input tag 
-
-* value - controls the value attribute in HTML
-* disabled - controls the disabled attribute in HTML
-* checked - controls the checked attribute for those input types which use it
-
-### Img tag 
-
-* src
-* width
-* height
-
-### Option tag 
-
-* selected
-* disabled
-* value 
-
-## All tags: structural attributes
-
-These attributes which apply to any tag affect the code generation process: 
-
-* extends - refers to the type name of a tag object to use as the base class for this tag.  By default, the attributes and body are both inherited but this can be controlled via the tagMerge and bodyMerge attributes.
-* implements - specifies a list of tags objects from which to inherit attributes and content.  Also controlled by tagMerge and bodyMerge.
-* abstract - when true, the tag object is not instantiated in the parent page.  It's a way to essentially define a tag class macro which you can extend in other instances or create using an API.
-* repeat - refers to a List or array of items.  The tag is replicated once for each item.  Use repeatVarName to specify the name of the variable to store the array element.
-* repeatVarName - used with repeat to define a variable name other than "repeatVar" to hold the value.
-* repeatWrapper - used with repeat to specify the extends class for the repeat wrapper class
-* replaceWith - used with an expression that evaluates to another tag object (usually a separate tag template). Use this to switch between completely different versions of content that occupy the same space. If the expression evaluates to null, the owner tag is rendered instead. 
-* serverContent - set this to true on a tag object you do not want rendered in the client. It's similar but slightly different than exec="server". When you set exec="server", when building the client version this object is omitted entirely so it won't be present when rendering the initial .html file. Use serverContent so that this tag object but not it's children are included in the content. Use serverContent in stubs inserted into the client tag objects to represent chunks of content where we should preserve the existing innerHTML of the DOM object when the parent is being re-rendered.
-* exec - set to either 'client', 'server' or 'default'. This attribute is helpful when a file is shared by both client and server processes but where the tag should be included in only one version of the page object. Use 'default' for the case where you want it in the client for client-only applications and the server for client-server applications.
-* tagMerge - specifies how the tag and it's attributes are merged with the tag object it overrides by modifying a tag object in a previous layer, or overriding a tag object it extends or implements. A value of 'merge' is the default. Set it to 'replace' for this tag to entirely replace the previous one or set it to 'append', or 'prepend'. This attribute affects both the body and attributes unless bodyMerge is set. See the [javadoc for MergeMode](/javadoc/sc/lang/html/MergeMode.html) for more info.
-* bodyMerge - specifies just how the body of the tag is merged, for when you want to merge the body of the tag differently from the attributes. Same values as tagMerge.
-* addBefore, addAfter - set to the id of an inherited tag used to place this tag either before or after. Use this for more flexible control of individual tags during a merge of one tag body with it's inherited tag body.
-* orderValue - when using 'merge' mode for child tags, provides a way to reorder a given child tag with respect to the others. Tags are sorted from smaller orderValues to large ones and the default value is 0. For example, use -1 on a tag so it goes before other child tags and use 1 so it goes after.
 
 ## Document, Location, Window
 

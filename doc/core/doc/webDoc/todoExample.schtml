@@ -1,0 +1,33 @@
+<html extends="WebDocPage">
+<head title="Web Framework - TodoList"/>
+
+<body>
+
+   <div id="content"><div id="mainSection">
+       <div id="pageContent" exec="server">
+
+<%= MarkDownPage.markDown(%>
+
+## The TodoList example
+
+The TodoList example is built in two layers, the model and UI. 
+
+Here, the model layer contains the logic and for both the domain model and the view model in one:
+<% ) %>
+
+<%= sc.lang.SCLanguage.getSCLanguage().styleFile("example/todo/model","TodoList.sc", false, false) %>
+
+Here is the UI layer which modifies the model layer:
+
+<%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("example/todo/jsui","TodoList.schtml", false, false) %>
+
+<%= MarkDownPage.markDown(%>
+
+The template page can access fields defined in the model because both layers are merged into one type.
+
+<% ) %>
+
+     </div>
+   </div></div>
+</body>
+</html>

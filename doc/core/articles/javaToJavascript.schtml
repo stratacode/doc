@@ -13,7 +13,7 @@ Much of today's application development is happening in the browser and it's a b
 
 Since layers can run on the client, server or both, StrataCode supports [isomorphic](http://nerds.airbnb.com/isomorphic-javascript-future-web-apps/) Java.  Web page requests generate HTML on the server so the browser draws it as quickly as possible.  The page then begins loading the javascript to perform any dynamic HTML updates.  You write the code once, StrataCode generates the client and server versions.  
 
-StrataCode provides schtml and sccss formats which extend html and css to allow dynamic updates.  Some pages are fully reactive - i.e. generated entirely from data binding, and others generate HTML from a mix of data binding and code.  If necessary, you can mix Java and HTML using the full power of Java.  You have inheritance, layers, data binding, tag macros, and java when you need it.  You can also enable synchronization and so run the same code in client-only, server-only, and client-server versions via different build configurations. Read more in the [documentation](../doc/webFramework.html).
+StrataCode provides schtml and sccss formats which extend html and css to allow dynamic updates.  Some pages are fully reactive - i.e. generated entirely from data binding, and others generate HTML from a mix of data binding and code.  If necessary, you can mix Java and HTML using the full power of Java.  You have inheritance, layers, data binding, tag macros, and java when you need it.  You can also enable synchronization and so run the same code in client-only, server-only, and client-server versions via different build configurations. Read more in the [documentation](../doc/webDoc/).
 
 It's also possible to use the Java to JS converter by itself.
 

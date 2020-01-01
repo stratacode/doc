@@ -1,0 +1,86 @@
+<html extends="WebDocPage">
+<head title="Web Framework - Overview"/>
+
+<body>
+
+   <div id="content"><div id="mainSection">
+       <div id="pageContent" exec="server">
+
+<%= MarkDownPage.markDown(%>
+
+## Web framework overview
+
+The web framework uses layers and code-generation to support the building of efficient, highly declarative components and applications.
+
+Some key features:
+
+### Flexible runtime
+
+.schtml files run on the server, in the browser, or both using the Java to Javascript converter. For more control, mix modes on a single page.
+
+<br><img src="../../images/schtml3ways.jpg" style="border: solid 1px #0">
+
+### Declarative, reactive, IDE support
+
+Use code or data binding rules in the page to make templates reactive. As properties change in a reactive template, only the affected parts of the content are updated. The IDE suggests names even data binding expressions:
+
+<br><img src="../../images/schtmlReactive.png" style="border: solid 1px #0">
+
+### Rapid development, efficient runtime
+
+Dynamic templates are interpreted using the dynamic runtime. Refresh the template for most code changes, even when the template has state.
+
+Switch to compiled mode for performance.
+
+<br><img src="../../images/schtmlTwoWays.png" style="border: solid 1px #0">
+
+The .schtml file is converted to .sc, then to .java or .js. The generated code is fairly readable and useful for debugging.
+
+### Inheritance for reuse
+
+Tags use the 'extends' attribute to inherit from other tags. The new attributes and body content inherit and override those of the super tag unless the tagMerge attribute is set to replace, append or prepend.
+
+### Layers for flexibility, customization
+
+Templates can also be layered. When an schtml follows another with the same name in the stack, the body/attributes are combined just like extends.
+
+Create customized versions of templates without copying. Manage these copies using static typing, inheritance and the IDE, similar to Java.
+
+Organize application code according to dependencies and run code in multiple ways without refactoring. Keep UI code independent of the server and it can always run as a client-only version for rapid development, even when the server becomes large.
+
+### Synchronization
+
+Use real-time data for interactivity in customer facing applications, or only use it for better test scripts and tools during development and customization.
+
+### URL to page object mapping 
+
+Query/URL parameters mapped via URL patterns map to properties in the tag object. Properties populated from the URL when the page is loaded, and URL updated as properties change. 
+
+### Window, document, location 
+
+Synchronized objects available to Java on client or server to expose window dimensions, url properties, mouse/keyboard events, and focus.
+
+### Customizable base tag classes
+
+Minimize markup required, maximize control over apps.
+
+### Single page or multi page apps
+
+Easily mix and match these styles of templates. 
+
+### Flexible management of server state
+
+Build stateless pages with scope='request' or stateful pages that update incrementally and use caching for low-latency, low-overhead interactive sites.
+
+Scope data to the window (scope='window'), or the browser's session for that particular single-page app (appSession). When components are shared across pages, use scope='session' for caching and synchronized state management. Use scope='global' or 'appGlobal' to share state for the entire server process, or for only that page in that process. Events are properly sequenced and delivered across scopes for efficient synchronization, and collaboration when real-time is required.
+
+### Command line, testing
+
+Use the command line interface for controlling and organizing multi-process applications. Target commands to specific processes, or send them to all processes. Build static typed test scripts and refactor them using the IDE.
+
+<% ) %>
+
+     </div>
+   </div></div>
+</body>
+</html>

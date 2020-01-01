@@ -138,7 +138,7 @@ object HelloWorld {
      Hello &lt;%= yourName %&gt;!
   &lt;/body&gt;
 &lt;/html&gt;</pre>
-                     The .schtml files mix HTML and Java to convert tags into StrataCode objects.  Tags can extend other templates or tags and the bodies of the inherited template can be merged in different ways - append, replace, merge using order rules, etc.  Templates can embed Java using JSP-like syntax tags - &lt;%, &lt;%=, &lt;%!, and &lt;%@ (<a href="webFramework.html">more</a>), (<a extends="PackageLink" packageName="sc/lang/html"/>).
+                     The .schtml files mix HTML and Java to convert tags into StrataCode objects.  Tags can extend other templates or tags and the bodies of the inherited template can be merged in different ways - append, replace, merge using order rules, etc.  Templates can embed Java using JSP-like syntax tags - &lt;%, &lt;%=, &lt;%!, and &lt;%@ (<a href="webDoc/index.html">more</a>), (<a extends="PackageLink" packageName="sc/lang/html"/>).
                   </div>
                   <div id="sccssFileContent" extends="CapsuleContent">
                      <div class="capsuleContentTitle">.sccss Files</div>
@@ -245,7 +245,7 @@ foo extends bar {
                   <div id="webContent" extends="CapsuleContent">
                      <div class="capsuleContentTitle">Web Framework</div>
                      <p>
-                     The StrataCode web framework adds a Java to Javascript converter, the schtml template language and the tag object API.  Client-only, server-only, or isomorphic client/server operation with sync to reduce explicit RPC code. (<a href="webFramework.html">more</a>)
+                     The StrataCode web framework adds a Java to Javascript converter, the schtml template language and the tag object API.  Client-only, server-only, or isomorphic client/server operation with sync to reduce explicit RPC code. (<a href="webDoc/index.html">more</a>)
                      </p>
                   </div>
                   <div id="jettyContent" extends="CapsuleContent">
