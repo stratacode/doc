@@ -11,13 +11,13 @@
 
 by Jeff Vroom
 
-One of the larger complicating factors in software design, performance, and maintenance begins when two programs need to communicate.  The developer needs to design or choose a protocol, perhaps adds versioning so it can be easily upraded or changed.  They need to make it secure, reliable and possibly deal with retries in case of failure or handle the additional connection related errors that might occur.  
+One of the larger complicating factors in software design, performance, and maintenance begins when two programs need to communicate.  The developer needs to design or choose a protocol, perhaps adds versioning so it can be easily upgraded or changed.  They need to make it secure, reliable and possibly deal with retries in case of failure or handle the additional connection related errors that might occur.  
 
 In my experience, quite a bit of code goes into solving this problem.  It's one of the large contributors to "code that's not application logic" that developers spend time on - writing or debugging. 
 
 ## Client/server programming today
 
-Today client/server programmers commonly use remote procedure calls (RPC) with a serialization protocol like JSON to communicate with the server.  It's common that frameworks require hand-written wrapper code to convert objects to and from JSON It's a manual process that adds friction to any change to the domain model.
+Today client/server programmers commonly use remote procedure calls (RPC) with a serialization protocol like JSON to communicate with the server.  It's common that programmers will still write "wrapper code" to convert objects to and from JSON. This approach gives the most control, and provides traceable code paths so it's easy to debug and maintain but any domain model changes require updates to lots of code.
 
 More automated frameworks generate the serialization code using annotations on methods and their parameters or use a declarative file to define the protocol which generates code for both client and server.  This approach reduces the amount of code developers have to write and provides more features with the downside of adding problems during debugging. It's complex to manage all of the uses of 'rpc' that an application might need for a complex domain model that is evolving quickly with lots of read/write APIs required. Not super fun to debug generated code that comes from some XML file but it's better than nothing. 
 

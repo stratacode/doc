@@ -33,27 +33,25 @@
          Please accept the <a clickEvent="=: mgr.agreementVisible = true">evaluation license agreement</a>
          <div id="agreementText" visible=":= mgr.agreementVisible">
             <p/>
-            This is an evaluation license for experimental software. It will change when we determine the best long term
-            license and distribution model for StrataCode and the IntelliJ plugin.
-            Permission is granted to use and redistribute StrataCode libraries in the Java class file format, and code
-            generated from StrataCode freely.
-            <p/>
-            Updates will be similarly freely available during the evaluation period.
+            This is an evaluation license for experimental software. For new versions of the software, the license is expected to change.
+
+            Permission is granted to use and redistribute the compiled sc.jar file and code generated from it freely. No license is granted to redistribute original source code downloaded from the system, managementUI, doc or test repositories or in the scc-src.zip file. Source in the example repository may be used freely. 
             <p/>
             This is preview license and the terms are expected to change and may be more or less restrictive in the future.
             <p/>
-            There is no cost to you and no warranty implied by us.
-            We are not liable for anything that goes wrong in the software you build with StrataCode.
             <p/>
             No permission is granted to redistribute any source code provided.
             <p/>
-            No decompilation or reverse engineering of libraries we provide is allowed.
+            By downloading the software, you agree to not decompile, reverse engineer, or process compiled class files except in using them as they are intended with the published java runtime standards.
             <p/>
             We do not have patents on any of this work.
             We do not indemnify this work against patent infringement claims from others.
             <p/>
             Downloading the software implies agreement with the terms of this license.
             <p/>
+            <p>
+            There is no cost to you for downloading the software.
+            Software is provide 'as is' with no express or implied warranty and we assume no liability for damages caused through the use of this software.
          </div>
          <p/>
          <input type="button" value="I agree" clickEvent="=: mgr.licenseAccepted()"/>

@@ -12,7 +12,7 @@
 
 Here are the basics of using the framework layers built to convert Java to readable, customizable Javascript as a standalone converter without the web framework. 
 
-Currently the system has primarily been tested with the web framework, but there are a number of tests that use this standalone mode and it could be easily optimized.
+Currently the system has primarily been tested with the web framework, but there are a number of tests that run plain Java code in the browser. The download size could be reduced a lot by making more features "opt in", removing web framework code from the core, and code-gen optimizations to remove unused code from the generated result.
 
 ## Getting Started
 
