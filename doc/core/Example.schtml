@@ -1,5 +1,9 @@
 <html abstract="true">
    <%!
+
+   boolean mobileRes := Window.window.innerWidth / Window.window.devicePixelRatio < 1000;
+   boolean navOpen := !mobileRes; 
+
    class ExampleInfo {
       String exampleName; 
       String description;
@@ -36,22 +40,27 @@
 
       <div id="mainSection">
          <div id="exampleIndex" class="exampleIndex">
-            <div class=':= "exampleIndexEntry" + (containsString(Window.window.location.href, example.url) ? " exampleIndexSelected" : "")'  id="exampleIndexEntry" repeat=":= allExamples" repeatVarName="example">
-               <a href='= "/examples/" + example.url'>
-                  <div class="exampleIndexTitle"><%= example.exampleName %></div>
-                  <div class="exampleIndexDesc"><%= example.description %></div>
-               </a>
+            <div><img src="/images/menu-toast.png" class="navMenuIcon" clickEvent="=: navOpen = !navOpen"> Examples</div>
+            <div id="exampleIndexMenu" class="exampleIndexMenu" exec="server">
+               <div class=':= "exampleIndexEntry" + (containsString(Window.window.location.href, example.url) ? " exampleIndexSelected" : "")'  id="exampleIndexEntry" repeat=":= allExamples" repeatVarName="example">
+                  <a href='= "/examples/" + example.url'>
+                     <div class="exampleIndexTitle"><%= example.exampleName %></div>
+                     <div class="exampleIndexDesc"><%= example.description %></div>
+                  </a>
+               </div>
             </div>
          </div>
 
-            <div id="navDivider">
-               <%! boolean navOpen = true; %>
-               <img id="navDividerIcon" clickEvent="=: navOpen = !navOpen" src=':= navOpen ? "/images/left-arrows.svg" : "/images/right-arrows.svg"'/>
-            </div>
-
             <style type="text/css">
+               .exampleIndexMenu {
+                  <%= navOpen ? "flex: 0 0 300px;" : "display: none;" %>
+               }
                .exampleIndex {
-                  <%= navDivider.navOpen ? "flex: 0 0 300px;" : "display: none;" %>
+                  <%= navOpen ? "flex: 0 0 300px;" : "position: absolute; " %>
+                  <%= mobileRes ? "position: absolute;" : navOpen ? "position: initial;" : "" %>
+               }
+               #exampleContent {
+                  <%= navOpen ? "" : "margin-top: 70px;" %>
                }
             </style>
 

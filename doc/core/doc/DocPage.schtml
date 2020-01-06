@@ -1,4 +1,8 @@
 <html abstract="true">
+<%! 
+    boolean mobileRes := Window.window.innerWidth / Window.window.devicePixelRatio < 1000;
+    boolean navOpen := !mobileRes; 
+%>
 
 <body>
    <div id="content" extends="PageLayout" section="documentation">
@@ -19,38 +23,43 @@
       </div>
 
       <div id="mainSection">
-         <div id="pageIndex" class="pageIndex" exec="server">
-            <div extends="DocIndex" title="Understanding StrataCode" url="understandingSC.html"/>
-            <div extends="DocIndex" title="Getting started" url="gettingStarted.html"/>
-            <div extends="DocIndex" title="IntelliJ plugin" url="ide/overview.html" subDir="/ide/"/>
-            <div extends="DocIndex" title="Components" url="components.html"/>
-            <div extends="DocIndex" title="Layers: modifying types" url="modify.html"/>
-            <div extends="DocIndex" title="Data binding" url="dataBinding.html"/>
-            <div extends="DocIndex" title="Defining layers" url="layerDefinition.html"/>
-            <div extends="DocIndex" title="Web framework" url="webDoc/index.html"/>
-            <div extends="DocIndex" title="Java to javascript" url="javaToJS.html"/>
-            <div extends="DocIndex" title="Synchronization" url="syncFramework.html"/>
-            <div extends="DocIndex" title="Android framework" url="gettingStartedAndroid.html"/>
-            <div extends="DocIndex" title="Java compatibility" url="javaCompat.html"/>
-            <div extends="DocIndex" title="Build and packaging system" url="runtime.html"/>
-            <div extends="DocIndex" title="Template language" url="templateLang.html"/>
-            <div extends="DocIndex" title="Generated code" url="genCode.html"/>
-            <div extends="DocIndex" title="Debugging" url="debugging.html"/>
-            <div extends="DocIndex" title="Parsing and code gen framework" url="parser.html"/>
-            <div extends="DocIndex" title="Dynamic runtime" url="dynamicRuntime.html"/>
-            <div extends="DocIndex" title="Framework development" url="frameworkDev.html"/>
-            <div extends="DocIndex" title="Servlets, Junit, Jetty" url="moreFrameworks.html"/>
-            <div extends="DocIndex" title="Other integrations" url="testIntegrations.html"/>
-         </div>
-
-         <div id="navDivider">
-            <%! boolean navOpen = true; %>
-            <img id="navDividerIcon" clickEvent="=: navOpen = !navOpen" src=':= navOpen ? "/images/left-arrows.svg" : "/images/right-arrows.svg"'/>
+         <div id="pageIndex" class="pageIndex">
+            <div><img src="/images/menu-toast.png" class="navMenuIcon" clickEvent="=: navOpen = !navOpen"> Documentation</div>
+            <div id="pageIndexMenu" class="pageIndexMenu" exec="server">
+               <div extends="DocIndex" title="Understanding StrataCode" url="understandingSC.html"/>
+               <div extends="DocIndex" title="Getting started" url="gettingStarted.html"/>
+               <div extends="DocIndex" title="IntelliJ plugin" url="ide/overview.html" subDir="/ide/"/>
+               <div extends="DocIndex" title="Components" url="components.html"/>
+               <div extends="DocIndex" title="Layers: modifying types" url="modify.html"/>
+               <div extends="DocIndex" title="Data binding" url="dataBinding.html"/>
+               <div extends="DocIndex" title="Defining layers" url="layerDefinition.html"/>
+               <div extends="DocIndex" title="Web framework" url="webDoc/index.html"/>
+               <div extends="DocIndex" title="Java to javascript" url="javaToJS.html"/>
+               <div extends="DocIndex" title="Synchronization" url="syncFramework.html"/>
+               <div extends="DocIndex" title="Android framework" url="gettingStartedAndroid.html"/>
+               <div extends="DocIndex" title="Java compatibility" url="javaCompat.html"/>
+               <div extends="DocIndex" title="Build and packaging system" url="runtime.html"/>
+               <div extends="DocIndex" title="Template language" url="templateLang.html"/>
+               <div extends="DocIndex" title="Generated code" url="genCode.html"/>
+               <div extends="DocIndex" title="Debugging" url="debugging.html"/>
+               <div extends="DocIndex" title="Parsing and code gen framework" url="parser.html"/>
+               <div extends="DocIndex" title="Dynamic runtime" url="dynamicRuntime.html"/>
+               <div extends="DocIndex" title="Framework development" url="frameworkDev.html"/>
+               <div extends="DocIndex" title="Servlets, Junit, Jetty" url="moreFrameworks.html"/>
+               <div extends="DocIndex" title="Other integrations" url="testIntegrations.html"/>
+            </div>
          </div>
 
          <style type="text/css">
+            .pageIndexMenu {
+               <%= navOpen ? "flex: 0 0 300px;" : "display: none;" %>
+            }
             .pageIndex {
-               <%= navDivider.navOpen ? "flex: 0 0 300px;" : "display: none;" %>
+               <%= navOpen ? "flex: 0 0 300px;" : "position: absolute; " %>
+               <%= mobileRes ? "position: absolute;" : navOpen ? "position: initial;" : "" %>
+            }
+            #pageContent {
+               <%= navOpen ? "" : "margin-top: 70px;" %>
             }
          </style>
 

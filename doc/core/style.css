@@ -1,12 +1,10 @@
-body { 
+html {
+  margin: 25px;
+}
+
+body {
   padding: 0px;
-/*
-  font-size: 14px;
-  font-family: "Lucida Sans", "Lucida Grande", Verdana, Arial, sans-serif;  */
-  margin-left: 2%;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-right: 0%;
+  justify-content: center;
   background-image:url('./images/layeredBkg.jpg');
   background-position: center top;
   background-repeat: no-repeat;
@@ -14,6 +12,11 @@ body {
   background-color: #f7d3b9;
   display: flex;
   text-size-adjust: none;
+  margin: 0px;
+}
+
+pre {
+  white-space: pre-wrap;
 }
 
 /* When the window is wider than the background we cover but don't stretch the window vertically to cover on mobile with a long screen height */
@@ -23,9 +26,10 @@ body {
    }
 }
 
-@media (min-resolution: 195dpi) {
+/** Rule for mobile screens */
+@media (min-resolution: 192dpi), (min-device-pixel-ratio: 2) {
    body {
-      font-size: 140%;
+      font-size: 230%;
    }
 
    .capsuleSmall {
@@ -47,7 +51,7 @@ body {
       padding-top: 8px;
       margin-left: 5;
    }
-   #navDividerIcon {
+   .navMenuIcon {
       width: 52px;
       height: 52px;
    }
@@ -58,7 +62,7 @@ body {
    }
 }
 
-@media (max-resolution: 195dpi) {
+@media (max-resolution: 191dpi) {
    body {
       font-size: 100%;
    }
@@ -82,7 +86,7 @@ body {
       padding-top: 8px;
       margin-left: 190px;
    }
-   #navDividerIcon {
+   .navMenuIcon {
       width: 28px;
       height: 28px;
    }
@@ -95,11 +99,11 @@ body {
 }
 
 #content {
+  max-width: 1280px;
   /* background-color: F8FCFD; */
   background-color: #FFFFFF; 
   padding-top: 4px;
   padding-bottom: 15px;
-  width: 100%;
 /*
   border: solid 1px #000;
   border-top-left-radius:6px;
@@ -111,7 +115,6 @@ body {
 
 #mainSection {
    display: flex;
-   width: 98.1%;
 }
 
 #mainPanel {
@@ -122,9 +125,8 @@ body {
   padding-right: 0%;
   padding-left: 1%;
   padding-bottom: 8px;
-  padding-top: 8px;
+  padding-top: 20px;
   border: solid 1px #112255;
-  width: 97%;
 }
 
 h1 { 
@@ -152,6 +154,7 @@ h2 {
 }
 
 .code, code, .qcode {
+   white-space: pre-wrap;
    color: #000; 
    border: 1px solid #000047;
    padding: 6px;
@@ -161,8 +164,7 @@ h2 {
    background-color: #F5FAFF;
    max-height: 50em;
    max-width: 90%;
-
-   overflow:auto;
+   overflow: auto;
 }
 
 .qcode {
@@ -209,66 +211,8 @@ h2 {
    margin-bottom: 8px;
 }
 
-@media (min-width: 1030px) {
-  .tagBox {
-      width: 61.5%;
-  }
-  .tagGraphic {
-      width: 30%;
-  }
-  .tagBox, .tagGraphic {
-      height: 190px;
-  }
-
-  #tagImg {
-      height: 172px;
-  }
-}
-
-@media (min-width: 730px) and (max-width: 1030px) and (max-resolution: 195dpi) {
-  .tagBox {
-      width: 61.5%;
-  }
-  .tagGraphic {
-      width: 30%;
-  }
-  .tagBox, .tagGraphic {
-      height: 210px;
-  }
-
-  #tagImg {
-      height: 120px;
-  }
-}
-
-@media (min-width: 730px) and (max-width: 1030px) and (min-resolution: 195dpi) {
-  .tagBox {
-      width: 61.5%;
-  }
-  .tagGraphic {
-      width: 30%;
-  }
-  .tagBox, .tagGraphic {
-      height: 300px;
-  }
-
-  #tagImg {
-      height: 120px;
-  }
-}
-
-@media (max-width: 730px) {
-  .tagGraphic {
-      width: 100%;
-      height: 160px;
-  }
-  .tagBox {
-      width: 100%;
-      height: 120px;
-  }
-  #tagImg {
-      height: 142px;
-  }
+.tagRow {
+   margin-bottom: 20px;
 }
 
 .tagline {
@@ -303,65 +247,138 @@ h2 {
    font-weight: bold;
    margin-top: 8px;
    margin-bottom: 4px;
+  text-decoration: underline;
 }
 
 .infoBox {
    background-color: #FFFFFF; 
-   background:radial-gradient(#FFFFFF,#CACACA 300%);
    cursor: pointer;
    padding-left: 1%;
    padding-right: 1%;
    padding-bottom: 5px;
+   padding-top: 10px;
    margin-right: 0.8%;
-   margin-top: 8px;
-   margin-bottom: 8px;
-   float:left;
-   border: 1px solid #112255;
+   /* border: 1px solid #112255; */
+   border-top: 1px solid #112255;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   box-sizing: border-box;
    /* font-size: 14px; */
 }
 
 @media (min-width: 1230px) {
-  .infoBox {
-      width: 30.1%;
-      height: 90px;
-  }
+   .infoBox {
+       /* width: 90%; */
+   }
+
+   .infoBoxImage {
+       max-width: 50%;
+   }
+
+   .infoBoxBody {
+       max-width: 350px;
+       padding-right: 25px;
+   }
+
+   .tagBox {
+       width: 61.5%;
+   }
+   .tagGraphic {
+       width: 30%;
+   }
+   .tagBox, .tagGraphic {
+       /* height: 190px; */
+   }
+
+   #tagImg {
+      height: 172px;
+   }
 }
 
-@media (max-width: 1230px) and (min-width: 800px) and (max-resolution: 195dpi) {
+@media (max-width: 1230px) and (min-width: 850px) and (max-resolution: 191dpi) {
   .infoBox {
-      width: 30.1%;
-      height: 120px;
   }
+
+  .infoBoxImage {
+      max-width: 50%;
+  }
+
+  .infoBoxBody {
+      max-width: 350px;
+      padding-right: 25px;
+  }
+
+   .tagBox {
+       width: 61.5%;
+   }
+   .tagGraphic {
+       width: 30%;
+   }
+
+   #tagImg {
+     max-width: 100%;
+   }
 }
 
-@media (max-width: 1230px) and (min-width: 800px) and (min-resolution: 195dpi) {
+@media (max-width: 1230px) and (min-width: 850px) and (min-resolution: 192dpi) {
   .infoBox {
-      width: 30.1%;
-      height: 190px;
+      flex-wrap: wrap;
   }
-}
-
-@media (max-width: 800px) {
-  .infoBox {
+  .infoBoxImage {
+      max-width: 100%;
+  }
+  .tagGraphic {
       width: 100%;
-      height: 80px;
+  }
+  .tagBox {
+      width: 100%;
+  }
+  .infoBoxBody {
+      width: 100%;
+  }
+   #tagImg {
+   }
+}
+
+
+@media (max-width: 850px) {
+  .infoBox {
+     flex-wrap: wrap;
+  }
+  .infoBoxBody {
+      max-width: 100%;
+  }
+  .infoBoxImage {
+      max-width: 100%;
+  }
+  .tagGraphic {
+      width: 100%;
+  }
+  .tagBox {
+      width: 100%;
+  }
+  .infoBoxBody {
+      width: 100%;
   }
 }
 
 .infoBox:hover {
   /* background-color: #c3eaea; */
+/*
   background-color: #BEDCFA;
   background:radial-gradient(#BEDCFA,#3B7BBB 300%);
+*/
 }
 
 .infoBoxSelected {
-   background-color: #7CB0F1;
-   background:radial-gradient(#7CB0F1,#3B7BBB 300%);
+   border-color: #7CB0F1;
+   /* background:radial-gradient(#7CB0F1,#3B7BBB 300%); */
 }
 
 .infoBoxSelected:hover {
-   background-color: #7CB0F1;
-   background:radial-gradient(#7CB0F1,#3B7BBB 300%);
+   border-color: #7CB0F1;
+   /* background:radial-gradient(#7CB0F1,#3B7BBB 300%); */
 }
 
 .detailBox ul {
@@ -371,10 +388,6 @@ h2 {
 .detailBox, .defaultDetailBox {
    margin-top:10px;
    padding-right: 15px;
-}
-
-.newRow {
-   clear:both;
 }
 
 #title { 
@@ -392,10 +405,6 @@ h2 {
 
 .logo a:visited {
    color: #0F1F99;
-}
-
-#content {
-/*   width: 94%; */
 }
 
 .videoBox {
@@ -416,7 +425,7 @@ h2 {
 
    margin-left: 0px;
    margin-right: 0px;
-   margin-bottom: 12px;
+   margin-bottom: 25px;
 
    text-decoration:none;
    border: solid 1px #112255;
@@ -605,7 +614,7 @@ h2 {
 
 /** Full page width */
 .navbar, .defaultDetailBox, .mainContent {
-   width: 96%;
+   /* width: 96%; */
 }
 
 .detailBox {
@@ -697,11 +706,13 @@ h2 {
    overflow: auto;
 }
 
+.tagGraphic {
+}
+
 .tagGraphic, .tagBox {
-   padding-top: 8px;
    padding-left: 1%;
    padding-right: 1%;
-   padding-bottom: 8px;
+   padding-bottom: 10px;
 }
 
 #exampleContent, #pageContent {
@@ -714,16 +725,8 @@ h2 {
 
    border: solid 1px #112255;
    flex: 1 1 auto;
-   width: 50%;
 }
 
-#navDividerIcon {
-   padding-top: 172px;
-}
-
-#navDivider {
-   position: relative;
-}
 
 .exampleIndexTitle {
    padding-bottom: 2px;
@@ -851,3 +854,6 @@ h2 {
    margin-left: 30px;
 }
 
+.navMenuIcon {
+   vertical-align: middle;
+}

@@ -1,4 +1,8 @@
 <html abstract="true">
+<%! 
+    boolean mobileRes := Window.window.innerWidth / Window.window.devicePixelRatio < 1000;
+    boolean navOpen := !mobileRes; 
+%>
 
 <body>
    <div id="content" extends="PageLayout" section="articles">
@@ -14,29 +18,34 @@
       </div>
 
       <div id="mainSection">
-         <div id="pageIndex" class="pageIndex" exec="server">
-            <div extends="ArticleIndex" title="Leveraging your code" url="codeLeverage.html"/>
-            <div extends="ArticleIndex" title="Motivation for layers" url="aboutLayers.html"/>
-            <div extends="ArticleIndex" title="Copied code, plugins and IOC" url="copyOrNot.html"/>
-            <div extends="ArticleIndex" title="Layered build and packaging system" url="buildAndPackaging.html"/>
-            <div extends="ArticleIndex" title="Java to javascript" url="javaToJavascript.html"/>
-            <div extends="ArticleIndex" title="Synchronization using layers" url="syncWithLayers.html"/>
-            <div extends="ArticleIndex" title="Persistence using layers" url="persistWithLayers.html"/>
-            <div extends="ArticleIndex" title="Dynamic runtime" url="dynamicRuntime.html"/>
-            <div extends="ArticleIndex" title="Parsing and modifying code" url="parseletsIntro.html"/>
-            <div extends="ArticleIndex" title="Microservices with layers" url="microservices.html"/>
-            <div extends="ArticleIndex" title="Customizable enterprise systems" url="enterprise.html"/>
-            <div extends="ArticleIndex" title="Improving security" url="security.html"/>
-         </div>
-
-         <div id="navDivider">
-            <%! boolean navOpen = true; %>
-            <img id="navDividerIcon" clickEvent="=: navOpen = !navOpen" src=':= navOpen ? "/images/left-arrows.svg" : "/images/right-arrows.svg"'/>
+         <div id="pageIndex" class="pageIndex">
+            <div><img src="/images/menu-toast.png" class="navMenuIcon" clickEvent="=: navOpen = !navOpen"> Articles</div>
+            <div id="pageIndexMenu" class="pageIndexMenu" exec="server">
+               <div extends="ArticleIndex" title="Leveraging your code" url="codeLeverage.html"/>
+               <div extends="ArticleIndex" title="Motivation for layers" url="aboutLayers.html"/>
+               <div extends="ArticleIndex" title="Copied code, plugins and IOC" url="copyOrNot.html"/>
+               <div extends="ArticleIndex" title="Layered build and packaging system" url="buildAndPackaging.html"/>
+               <div extends="ArticleIndex" title="Java to javascript" url="javaToJavascript.html"/>
+               <div extends="ArticleIndex" title="Synchronization using layers" url="syncWithLayers.html"/>
+               <div extends="ArticleIndex" title="Persistence using layers" url="persistWithLayers.html"/>
+               <div extends="ArticleIndex" title="Dynamic runtime" url="dynamicRuntime.html"/>
+               <div extends="ArticleIndex" title="Parsing and modifying code" url="parseletsIntro.html"/>
+               <div extends="ArticleIndex" title="Microservices with layers" url="microservices.html"/>
+               <div extends="ArticleIndex" title="Customizable enterprise systems" url="enterprise.html"/>
+               <div extends="ArticleIndex" title="Improving security" url="security.html"/>
+            </div>
          </div>
 
          <style type="text/css">
+            .pageIndexMenu {
+               <%= navOpen ? "flex: 0 0 300px;" : "display: none;" %>
+            }
             .pageIndex {
-               <%= navDivider.navOpen ? "flex: 0 0 300px;" : "display: none;" %>
+               <%= navOpen ? "flex: 0 0 300px;" : "position: absolute; " %>
+               <%= mobileRes ? "position: absolute;" : navOpen ? "position: initial;" : "" %>
+            }
+            #pageContent {
+               <%= navOpen ? "" : "margin-top: 70px;" %>
             }
          </style>
 
