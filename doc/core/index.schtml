@@ -153,28 +153,10 @@
 Just over ten years ago, <a href="about.html">Jeff Vroom</a> (jeff@jvroom.com) began this project, an ambitious attempt to build a framework based on layers and code-processing that he prefers over other available tools. After finally achieving that goal, a preview release of StrataCode is now available. For those who like developing frameworks, it's a relatively small, readable, maintainable code base with no core dependencies. 
 </p>
 <p>
-StrataCode makes a great build and configuration management tool for existing Java projects. Less copying, more configuration and customization flexibility. 
-</p>
-<p>
-Use code-processing features and APIs for better control over code. Leverage data binding with three new operators: forward, reverse, and bi-directional bindings between properties and expressions. The dynamic Java runtime allows build files and dynamic layers to be interpreted. That's one statically typed language for the entire lifecycle of the application that supports rapid updates to dynamic layers. 
-</p>
-<p>
-Build quick and customizable management UIs from domain models. Build apps from scratch with declarative frameworks that leverage the layered pattern, data sync, Java to JS, HTML to Java. 
-</p>
-<p>
-To get started, StrataCode supports git, maven, and an <a href="/doc/ide/overview.html">IntelliJ plugin</a> that integrates well with Java. The test-suite processes code from dozens of standard Java projects, validating type references and catching most errors before compilation. 
-</p>
-<p>
-Grammars in StrataCode are debuggable, making it easier to add new languages and to transform or transpile code. The API allows changes to source files simply by changing AST properties. For example, to change the type name, set the ClassDeclaration.typeName property or to edit the statements of a method, add or remove statements from the MethodDefinition.body property. 
-</p>
-<p>
-   StrataCode is in a preview phase, looking for feedback on the right license. We'd like to make a sustainable developer's tool that has some way to compensate the developers who build great tools. We are looking for projects to build with StrataCode, investors, and partners.
+   StrataCode is in a preview release, while we are looking for feedback on the right license. We'd like to make a sustainable developer's tool that has some way to compensate the developers who build great tools. We are looking for projects to build with StrataCode, investors, and partners.
   </p>
   <p>
-Although still in beta-ish quality <a href="status.html">(see status)</a>, it is already a great tool and set of frameworks for building apps from scratch, with a fairly high level of support. It would also be useful to refactor large existing Java code bases, supporting continual evolution during the refactoring process. It can also be used to build or upgrade an existing SaaS platform, or build your own language oriented tools in Java. 
-  </p>
-  <p>
-Everyone wants faster software, that takes less work to build and more pleasant to use. StrataCode helps that goal by empowering not only end-users but also back-office employees, administrators, operations, designers, and other people that use and customize the solution. We believe it can empower a new class of applications, built from layered domain models, annotated with layered configuration, driven by management UIs that can reach down into the code for customized rules and operations.
+Although still not production quality <a href="status.html">(see status)</a>, we believe it is a great tool and set of frameworks for building apps from scratch. At first it will require a fairly high level of support from us. It would also be useful to refactor large existing Java code bases, supporting continual evolution during the refactoring process. It can also be used to build or upgrade an existing SaaS platform, or build your own language oriented tools in Java. 
   </p>
   <p>
   Read more in these <a href="articles/">articles</a>.

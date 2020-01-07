@@ -32,18 +32,22 @@ pre {
       font-size: 230%;
    }
 
+   .docInputTag {
+      font-size: 100%;
+   }
+
    .capsuleSmall {
-      width: 270px;
-      height: 250px;
+      width: 400px;
+      height: 330px;
    }
    .capsuleMenu {
-      width: 258x;
+      width: 388px;
    }
    .capsuleMenuItem {
-      width: 248px;
+      width: 378px;
    }
    .capsuleExpanded {
-      height: 915px;
+      height: 1200px;
    }
    .capsuleContent {
       overflow: hidden;
@@ -59,6 +63,13 @@ pre {
       width: 52px;
       height: 52px;
       vertical-align: -20px;
+   }
+   /* 
+    * For examples, managementUI on mobile devices in particular there are some lines with no spaces for the first 60 chars or so that for some reason cause the code
+     section to expand rather than scroll which expands the whole page. 
+   */
+   .code {
+      font-size: 70%;
    }
 }
 
