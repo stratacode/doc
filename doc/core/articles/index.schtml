@@ -5,63 +5,47 @@
    <div id="content"><div id="mainSection">
        <div id="pageContent">
            <h2>StrataCode Intro</h2>
-           by Jeff Vroom
+           by Jeff Vroom, 1/8/2020
            <p>
-           StrataCode lets programmers build customizable software using code-processing tools including code editing, transpilation, and language-to-language converters. It parses standard Java with full type-awareness and provides APIs to read and edit Java source code incrementally. The StrataCode language supports normal Java plus a few key syntax changes to support more declarative applications.
-           Management UIs are created automatically from annotated application classes and objects, and customized using annotations and layers. The system provides many of the difficult features required by a fully customizable SaaS platform that supports excellent tooling and long-term code lifecycle management.
+           StrataCode lets programmers build customizable software using code-processing tools including code editing, transpilation, and language-to-language converters. It parses standard Java with full type-awareness and provides APIs to read and edit Java source code incrementally. StrataCode includes it's own language extensions in the '.sc' format for more declarative code.
+           Management UIs are created automatically from annotated application classes and objects, and customized using annotations and layers. The system is still evolving but already provides many of the difficult features required by a fully customizable SaaS platform that supports excellent tooling and long-term code lifecycle management.
            </p>
            <p>
-           StrataCode's design supports separating framework and application code, reducing the number of times you need to copy the logic needed for your business problem (i.e. the <i>domain model</i>). This makes it easier to build, maintain and change core business logic for a more efficient business. The code-processor preserves static typing for strong, flexible frameworks and a new level of code-reuse, and deployment efficiency.
+           StrataCode's design supports separating framework and application code, reducing the number of times logic is copied for a business problem. This makes it easier to build, maintain and change core business logic for a more efficient business. The code-processor preserves static typing for strong, flexible frameworks and a new level of code-reuse, and deployment efficiency.
            </p>
            <p>
-           This has been primarily a solo project, inspired by twenty years of building tools and frameworks and the desire for a system that offers architects maximum leverage for managing a complex system which is used and customized by a wide audience. Before commiting to support it for others, I wanted to to make it my preferred development platform and that's taken just about ten years to achieve.
+           This has been primarily a solo project, inspired by twenty years of building tools and frameworks and the desire for a system that offers architects maximum leverage for managing a complex system which is used and customized by a wide audience. Before commiting to support it for others, I wanted to to make it my preferred development platform and that's taken a long time.
            </p>
            <p>
-           StrataCode has taken a leaner approach than most Java frameworks and has essentially no library dependencies outside of the JDK. Before this project, I spent many years designing in teams, and committees, under time-pressure and this design built up over many years in resistance to compromises made in previous designs.  I believe in the <abbr title="from Paul Erdos, mathematician who believed in an essential 'Big Book' of proofs.">
-big book</abbr> of software design patterns, and that we need to limit flexibility of frameworks as much as expand them to improve manageability of applications, plugins, and the resulting ecosystems. I look to examples of HTML, and SQL as declarative frameworks which express deep abstractions from the big book in a simple way.  So why not build a framework for building robust, declarative frameworks. For every declarative language like HTML there's a procedural language like Javascript for those times the abstraction can't support some use case. A declarative language building tool should therefore support all use cases - from code snippets to libraries, to multi-process systems. In my big book, application and framework code can usually be cleanly separated, even if there are some framework specific aspects to the application. Systems built this way, avoid the rewrite and can refactor as they go to better manage framework dependencies. It's possible to do it from the start as a design practice, or split into layers for the second framework integration. Either way, it's an incremental process that does not significantly alter the runtime code. 
+           One reason is that StrataCode has taken a leaner approach than most Java frameworks and has essentially no dependencies outside of the JDK for the code-processor. Before this project, I spent many years designing in teams, and committees, under time-pressure and this design built up in resistance to compromises made in previous designs. I've tried to take the time to build it the right way, that includes the simplest code to solve the problem. 
+           <p>
+           I believe in a "big book" of software design patterns, in the way that Paul Erdos talked of a big book of mathematical proofs. 
+           To me layers add an important missing pattern in this book in how we organize programs. 
+           </p>
+           <p>
+           I've observed that the most efficient platforms use patterns that are in the book, and express them flexibly, considering the entire lifecycle of development - from rapid prototyping to refactoring of large code bases. Code processing and dynamic layers let developers use data binding, components, properties, templates, and data sync for both excellent runtime speed and with live programming.
+           </p>
+           <p>
+           Most applications use different syntaxes for code and configuration but layers provide a new option. Configuration that must be separated from code can be split off into a new layer that's dynamic. The rest of the code does not have to change so this can be performed as needed by QA or devops.
+           </p>
             <p>
-            Another big requirement in my book is that 
-frameworks are traceable for code editing, debugging, deployment, and runtime security and monitoring. This includes well designed, traceable error messages and log statements, static typing, toString methods to make stack traces readable. And tools for all formats that touch the domain model for automatic find-usages and refactoring.  And where possible, industry standards are followed. It's important to find patterns and syntax that work well and are sustainable for customers but while also minizing the frequency and impact of incompatible changes.
+           Another big book requirement is traceability throughout the system. Code paths should be traceable at edit time (find usages, etc), and debug time (readable stack traces, toString methods). It should include traceable artifacts for deployment including all entry points, ports, APIs, etc. for security and monitoring. Error messages and logs should be readable and support traceability to gather artifacts related to an individual operatation. 
            </p> 
-           <p>StrataCode supports standard Java files as well as a smally family of formats which support a super-set of Java. The most important formats are:
-           </p>
-           <ul>
-            <li>.sc for the StrataCode language feature extensions to Java
-            <li>.sct for code that has lots of text embedded in it. It is JSP-like but implemented as a one-pass translation to Java for less potential for confusing code, better typing, syntax errors, and debugging.
-            <li>.schtml which extends .sct with tags class implementations that map onto Java in a simple, powerful, more debuggable way.
-            <li>.scr for test scripts built using the command line language
-           </ul>
            <p>
-          The StrataCode core language adds three new keywords <i>object</i>, <i>override</i>, and <i>scope</i> and three new operators for data binding :=, =: and :=: My hope is that most Java developers can just read the code without much training, and easily navigate and edit with the IDE. For me at least, StrataCode has evolved into a nimble, flexible, readable code base. I can debug problems quickly and the test suite grows to be sure problems stay fixed. I can write code once and run it in many different configurations.
+           To be complete, the big book should model not just one process at a time, but the complete system. StrataCode provides a natural way to take one set of code assets and produce code and configuration for any number of processes. Client and server can share configuration or code with shared layers. Dependencies can be automatically installed, systems configured, etc. Management UIs for the system can be auto-generated as well and the system's ability to detect and respond to changes made can provide fast, minimal updates.
+           </p>
+          <p>
+          It's taken a long incubation period for all of these concepts to come together at a usable level of quality, with an IntelliJ IDEA plugin that makes the concepts more approachable.
+          In developing the management UI framework, I finally feel comfortable building anything. Bugs or missing features do show up more often than I'd like but they are usually easy to fix or add. 
           </p>
           <p>
-          In developing the management UI framework, I now feel comfortable building anything. What I like most is is the power of code-processing for building simple, declarative frameworks. You can then reuse application code in various ways - client-only, client/server, server-only, compiled to Javascript, with many framework options - per-window, per-request. Move tags from running on the client to on the server by setting an annotation. Running an A/B test of that new configuration, and merging the result as a new step in your deployment process. Build a management UI that automates that process in a constrained environment so you can offload a powerful type of customization. Use dynamic code and 'refresh' to reduce the round-trip times for common operations, such as editing a web page. Even one that's backed by lots of logic and has lots of current application state. Build one set of tests against the domain model and use them for all platforms and configurations. Add realtime as a feature whenneeded. Use it on every app for more comprehensive tests and diagnostics.
-           </p>
-           <p>
-           StrataCode uses its own code-processing library called Parselets, built in Java with no parser-generator. Grammars are defined using APIs using a few standard parsing operators (PEG). Those grammars have lots of options and ways of customizing their behavior with simple code snippets to form a fully featured language including:
-           <ul>
-           <li>Generation of language model AST 
-           <li>An incremental read-modify-write API for the AST with base classes that provide all language features
-           <li>Partial values parse mode - for finding a reasonable AST for the given incomplete file 
-           <li>Fast, incremental 'reparse' so you can get fast edits of large files
-           <li>Save/restore of AST and separate store of parse-node tree for more efficient tooling
-           <li>Type awareness and manipulation, navigation, and syntax highlighting apis with IntelliJ integration
-           <li>Usage and code completion apis and indexes for a well performing IDE
-           <li>Change language and reformat - to build easier cross language translation of nodes (e.g. JS array to Java array in 2 lines of code)
-           </ul>
-           StrataCode uses this code-processing framework to add extensions to Java for 'layering' components and configuration, as well as a template language, client/server programming model, and all of it's framework integrations. Even translating from one language to another is feasible without a ton of code.
-           </p>
-           <p>
-           Without proper tooling, or understanding of how layers work, reading layered code can be more challenging. Fortunately StrataCode includes an IntelliJ plugin. It has a layers view, supports find usages, up/down layer, debugging of both the source and the generated source, navigation between the two, and wizards for creating layers, classes, objects, modify, and run configurations. The code is written to be easy to read, debug and improve so it's potentially an excellent base for those interested in building development tools, and who want to work on their own frameworks. 
-           </p>
-           <p>
-           See the <a href="/status.html">status</a> page for up-to-date information on quality.
-           </p>
-           <p>
-           I'd love your <a href="../contact.html">feedback</a> and am looking for developers who'd like to help, projects to build, companies who'd like to use it, investors and partners in general.
-           </p>
-           <p>
-           Read more about on how to <a href="codeLeverage.html">leverage your code</a> or jump straight to the <a href="/doc">documentation</a> to learn more.
+          See the <a href="/status.html">status</a> page for up-to-date information on quality.
+          </p>
+          <p>
+          I'd very much appreciate <a href="../contact.html">feedback</a> and am looking for developers who'd like to help, projects to build, companies who'd like to use it, investors and partners in general.
+          </p>
+          <p>
+          Read more about on how to <a href="codeLeverage.html">leveraging your code</a> or jump straight to the <a href="/doc">documentation</a> to learn more.
            </p>
            <p>
            &nbsp;

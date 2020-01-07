@@ -50,32 +50,28 @@
       </div>
 
       <div id="codeProcDetail" extends="BaseDetailBox">
-         <div id="boxTitle" class="infoBoxTitle">Code processor</div>
          <ul>
-            <li>Breath new life into old Java with code processing - and run it in the browser after converting to Javascript.
-            <li>Keeps Java's strengths: libraries, code completion, find usages, edit time errors, refactoring, runtime speed, standard syntax, etc.
-            <li>Supports all of Java's syntax and can be used to customize and refactor existing Java applications.   
-            <li>Layer your build files, use static typing and Java syntax. Reduce copying, allow simple project dir organization. Re-arrange project files smoothly, change git repos without complex "flag day" changes.
-            <li>Manage multi-process, multi-runtime systems with custom deployment configuration using a single command and list of layers. 
-            <li>Use dynamic layers for runtime configuration, or compiled for "best of both worlds" development and deployment flexibility.
-            <li>Manage configuration for operations and deployment all in one tool.
-            <li>Java command line and test scripts - static typing, find-usages, refactor etc. Run java expressions one command at a time. Change your current type. Script mode or edit mode for making tweaks to any file at the command line, or generate a new file. Target any process. Test framework validates client and server HTML, server and client logs for more awareness and "actionable" diffs when tests fail.
-            <li>Build your own Java code processing tools from intuitive, powerful APIs.
+            <li>Breath new life into old Java with code processing.
+            <li>Declarative grammars generate the language model (AST), and support property changes to update the code incrementally.
+            <li>Use the AST api to quickly transform code. Shared base classes provide IDE features, convert between languages.
+            <li>Framework hooks for generating components, properties, processing annotations, etc.
+            <li>Unlike byte-code processing, the generated code is readable and debuggable.
          </ul>
       </div>
 
       <div id="featBox" extends="InfoBox" detailBox="= featDetail" >
          <span class="infoBoxBody">
             <div class="infoBoxTitle">StrataCode language</div>
-            Java organized in layers, with features for declarative components, mixing dynamic and compiled layers for immediate code updates and efficient runtime.
+            Java with features for declarative components: data binding, properties, components.
+            Organized in layers that support merging directory trees, modifying types of the same name in a downstream layer, e.g. to configure a component.
+            Mixing dynamic and compiled layers for fast code updates and efficient runtime.
          </span>
          <img src="/images/lang-feat.png" class="infoBoxImage">
       </div>
 
       <div id="featDetail" extends="BaseDetailBox">
-         <span class="infoBoxTitle">StrataCode language</span> 
-         Just the right additions to Java syntax for more concise, readable code and configuration. 
          <ul>
+            <li>Just the right additions to Java syntax for more concise, readable code and configuration. 
             <li>Real properties in Java: automatic, customizable getX/setX conversion.
             <li>Data binding operators for Java expressions: forward :=, reverse =:, and bi-directional :=:.  Easy, fast, customizable.
             <li>New 'object' operator and @Component annotation: manage object graphs and configuration with Java types, Java syntax.
@@ -96,7 +92,12 @@
       </div>
 
       <div id="sysDetail" extends="BaseDetailBox">
-         <span class="infoBoxTitle">Multi-process systems</span> - one stack of layers are organized into one or more processes. Manage the entire build, run, refresh with a single command. Overlapping layers provide the foundation for generated RPC to manage back and forth exchange of data. Remote method calls are detected and handled automatically.
+         <ul>
+            <li>One stack of layers are organized into one or more processes. 
+            <li>Manage the entire build, run, refresh with a single command. 
+            <li>Overlapping layers provide the foundation for generated code to manage back and forth exchange of data. 
+            <li>Remote method calls are detected and handled automatically.
+         </ul>
       </div>
 
       <div id="webBox" extends="InfoBox" detailBox="= webDetail" >
@@ -110,37 +111,35 @@
       </div>
 
       <div id="webDetail" extends="BaseDetailBox">
-         <div class="infoBoxTitle">Web programming</div> 
-         Flexible way to build any web application.
          <ul>
-            <li>Layered html templates bring the power of Java to web apps</li>
+            <li>Flexible way to build any web application.
+            <li>schtml templates bring the power of Java to web apps</li>
             <li>Java to Javascript: readable JS code, usable JS APIs, debuggable without a simulator</li>
-            <li>Layered, isomorphic HTML/Java templates - run code on client, server or both with one syntax</li>
-            <li>Supports many standard Java classes: ArrayList, HashMap, LinkedHashMap, etc.</li>
+            <li>Layered + isomorphic - run code on client, server or both with one syntax</li>
+            <li>Standard Java classes: ArrayList, HashMap, LinkedHashMap, etc.</li>
             <li>Libraries, modules, automatic dependency detection and ordering</li>
-            <li>Code patching for refreshable, stateful apps and better management customization UIs</li>
-            <li>Data sync for declarative client/server app development</li>
+            <li>Fast 'refresh' of stateful apps with code patching, supports great management UIs</li>
+            <li>Data sync for seamless, rich featured, client/server app development</li>
          </ul>
       </div>
 
       <div id="custBox" extends="InfoBox" detailBox="= custDetail" >
          <span class="infoBoxBody">
             <div class="infoBoxTitle">Customization built in</div> 
-            IntelliJ plugin, dynamic and compiled layers, 
+            IntelliJ IDEA plugin, dynamic and compiled layers, 
             management UIs built from annotated domain models,
             layers for feature-oriented development, plugins, and separation of dependencies for improved code reuse.
          </span>
-         <img src="/images/cust-built-in.png" class="infoBoxImage">
+         <a href="https://www.jetbrains.com"><img src="/images/intelliJIDEA.svg" width="50px" height="50px"></a><img src="/images/cust-built-in.png" class="infoBoxImage">
       </div>
 
       <div extends="BaseDetailBox" id="custDetail">
-         <div class="infoBoxTitle">Customization built in</div>
          <ul>
+           <li>Photoshop-like layered organization of code, files, and data for manageability.
            <li>Run apps using dynamic layers for on-the-fly updates. Compile layers for runtime speed.
            <li>Build declarative management UIs on top of plain domain models that support not only management of instances, but customization of types as well.
            <li>Create new layers, and cut and paste preserving apis.
-           <li>Break out 'feature layers' to eliminate "one size fits all" development.
-           <li>Photoshop-like layered organization of code, files, and data for manageability.
+           <li>Break out 'feature layers' instead of  "one size fits all" development.
            <li>Layers are modules that can also modify features, a built-in plugin capability you can expose for certain types.
            <li>Layers also separate code for better workflows, testing, customization, A/B testing.  A complement to version control when it makes sense to keep changes separate.</li>
            <li><a href="articles/aboutLayers.html">More on layers</a>.
@@ -150,13 +149,13 @@
 
    <div class="defaultDetailBox">
    <p>
-Just over ten years ago, <a href="about.html">Jeff Vroom</a> (jeff@jvroom.com) began this project, an ambitious attempt to build a framework based on layers and code-processing that he prefers over other available tools. After finally achieving that goal, a preview release of StrataCode is now available. For those who like developing frameworks, it's a relatively small, readable, maintainable code base with no core dependencies. 
+A long time ago, <a href="about.html">Jeff Vroom</a> (jeff@jvroom.com) began this project, an ambitious attempt to build a framework based on layers and code-processing that he prefers over other available tools. After finally achieving that goal, a preview release of StrataCode is now available. For those who like developing frameworks, it's a relatively small, readable, maintainable code base with no core dependencies. 
 </p>
 <p>
-   StrataCode is in a preview release, while we are looking for feedback on the right license. We'd like to make a sustainable developer's tool that has some way to compensate the developers who build great tools. We are looking for projects to build with StrataCode, investors, and partners.
-  </p>
-  <p>
-Although still not production quality <a href="status.html">(see status)</a>, we believe it is a great tool and set of frameworks for building apps from scratch. At first it will require a fairly high level of support from us. It would also be useful to refactor large existing Java code bases, supporting continual evolution during the refactoring process. It can also be used to build or upgrade an existing SaaS platform, or build your own language oriented tools in Java. 
+We'd like to make a sustainable developer's tool that has some way to compensate the developers who build great tools. We are looking for projects to build with StrataCode, investors, and partners.
+</p>
+<p>
+Although still not quite production ready <a href="status.html">(see status)</a>, we believe it is a great tool and set of frameworks for building apps from scratch. At first it will require a fairly high level of support from us. It would also be useful to refactor large existing Java code bases, supporting continual evolution during the refactoring process. It can also be used to build or upgrade an existing SaaS platform, or build your own language oriented tools in Java. 
   </p>
   <p>
   Read more in these <a href="articles/">articles</a>.

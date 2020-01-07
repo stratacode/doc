@@ -694,11 +694,19 @@ h2 {
 }
 
 /* Floating boxes on the background */
-.mainContent, .detailBox, .defaultDetailBox, .videoBox {
+.mainContent, .defaultDetailBox, .videoBox {
    padding-top: 8px;
    padding-left: 1%;
    padding-right: 1%;
    padding-bottom: 8px;
+
+   border: solid 1px #112255;
+}
+
+.detailBox {
+   padding-top: 8px;
+   padding-left: 1%;
+   padding-right: 1%;
 
    border: solid 1px #112255;
 }

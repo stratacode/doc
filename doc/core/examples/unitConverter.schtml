@@ -46,23 +46,7 @@
             <p>
             The individual Converter instances, temperature, etc. do not have classes generated for them on their own.  Since those classes are not needed, they were omitted for efficiency.
             <p>
-            The generated code also has the two data binding expressions.  There's a nested set of calls to create the expression which returns the value.  To make it easier to read, here's one of the calls re-formatted with indentation: 
-            <pre class="code">
-      getTemperature().setValue2(
-         DynUtil.doubleValue(
-            Bind.arith(
-               getTemperature(),"value2","+",
-                  new IBinding[]{
-                     Bind.arithP("/",
-                        new IBinding[]{
-                           Bind.arithP("*",
-                              new IBinding[]{
-                                 Bind.bindP(this,new Object[]{"temperature","value1"}),
-                                 new ConstantBinding(9.0)}),
-                           new ConstantBinding(5.0)}),
-                     new ConstantBinding(32)},
-               BindingDirection.BIDIRECTIONAL)));
-            </pre>
+            The generated code also has the two data binding expressions.  There's a nested set of calls to create the expression which returns the value.  
          </div>
          </div>
 

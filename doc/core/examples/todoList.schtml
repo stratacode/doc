@@ -9,10 +9,7 @@
 
       <p/>
       <div class="code">
-         <a href="todoRun/TodoList.html">
-           Go to the client-only TodoList example:<br/>
-           <img src="../images/todoIcon.png"/>
-         </a>
+         <a href="todoRun/TodoList.html" style="text-decoration:none; cursor:pointer"><span style="text-decoration:underline">Go to the client-only TodoList example:</span><br/><img src="../images/todoIcon.png"/></a>
       </div>
 
       <p>
