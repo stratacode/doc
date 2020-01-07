@@ -24,6 +24,9 @@ pre {
    body {
       background-size: cover;
    }
+   #content {
+      min-width: 1150px;
+   }
 }
 
 /** Rule for mobile screens */
@@ -107,6 +110,9 @@ pre {
       vertical-align: -7px;
    }
 
+   #content {
+      min-width: 80%;
+   }
 }
 
 #content {
