@@ -7,20 +7,14 @@
            <h2>StrataCode Intro</h2>
            by Jeff Vroom, 1/8/2020
            <p>
-           StrataCode lets programmers build customizable software using code-processing tools including code editing, transpilation, and language-to-language converters. It parses standard Java with full type-awareness and provides APIs to read and edit Java source code incrementally. StrataCode includes it's own language extensions in the '.sc' format for more declarative code.
-           Management UIs are created automatically from annotated application classes and objects, and customized using annotations and layers. The system is still evolving but already provides many of the difficult features required by a fully customizable SaaS platform that supports excellent tooling and long-term code lifecycle management.
+           Thank you for reading more about StrataCode. This has been primarily a solo project, inspired by twenty years of building tools and frameworks and the desire for a system that offers architects maximum leverage for managing a complex system which is used and customized by a wide audience. Before commiting to support it for others, I wanted to to make it my preferred development platform and that's taken a long time. Now, it would be interesting to see if any other developers might feel the same way, or how it could be changed to make that the case.
            </p>
            <p>
-           StrataCode's design supports separating framework and application code, reducing the number of times logic is copied for a business problem. This makes it easier to build, maintain and change core business logic for a more efficient business. The code-processor preserves static typing for strong, flexible frameworks and a new level of code-reuse, and deployment efficiency.
+           Before this project, I spent many years designing in teams, and committees, under time-pressure and this design built up in resistance to compromises made in previous designs. I've tried to take the time to build it the right way, that includes the simplest code to solve the problem. 
            </p>
-           <p>
-           This has been primarily a solo project, inspired by twenty years of building tools and frameworks and the desire for a system that offers architects maximum leverage for managing a complex system which is used and customized by a wide audience. Before commiting to support it for others, I wanted to to make it my preferred development platform and that's taken a long time.
-           </p>
-           <p>
-           One reason is that StrataCode has taken a leaner approach than most Java frameworks and has essentially no dependencies outside of the JDK for the code-processor. Before this project, I spent many years designing in teams, and committees, under time-pressure and this design built up in resistance to compromises made in previous designs. I've tried to take the time to build it the right way, that includes the simplest code to solve the problem. 
            <p>
            I believe in a "big book" of software design patterns, in the way that Paul Erdos talked of a big book of mathematical proofs. 
-           To me layers add an important missing pattern in this book in how we organize programs. 
+           To me layers add an important missing pattern in this book in how we organize programs, and that belief has driven this effort. 
            </p>
            <p>
            I've observed that the most efficient platforms use patterns that are in the book, and express them flexibly, considering the entire lifecycle of development - from rapid prototyping to refactoring of large code bases. Code processing and dynamic layers let developers use data binding, components, properties, templates, and data sync for both excellent runtime speed and with live programming.
