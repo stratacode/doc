@@ -130,7 +130,7 @@
             management UIs built from annotated domain models,
             layers for feature-oriented development, plugins, and separation of dependencies for improved code reuse.
          </span>
-         <a href="https://www.jetbrains.com"><img src="/images/intelliJIDEA.svg" width="50px" height="50px"></a><img src="/images/cust-built-in.png" class="infoBoxImage">
+         <a href="https://www.jetbrains.com"><img src="/images/intelliJIDEA.svg" class="jbIcon"></a><img src="/images/cust-built-in.png" class="infoBoxImage">
       </div>
 
       <div extends="BaseDetailBox" id="custDetail">
