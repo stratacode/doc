@@ -30,7 +30,7 @@ pre {
 }
 
 /** Rule for mobile screens */
-@media (min-resolution: 192dpi), (min-device-pixel-ratio: 2) {
+@media (min-resolution: 192dpi), (min-device-pixel-ratio: 2), (-webkit-min-device-pixel-ratio: 2) {
    body {
       font-size: 230%;
    }
@@ -81,7 +81,7 @@ pre {
    }
 }
 
-@media (max-resolution: 191dpi) {
+@media (max-resolution: 191dpi), (max-device-pixel-ratio: 1.99), (-webkit-max-device-pixel-ratio: 1.99)  {
    body {
       font-size: 100%;
    }
@@ -323,7 +323,7 @@ h2 {
    }
 }
 
-@media (max-width: 1230px) and (min-width: 850px) and (max-resolution: 191dpi) {
+@media (max-width: 1230px) and (min-width: 850px) and (-webkit-max-device-pixel-ratio: 1.99dpi) {
   .infoBox {
   }
 
@@ -348,7 +348,7 @@ h2 {
    }
 }
 
-@media (max-width: 1230px) and (min-width: 850px) and (min-resolution: 192dpi) {
+@media (max-width: 1230px) and (min-width: 850px) and (-webkit-min-device-pixel-ratio: 2.0) {
   .infoBox {
       flex-wrap: wrap;
   }

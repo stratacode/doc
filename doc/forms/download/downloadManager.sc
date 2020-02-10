@@ -6,11 +6,24 @@ import java.io.File;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+import java.util.Map;
+import java.util.HashMap;
+
 scope<session> object downloadManager {
+   public int PROD_SCC = 1;
+   public int PROD_DEV = 2;
+   public int PROD_SRC = 4;
+   public int PROD_SC4IDEA = 8;
+
    final boolean requireDownloadCode = true;
-   boolean validCode = false;
+   int validProductFlags = 0;
    String currentCode = "";
-   String[] downloadCodes = {"dbtgrbp"};
+   Map<String,Integer> downloadCodes = new HashMap<String,Integer>();
+   {
+      downloadCodes.put("TEST-C1",PROD_SCC|PROD_SC4IDEA);
+      downloadCodes.put("TEST-N1",PROD_SCC|PROD_SC4IDEA|PROD_SRC);
+      downloadCodes.put("TEST-D1",PROD_SCC|PROD_DEV|PROD_SRC|PROD_SC4IDEA);
+   }
    boolean agreementVisible = false;
 
    boolean acceptedLicense = false;
@@ -82,41 +95,51 @@ scope<session> object downloadManager {
       return FileUtil.concat(rootDirectory, productName, "builds", tag, version, subDir, FileUtil.addExtension(fileName, ext));
    }
 
-   List<DownloadProduct> downloadProducts = new ArrayList<DownloadProduct>();
-   {
-      DownloadProduct sccProd = new DownloadProduct("scc", "StrataCode cmd (scc)");
-      sccProd.addFile(new FileInfo(sccProd, "scc", "release", "latest", null, "zip"));
-      sccProd.addFile(new FileInfo(sccProd, "scc-src", "release", "latest", null, "zip"));
-      sccProd.addFile(new FileInfo(sccProd, "scc", "dev", "latest", null, "zip"));
-      sccProd.addFile(new FileInfo(sccProd, "scc-src", "dev", "latest", null, "zip"));
-      downloadProducts.add(sccProd);
+   @Bindable(manual=true)
+   public List<DownloadProduct> getDownloadProducts() {
+      ArrayList<DownloadProduct> res = new ArrayList<DownloadProduct>();
+      if ((validProductFlags & PROD_SCC) != 0) {
+         DownloadProduct sccProd = new DownloadProduct("scc", "StrataCode cmd (scc)");
+         sccProd.addFile(new FileInfo(sccProd, "scc", "release", "latest", null, "zip"));
+         if ((validProductFlags & PROD_SRC) != 0) {
+            sccProd.addFile(new FileInfo(sccProd, "scc-src", "release", "latest", null, "zip"));
+         }
+         if ((validProductFlags & PROD_DEV) != 0) {
+            sccProd.addFile(new FileInfo(sccProd, "scc", "dev", "latest", null, "zip"));
+         }
+         res.add(sccProd);
 
-      DownloadProduct sc4ideaProd = new DownloadProduct("sc4idea", "IntelliJ plugin");
-      sc4ideaProd.addFile(new FileInfo(sc4ideaProd, "sc4idea", "release", "latest", "build", "zip"));
-      sc4ideaProd.addFile(new FileInfo(sc4ideaProd, "sc4idea", "dev", "latest", "build", "zip"));
-      downloadProducts.add(sc4ideaProd);
+         if ((validProductFlags & PROD_SC4IDEA) != 0) {
+            DownloadProduct sc4ideaProd = new DownloadProduct("sc4idea", "IntelliJ plugin");
+            sc4ideaProd.addFile(new FileInfo(sc4ideaProd, "sc4idea", "release", "latest", "build", "zip"));
+            if ((validProductFlags & PROD_DEV) != 0) {
+               sc4ideaProd.addFile(new FileInfo(sc4ideaProd, "sc4idea", "dev", "latest", "build", "zip"));
+            }
+            res.add(sc4ideaProd);
+         }
+      }
+      return res;
    }
 
    String rootDirectory = "/usr/local";
 
-   void changeValidStatus(boolean valid) {
-      validCode = valid;
-      invalidCode = !valid;
+   void changeValidStatus(int flags) {
+      validProductFlags = flags;
+      invalidCode = validProductFlags == 0;
+      Bind.sendChangedEvent(this, "downloadProducts");
    }
 
    void validateCode() {
       if (currentCode == null || currentCode.length() == 0) {
-         validCode = false;
+         validProductFlags = 0;
          invalidCode = false;
          return;
       }
-      for (String downloadCode:downloadCodes) {
-         if (currentCode.equals(downloadCode)) {
-            changeValidStatus(true);
-            return;
-         }
-      }
-      changeValidStatus(false);
+      Integer flags = downloadCodes.get(currentCode);
+      if (flags == null)
+         flags = 0;
+
+      changeValidStatus(flags);
    }
 
    void licenseAccepted() {

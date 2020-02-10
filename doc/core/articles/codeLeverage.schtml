@@ -51,7 +51,7 @@ Parselets code-generation keeps application source code independent of framework
 
 ## Learning to code with layers
 
-Learning layers can be a lot like learning object-oriented programming.  Not all programmers take to that metaphor for designing their code, but they can use well designed object-oriented API. The same should hold true for layers.  Start using them like modules, where StrataCode acts as a build tool for existing applications.
+Learning layers can be a lot like learning object-oriented programming.  Not all programmers take to that metaphor for designing their code, but they can use an object-oriented API. The same should hold true for layers.  Start using them like modules, where StrataCode acts as a build tool for existing applications.
 
 The StrataCode IDE helps by providing wizards for the common operations, edit-time editing and a Java-like editing experience for StrataCode.
 
@@ -149,7 +149,7 @@ If you've used monkey patching, overlays, or written a patch-script you've worke
 
 ## Frameworks built on layers
 
-StrataCode has evolved into a rich, well designed code-processing framework with a relatively small, clean, easy-to-read-and-debug code base.  The power of code-generation combined with layers opens up opportunities for framework development and I have had lots of experience building frameworks.  It's evolved over years, and integrations with several frameworks have improved the design to be "good enough" for most applications.
+StrataCode has evolved into a rich, code-processing framework with a relatively small, clean, easy-to-read-and-debug code base.  The power of code-generation combined with layers opens up opportunities for framework development and I have had lots of experience building frameworks.  It's evolved over years, and integrations with several frameworks have improved the design to be "good enough" for most applications.
 
 StrataCode includes a layered component-oriented, data-binding and synchronization set of framework layers.  I built them using lessons learned from my experience with these platforms.  You can use StrataCode with other frameworks easily - in fact, it's been integrated with several standard Java frameworks already and adding more is easy as well.
 

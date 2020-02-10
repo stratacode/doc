@@ -10,24 +10,15 @@
 
 ### About
 
-Jeff Vroom, the author of StrataCode has built three successful platforms.  He has a passion for creating innovative, forward thinking software patterns including:
+Jeff Vroom, the author of StrataCode, has previously helped design and built three successful platforms: AVS, ATG/Dynamo, and Flex Data Services. The last ten years, while developing StrataCode he has worked as a Software Architecture consultant, writing code, reviewing and providing advice on software design.
 
- * A data binding system in '92 (AVS/Express)
- * A layered IOC framework with ORM in '96 (ATG dynamo, nucleus, jhtml)
- * A declarative, data sync framework in 2005 (Flex Data Services)
-* StrataCode is a second generation design for most major features
-* Goal is to create a community of developers who build, maintain and benefit from the efforts to build a high quality set of tools with robustness, flexibility, and long lasting.  Highly customizable by end-users leveraging the power of great developers.
+His passion is readable, declarative, manageable, traceable code using typing, that produces cost-effective, efficient systems that are more adaptable to changing requirements.
 
-Bill Wright has done a number of interesting things in his life, including service in the Marine Corps, fifteen years playing rugby around the world, and being considered for the host job on the Wheel of Fortune.  He also has an extensive IT sales, marketing and business strategy background.
+### Contributors
 
-* He first met Jeff at ATG, where he ran Global Accounts such as Vodafone, Sun Microsystems and Hewlett-Packard. He was given an annual ATG award for sales and global strategic leadership in 2001.
-* He worked on business strategy and alliances for VMware, and was responsible for identifying and building new verticals (Wireless Infrastructure, Unified Communications, Manufacturing and Business Intelligence).  He was also VMware's Global Strategic Alliances Executive of the Year in 2011.
+Natalya Hung helped design the syntax and refine the implementation and built some of the early samples. 
 
-He co-founded and sold an application company called Cremote, which featured one of the first home electronics remote control applications for the iPhone.   
-
-#### Credits
-
-Jeff has had help from many people. Natalya Hung for advice on the syntax, help debugging and writing many of the early samples. Bill Wright for advice and help making StrataCode a sustainable reality. Laena Wilder for inspiration and support for getting it done. Rollin Crittendon for his contributions and feedback on features.
+Rollin Crittendon helped build the CSS grammar and provide valuable advice.
 
 #### Project Status 
 

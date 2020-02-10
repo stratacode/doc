@@ -155,7 +155,7 @@ A long time ago, <a href="about.html">Jeff Vroom</a> (jeff@jvroom.com) began thi
 We'd like to make a sustainable developer's tool that has some way to compensate the developers who build great tools. We are looking for projects to build with StrataCode, investors, and partners.
 </p>
 <p>
-Although still not quite production ready <a href="status.html">(see status)</a>, we believe it is a great tool and set of frameworks for building apps from scratch. At first it will require a fairly high level of support from us. It would also be useful to refactor large existing Java code bases, supporting continual evolution during the refactoring process. It can also be used to build or upgrade an existing SaaS platform, or build your own language oriented tools in Java. 
+Some features are not production ready <a href="status.html">(see status)</a>, but we believe it is a great tool and set of frameworks for building apps from scratch. At first it will require a fairly high level of support from Jeff. It would also be useful to refactor large existing Java code bases, supporting continual evolution during the refactoring process. It can also be used to build or upgrade an existing SaaS platform, or build your own language oriented tools in Java. 
   </p>
   <p>
   Read more in these <a href="articles/">articles</a>.

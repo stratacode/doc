@@ -26,7 +26,7 @@ scope<request> class DownloadPage extends BasePage {
    @QueryParam
    String subDir;
 
-   static int CURRENT_LICENSE = 1;
+   static int LICENSE_VERSION = 1;
 
    HashMap<String,String> mimeTypes = new HashMap<String,String>();
    {
@@ -60,7 +60,7 @@ scope<request> class DownloadPage extends BasePage {
       }
 
       UserSession session = UserSession;
-      UserDownload uct = new UserDownload(session, fileName, version, CURRENT_LICENSE);
+      UserDownload uct = new UserDownload(session, fileName, version, LICENSE_VERSION);
       uct.save();
 
       HttpServletResponse response = ctx.response;

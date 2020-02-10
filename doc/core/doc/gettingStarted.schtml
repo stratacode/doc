@@ -71,7 +71,7 @@ Add this configuration file so that the 'scc' command can find it's own source c
 <pre><code>cd /home/myProj
 mkdir conf
 cat &gt; conf/scSourcePath
-/home/scc/system
+/home/scc
 </code></pre>
 
 <%= MarkDownPage.markDown(%>

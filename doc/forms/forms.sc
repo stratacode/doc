@@ -16,7 +16,8 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 public doc.forms extends doc.core, jetty.schtml, jdbc.pgsql {
-   object formsDataSource extends DataSourceDef {
+   object scformsDataSource extends DataSourceDef {
+      provider = "postgresql";
       jndiName = "jdbc/scformsDB";
       dbName = "scforms";
       userName = "scserver";
@@ -34,7 +35,7 @@ public doc.forms extends doc.core, jetty.schtml, jdbc.pgsql {
 
    void start() {
       if (activated) {
-         dataSources.add(formsDataSource);
+         layeredSystem.addDataSource(scformsDataSource);
       }
    }
 }

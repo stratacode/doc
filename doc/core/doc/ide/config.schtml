@@ -13,9 +13,9 @@
 
 Install or run a recent copy of IntelliJ - either the community or ultimate edition and install the StrataCode plugin:
 
-* Download [sc4idea.jar](/download/) 
+* Download [sc4idea.zip](/download/) 
 * Go to IntelliJ's Preferences, Plugins, and under the settings menu (click the gear icon), choose "Install plugin from disk"
-* Select the sc4idea.jar and press OK. Then restart IntelliJ.
+* Select the sc4idea.zip file you downloaded and press OK. Then restart IntelliJ.
 
 If you have the StrataCode source (scc-src.zip or access to the private git repo), go to Option #2.
 
@@ -100,7 +100,7 @@ Add a run/debug configuration to run the 'scc' command. Select 'Add configuratio
 2) build the scc package directory:
 
      Main class is: sc.layer.LayeredSystem
-     Program arguments: system -a -da /tmp/sccBuild -c -cc -v -Pbuild.tag=dev
+     Program arguments: system -a -lp . -da /tmp/sccBuild -c -cc -v -Pbuild.tag=dev
      Working directory: /home/myHome/scc
      Use classpath of module: 'sc'
 

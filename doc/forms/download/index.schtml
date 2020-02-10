@@ -10,7 +10,7 @@
 <div id="content" extends="PageLayout" section="download">
    <div id="mainContent" class="mainContent">
       <h2>Download StrataCode</h2>
-      <div id="enterCode" visible=":= mgr.requireDownloadCode && !mgr.validCode">
+      <div id="enterCode" visible=":= mgr.requireDownloadCode && mgr.validProductFlags == 0">
         StrataCode is currently in a restricted preview.
         <p/>
         Enter download code for access:
@@ -23,12 +23,12 @@
         No download code? Contact Jeff Vroom for availability (jeff@jvroom.com)
       </div>
 
-      <div visible=":= mgr.requireDownloadCode && mgr.validCode && !mgr.acceptedLicense">
+      <div visible=":= mgr.requireDownloadCode && mgr.validProductFlags != 0 && !mgr.acceptedLicense">
          <i>Download code success.</i>
          <p/>
       </div>
 
-      <div visible=":= mgr.validCode && !mgr.acceptedLicense">
+      <div visible=":= mgr.validProductFlags != 0 && !mgr.acceptedLicense">
          <p/>
          Please accept the <a clickEvent="=: mgr.agreementVisible = true">evaluation license agreement</a>
          <div id="agreementText" visible=":= mgr.agreementVisible">
@@ -57,7 +57,7 @@
          </div>
       </div>
 
-      <div visible=":= mgr.validCode && mgr.acceptedLicense" id="download">
+      <div visible=":= mgr.validProductFlags != 0 && mgr.acceptedLicense" id="download">
          Thank you for participating in the StrataCode preview!
          <p/>
          <li repeat=":= mgr.downloadProducts" repeatVarName="downloadProduct">
