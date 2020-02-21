@@ -9,9 +9,15 @@
       <div id="tagRow">
          <div class="tagBox">
             <div class="tagline">Beautifully manage code complexity</div>
-            <div class="taglineTwo">A new dimension in coding with layers and code-processing.</div>
+            <div class="taglineTwo">
+            A new dimension in coding with data binding, components, layers and code-processing
+            </div>
             <div class="intro">
-              Universal customization, deep integrations, manageable, declarative applications with rich features, flexible deployment. A new way for framework developers to build highly leveragable systems.
+            Easy to read, declarative, concise, and separable application and framework code.
+            Universal customization with layers for more code reuse, and configurability.
+            Plug and play features: application, framework, deployment with unified configuration and management UIs. 
+            Easier code-processing for framework developers to build robust and leverageable systems.
+            Collapse and simplify the stack. 
             </div>
          </div>
 
@@ -41,6 +47,28 @@
          <img id="detailCloseIcon" class="closeIconSize" src="./images/closeX.png" style="float: right" clickEvent="=: BaseDetailBox.this.visible = false">
       </div>
 
+      <div id="featBox" extends="InfoBox" detailBox="= featDetail" >
+         <span class="infoBoxBody">
+            <div class="infoBoxTitle">Declarative, layered code</div>
+            Java with data binding, properties, components.
+            Layers to merge directories, override config, modify types - blending code and configuration.
+            Dynamic and compiled layers a moveable line between quick, manageable updates and efficient runtime.
+         </span>
+         <img src="/images/lang-feat.png" class="infoBoxImage">
+      </div>
+
+      <div id="featDetail" extends="BaseDetailBox">
+         <ul>
+            <li>Just the right additions to Java syntax for more concise, readable code and configuration. 
+            <li>Real properties in Java: automatic, customizable getX/setX conversion.
+            <li>Data binding operators for Java expressions: forward :=, reverse =:, and bi-directional :=:.  Easy, fast, customizable.
+            <li>New 'object' operator and @Component annotation: manage object graphs and configuration with Java types, Java syntax.
+            <li>Layer level imports, public, and other annotations.  Robustness of Java but more manageable with less code.
+            <li>Automated build, run framework with concise and flexible framework development hooks for synchronizing compile time and runtime assets.
+            <li>Multiple inheritance: interfaces with instance properties and property assignments 
+         </ul>
+      </div>
+
       <div id="codeProcBox" extends="InfoBox" detailBox="= codeProcDetail" >
          <div class="infoBoxBody">
             <div class="infoBoxTitle">Code processor</div>
@@ -59,34 +87,12 @@
          </ul>
       </div>
 
-      <div id="featBox" extends="InfoBox" detailBox="= featDetail" >
-         <span class="infoBoxBody">
-            <div class="infoBoxTitle">StrataCode language</div>
-            Java with features for declarative components: data binding, properties, components.
-            Organized in layers that support merging directory trees, modifying types of the same name in a downstream layer, e.g. to configure a component.
-            Mixing dynamic and compiled layers for fast code updates and efficient runtime.
-         </span>
-         <img src="/images/lang-feat.png" class="infoBoxImage">
-      </div>
-
-      <div id="featDetail" extends="BaseDetailBox">
-         <ul>
-            <li>Just the right additions to Java syntax for more concise, readable code and configuration. 
-            <li>Real properties in Java: automatic, customizable getX/setX conversion.
-            <li>Data binding operators for Java expressions: forward :=, reverse =:, and bi-directional :=:.  Easy, fast, customizable.
-            <li>New 'object' operator and @Component annotation: manage object graphs and configuration with Java types, Java syntax.
-            <li>Layer level imports, public, and other annotations.  Robustness of Java but more manageable with less code.
-            <li>Automated build, run framework with concise and flexible framework development hooks for synchronizing compile time and runtime assets.
-            <li>Multiple inheritance: interfaces with instance properties and property assignments 
-         </ul>
-      </div>
-
       <div id="sysBox" extends="InfoBox" detailBox="= sysDetail" >
          <span class="infoBoxBody">
             <div class="infoBoxTitle">Multi-process systems</div> 
+            One layered config to better manage overlaps between tools. 
             One command to build, and run client/server apps, or multi-process systems.
-            Data sync of overlapping layers for declarative, efficient, intuitive RPC.
-            real time, system-wide testing.
+            Data sync of overlaps for efficient, intuitive RPC.
          </span>
          <img src="/images/multi-proc.png" class="infoBoxImage">
       </div>
@@ -125,7 +131,7 @@
 
       <div id="custBox" extends="InfoBox" detailBox="= custDetail" >
          <span class="infoBoxBody">
-            <div class="infoBoxTitle">Customization built in</div> 
+            <div class="infoBoxTitle">Tools and customization</div> 
             IntelliJ IDEA plugin, dynamic and compiled layers, 
             management UIs built from annotated domain models,
             layers for feature-oriented development, plugins, and separation of dependencies for improved code reuse.
@@ -149,7 +155,7 @@
 
    <div class="defaultDetailBox">
    <p>
-A long time ago, <a href="about.html">Jeff Vroom</a> (jeff@jvroom.com) began this project, an ambitious attempt to build a framework based on layers and code-processing that he prefers over other available tools. After finally achieving that goal, a preview release of StrataCode is now available. For those who like developing frameworks, it's a relatively small, readable, maintainable code base with no core dependencies. 
+A preview release of StrataCode is now available. Contact <a href="about.html">Jeff Vroom</a> (jeff@jvroom.com) for a download code. For those who like developing frameworks, it's a relatively small, readable, maintainable code base with no core dependencies. 
 </p>
 <p>
 We'd like to make a sustainable developer's tool that has some way to compensate the developers who build great tools. We are looking for projects to build with StrataCode, investors, and partners.

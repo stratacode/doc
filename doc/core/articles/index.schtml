@@ -5,7 +5,7 @@
    <div id="content"><div id="mainSection">
        <div id="pageContent">
            <h2>StrataCode Intro</h2>
-           by Jeff Vroom, 1/8/2020
+           by Jeff Vroom, 2/18/2020
            <p>
            Thank you for reading more about StrataCode. This has been primarily a solo project, inspired by twenty years of building tools and frameworks and the desire for a system that offers architects maximum leverage for managing a complex system which is used and customized by a wide audience. Before commiting to support it for others, I wanted to to make it my preferred development platform and that's taken a long time. Now, it would be interesting to see if any other developers might feel the same way, or how it could be changed to make that the case.
            </p>
@@ -26,11 +26,12 @@
            Another big book requirement is traceability throughout the system. Code paths should be traceable at edit time (find usages, etc), and debug time (readable stack traces, toString methods). It should include traceable artifacts for deployment including all entry points, ports, APIs, etc. for security and monitoring. Error messages and logs should be readable and support traceability to gather artifacts related to an individual operatation. 
            </p> 
            <p>
-           To be complete, the big book should model not just one process at a time, but the complete system. StrataCode provides a natural way to take one set of code assets and produce code and configuration for any number of processes. Client and server can share configuration or code with shared layers. Dependencies can be automatically installed, systems configured, etc. Management UIs for the system can be auto-generated as well and the system's ability to detect and respond to changes made can provide fast, minimal updates.
+           To be complete, the big book should model not just one process at a time, but the complete system. StrataCode provides a natural way to take one set of code assets and produce code and configuration for any number of processes, resources, machine assets etc. This design has a number of benefits, solving otherwise hard problems declaratively. For example, the client and server can share configuration or code with shared layers. Dependencies can be merged and reconciled using the linear nature of the stack, then installed or updated and configured. Database schemas can be built, deployed and updated.  Management UIs for the system can be assembled by combining the management UIs for all of this configuration and the generated resources. The code-processor detects changes to configuration, both on-the-fly or from one run to the next to manage the full-lifecycle of the system.
            </p>
           <p>
           It's taken a long incubation period for all of these concepts to come together at a usable level of quality, with an IntelliJ IDEA plugin that makes the concepts more approachable.
           In developing the management UI framework, I finally feel comfortable building anything. Bugs or missing features do show up more often than I'd like but they are usually easy to fix or add. 
+          I see lots of potential to build more frameworks to manage machine images, cluster configuration, so that the entire lifecycle of a system can be managed all by the choice of layers.
           </p>
           <p>
           See the <a href="/status.html">status</a> page for up-to-date information on quality.
