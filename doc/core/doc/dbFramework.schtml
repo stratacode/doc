@@ -1,0 +1,132 @@
+<html extends="DocPage">
+<head title="DB Framework"/>
+
+<body>
+
+   <div id="content"><div id="mainSection">
+       <div id="pageContent" exec="server">
+
+<%= MarkDownPage.markDown(%>
+
+## DB framework
+
+The DB framework supports persistence of code objects using code-processing.
+
+To get started with Postgresql, extend the jdbc.pgsql layer and mark any types mapped to a table with @DBTypeSettings. 
+
+There are attributes to set the tableName but by default it converts MyClass to my_class.
+
+Any properties in MyClass that are not transient, read-only, or have a computed value are added columns to the my_class table. 
+
+Use the @DBPropertySettings annotation on properties to change the column name, add an index, assign a database default value, and more.
+
+To define a single-valued association, just define a property that refers to a class with @DBTypeSettings. Set @DBPropertySettings(onDemand=true) for
+it to be lazily loaded - i.e. resolve the reference the first time it's accessed, as opposed to being eagerly loaded when the original item is loaded (the default).
+
+For multi-valued associations, define a List property where the type of the elements is another class with @DBTypeSettings.
+
+Associations can use @DBPropertySettings(reverseProperty="reversePropName") to mark one side of a bi-directional relationship. Both sides of the relationship are marked as reversible and both properties will generate data binding events so that changes made in one direction can be automatically reflected in the other immediately.
+
+### Defining types with scsql 
+
+It's also possible to define a class with sql create table statements. First extend the layer db.scsql from the project layer to support for source files in the scsql format.
+
+Create a file MyClass.scsql in the project layer and add to it a 'create table' statement to create my_class. The columns in that table
+are automatically added as properties in MyClass. It should have an id column called 'id'.
+
+If a column has a 'references' constraint, that's used to define an association property to a table defined in another scsql file or an sc file using @DBTypeSettings.
+
+If the table name matches the pattern my_class_extra_name, it is either an auxiliary or multi table. An auxiliary table has a primary
+key that matches the primary table and adds properties to the MyClass just like it. 
+
+A multi table references the id of the primary table but does not have a unique constraint (it's not a primary key). 
+The other columns in the multi table define the component type of the List property created.
+
+If those columns reference another table, the property is defined as an association.
+
+SQL Functions created in the scsql of the name my_class_my_function_name are turned into static methods on MyClass with the name myFunctionName.
+
+Indexes and sequences are parsed and added as the schemaSQL associated with that type. Any SQL construct that doesn't correspond with a class in the system can be passed
+through in this way.
+
+### Modifying DB types with layers
+
+A layer can modify a previous type, even if that type was defined with an scsql file. In this case, core aspects of a system can be custom coded in DDL and extensions can be made from application code. For example, adding properties a persistent type in a new layer adds a new column to the schema. If the table for the column was defined in scsql, the new column modifies the original sql to add the column. Perhaps more commonly, new properties are added to new tables but because DB uses a full parser/generator for the SQL code, it's very flexible in terms of how the SQL can be used in the application.
+
+Use the @SchemaSQL annotation to attach SQL commands to be included with this type. 
+
+### Data sources
+
+Layer definition files define data sources by defining a layer component that extends DBDataSource. It has a provider property set to "postgresql", to define the variant of SQL to use. It specifies the jndiName for defining the JDBC DataSource, the dbName, userName, password, serverName, and port. All of these can be overridden in subsequent layers.
+
+The system stores a defaultDataSource used by any @DBTypeSettings annotations that do not refer to a specific one.
+
+After the main code-processing phase, all @DBTypeSettings types are used to generate schema files for each dataSource. The SQL commands are sorted using the 'references' constraints to produce DDL that both creates the schema from scratch and drops the schema. The system also tracks the currently deployed version of the schema for each dataSource, for each buildLayer. When this deployed schema exists, it also generates the appropriate 'alter' script to upgrade the currently deployed schema to the new one. For example, if a new column has been added, an alter table statement that adds the column is generated and placed in this file.
+
+### Schema manager
+
+When the jdbc.schemaManager layer is included, it takes schema management one step further. After the code processing step, if the schema has changed since the last run the schemaManager wizard is enabled. The application is run as normal (so that it can connect to the database and start core-services required for the wizard) but an API call can be used for the application or test suite to wait until the schema is ready (DBTypeDescriptor.waitForSchemaReady()).  
+
+The wizard at this point lets the user show the new schema, the old deployed schema, the alter script and accept the changes. Once the schema wizard quits, it marks the schema as ready and the application can run as normal.
+
+To make the system easier to use, command line options can automatically update or accept the schema without running the wizard. 
+
+The schema manager keeps track of the schema history in it's own set of tables stored next to the application tables - db_schema_*  Inside, it stores the new DDL, the alter script if any that was applied, plus other metadata. 
+
+### Define a simple persistent class
+
+    @DBTypeSettings
+    class Product {
+       String name;
+    }
+
+Create an instance:
+    
+    Product prod = new Product();
+    prod.name = "foobar";
+    prod.dbInsert();
+    System.out.println("My db assigned id is: " + prod.id);
+
+Update:
+
+    prod.name = "bazinga";
+    prod.dbUpdate();
+
+Delete:
+
+    Product prod = Product.dbTypeDesc.findById(37);
+    prod.dbDelete();
+
+### Transactions
+
+By default these operations are performed using autoCommit. To perform them in a commit, use DBTransaction.getOrCreate() and set autoCommit = false before the operations begins. 
+
+### Threadsafe apis
+
+One of the goals of the DB layer is to make it easier to write efficient persistence code. Caching can be enabled when it's needed without having to rearchitect without losing consistency. This same model paves the way for efficient, low-latency real time applications, better stats and monitoring and more.
+
+DB uses the "highlander principle" (from the old TV show) in that "there can be only one" instance for a given entity in a given process at a time. A central cache is used for any lookups, so subsequent queries for the same entity will update that entity raather than create a new copy, leaving the old one out of date. Changes made to that instance are kept in a separate thread-local transaction. They are visible to that thread only until they are committed. At that point, they become visible to the cached copies.
+
+The API itself is threadsafe, but don't necessarily stop two threads from getting inconsistent views of data across a commit - essentially like the 'read committed' isolation level. 
+
+To explicitly uncache an instance, call the DynUtil.dispose method (that also removes data binding listeners and removes the instance from any views in the management UI).
+
+TODO: note - we currently don't have a time-expiration or other means of removing items from the cache. If they are stored in a component, they'll be cleaned up when the component is cleaned up.
+Could use a weak cache to store the instances but not sure how to make the getById lookup fast in that case. Maybe the frameworks should provide safe management of the caches by - have a cache owner/policy setup for each type. Register instances during the transaction and remove the from the cache after they are used and the transaction or thread completes. Or cache them in a scope that gets refreshed or marked stale periodically or like a session where it gets disposed automatically when no longer needed.
+
+## Metadata apis
+
+The information that maps classes to tables is stored in the DB metadata classes: DBTypeDescriptor, TableDescriptor, and DBPropertyDescriptor. During the code processing phase, metadata is produced from the DB annotations, and scsql files encountered. The metadata is initialized in generated code in the persistent classes and so it's visible and available as part of the runtime api as well.
+
+DBTypeDescriptor also provides access to an API useful for lower-level access to the DB framework - findById, findAll, findBy(list of property names), waitForSchemaReady() and more.
+
+## SQL manipulation APIs
+
+The DB framework is not a lot of code, but the code is very flexible. SQL commands are parsed and generate a SQLFileModel object that defines a list of SQLCommand, CreateTable, DropTable, etc. This API works both ways - as a way to extra info from the SQL model as well as to make incremental changes, or generate a new SQL model from scratch. There are apis to generate a new SQLFileModel that alters one set of commands to the other. 
+
+<% ) %>
+
+     </div>
+   </div></div>
+</body>
+</html>

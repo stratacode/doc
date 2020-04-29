@@ -36,6 +36,7 @@
                <div extends="DocIndex" title="Web framework" url="webDoc/index.html"/>
                <div extends="DocIndex" title="Java to javascript" url="javaToJS.html"/>
                <div extends="DocIndex" title="Synchronization" url="syncFramework.html"/>
+               <div extends="DocIndex" title="DB framework" url="dbFramework.html"/>
                <div extends="DocIndex" title="Android framework" url="gettingStartedAndroid.html"/>
                <div extends="DocIndex" title="Java compatibility" url="javaCompat.html"/>
                <div extends="DocIndex" title="Build and packaging system" url="runtime.html"/>
@@ -59,7 +60,7 @@
                <%= mobileRes ? "position: absolute;" : navOpen ? "position: initial;" : "" %>
             }
             #pageContent {
-               <%= navOpen ? "" : "margin-top: 70px;" %>
+               <%= navOpen ? "" : "margin-top: 95px;" %>
             }
          </style>
 

@@ -45,7 +45,7 @@
                <%= mobileRes ? "position: absolute;" : navOpen ? "position: initial;" : "" %>
             }
             #pageContent {
-               <%= navOpen ? "" : "margin-top: 70px;" %>
+               <%= navOpen ? "" : "margin-top: 95px;" %>
             }
          </style>
 

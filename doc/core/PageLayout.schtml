@@ -1,16 +1,21 @@
-<div abstract="true" style="background-color:transparent; box-shadow: 0 0 0 #fff;">
+<div abstract="true">
    <%! String section = ""; %>
-   <div id="navbar" class="navbar" exec="server">
-      <span class="logo"><a href="index.html"><img src="/images/logo.png" style="vertical-align:middle"/></a></span>
-      <ul id="nav" class="nav">
-         <li> <a href="articles/" class=':= section.equals("articles") ? "sectionSelected": ""'>Articles</a></li>
-         <li> <a href="examples/" class=':= section.equals("examples") ? "sectionSelected": ""'>Examples</a></li>
-         <li> <a href="doc/" class=':= section.equals("documentation") ? "sectionSelected": ""'>Doc</a></li>
-         <li> <a href="faq.html" class=':= section.equals("faq") ? "sectionSelected": ""'>FAQ</a></li>
-         <li> <a href="about.html" class=':= section.equals("about") ? "sectionSelected": ""'>About</a></li>
-         <li> <a href="contact.html" class=':= section.equals("contact") ? "sectionSelected": ""'>Contact</a></li>
-         <li> <a href="download/" class=':= section.equals("download") ? "sectionSelected": ""'>Download</a></li>
-      </ul>
+   <div id="navbarPanel" class="navbarPanel">
+      <div id="navbar" class="navbar" exec="server">
+         <a href="index.html" class="productLink">
+            <span class="logo"><img class="navMenuIcon" src="/images/layeredLogo36.png" style="vertical-align:middle"/></span>
+            <span class="productTitle">StrataCode</span>
+         </a>
+         <ul id="nav" class="nav">
+            <li> <a href="articles/" class=':= section.equals("articles") ? "sectionSelected": ""'>Articles</a></li>
+            <li> <a href="examples/" class=':= section.equals("examples") ? "sectionSelected": ""'>Examples</a></li>
+            <li> <a href="doc/" class=':= section.equals("documentation") ? "sectionSelected": ""'>Doc</a></li>
+            <li> <a href="faq.html" class=':= section.equals("faq") ? "sectionSelected": ""'>FAQ</a></li>
+            <li> <a href="about.html" class=':= section.equals("about") ? "sectionSelected": ""'>About</a></li>
+            <li> <a href="contact.html" class=':= section.equals("contact") ? "sectionSelected": ""'>Contact</a></li>
+            <li> <a href="download/" class=':= section.equals("download") ? "sectionSelected": ""'>Download</a></li>
+         </ul>
+      </div>
    </div>
 
    <p/>

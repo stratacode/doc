@@ -6,71 +6,164 @@
 <div id="content" extends="PageLayout">
 
    <div id="mainPanel">
-      <div id="tagRow">
-         <div class="tagBox">
-            <div class="tagline">Beautifully manage code complexity</div>
-            <div class="taglineTwo">A new dimension in coding with layers and code-processing.</div>
-            <div class="intro">
-            Universal customization, deep integrations, manageable, declarative applications with rich features, flexible deployment. A new way for framework developers to build highly leveragable systems.
-            </div>
-         </div>
+      <div abstract="true" class="infoBox" id="InfoBox"/>
+      <div abstract="true" class="graphicBox" id="GraphicBox"/>
 
-         <div class="tagGraphic">
-            <center>
-               <a class="videoLink" href="videos.html"><img src="./images/ide-small.png" id="tagImg"><br>Watch the intro videos</a>
-            </center>
+      <div class="tagBox" extends="InfoBox">
+         <div class="pageProductTitle">StrataCode</div>
+         <div class="tagline">Beautifully manage code complexity</div>
+         <div class="taglineTwo">A new dimension in coding with layers and code-processing.</div>
+         <div class="intro">
+         Java transpiler, language extensions for declarative code, IntelliJ plugin, innovative frameworks and tools for building scalable, customizable platforms. 
+         </div>
+         <br/>
+         <div id="actionButtons" class="actionButtons">
+            <a href="/download/" class="actionButton">
+               Download preview
+            </a>
+            <a href="/download/" class="actionButton">
+               Subscribe for updates
+            </a>
          </div>
       </div>
 
-      <div id="InfoBox" abstract="true" 
-           class=':= "infoBox " + (detailBox.visible ? "infoBoxSelected" : "")'
-           clickEvent="=: updateVisible()">
-         <%! 
-            Element detailBox; 
+      <hr class="boxSeparator"/>
 
-            void updateVisible() {
-               detailBox.visible = !detailBox.visible;
-            }
-         %>
-      </div>
-
-      <div id="BaseDetailBox" abstract="true" class="detailBox" visible="false">
-         <div id="openArrowContainer" style="position: relative; width: 0px; height: 0px">
-            <div class="openArrow" style='= " left: " + 128 + "px"'/>
-         </div>
-         <img id="detailCloseIcon" class="closeIconSize" src="./images/closeX.png" style="float: right" clickEvent="=: BaseDetailBox.this.visible = false">
-      </div>
-
-      <div id="featBox" extends="InfoBox" detailBox="= featDetail" >
+      <div id="bindBox" extends="InfoBox">
          <span class="infoBoxBody">
-            <div class="infoBoxTitle">Declarative, layered code</div>
-            Java with data binding, properties, components.
-            Layers to merge directories, override config, modify types - blending code and configuration.
-            Dynamic and compiled layers a moveable line between quick, manageable updates and efficient runtime.
+            <div class="infoBoxTitle">Data binding for Java expressions</div>
+           Attach expressions to properties with new operators for configurable rules that run anywhere. Bind to remote data sources in the browser. Use for validation, database queries, UIs, management UIs, and more. Debuggable and scalable for programmers. Easy to customize by everyone else.
+           <p/>
+           <img src="/images/bindingTypes.png" class="mobileImage75">
+           <br/>
          </span>
-         <img src="/images/lang-feat.png" class="infoBoxImage">
+      </div>
+      <div id="bindBoxGraphic" extends="GraphicBox">
+         <span class="infoBoxGraphicBody">
+            <div class="infoBoxTitle">Forward</div>
+            <img src="/images/forwardBindExamp.png" class="infoBoxImage"><br/>
+            <p/>
+            <div class="infoBoxTitle">Reverse + bi-directional</div>
+            <img src="/images/reverseBindExamp.png" class="infoBoxImage"><br/>
+         </span>
       </div>
 
-      <div id="featDetail" extends="BaseDetailBox">
-         <ul>
-            <li>Just the right additions to Java syntax for more concise, readable code and configuration. 
-            <li>Real properties in Java: automatic, customizable getX/setX conversion.
-            <li>Data binding operators for Java expressions: forward :=, reverse =:, and bi-directional :=:.  Easy, fast, customizable.
-            <li>New 'object' operator and @Component annotation: manage object graphs and configuration with Java types, Java syntax.
-            <li>Layer level imports, public, and other annotations.  Robustness of Java but more manageable with less code.
-            <li>Automated build, run framework with concise and flexible framework development hooks for synchronizing compile time and runtime assets.
-            <li>Multiple inheritance: interfaces with instance properties and property assignments 
-         </ul>
+      <hr class="boxSeparator"/>
+
+      <div id="componentGraphic" extends="GraphicBox">
+         <img src="/images/objectGraph.png" class="infoBoxImage"><br/>
       </div>
 
-      <div id="codeProcBox" extends="InfoBox" detailBox="= codeProcDetail" >
+      <div id="componentBox" extends="InfoBox">
+        <span class="infoBoxBody">
+           <div class="infoBoxTitle">Next gen components</div>
+           Wire together components using properties. Use @Component for graphs with recursive relationships and multi-step initialization. The same source code works in both compiled and dynamic modes, all statically typed. 
+           Automatic getX/setX, events, parent/child, and flexible declarative lifecycle to provide a thread-safe sandbox for components. Reduce framework dependencies in application code by injecting them using annotations and code-templates. Framework dependencies exist only in framework specific layers and in the generated code leaving application code free to be reused elsewhere.
+        </span>
+      </div>
+
+      <hr class="boxSeparator"/>
+
+      <div id="layerBox" extends="InfoBox">
+         <span class="infoBoxBody">
+            <div class="infoBoxTitle">Layers - universal config and customization</div>
+            Build and run entire multi-process systems using layered components written with Java plus extensions. 
+            Layers provide cleaner module directories with less copying and scaffolding. Modules only have dependencies, additions, and modifications preserving their design intent. Move features from module to module without refactoring dependent code.
+            <p/>
+            Layers support package install/update for maven and other package formats. They define new file formats, directory structure for downstream layers, add code-processors, modify Java types with layers. 
+            <p/>
+            Experience refactoring freedom where code in a type can be split into multiple layers, merged back again without changing the generated code.
+           <br/>
+         </span>
+      </div>
+
+      <div id="layerGraphic" extends="GraphicBox">
+         <img src="/images/layeredSystems.png" class="infoBoxImage"><br/>
+      </div>
+
+      <hr class="boxSeparator"/>
+
+      <div id="sysProcGraphic" extends="GraphicBox">
+         <img src="/images/multi-proc.png" class="infoBoxImage">
+      </div>
+
+      <div id="sysBox" extends="InfoBox">
+         <span class="infoBoxBody">
+            <div class="infoBoxTitle">Multi-process systems</div> 
+            One layered config to better manage overlaps between tools. 
+            One command to build, and run client/server apps, or multi-process systems.
+            Data sync of overlaps for efficient, intuitive RPC.
+         </span>
+      </div>
+
+      <hr class="boxSeparator"/>
+
+      <div id="webBox" extends="InfoBox">
+         <span class="infoBoxBody">
+            <div class="infoBoxTitle">Web programming</div> 
+            Templates support reactive, web components with data binding, inheritance and tag objects that expose browser features as properties.
+            Build concise, customizable, efficient pages whether as a static site, client-only, server-only, or in isomorphic client/server mode.
+            <p/>
+            Templates are converted to Java that's transpiled to readable JS for the browser. Synchronize overlapping layers of the application to reduce the cost and complexity of client/server programming.
+         </span>
+      </div>
+
+      <div id="webGraphic" extends="GraphicBox">
+         <img src="/images/web-framework.png" class="infoBoxImage">
+      </div>
+
+      <hr class="boxSeparator"/>
+
+      <div id="dbGraphic" extends="GraphicBox">
+         <img src="/images/dbFrontPage.png" class="infoBoxImage">
+      </div>
+
+      <div id="dbBox" extends="InfoBox">
+         <div class="infoBoxBody">
+            <div class="infoBoxTitle">Persistence framework</div>
+            Built on a SQL parser/formatter for complete awareness and control over both SQL schema definition and the code it maps to in the object-relational mapping.
+            Generate classes from SQL or vice versa, or modify a custom schema by adding layers to the generated class. 
+            <p/> 
+            Track schema change from one build to the next and use a wizard to apply the generated 'alter script'. 
+            <p/> 
+            Use associations, mix regular column based properties with dynamic properties stored in JSON. Fetch associations using onDemand or eager strategies to reduce the number of queries to fetch a complex model. Use annotations to generate template-style queries, use the built-in API for ad-hoc queries, or generate a static method to call a stored procedure defined in SQL.
+            <p/>
+            The API supports, thread-safe persistence without complex and in-efficient attach/detach apis. Enable caching and use simple APIs to demarcate transactions. 
+            <p/>
+            Mix data from different data sources in the same class. Cache changes in memory or a separate data store for testing, staging, and easier workflow for managing database content that gets reviewed and deployed.
+         </div>
+      </div>
+
+      <hr class="boxSeparator"/>
+
+      <div id="codeProcBox" extends="InfoBox">
          <div class="infoBoxBody">
             <div class="infoBoxTitle">Code processor</div>
-            Parse code, make incremental, type-aware changes before compiling (e.g. converting field to getX/setX property)
+            All languages, formats, and frameworks are built with Parselets, a revolutionary new code-processor. It parses code, and provides APIs to make incremental, type-aware changes before compiling (e.g. converting field to getX/setX property)
          </div>
+      </div>
+
+      <div id="codeProcGraphic" extends="GraphicBox">
          <img src="/images/code-proc.png" class="infoBoxImage">
       </div>
 
+
+      <hr class="boxSeparator"/>
+
+      <div id="custGraphic" extends="GraphicBox">
+         <a href="https://www.jetbrains.com"><img src="/images/intelliJIDEA.svg" class="jbIcon"></a><img src="/images/cust-built-in.png" class="infoBoxImage">
+      </div>
+
+      <div id="custBox" extends="InfoBox">
+         <span class="infoBoxBody">
+            <div class="infoBoxTitle">Tools and customization</div> 
+            IntelliJ IDEA plugin, dynamic and compiled layers, 
+            management UIs built from annotated domain models,
+            layers for feature-oriented development, plugins, and separation of dependencies for improved code reuse.
+         </span>
+      </div>
+
+<!--
       <div id="codeProcDetail" extends="BaseDetailBox">
          <ul>
             <li>Breath new life into old Java with code processing.
@@ -80,17 +173,9 @@
             <li>Unlike byte-code processing, the generated code is readable and debuggable.
          </ul>
       </div>
+-->
 
-      <div id="sysBox" extends="InfoBox" detailBox="= sysDetail" >
-         <span class="infoBoxBody">
-            <div class="infoBoxTitle">Multi-process systems</div> 
-            One layered config to better manage overlaps between tools. 
-            One command to build, and run client/server apps, or multi-process systems.
-            Data sync of overlaps for efficient, intuitive RPC.
-         </span>
-         <img src="/images/multi-proc.png" class="infoBoxImage">
-      </div>
-
+<!--
       <div id="sysDetail" extends="BaseDetailBox">
          <ul>
             <li>One stack of layers are organized into one or more processes. 
@@ -99,17 +184,9 @@
             <li>Remote method calls are detected and handled automatically.
          </ul>
       </div>
+   -->
 
-      <div id="webBox" extends="InfoBox" detailBox="= webDetail" >
-         <span class="infoBoxBody">
-            <div class="infoBoxTitle">Web programming</div> 
-            Component oriented web programming.
-            Java converted to readable JS. Real time.
-            Declarative component lifecycle.
-         </span>
-         <img src="/images/web-framework.png" class="infoBoxImage">
-      </div>
-
+<!--
       <div id="webDetail" extends="BaseDetailBox">
          <ul>
             <li>Flexible way to build any web application.
@@ -122,17 +199,9 @@
             <li>Data sync for seamless, rich featured, client/server app development</li>
          </ul>
       </div>
+-->
 
-      <div id="custBox" extends="InfoBox" detailBox="= custDetail" >
-         <span class="infoBoxBody">
-            <div class="infoBoxTitle">Tools and customization</div> 
-            IntelliJ IDEA plugin, dynamic and compiled layers, 
-            management UIs built from annotated domain models,
-            layers for feature-oriented development, plugins, and separation of dependencies for improved code reuse.
-         </span>
-         <a href="https://www.jetbrains.com"><img src="/images/intelliJIDEA.svg" class="jbIcon"></a><img src="/images/cust-built-in.png" class="infoBoxImage">
-      </div>
-
+<!--
       <div extends="BaseDetailBox" id="custDetail">
          <ul>
            <li>Photoshop-like layered organization of code, files, and data for manageability.
@@ -145,6 +214,7 @@
            <li><a href="articles/aboutLayers.html">More on layers</a>.
          </ul>
       </div>
+-->
    </div>
 
    <div class="defaultDetailBox">
