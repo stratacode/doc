@@ -12,7 +12,7 @@
       <div class="tagBox" extends="InfoBox">
          <div class="pageProductTitle">StrataCode</div>
          <div class="tagline">Beautifully manage code complexity</div>
-         <div class="taglineTwo">A new dimension in coding with layers and code-processing.</div>
+         <div class="taglineTwo">A new dimension in coding with layers and code-processing</div>
          <div class="intro">
          Java transpiler, language extensions for declarative code, IntelliJ plugin, innovative frameworks and tools for building scalable, customizable platforms. 
          </div>
@@ -22,7 +22,10 @@
                Download preview
             </a>
             <a href="/download/" class="actionButton">
-               Subscribe for updates
+               Subscribe 
+            </a>
+            <a href="/videos.html" class="actionButton">
+               Videos
             </a>
          </div>
       </div>
@@ -68,11 +71,11 @@
          <span class="infoBoxBody">
             <div class="infoBoxTitle">Layers - universal config and customization</div>
             Build and run entire multi-process systems using layered components written with Java plus extensions. 
-            Layers provide cleaner module directories with less copying and scaffolding. Modules only have dependencies, additions, and modifications preserving their design intent. Move features from module to module without refactoring dependent code.
+            Layers provide cleaner module directories with less copying and scaffolding. Layer directories specify dependencies, additions, and modifications preserving their design intent. Move features from layer to layer without refactoring downstream code.
             <p/>
             Layers support package install/update for maven and other package formats. They define new file formats, directory structure for downstream layers, add code-processors, modify Java types with layers. 
             <p/>
-            Experience refactoring freedom where code in a type can be split into multiple layers, merged back again without changing the generated code.
+            As a project grows in size, layers offer refactoring freedom. A large type that has accumulated dependencies can be split into multiple layers, merged back again without changing the generated code. Those parts of that same type can be used in another process - e.g. a new mobile UI, or back-end service. 
            <br/>
          </span>
       </div>
@@ -157,11 +160,13 @@
       <div id="custBox" extends="InfoBox">
          <span class="infoBoxBody">
             <div class="infoBoxTitle">Tools and customization</div> 
-            IntelliJ IDEA plugin, dynamic and compiled layers, 
-            management UIs built from annotated domain models,
-            layers for feature-oriented development, plugins, and separation of dependencies for improved code reuse.
+            IntelliJ IDEA plugin, 
+            Management UIs built from annotated domain models.
+            Dynamic layers - java simulator right from the AST optimized for run-once code. Supports Java-syntax for layer-definition files and live programming experience for dynamic aspects of the code. Later compile those same layers for efficient runtime.
          </span>
       </div>
+
+      <hr class="boxSeparator"/>
 
 <!--
       <div id="codeProcDetail" extends="BaseDetailBox">
@@ -173,9 +178,6 @@
             <li>Unlike byte-code processing, the generated code is readable and debuggable.
          </ul>
       </div>
--->
-
-<!--
       <div id="sysDetail" extends="BaseDetailBox">
          <ul>
             <li>One stack of layers are organized into one or more processes. 
@@ -184,9 +186,6 @@
             <li>Remote method calls are detected and handled automatically.
          </ul>
       </div>
-   -->
-
-<!--
       <div id="webDetail" extends="BaseDetailBox">
          <ul>
             <li>Flexible way to build any web application.
@@ -217,20 +216,20 @@
 -->
    </div>
 
-   <div class="defaultDetailBox">
+   <div class="mainContent"><div class="mainContentBody">
+      <p>
+   A preview release of StrataCode is now available. Contact <a href="about.html">Jeff Vroom</a> (jeff@jvroom.com) for a download code. For those who like developing frameworks, it's a relatively small, readable, maintainable code base with no core dependencies. 
+   </p>
    <p>
-A preview release of StrataCode is now available. Contact <a href="about.html">Jeff Vroom</a> (jeff@jvroom.com) for a download code. For those who like developing frameworks, it's a relatively small, readable, maintainable code base with no core dependencies. 
-</p>
-<p>
-We'd like to make a sustainable developer's tool that has some way to compensate the developers who build great tools. We are looking for projects to build with StrataCode, investors, and partners.
-</p>
-<p>
-Some features are not production ready <a href="status.html">(see status)</a>, but we believe it is a great tool and set of frameworks for building apps from scratch. At first it will require a fairly high level of support from Jeff. It would also be useful to refactor large existing Java code bases, supporting continual evolution during the refactoring process. It can also be used to build or upgrade an existing SaaS platform, or build your own language oriented tools in Java. 
-  </p>
-  <p>
-  Read more in these <a href="articles/">articles</a>.
-  </p>
-   </div>
+   We'd like to make a sustainable developer's tool that has some way to compensate the developers who build great tools. We are looking for projects to build with StrataCode, investors, and partners.
+   </p>
+   <p>
+   Some features are not production ready <a href="status.html">(see status)</a>, but we believe it is a great tool and set of frameworks for building apps from scratch. At first it will require a fairly high level of support from Jeff. It would also be useful to refactor large existing Java code bases, supporting continual evolution during the refactoring process. It can also be used to build or upgrade an existing SaaS platform, or build your own language oriented tools in Java. 
+     </p>
+     <p>
+     Read more in these <a href="articles/">articles</a>.
+     </p>
+   </div></div>
 </div>
 
 </body>

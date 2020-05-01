@@ -17,13 +17,15 @@ StrataCode lets you reduce the number of frameworks and framework patterns in yo
 
 ### Review dependencies
 
-With code processing, frameworks can extra info at build time, run additinal security checks, flag dependency changes and more.  
+With code processing, frameworks have access to more info info at build time, and can extra runtime validation constraints to the generated code. They can cache the last approved version of RPC, database, or other interfaces and require approval steps when those key interfaces change.
 
 ### Layer sandboxes
 
-Layer definition files can include security constraints, inherited or not by the layers they extend. Although net yet implemented, it would be easy to add 'white list' security constraints to limit the visibility of types in that layer. These constraints could be enforced in the IDE, at code-gen time, and even injected into generated code for extra security.
+Layer definition files can include security constraints, inherited or not by the layers they extend. Although net yet implemented, it would be easy to add 'white list' security constraints to limit the visibility of types in that layer. These constraints could be enforced in the IDE, at code-gen time, and even injected into generated code for extra security. It would be possible to add an approval step to any build that changed the interfaces for important layers in the system.
 
-The security constraints could be defined on specific scopes - e.g. eliminate writes to global scope. Or layers, e.g. hide all types imported by this layer from this type of application layer.
+Security constraints can be attached to specific scopes - e.g. eliminate writes to global scope except for the 'admin' user. 
+
+Or add security rules so that a given layer cannot access aspects of the system defined in one or more other layers. 
 
 ### Sandboxing code
 

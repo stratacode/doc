@@ -5,6 +5,7 @@
 
    <div id="content" section="status">
        <div id="mainContent" exec="server">
+          <div id="mainContentBody">
 
 <%= MarkDownPage.markDown( %>
 ## Status of StrataCode features
@@ -43,6 +44,10 @@ All number types in Java (int, float, Integer, etc) are converted to Javascript'
 
 Currently, the entire JS app is downloaded after the page is rendered but the layered organization would be a perfect way to separate subsets of layers to be progressively loaded. Just mark layers in your stack as 'download layers' and the rest could be automated. For large client applications, you'll be able to start interacting with the app with the base layers, while successive layers are downloaded. The static type system would help manage the dependencies to be sure each individual stack defined a valid application and framework hooks installed to help provide a smooth transition from one to the next.
 
+## DB framework
+
+Pre-alpha. Unit tests are running for the import features against a single Postgresql database and in-memory mode (no database).
+
 ## Android
 
 There's a prototype of an android framework that supported the unit converter and simple applications but has not been tested in a while.
@@ -53,13 +58,14 @@ These are a few future ideas we have for ways to leverage StrataCode and layers:
 
 * Management UI customization for editing HTML UIs - navigate from UI to form view and code view, new tag, new attribute, resize for fixed position elements, etc. Direct manipulation of UI controls - e.g. setting styles, alignment rules, etc. right from the widget.
 
-* Layered persistence framework - plugin persistence, layer-by-layer, using code-gen to provide static type bindings with declarative and reconfigurable backends that handle the full data base lifecycle - i.e. refresh turns into a way to apply any schema changes or update data required to make that change. Use expression syntax to form 'where' clauses using the most expressive query language with best attempt to join across data stores. Leverage data binding logic for customizable aspects of queries, using a 'query template' that provides available inputs, then push that up through the management UI so it's a customizable query engine. Use this in the 'find' panel which will have options for all, matching, query-methods, and this new customizable query generator.
+* Layered persistence framework - add additional data sources and in-memory joins: efficient blob storage and secret store are the two that are needed for a complete implementation. Still need to finish the 'staging mode' implementation, where we generate a 'staging schema' that can be used to store changes made as part of a workflow. Those will be seamlessly merged into queries and other apis for testing purposes. This schema won't have the integrity constraints since it will be just a layer on top of the main database. More management UI integration, particularly with schema manager. Or maybe new properties are just marked as dyn columns so they go into the dynamic part of the tables?  Need to add 'find panel' to the management UI based on the DB findBy features.
 
 * Management of clusters of systems and router configuration. Today there's a cluster of tools that manage the entire lifecycle of application configuration, management, and deployment. Each step of the way has it's own way to organize, configure, and manage systems and lots of effort goes into integrating different aspects from code-changes, building, testing, and deploying, then adding necessary management UIs for the running system, and managing updates. StrataCode has the combination of features to manage overall organization and provide the tools for the complete process. Because it's based on code-generation, it can generate configuration files using system-wide awareness of the configuration. It can partition the system into multiple processes, with overlapping requirements and components. Layers allow seamless separation of deployment configuration to keep it secure. The declarative programming model that cuts across it all with built-in management UIs will make for a fast, manageable, configurable way to build multi-process systems. The routing logic and load balancing can be generated as well.
 
-* Provide a marketplace for businesses to have access to more configurable, customizable, reliable, secure software on inexpensive monthly subscriptions, rolled up amongst all the layers they use. Either deployed on-prem on any providers. Supported not by a company but by a community of trusted developers who are fairly compensated from the subscription revenue they earn by building code, and supporting layers they contribute to.
+* If the concepts here catch on, would it make sense to provide a marketplace for businesses to have access to more configurable, customizable, reliable, secure software on inexpensive monthly source code subscriptions, rolled up amongst all the layers they use. Separate software from the cloud but find a way to pay for maintenance. Perhaps a public benefit organization for trusted developers who are fairly compensated from the subscription revenue they earn by building code, and supporting layers they contribute to.
 
 <% ) %>
+        </div>
      </div>
    </div>
 </body>

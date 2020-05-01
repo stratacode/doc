@@ -81,6 +81,7 @@
       </div>
 
       <div id="registerBox" visible=":= mgr.showRegisterBox">
+         <h2>Subscribe for updates </h2>
          Enter an email for news or support:
          <input class="docInputTag" type="text" id="emailField" value=":=: mgr.emailAddress"/>
          <br/>

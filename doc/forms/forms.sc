@@ -32,8 +32,4 @@ public doc.forms extends doc.core, jetty.schtml, jdbc.pgsql {
    void init() {
       includeProcess("Server");
    }
-
-   void start() {
-      layeredSystem.addDataSource(scformsDataSource, this);
-   }
 }

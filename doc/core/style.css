@@ -188,7 +188,8 @@ pre {
   padding-right: 20px;
   padding-bottom: 8px;
   /* background-color: #c6510f;  */
-  background-color: #e66013;
+  /* background-color: #e66013;*/
+   background-color: #ff7628;
   font-size: 120%;
   color: #000;
   text-decoration: none;
@@ -307,8 +308,19 @@ h2 {
    font-size: 120%;
 }
 
+.videoBoxWithTitle {
+   width: 600px;
+   margin-left: 30px;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+}
+
 .boxSeparator {
    margin-top: 12px;
+   margin-left: 30%;
+   margin-right: 30%;
+   opacity: 0.5;
    width: 100%;
 }
 
@@ -349,7 +361,7 @@ h2 {
    }
 
    .infoBoxBody {
-       max-width: 350px;
+       max-width: 380px;
        padding-right: 25px;
    }
 
@@ -441,9 +453,27 @@ h2 {
    margin-top: 0px;
 }
 
-.detailBox, .defaultDetailBox {
+.detailBox {
    margin-top:10px;
    padding-right: 15px;
+}
+
+.mainContent, .videoBox {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.mainContentBody {
+   max-width: 900px;
+}
+
+.videoContentBody {
+   width: 700px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
 }
 
 #title { 
@@ -469,8 +499,8 @@ h2 {
 .productTitle, .pageProductTitle {
   /* color: #c6510f; */
   color: #e66013;
-   font-family: "candara";
-   font-size: 230%;
+   /* font-family: "candara"; */
+   font-size: 210%;
 }
 
 .productTitle {
@@ -684,7 +714,7 @@ h2 {
 }
 
 /** Full page width */
-.navbar, .defaultDetailBox, .mainContent {
+.navbar, .mainContent {
    /* width: 96%; */
 }
 
@@ -698,7 +728,7 @@ h2 {
    background-color: #fff;
 }
 
-#exampleContent, .mainContent, #pageContent, .defaultDetailBox, #sectionContent  {
+#exampleContent, .mainContent, #pageContent, #sectionContent  {
    background-color: #fff;
 }
 
@@ -748,7 +778,7 @@ h2 {
 }
 
 /* Floating boxes on the background */
-.mainContent, .defaultDetailBox, .videoBox {
+.mainContent, .videoBox {
   padding-top: 30px;
    padding-left: 1%;
    padding-right: 1%;
@@ -802,9 +832,9 @@ h2 {
 }
 
 .introBox, .videoTitle {
-   margin-left: 18%;
   /* margin-left: 130px; */
 }
+
 
 .ideIndexTitle {
    padding-top: 2px;

@@ -4,19 +4,27 @@
 <body>
    <div id="content" extends="PageLayout">
       <div class="videoBox" id="VideoBox" abstract="true">
-          <%! String videoId, url, title, length, date;
+          <%! String videoId, title, length, date;
               @sc.obj.HTMLSettings(returnsHTML=true)
-              String intro; %>
-          <a href='= "http://www.youtube.com/watch?v=" + videoId'>
-             <% if (videoId != null) { %>
-             <img style="float:left; margin-right: 5" src='= "http://img.youtube.com/vi/" + videoId + "/1.jpg"'>
-             <% } %>
-             <div class="videoTitle"><%= title %> (<%= length %>, <%= date %>)</div>
-          </a>
-          <div id="introBox" class="introBox">
-             <%= intro %>
+              String intro; 
+              String urlPath := "http://www.youtube.com/watch?v=" + videoId;
+              String imgSrc := "http://img.youtube.com/vi/" + videoId + "/1.jpg";
+            %>
+          <div id="videoBoxBody" class="videoContentBody">
+             <a class="videoLink" href='= urlPath'>
+                <% if (videoId != null) { %>
+                <img src='= imgSrc'>
+                <% } %>
+             </a>
+             <div class="videoBoxWithTitle">
+                <div class="videoTitle">
+                   <a href="= urlPath"><%= title %> (<%= length %>, <%= date %>)</a>
+                </div>
+                <div id="introBox" class="introBox">
+                   <%= intro %>
+                </div>
+             </div>
           </div>
-          <div style="clear:both"/>
       </div>
 
       <div extends="VideoBox" title="StrataCode overview" length="6 min" date="Oct 2019" videoId="DpfIHbBkzV0">

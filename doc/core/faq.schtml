@@ -5,6 +5,7 @@
 
    <div id="content" section="faq">
        <div id="mainContent" exec="server">
+          <div id="mainContentBody">
 
 <%= MarkDownPage.markDown(%>
 
@@ -67,6 +68,7 @@ We'd love to find a way to compensate all developers who contribute to StrataCod
 
 <% ) %>
 
+        </div>
      </div>
    </div>
 </body>

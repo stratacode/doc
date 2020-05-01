@@ -5,6 +5,7 @@
 
    <div id="content" section="about">
        <div id="mainContent" exec="server">
+          <div id="mainContentBody">
 
 <%= MarkDownPage.markDown(%>
 
@@ -27,6 +28,7 @@ The [current status](status.html), and
 
 <%)%>
 
+        </div>
      </div>
    </div>
 </body>

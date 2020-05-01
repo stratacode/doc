@@ -3,6 +3,8 @@
 <body>
    <div id="content" extends="PageLayout">
       <div id="mainContent" class="mainContent">
+         <div id="mainContentBody" class="mainContentBody">
+         </div>
       </div>
    </div>
 </body>
