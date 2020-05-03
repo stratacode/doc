@@ -10,7 +10,6 @@
       <div abstract="true" class="graphicBox" id="GraphicBox"/>
 
       <div class="tagBox" extends="InfoBox">
-         <div class="pageProductTitle">StrataCode</div>
          <div class="tagline">Master code complexity</div>
          <div class="taglineTwo">A new dimension in coding with layers and code-processing</div>
          <div class="intro">
@@ -34,7 +33,7 @@
       <div id="bindBox" extends="InfoBox">
          <span class="infoBoxBody">
             <div class="infoBoxTitle">Data binding for Java expressions</div>
-           Attach expressions to properties with three new operators for configurable rules that run anywhere. Bind to remote data sources in the browser. Call methods when properties change for easy-to-read callbacks. Use for validation, database queries, UIs, management UIs, and more. Debuggable and scalable for programmers. Easy to customize by everyone else.
+           Attach expressions to properties with three new operators for configurable rules that run anywhere. Bind to remote data sources in the browser. Call methods when properties change for seamless async method calls. Use for validation, database queries, UIs, management UIs, and more. Debuggable and scalable for programmers. Easy to customize by everyone else.
            <p/>
            <img src="/images/bindingTypes.png" class="mobileImage75">
            <br/>

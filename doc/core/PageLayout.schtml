@@ -1,9 +1,12 @@
 <div abstract="true">
-   <%! String section = ""; %>
+   <%! 
+      String section = ""; 
+      boolean menuVisible = false;
+   %>
    <div id="navbarPanel" class="navbarPanel">
       <div id="navbar" class="navbar" exec="server">
+          <span id="logoButton" class="logo" clickEvent="=: menuVisible = !menuVisible"><img class="navMenuIcon" src="/images/layeredLogo28.png" style="vertical-align:middle"/></span>
          <a href="index.html" class="productLink">
-            <span class="logo"><img class="navMenuIcon" src="/images/layeredLogo28.png" style="vertical-align:middle"/></span>
             <span class="productTitle">StrataCode</span>
          </a>
          <ul id="nav" class="nav">
@@ -16,6 +19,18 @@
             <li> <a href="download/" class=':= section.equals("download") ? "sectionSelected": ""'>Download</a></li>
          </ul>
       </div>
+      <style type="text/css">
+         @media (min-resolution: 192dpi), (min-device-pixel-ratio: 2), (-webkit-min-device-pixel-ratio: 2) {
+            .nav {
+               display: <%= menuVisible ? "block" : "none" %>;
+               position: absolute;
+               top: 42px;
+               left: 0px;
+               background-color: #04333F;
+
+            }
+         }
+      </style>
    </div>
 
    <p/>
