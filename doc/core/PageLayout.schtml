@@ -3,7 +3,7 @@
    <div id="navbarPanel" class="navbarPanel">
       <div id="navbar" class="navbar" exec="server">
          <a href="index.html" class="productLink">
-            <span class="logo"><img class="navMenuIcon" src="/images/layeredLogo36.png" style="vertical-align:middle"/></span>
+            <span class="logo"><img class="navMenuIcon" src="/images/layeredLogo28.png" style="vertical-align:middle"/></span>
             <span class="productTitle">StrataCode</span>
          </a>
          <ul id="nav" class="nav">

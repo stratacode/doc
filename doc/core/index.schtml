@@ -11,10 +11,10 @@
 
       <div class="tagBox" extends="InfoBox">
          <div class="pageProductTitle">StrataCode</div>
-         <div class="tagline">Beautifully manage code complexity</div>
+         <div class="tagline">Master code complexity</div>
          <div class="taglineTwo">A new dimension in coding with layers and code-processing</div>
          <div class="intro">
-         Java transpiler, language extensions for declarative code, IntelliJ plugin, innovative frameworks and tools for building scalable, customizable platforms. 
+         Java extensions for data binding, components, and layers. An IntelliJ plugin and innovative frameworks and tools for building scalable, customizable platforms. 
          </div>
          <br/>
          <div id="actionButtons" class="actionButtons">
@@ -30,12 +30,11 @@
          </div>
       </div>
 
-      <hr class="boxSeparator"/>
 
       <div id="bindBox" extends="InfoBox">
          <span class="infoBoxBody">
             <div class="infoBoxTitle">Data binding for Java expressions</div>
-           Attach expressions to properties with new operators for configurable rules that run anywhere. Bind to remote data sources in the browser. Use for validation, database queries, UIs, management UIs, and more. Debuggable and scalable for programmers. Easy to customize by everyone else.
+           Attach expressions to properties with three new operators for configurable rules that run anywhere. Bind to remote data sources in the browser. Call methods when properties change for easy-to-read callbacks. Use for validation, database queries, UIs, management UIs, and more. Debuggable and scalable for programmers. Easy to customize by everyone else.
            <p/>
            <img src="/images/bindingTypes.png" class="mobileImage75">
            <br/>
@@ -43,10 +42,10 @@
       </div>
       <div id="bindBoxGraphic" extends="GraphicBox">
          <span class="infoBoxGraphicBody">
-            <div class="infoBoxTitle">Forward</div>
-            <img src="/images/forwardBindExamp.png" class="infoBoxImage"><br/>
             <p/>
-            <div class="infoBoxTitle">Reverse + bi-directional</div>
+            <div class="infoBoxHeader">Forward</div>
+            <img src="/images/forwardBindExamp.png" class="infoBoxImage"><br/>
+            <div class="infoBoxHeader">Reverse + bi-directional</div>
             <img src="/images/reverseBindExamp.png" class="infoBoxImage"><br/>
          </span>
       </div>
@@ -123,17 +122,15 @@
 
       <div id="dbBox" extends="InfoBox">
          <div class="infoBoxBody">
-            <div class="infoBoxTitle">Persistence framework</div>
-            Built on a SQL parser/formatter for complete awareness and control over both SQL schema definition and the code it maps to in the object-relational mapping.
-            Generate classes from SQL or vice versa, or modify a custom schema by adding layers to the generated class. 
+            <div class="infoBoxTitle">Database framework</div>
+            Built on a SQL parser/formatter for complete awareness and control over both SQL schema definition and the code it maps to. Supports only the proven patterns in O/R mapping, then drop into SQL to do the heavy lifting elegantly where database functions are translated to static method apis during code-generation time. 
+            Generate classes from SQL or vice versa, or customize a hand-written schema with new columns using layers.
             <p/> 
-            Track schema change from one build to the next and use a wizard to apply the generated 'alter script'. 
+            Tracks and manages schemas with generated 'alter' scripts and a seamless command-line wizard that allows review and approval of changes.
             <p/> 
-            Use associations, mix regular column based properties with dynamic properties stored in JSON. Fetch associations using onDemand or eager strategies to reduce the number of queries to fetch a complex model. Use annotations to generate template-style queries, use the built-in API for ad-hoc queries, or generate a static method to call a stored procedure defined in SQL.
+            Provides a thread-safe API supporting efficient declarative components, cached queries with either 'auto commit' or transactions when needed. 
             <p/>
-            The API supports, thread-safe persistence without complex and in-efficient attach/detach apis. Enable caching and use simple APIs to demarcate transactions. 
-            <p/>
-            Mix data from different data sources in the same class. Cache changes in memory or a separate data store for testing, staging, and easier workflow for managing database content that gets reviewed and deployed.
+            Supports joining data from different data sources in the same type with annotations. Built-in workflow features for testing and staging changes against a production DB.
          </div>
       </div>
 
