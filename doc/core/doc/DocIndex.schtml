@@ -170,7 +170,7 @@ in a "template string".
                   <div id="toolMenu" class="capsuleMenu">
                       <ul id="toolMenuList">
                           <li id="scCmdMenu" menuContent="= scCmdContent" extends="CapsuleMenuItem">scc command</li>
-                          <li id="scIDEMenu" menuContent="= scIDEContent" extends="CapsuleMenuItem">intelliJ plugin</li>
+                          <li id="scIDEMenu" menuContent="= scIDEContent" extends="CapsuleMenuItem">IntelliJ plugin</li>
                           <li id="scProgEdMenu" menuContent="= scProgEdContent" extends="CapsuleMenuItem">Management UI</li>
                           <li id="scCmdlineMenu" menuContent="= scCmdlineContent" extends="Capsule.CapsuleMenuItem">Command line</li>
                       </ul>
@@ -186,9 +186,9 @@ in a "template string".
                      compiled or dynamic. (<a href="runtime.html">more</a>)
                   </div>
                   <div id="scIDEContent" extends="CapsuleContent">
-                     <div class="capsuleContentTitle">intelliJ plugin</div>
+                     <div class="capsuleContentTitle">IntelliJ plugin</div>
                      <p/>
-                     Supports most features just like Java for all of the sc formats.
+                     Supports most features just like Java for all of the sc formats. (<a href="ide/overview.html">more</a>)
                   </div>
                   <div id="scProgEdContent" extends="CapsuleContent">
                      <div class="capsuleContentTitle">Program editor</div>

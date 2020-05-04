@@ -5,33 +5,32 @@
    <div id="content"><div id="mainSection">
        <div id="pageContent">
            <h2>StrataCode Intro</h2>
-           by Jeff Vroom, 2/18/2020
+           by Jeff Vroom, 5/4/2020
            <p>
-           Thank you for reading more about StrataCode. This has been primarily a solo project, inspired by twenty years of building tools and frameworks and the desire for a system that offers architects maximum leverage for managing a complex system which is used and customized by a wide audience. Before commiting to support it for others, I wanted to to make it my preferred development platform and that's taken a long time. Now, it would be interesting to see if any other developers might feel the same way, or how it could be changed to make that the case.
+           Thank you for reading more about StrataCode. This has been primarily a solo project, inspired by twenty years of building tools and frameworks for enterprise software companies. Like many programmers, I recognized the power of declarative patterns like HTML, CSS, and SQL to give architectural leverage when building systems.  I spent a lot of time designing and building platforms and frameworks that make application development easier with declarative features like data binding. In particular, how to prevent dependencies in the code from turning a nice modular structure into a giant hairball. It's like when you pile string into a drawer, it comes out a tangled mess. A given class in a complex system starts accumulating dependencies on code and at some point some direct or indirect dependency disrupts the nice module structure.
            </p>
            <p>
-           Before this project, I spent many years designing in teams, and committees, under time-pressure and this design built up in resistance to compromises made in previous designs. I've tried to take the time to build it the right way, that includes the simplest code to solve the problem. 
+           The second platform I helped design incorporated layers of configuration, to enable reuse without copying, and to ensure one-way dependencies between modules. The success of that platform led me to wonder if layers should be the primary organizing abstraction for both code and configuration.
+           </p>
+           <p>
+           Before this project, I spent many years designing in teams, and committees, under time-pressure and with politics. The design for StrataCode built up in resistance to compromises made in previous platforms. I've taken the time to build it the right way, including the simplest code that solves the problem.
            </p>
            <p>
            I believe in a "big book" of software design patterns, in the way that Paul Erdos talked of a big book of mathematical proofs. 
-           To me layers add an important missing pattern in this book in how we organize programs, and that belief has driven this effort. 
+           The most efficient platforms use patterns from the book, and express them with a balance of simplicity and flexibility. They must consider the entire lifecycle of development - from rapid prototyping to refactoring of large code bases. 
            </p>
            <p>
-           I've observed that the most efficient platforms use patterns that are in the book, and express them flexibly, considering the entire lifecycle of development - from rapid prototyping to refactoring of large code bases. Code processing and dynamic layers let developers use data binding, components, properties, templates, and data sync for both excellent runtime speed and with live programming.
-           </p>
-           <p>
-           Most applications use different syntaxes for code and configuration but layers provide a new option. Configuration that must be separated from code can be split off into a new layer that's dynamic. The rest of the code does not have to change so this can be performed as needed by QA or devops.
+           I found that layers are a missing fundamental pattern in this book in how we organize programs. They allow one syntax to be used for code and configuration. Configuration can initially be built into the code and broken out into a new configuration layer as needed. Some layers in the system can be dynamic and interpreted for live programming and others compiled for efficiency. This sliding line becomes a way that even large systems can customized without long round-trip times.
            </p>
             <p>
-           Another big book requirement is traceability throughout the system. Code paths should be traceable at edit time (find usages, etc), and debug time (readable stack traces, toString methods). It should include traceable artifacts for deployment including all entry points, ports, APIs, etc. for security and monitoring. Error messages and logs should be readable and support traceability to gather artifacts related to an individual operatation. 
+           Another important requirement for platforms is traceability. Code paths should be traceable at edit time (find usages, etc), and debug time (readable stack traces, toString methods). It should include traceable artifacts for deployment including all entry points, ports, APIs, etc. for security and monitoring. Error messages and logs should be readable and support traceability to gather artifacts related to an individual operatation.
            </p> 
            <p>
-           To be complete, the big book should model not just one process at a time, but the complete system. StrataCode provides a natural way to take one set of code assets and produce code and configuration for any number of processes, resources, machine assets etc. This design has a number of benefits, solving otherwise hard problems declaratively. For example, the client and server can share configuration or code with shared layers. Dependencies can be merged and reconciled using the linear nature of the stack, then installed or updated and configured. Database schemas can be built, deployed and updated.  Management UIs for the system can be assembled by combining the management UIs for all of this configuration and the generated resources. The code-processor detects changes to configuration, both on-the-fly or from one run to the next to manage the full-lifecycle of the system.
+           To be complete, a platform should be able to model an entire system, not just one process at a time. StrataCode provides a natural way to take one set of code assets and produce code and configuration for any number of processes, resources, machine images etc. This design has a number of benefits, solving otherwise hard problems declaratively, sharing code and configuration with layers where it makes sense in the design. 
            </p>
           <p>
-          It's taken a long incubation period for all of these concepts to come together at a usable level of quality, with an IntelliJ IDEA plugin that makes the concepts more approachable.
-          In developing the management UI framework, I finally feel comfortable building anything. Bugs or missing features do show up more often than I'd like but they are usually easy to fix or add. 
-          I see lots of potential to build more frameworks to manage machine images, cluster configuration, so that the entire lifecycle of a system can be managed all by the choice of layers.
+          It's taken a long incubation period for all of these concepts to come together at a usable level of quality, with an IntelliJ IDEA plugin that helps provide a familiar set of tools for Java programmers. 
+          Today it is finally a minimum viable platform to build anything. With the engine and rapid ability to add new formats, it's designed to integrate with anything as well. 
           </p>
           <p>
           See the <a href="/status.html">status</a> page for up-to-date information on quality.
@@ -40,7 +39,7 @@
           I'd very much appreciate <a href="../contact.html">feedback</a> and am looking for developers who'd like to help, projects to build, companies who'd like to use it, investors and partners in general.
           </p>
           <p>
-          Read more about on how to <a href="codeLeverage.html">leveraging your code</a> or jump straight to the <a href="/doc">documentation</a> to learn more.
+          Read more about on how to <a href="codeLeverage.html">leveraging your code</a> or jump straight to the <a href="/doc/">documentation</a>, or <a href="/examples/">examples</a> to learn more. <a href="/download/">Download or signup for updates</a>.
            </p>
            <p>
            &nbsp;

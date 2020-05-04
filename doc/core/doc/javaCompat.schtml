@@ -12,22 +12,30 @@ This section describes both the basics around importing existing Java code, and 
 
 ## Importing compiled Java libraries
 
-StrataCode is designed to make it easy to work with large Java code bases.  As a first step, you can simply import pre-compiled Java libraries and use them from StrataCode.  You cannot modify these types using the modify operator, bind to property change events (unless the compiled code uses the Bind.sendEvent api through some hook you can register), or use other features with them that require that StrataCode generate the code for these types.
+StrataCode is designed to make it easy to work with Java code bases. In the layer definition file, add jar files to the classpath of the system.  Classes that are added to the classpath can only be modified with annotation layers. 
 
-A layer definition file can append to the class path as needed to add compiled libraries to the system.  These types are automatically treated as JavaBeans by StrataCode using the get/set pattern.  You can attach metadata to individual classes using "annotation layers".  This metadata can affect the compiled code which uses that type, e.g. turning any use of a class into a component automatically.  You can mark properties as constant to eliminate data binding warnings and overhead listening for events on properties that do not change.  You can add code templates to a type used for defining object instances or component definitions.
+Annotation layers can change the code generated for using these classes - for example, any class that extends a compiled class can be treated as though it had the @Component annotation, or mark a property with @Bindable so that a sub-class will have a bindable getX/setX for that property even if the base-class property was not. Mark properties as constant to avoid warnings from the data binding system. Add code-templates to a class for defining instances using the object keyword.
 
-To automate installs and updates, StrataCode has a repository package management system.  There are RepositoryManagers for git, http, and maven. During the runtime, these package managers can ensure all dependencies are met before loading the Java code and do any installation or updates necessary.
+But compiled types cannot be modified to add or override new fields, or methods or other operations that require the source of the class.
+Compiled classes in StrataCode are treated as JavaBeans using the get/set pattern so their properties are accessible as ordinary properties, without calling the getX/setX method. 
+
+## Package manager hooks
+
+To automate installs and updates, StrataCode has a repository package management system. There are RepositoryManagers for git, http, and maven. During the runtime, these package managers can ensure all dependencies are met before loading the Java code and do any installation or updates necessary.
 
 ## Compilation of Java and StrataCode 
 
-To use more StrataCode language features, you can also copy your source files into layers and have StrataCode pre-process them. 
+To use more StrataCode language features, let it process source files. Either put source files directly into layers or add them to the srcPath of the layer.
 
-Each layer can contain a mix of Java and StrataCode files.  For Java files, you can use either the '.java" extension or ".scj'.  You should .scj when you'd like to use the StrataCode IntelliJ plugin for this file.  StrataCode will translate all files to vanilla Java files before compiling.  If your layer has Java files and you don't use any extensions, these files are passed through unmodified to the compilation phase.  By default both .java and .scj files are processed as source files but it would be easy to configure it so .java files are copied without processing to save some overhead.  
-The only changes made to Java files are cosmetic - add a missing "package" tag from the layer's package, add a missing public or private modifier when you mark your layer as public or private, or certain annotations you use can still be processed in the generated code. When dealing with pure Java files, StrataCode will still maintain class dependencies, compiling only files required to ensure your .class files are always up to date.  This makes it easy to incrementally add StrataCode to an existing Java project a file at a time, replacing Java's ant build tool.
+Each layer contains a mix of Java, StrataCode files, or other file types exposed to that layer. The .scj suffix is recognized as well as .java for these files so that the StrataCode plugin processes those files instead of the built-in support. StrataCode translates all files to Java files before compiling. If a layer has Java files that don't need processing, these files are passed through unchanged. 
+
+The only changes made to .java or .scj files are cosmetic: add missing package tags, inherit a layer's default modifier, or add layer imports. 
 
 ## Compatibility with Java
 
-You can simply rename a .java file with the .sc suffix and it should continue to compile and most likely will work without any changes.  StrataCode classes use and produce standard Java types.  A few changes made in the conversion from StrataCode to Java though could change the behavior in some edge cases.  The biggest change is that fields and references in StrataCode may be automatically converted to getX and setX methods using the JavaBean naming convention..  So if you rename a .java file to a .sc file, when it gets compiled the resulting .java file may be different.  If you don't happen to use any of the modified features though, the generated .java file will be the same.  Get/Set conversion is performed when you use data binding, or annotate a property with an annotation.  When changes are made to a source file, they are incremental because of the parselets framework. 
+Most .java files work the same with the .sc extension. It usually compiles unless there is an odd name conflict in the generated code. The biggest change is that fields and references in StrataCode may be automatically converted to getX and setX methods using the JavaBean naming convention. So when renaming a .java file to .sc, the generated .java file may be different than the original or not if it does not hit any of these features. 
+
+For .sc files when a field is used in a data binding expression, marked with @GetSet or used as a DB property, it's automatically converted to getX/setX methods and references to that field are converted to getX or setX calls. Such changes made to a source file affect only those lines because of the parselets framework. 
 
 Another difference between StrataCode and Java is that in a Java interface, a non-static field is treated the same as if you added the static keyword.  But in StrataCode an interface's non-static fields are treated as "instance fields", and automatically added to all implementing classes during code-preprocessing.  It also adds getX and setX methods for that property to the interface and changes the code which references that field to a getX/setX call.  It's a simple form of multiple inheritance but works great, especially with default methods.
 
