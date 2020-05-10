@@ -331,7 +331,7 @@ StrataCode as a framework supports changing the code while the application is ru
 
 ### Implementation details
 
-Read about the implementation of [java to javascript](jsFramework.html) and [tag objects](tagObjects.html). 
+Read about the implementation of [java to javascript](../jsFramework.html) and [tag objects](../tagObjects.html). 
 
 <% ) %>
 

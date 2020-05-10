@@ -40,7 +40,7 @@
 
       <div id="mainSection">
          <div id="exampleIndex" class="exampleIndex">
-            <div><img src="/images/menu-toast.png" class="navMenuIcon" clickEvent="=: navOpen = !navOpen"> Examples</div>
+            <div class="pageIndexTitle"><img src="/images/menu-toast.png" class="navMenuIcon" clickEvent="=: navOpen = !navOpen"> Examples</div>
             <div id="exampleIndexMenu" class="exampleIndexMenu" exec="server">
                <div class=':= "exampleIndexEntry" + (containsString(Window.window.location.href, example.url) ? " exampleIndexSelected" : "")'  id="exampleIndexEntry" repeat=":= allExamples" repeatVarName="example">
                   <a href='= "/examples/" + example.url'>
@@ -56,15 +56,15 @@
                   <%= navOpen ? "flex: 0 0 300px;" : "display: none;" %>
                }
                .exampleIndex {
-                  <%= navOpen ? "flex: 0 0 300px;" : "position: absolute; " %>
-                  <%= mobileRes ? "position: absolute;" : navOpen ? "position: initial;" : "" %>
+                  <%= navOpen ? "flex: 0 0 300px;" : "position: absolute; z-index: 4; " %>
+                  <%= mobileRes ? "position: absolute; z-index: 4;" : navOpen ? "position: initial; z-index: initial;" : "" %>
                }
                #exampleContent {
-                  <%= navOpen ? "" : "margin-top: 95px;" %>
+                  <%= navOpen ? "" : "margin-top: 70px;" %>
                }
             </style>
 
-         <div id="exampleContent">
+         <div id="exampleContent" class="exampleContent">
          </div>
       </div>
    </div>

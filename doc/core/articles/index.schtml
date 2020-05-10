@@ -5,7 +5,7 @@
    <div id="content"><div id="mainSection">
        <div id="pageContent">
            <h2>StrataCode Intro</h2>
-           by Jeff Vroom, 5/4/2020
+           by Jeff Vroom, 5/8/2020
            <p>
            Thank you for reading more about StrataCode. This has been primarily a solo project, inspired by twenty years of building tools and frameworks for enterprise software companies. Like many programmers, I recognized the power of declarative patterns like HTML, CSS, and SQL to give architectural leverage when building systems.  I spent a lot of time designing and building platforms and frameworks that make application development easier with declarative features like data binding. In particular, how to prevent dependencies in the code from turning a nice modular structure into a giant hairball. It's like when you pile string into a drawer, it comes out a tangled mess. A given class in a complex system starts accumulating dependencies on code and at some point some direct or indirect dependency disrupts the nice module structure.
            </p>
@@ -17,23 +17,13 @@
            </p>
            <p>
            I believe in a "big book" of software design patterns, in the way that Paul Erdos talked of a big book of mathematical proofs. 
-           The most efficient platforms use patterns from the book, and express them with a balance of simplicity and flexibility. They must consider the entire lifecycle of development - from rapid prototyping to refactoring of large code bases. 
+           The most efficient platforms use patterns from the book, and express them with a balance of simplicity and flexibility. They consider the entire lifecycle of development - from rapid prototyping to refactoring of large code bases. They ensure traceability of code paths, readability of code, separation of concerns, compatibility as code evolves, and should model complete systems, not just one process at a time.
            </p>
            <p>
-           I found that layers are a missing fundamental pattern in this book in how we organize programs. They allow one syntax to be used for code and configuration. Configuration can initially be built into the code and broken out into a new configuration layer as needed. Some layers in the system can be dynamic and interpreted for live programming and others compiled for efficiency. This sliding line becomes a way that even large systems can customized without long round-trip times.
-           </p>
-            <p>
-           Another important requirement for platforms is traceability. Code paths should be traceable at edit time (find usages, etc), and debug time (readable stack traces, toString methods). It should include traceable artifacts for deployment including all entry points, ports, APIs, etc. for security and monitoring. Error messages and logs should be readable and support traceability to gather artifacts related to an individual operatation.
+           I believe that layers are a missing fundamental pattern in this book in how we organize programs. They have many uses, particularly as systems grow. This project answers the question, what if libraries, frameworks and tools were built from the ground up using layers and code-processing? Even if you are not in the market for a new platform, you mind find something useful, whether it's one of the flexible libraries or a design pattern.
            </p> 
-           <p>
-           To be complete, a platform should be able to model an entire system, not just one process at a time. StrataCode provides a natural way to take one set of code assets and produce code and configuration for any number of processes, resources, machine images etc. This design has a number of benefits, solving otherwise hard problems declaratively, sharing code and configuration with layers where it makes sense in the design. 
-           </p>
           <p>
-          It's taken a long incubation period for all of these concepts to come together at a usable level of quality, with an IntelliJ IDEA plugin that helps provide a familiar set of tools for Java programmers. 
-          Today it is finally a minimum viable platform to build anything. With the engine and rapid ability to add new formats, it's designed to integrate with anything as well. 
-          </p>
-          <p>
-          See the <a href="/status.html">status</a> page for up-to-date information on quality.
+          See the <a href="/status.html">status</a> page for up-to-date information on quality. For me it's efficient to use to build anything and although I still find bugs and missing features, they are easy to find and fix.
           </p>
           <p>
           I'd very much appreciate <a href="../contact.html">feedback</a> and am looking for developers who'd like to help, projects to build, companies who'd like to use it, investors and partners in general.

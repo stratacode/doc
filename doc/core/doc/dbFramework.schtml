@@ -12,16 +12,18 @@
 
 The DB framework supports persistence of code objects using code-processing.
 
-To get started with Postgresql, extend the jdbc.pgsql layer and mark any types mapped to a table with @DBTypeSettings. 
+To get started with Postgresql, extend the jdbc.pgsql, and jdbc.schemaManager layer for automatic schema management from a new layer. Mark any types in this layer that need a table with @DBTypeSettings. 
 
-There are attributes to set the tableName but by default it converts MyClass to my_class.
+By default, the type name is converted to a SQL name from CamelCase to underscore_name. 
+For example MyClass is converted to my_class.
 
 Any properties in MyClass that are not transient, read-only, or have a computed value are added columns to the my_class table. 
 
 Use the @DBPropertySettings annotation on properties to change the column name, add an index, assign a database default value, and more.
 
-To define a single-valued association, just define a property that refers to a class with @DBTypeSettings. Set @DBPropertySettings(onDemand=true) for
-it to be lazily loaded - i.e. resolve the reference the first time it's accessed, as opposed to being eagerly loaded when the original item is loaded (the default).
+Associations are automatically detected when there is a property whose type or component type has a table of its own.
+For a single-valued association, add a property that refers to a class with @DBTypeSettings. Set @DBPropertySettings(onDemand=false) for
+it to be loaded in the same query with it's reference.
 
 For multi-valued associations, define a List property where the type of the elements is another class with @DBTypeSettings.
 
@@ -36,7 +38,14 @@ are automatically added as properties in MyClass. It should have an id column ca
 
 If a column has a 'references' constraint, that's used to define an association property to a table defined in another scsql file or an sc file using @DBTypeSettings.
 
-If the table name matches the pattern my_class_extra_name, it is either an auxiliary or multi table. An auxiliary table has a primary
+If the table name matches the pattern:
+<% ) %>
+
+my_class_property_name
+
+<%= MarkDownPage.markDown(%>
+
+it is either an auxiliary or multi table. An auxiliary table has a primary
 key that matches the primary table and adds properties to the MyClass just like it. 
 
 A multi table references the id of the primary table but does not have a unique constraint (it's not a primary key). 
@@ -48,6 +57,14 @@ SQL Functions created in the scsql of the name my_class_my_function_name are tur
 
 Indexes and sequences are parsed and added as the schemaSQL associated with that type. Any SQL construct that doesn't correspond with a class in the system can be passed
 through in this way.
+
+### When properties are fetched - onDemand, selectGroup
+
+The @DBPropertySettings(onDemand=true/false) annotation can be used for both associations and regular properties. For associations, the default is true - load the associated property the first time it's accessed. For onDemand=false, a single-valued association is loaded using a join in the same query as the reference. The multi-valued property is loaded in separate query right after the main one.
+
+For non-association properties, set onDemand=true to lazily load this property the first time it's accessed. Internally, it's put into a selecftGroup using the property name. 
+
+Use @DBPropertySettings(selectGroup="groupName") for fine-grained control over the grouping of when properties are loaded. Properties in the same select group with the same cardinality are loaded in the same query. By default, the selectGroup is the name of the table the property's column is in.
 
 ### Modifying DB types with layers
 
@@ -67,11 +84,19 @@ After the main code-processing phase, all @DBTypeSettings types are used to gene
 
 When the jdbc.schemaManager layer is included, it takes schema management one step further. After the code processing step, if the schema has changed since the last run the schemaManager wizard is enabled. The application is run as normal (so that it can connect to the database and start core-services required for the wizard) but an API call can be used for the application or test suite to wait until the schema is ready (DBTypeDescriptor.waitForSchemaReady()).  
 
-The wizard at this point lets the user show the new schema, the old deployed schema, the alter script and accept the changes. Once the schema wizard quits, it marks the schema as ready and the application can run as normal.
+The wizard at this point displays the set of schema changes from the last build - including new types, or changes to existing types. If a table, index, column, constraint, etc. has changed it shows the detailed changes. If those changes will lose data or add constraints, a warning is displayed. 
 
-To make the system easier to use, command line options can automatically update or accept the schema without running the wizard. 
+The wizard lets you see the new schema, the old deployed schema, as well as the alter script it can run if you choose the update command. 
+
+Once the schema wizard quits, it marks the schema as ready and the application can run as normal.
+
+For scripting purposes, command line options are available to update or accept the schema without running the wizard. 
 
 The schema manager keeps track of the schema history in it's own set of tables stored next to the application tables - db_schema_*  Inside, it stores the new DDL, the alter script if any that was applied, plus other metadata. 
+
+The schema manager also uses the database's metadata to validate the existence of tables, and columns expected as an extra check.
+
+It's important to review the alter scripts as not all changes made to the schema are optimal. It can add or remove unique, and not null constraints or alter a column type if the data type cast is allowed by Postgresql. For more complex column changes, it's alter script will drop and re-add the column which may not be what you want.
 
 ### Define a simple persistent class
 
@@ -97,22 +122,31 @@ Delete:
     Product prod = Product.dbTypeDesc.findById(37);
     prod.dbDelete();
 
+### Enumerated types
+
+Java enums can be converted to SQL columns in one of two ways. If the enum itself has the @DBTypeSettings, it's converted to a Postgres enumerated type in the database. The column for those properties then use that enum type as the column type.
+
+If the enum is not marked with @DBTypeSettings, the enum property is converted to an integer column using the enum's "ordinal" value (a zero based integer using the order of the enum in the file). 
+
 ### Transactions
 
-By default these operations are performed using autoCommit. To perform them in a commit, use DBTransaction.getOrCreate() and set autoCommit = false before the operations begins. 
+By default database update operations are performed immediately using autoCommit. To perform them in a transaction, first call DBTransaction.getOrCreate() and set autoCommit = false before the operations begins. 
+
+It's also possible to queue up inserts and updates by setting flags in DBTypeDescriptor.
 
 ### Threadsafe apis
 
 One of the goals of the DB layer is to make it easier to write efficient persistence code. Caching can be enabled when it's needed without having to rearchitect without losing consistency. This same model paves the way for efficient, low-latency real time applications, better stats and monitoring and more.
 
-DB uses the "highlander principle" (from the old TV show) in that "there can be only one" instance for a given entity in a given process at a time. A central cache is used for any lookups, so subsequent queries for the same entity will update that entity raather than create a new copy, leaving the old one out of date. Changes made to that instance are kept in a separate thread-local transaction. They are visible to that thread only until they are committed. At that point, they become visible to the cached copies.
+DB uses the "highlander principle" (from the old TV show) in that "there can be only one" instance for a given entity in a given process at a time. A central cache is used for any lookups, so subsequent queries for the same entity will update that entity raather than create a new copy, leaving the old one out of date. Changes made to that instance in a transaction are kept in a separate thread-local store visible only to that transaction until they are committed. Changes that come from these commits or that repopulate from the database become visible to other threads right away. 
 
-The API itself is threadsafe, but don't necessarily stop two threads from getting inconsistent views of data across a commit - essentially like the 'read committed' isolation level. 
+Although the API itself is threadsafe, it won't stop two threads from getting inconsistent views of data across a commit. Instead, it works more like the 'read committed' isolation level where two reads in a transaction might see different values if another thread happens at the same time. 
 
-To explicitly uncache an instance, call the DynUtil.dispose method (that also removes data binding listeners and removes the instance from any views in the management UI).
+Locking can be implemented at the 'scope' level to eliminate most race conditions at a higher level. 
 
-TODO: note - we currently don't have a time-expiration or other means of removing items from the cache. If they are stored in a component, they'll be cleaned up when the component is cleaned up.
-Could use a weak cache to store the instances but not sure how to make the getById lookup fast in that case. Maybe the frameworks should provide safe management of the caches by - have a cache owner/policy setup for each type. Register instances during the transaction and remove the from the cache after they are used and the transaction or thread completes. Or cache them in a scope that gets refreshed or marked stale periodically or like a session where it gets disposed automatically when no longer needed.
+To explicitly uncache an instance, call the DynUtil.dispose method (that also removes data binding listeners and removes the instance from any views in the management UI). 
+
+TODO: note - we currently don't have a time-expiration or other means of removing items from the cache. If they are stored in a component, they'll be cleaned up when the component is cleaned up.  We could use a weak cache to store the instances but not sure how to make the getById lookup fast in that case. Maybe the frameworks should provide safe management of the caches by - have a cache owner/policy setup for each type. Register instances during the transaction and remove the from the cache after they are used and the transaction or thread completes. Or cache them in a scope that gets refreshed or marked stale periodically or like a session where it gets disposed automatically when no longer needed.
 
 ## Metadata apis
 

@@ -32,16 +32,17 @@
 
       <div id="bindBox" extends="InfoBox">
          <span class="infoBoxBody">
+         <a href="/doc/dataBinding.html">
             <div class="infoBoxTitle">Data binding for Java expressions</div>
            Attach expressions to properties with three new operators for configurable rules that run anywhere. Bind to remote data sources in the browser. Call methods when properties change for seamless async method calls. Use for validation, database queries, UIs, management UIs, and more. Debuggable and scalable for programmers. Easy to customize by everyone else.
            <p/>
            <img src="/images/bindingTypes.png" class="mobileImage75">
            <br/>
+         </a>
          </span>
       </div>
       <div id="bindBoxGraphic" extends="GraphicBox">
          <span class="infoBoxGraphicBody">
-            <p/>
             <div class="infoBoxHeader">Forward</div>
             <img src="/images/forwardBindExamp.png" class="infoBoxImage"><br/>
             <div class="infoBoxHeader">Reverse + bi-directional</div>
@@ -51,42 +52,38 @@
 
       <hr class="boxSeparator"/>
 
+      <div id="componentBox" extends="InfoBox">
+         <span class="infoBoxBody"><a href="/doc/components.html">
+            <div class="infoBoxTitle">Next gen components</div>
+               Wire together components using properties. Use @Component for graphs with recursive relationships and multi-step initialization. The same source code works in both compiled and dynamic modes, all statically typed. 
+               Automatic getX/setX, events, parent/child, and flexible declarative lifecycle to provide a thread-safe sandbox for components. Reduce framework dependencies in application code by injecting them using annotations and code-templates. Framework dependencies exist only in framework specific layers and in the generated code leaving application code free to be reused elsewhere.
+         </a></span>
+      </div>
+
       <div id="componentGraphic" extends="GraphicBox">
          <img src="/images/objectGraph.png" class="infoBoxImage"><br/>
       </div>
 
-      <div id="componentBox" extends="InfoBox">
-        <span class="infoBoxBody">
-           <div class="infoBoxTitle">Next gen components</div>
-           Wire together components using properties. Use @Component for graphs with recursive relationships and multi-step initialization. The same source code works in both compiled and dynamic modes, all statically typed. 
-           Automatic getX/setX, events, parent/child, and flexible declarative lifecycle to provide a thread-safe sandbox for components. Reduce framework dependencies in application code by injecting them using annotations and code-templates. Framework dependencies exist only in framework specific layers and in the generated code leaving application code free to be reused elsewhere.
-        </span>
-      </div>
 
       <hr class="boxSeparator"/>
 
       <div id="layerBox" extends="InfoBox">
-         <span class="infoBoxBody">
-            <div class="infoBoxTitle">Layers - universal config and customization</div>
-            Build and run entire multi-process systems using layered components written with Java plus extensions. 
-            Layers provide cleaner module directories with less copying and scaffolding. Layer directories specify dependencies, additions, and modifications preserving their design intent. Move features from layer to layer without refactoring downstream code.
+         <span class="infoBoxBody"><a href="/articles/aboutLayers.html">
+            <div class="infoBoxTitle">Layered code</div>
+            Run programs with a list of layers. Each layer may extend one or more others forming an ordered stack. 
             <p/>
-            Layers support package install/update for maven and other package formats. They define new file formats, directory structure for downstream layers, add code-processors, modify Java types with layers. 
+            Files in each layer are placed into a name space using settings in that layer (e.g. a package prefix may be added, html files placed in the web directory). Files in a subsequent layer with the same name will replace, or modify the previous one. Formats like sc, sct, and schtml support a type-safe 'modify type' operation by merging the source files using the code-processor. This operation changes the original type: adding fields, overriding methods, setting properties.
             <p/>
-            As a project grows in size, layers offer refactoring freedom. A large type that has accumulated dependencies can be split into multiple layers, merged back again without changing the generated code. Those parts of that same type can be used in another process - e.g. a new mobile UI, or back-end service. 
+            The combined result is saved in a typical project directory that's compiled and run.
            <br/>
-         </span>
+         </a></span>
       </div>
 
       <div id="layerGraphic" extends="GraphicBox">
-         <img src="/images/layeredSystems.png" class="infoBoxImage"><br/>
+            <img src="/images/layersCodeConfig.png" class="infoBoxImage">
       </div>
 
       <hr class="boxSeparator"/>
-
-      <div id="sysProcGraphic" extends="GraphicBox">
-         <img src="/images/multi-proc.png" class="infoBoxImage">
-      </div>
 
       <div id="sysBox" extends="InfoBox">
          <span class="infoBoxBody">
@@ -97,7 +94,13 @@
          </span>
       </div>
 
+      <div id="sysProcGraphic" extends="GraphicBox">
+         <img src="/images/multi-proc.png" class="infoBoxImage">
+      </div>
+
+
       <hr class="boxSeparator"/>
+
 
       <div id="webBox" extends="InfoBox">
          <span class="infoBoxBody">
@@ -115,22 +118,21 @@
 
       <hr class="boxSeparator"/>
 
-      <div id="dbGraphic" extends="GraphicBox">
-         <img src="/images/dbFrontPage.png" class="infoBoxImage">
-      </div>
-
       <div id="dbBox" extends="InfoBox">
          <div class="infoBoxBody">
             <div class="infoBoxTitle">Database framework</div>
-            Built on a SQL parser/formatter for complete awareness and control over both SQL schema definition and the code it maps to. Supports only the proven patterns in O/R mapping, then drop into SQL to do the heavy lifting elegantly where database functions are translated to static method apis during code-generation time. 
-            Generate classes from SQL or vice versa, or customize a hand-written schema with new columns using layers.
+            Built on a SQL parser/formatter for defining schemas in SQL, code or a mix. Supports only the proven patterns in O/R mapping. For more performance or complex situations, call custom SQL functions from generated APIs.
             <p/> 
-            Tracks and manages schemas with generated 'alter' scripts and a seamless command-line wizard that allows review and approval of changes.
+            Supports interactive schema migration. Provides details about schema changes, schema history with validation. 
             <p/> 
-            Provides a thread-safe API supporting efficient declarative components, cached queries with either 'auto commit' or transactions when needed. 
+            Programmers can use thread-safe APIs that avoid stale references and build efficient DB components with caching, 'auto commit' or transactions. 
             <p/>
-            Supports joining data from different data sources in the same type with annotations. Built-in workflow features for testing and staging changes against a production DB.
+            Join data from different data sources all using annotations. Built-in workflow features for testing and staging changes against a production DB.
          </div>
+      </div>
+      
+      <div id="dbGraphic" extends="GraphicBox">
+         <img src="/images/dbFrontPage.png" class="infoBoxImage">
       </div>
 
       <hr class="boxSeparator"/>
@@ -149,10 +151,6 @@
 
       <hr class="boxSeparator"/>
 
-      <div id="custGraphic" extends="GraphicBox">
-         <a href="https://www.jetbrains.com"><img src="/images/intelliJIDEA.svg" class="jbIcon"></a><img src="/images/cust-built-in.png" class="infoBoxImage">
-      </div>
-
       <div id="custBox" extends="InfoBox">
          <span class="infoBoxBody">
             <div class="infoBoxTitle">Tools and customization</div> 
@@ -160,6 +158,30 @@
             Management UIs built from annotated domain models.
             Dynamic layers - java simulator right from the AST optimized for run-once code. Supports Java-syntax for layer-definition files and live programming experience for dynamic aspects of the code. Later compile those same layers for efficient runtime.
          </span>
+      </div>
+
+      <div id="custGraphic" extends="GraphicBox">
+         <a href="https://www.jetbrains.com"><img src="/images/intelliJIDEA.svg" class="jbIcon"></a><img src="/images/cust-built-in.png" class="infoBoxImage">
+      </div>
+
+
+      <hr class="boxSeparator"/>
+
+      <div id="layerBox" extends="InfoBox">
+         <span class="infoBoxBody">
+            <div class="infoBoxTitle">Layers - universal config and customization</div>
+            Build and run entire multi-process systems using layered components written with Java plus extensions. 
+            Layers provide cleaner module directories with less copying and scaffolding. Layer directories specify dependencies, additions, and modifications preserving their design intent. Move features from layer to layer without refactoring downstream code.
+            <p/>
+            Layers support package install/update for maven and other package formats. They define new file formats, directory structure for downstream layers, add code-processors, modify Java types with layers. 
+            <p/>
+            As a project grows in size, layers offer refactoring freedom. A large type that has accumulated dependencies can be split into multiple layers, merged back again without changing the generated code. Those parts of that same type can be used in another process - e.g. a new mobile UI, or back-end service. 
+           <br/>
+         </span>
+      </div>
+
+      <div id="layerGraphic" extends="GraphicBox">
+         <img src="/images/layeredSystems.png" class="infoBoxImage"><br/>
       </div>
 
       <hr class="boxSeparator"/>

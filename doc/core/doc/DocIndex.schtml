@@ -23,7 +23,7 @@
                      </span>
                  </div>
 
-                 <li id="CapsuleMenuItem" abstract="true" class=':= currentContent == menuContent ? "capsuleMenuItem capsuleMenuItemSelected" : "capsuleMenuItem"'
+                 <li id="CapsuleMenuItem" abstract="true" class=':= currentContent == menuContent ? "capsuleMenuItemSelected capsuleMenuItem" : "capsuleMenuItem"'
                      clickEvent="=: currentContent = menuContent">
                     <%! Capsule.CapsuleContent menuContent; %>
                  </li>
@@ -63,7 +63,7 @@ object Person {
                      <pre class="qcode">
 Person {
    String fullName := firstName + " " + lastName;
-   String name :=: fullName;
+   String name :=: inputField.value;
    name =: System.out.println("New name: " + name);
 }</pre>
                      <ul>

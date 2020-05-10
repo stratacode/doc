@@ -50,7 +50,7 @@ Organize application code according to dependencies and run code in multiple way
 
 ### Synchronization
 
-Use real-time data for interactivity in customer facing applications, or only use it for better test scripts and tools during development and customization.
+Use real-time data for interactivity in customer facing applications, or to drive flexible client/server test scripts and tools during development and customization.
 
 ### URL to page object mapping 
 
@@ -66,13 +66,13 @@ Minimize markup required, maximize control over apps.
 
 ### Single page or multi page apps
 
-Easily mix and match these styles of templates. 
+Easily mix and match these styles of templates sharing the same components. 
 
 ### Flexible management of server state
 
-Build stateless pages with scope='request' or stateful pages that update incrementally and use caching for low-latency, low-overhead interactive sites.
+Build stateless pages with scope='request' or stateful pages that update incrementally and use caching for low-latency, low-overhead interactivity.
 
-Scope data to the window (scope='window'), or the browser's session for that particular single-page app (appSession). When components are shared across pages, use scope='session' for caching and synchronized state management. Use scope='global' or 'appGlobal' to share state for the entire server process, or for only that page in that process. Events are properly sequenced and delivered across scopes for efficient synchronization, and collaboration when real-time is required.
+Scope templates or components to the window (scope='window'), or the browser's session for that particular single-page app (appSession). When components are shared across pages, use scope='session' for caching and synchronized state management. Use scope='global' or 'appGlobal' to share state for the entire server process, or for only that page in that process. Events are properly sequenced and delivered across scopes for efficient synchronization, and collaboration when real-time is required.
 
 ### Command line, testing
 

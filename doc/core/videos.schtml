@@ -27,78 +27,80 @@
           </div>
       </div>
 
-      <div extends="VideoBox" title="StrataCode overview" length="6 min" date="Oct 2019" videoId="DpfIHbBkzV0">
-         <%! intro = %>
-            Overview of StrataCode design.  Download the presentation (<a href="scOverview.pdf">PDF</a>, <a href="scOverview-notes.pdf">with presenter notes</a>).
-         <% ; %>
-      </div>
+      <div id="mainContent" class="mainContent"><div id="mainContentBody" class="mainContentBody">
+         <div extends="VideoBox" title="StrataCode overview" length="6 min" date="Oct 2019" videoId="DpfIHbBkzV0">
+            <%! intro = %>
+               Overview of StrataCode design.  Download the presentation (<a href="scOverview.pdf">PDF</a>, <a href="scOverview-notes.pdf">with presenter notes</a>).
+            <% ; %>
+         </div>
 
-      <div extends="VideoBox" title="StrataCode layered code in IntelliJ" length="3 mins" date="Oct 2019" videoId="34UYoql-fso">
-         <%! intro = %>
-            Demo showing project organization, layers view, find class, 
-            nav to/from generated source with unitConverter and management UI.
-         <% ; %>
-      </div>
+         <div extends="VideoBox" title="StrataCode layered code in IntelliJ" length="3 mins" date="Oct 2019" videoId="34UYoql-fso">
+            <%! intro = %>
+               Demo showing project organization, layers view, find class, 
+               nav to/from generated source with unitConverter and management UI.
+            <% ; %>
+         </div>
 
-      <div extends="VideoBox" title="StrataCode web framework demo" length="3.5 mins" date="Oct 2019" videoId="Q-7ImN0cEVA">
-         <%! intro = %>
-            Demo of TodoList.schtml and web framework features. Shows an app with management UI running in server only mode, a glimpse of the protocol and generated code.  
-         <% ; %>
-      </div>
+         <div extends="VideoBox" title="StrataCode web framework demo" length="3.5 mins" date="Oct 2019" videoId="Q-7ImN0cEVA">
+            <%! intro = %>
+               Demo of TodoList.schtml and web framework features. Shows an app with management UI running in server only mode, a glimpse of the protocol and generated code.  
+            <% ; %>
+         </div>
 
-      <div extends="VideoBox" title="Web framework in client/server mode " length="3 mins" date="Nov 2019" videoId="2ZfVklX3Osg">
-         <%! intro = %>
-         Using the TodoList example, shows isomorphic Java, server rendering of HTML, updating in Java converted to Javascript running in the browser. Synchronization and scopes for efficient and flexible state management.
-         <% ; %>
-      </div>
+         <div extends="VideoBox" title="Web framework in client/server mode " length="3 mins" date="Nov 2019" videoId="2ZfVklX3Osg">
+            <%! intro = %>
+            Using the TodoList example, shows isomorphic Java, server rendering of HTML, updating in Java converted to Javascript running in the browser. Synchronization and scopes for efficient and flexible state management.
+            <% ; %>
+         </div>
 
-      <div extends="VideoBox" title="Management UI demo" length="3 mins" date="Nov 2019" videoId="nMvFpN1wzuU">
-         <%! intro = %>
-            Shows more features of the web framework with the simple blog example, and customization features of the management UI.
-         <% ; %>
-      </div>
+         <div extends="VideoBox" title="Management UI demo" length="3 mins" date="Nov 2019" videoId="nMvFpN1wzuU">
+            <%! intro = %>
+               Shows more features of the web framework with the simple blog example, and customization features of the management UI.
+            <% ; %>
+         </div>
 
-      <div extends="VideoBox" title="Design of the management UI" length="5 mins" date="Nov 2019" videoId="vjgcyk0gTXk">
-         <%! intro = %>
-            Shows how StrataCode scales to larger programs and how layers are used to organize code in client and server, desktop and web
-         <% ; %>
-      </div>
+         <div extends="VideoBox" title="Design of the management UI" length="5 mins" date="Nov 2019" videoId="vjgcyk0gTXk">
+            <%! intro = %>
+               Shows how StrataCode scales to larger programs and how layers are used to organize code in client and server, desktop and web
+            <% ; %>
+         </div>
 
-      <div extends="VideoBox" title="StrataCode introduction" length="20 mins" date="Sept 2012" videoId="GIZHieLlvvo">
-         <%! intro = %>
-            Old, longer introduction to StrataCode (then known as LayerCake). Download the presentation (<a href="preso.pdf">PDF</a>).
-         <% ; %>
-      </div>
+         <div extends="VideoBox" title="StrataCode introduction" length="20 mins" date="Sept 2012" videoId="GIZHieLlvvo">
+            <%! intro = %>
+               Old, longer introduction to StrataCode (then known as LayerCake). Download the presentation (<a href="preso.pdf">PDF</a>).
+            <% ; %>
+         </div>
 
-      <div extends="VideoBox" title="Basic demo only" length="7 mins" date="Sept 2012" videoId="uF28e3VliBQ">
-         <%! intro = %>
-           Old demo showing the unitConverter and expertSystem examples using the Swing editor.  Introduces basic language concepts.
-         <% ; %>
-      </div>
+         <div extends="VideoBox" title="Basic demo only" length="7 mins" date="Sept 2012" videoId="uF28e3VliBQ">
+            <%! intro = %>
+              Old demo showing the unitConverter and expertSystem examples using the Swing editor.  Introduces basic language concepts.
+            <% ; %>
+         </div>
 
-      <div extends="VideoBox" title="Advanced demo" length="12 mins" date="Sept 2012" videoId="GUo0XWiC0s8">
-         <%! intro = %>
-   Old demo demonstrates a previous version of the swing editor running using dynamic layers.  The program editor demonstrated editing the code for the unit converter and the program editor itself.  Demonstrates more complex data binding expressions, layer definition files, adding objects, code view editing code, the fun 3d view which shows the openGL integration.
-         <% ; %>
-      </div>
+         <div extends="VideoBox" title="Advanced demo" length="12 mins" date="Sept 2012" videoId="GUo0XWiC0s8">
+            <%! intro = %>
+      Old demo demonstrates a previous version of the swing editor running using dynamic layers.  The program editor demonstrated editing the code for the unit converter and the program editor itself.  Demonstrates more complex data binding expressions, layer definition files, adding objects, code view editing code, the fun 3d view which shows the openGL integration.
+            <% ; %>
+         </div>
 
-      <div extends="VideoBox" title="StrataCode frameworks" length="10 mins" date="Sept 2012" videoId="d33hFCVKcMc">
-         <%! intro = %>
-   Old demo showing android, wicket, gwt integrations. The last 2 minutes accurately describes the now built web framework.
-         <% ; %>
-      </div>
+         <div extends="VideoBox" title="StrataCode frameworks" length="10 mins" date="Sept 2012" videoId="d33hFCVKcMc">
+            <%! intro = %>
+      Old demo showing android, wicket, gwt integrations. The last 2 minutes accurately describes the now built web framework.
+            <% ; %>
+         </div>
 
-      <div extends="VideoBox" title="Building StrataCode Frameworks" length="13 mins" date="Sept 2012" videoId="HNrjObx2FMg">
-         <%! intro = %>
-   The concepts behind how you build StrataCode frameworks.  
-         <% ; %>
-      </div>
+         <div extends="VideoBox" title="Building StrataCode Frameworks" length="13 mins" date="Sept 2012" videoId="HNrjObx2FMg">
+            <%! intro = %>
+      The concepts behind how you build StrataCode frameworks.  
+            <% ; %>
+         </div>
 
-      <div extends="VideoBox" title="StrataCode architecture" length="12 mins" date="Sept 2012" videoId="dVm0WZ50LYQ">
-         <%! intro = %>
-   Core architecture and design of StrataCode.  Includes a description of the parser/formatter engine.
-         <% ; %>
-      </div>
+         <div extends="VideoBox" title="StrataCode architecture" length="12 mins" date="Sept 2012" videoId="dVm0WZ50LYQ">
+            <%! intro = %>
+      Core architecture and design of StrataCode.  Includes a description of the parser/formatter engine.
+            <% ; %>
+         </div>
+      </div></div>
    </div>
 </body>
 

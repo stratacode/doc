@@ -2,6 +2,7 @@
 <%! 
     boolean mobileRes := Window.window.innerWidth / Window.window.devicePixelRatio < 1000;
     boolean navOpen := !mobileRes; 
+    pageVisitCount =: navOpen = !mobileRes;
 %>
 
 <body>
@@ -24,7 +25,7 @@
 
       <div id="mainSection">
          <div id="pageIndex" class="pageIndex">
-            <div><img src="/images/menu-toast.png" class="navMenuIcon" clickEvent="=: navOpen = !navOpen"> Documentation</div>
+            <div class="pageIndexTitle"><img src="/images/menu-toast.png" class="navMenuIcon" clickEvent="=: navOpen = !navOpen"> Documentation</div>
             <div id="pageIndexMenu" class="pageIndexMenu" exec="server">
                <div extends="DocIndex" title="Understanding StrataCode" url="understandingSC.html"/>
                <div extends="DocIndex" title="Getting started" url="gettingStarted.html"/>
@@ -56,15 +57,15 @@
                <%= navOpen ? "flex: 0 0 300px;" : "display: none;" %>
             }
             .pageIndex {
-               <%= navOpen ? "flex: 0 0 300px;" : "position: absolute; " %>
-               <%= mobileRes ? "position: absolute;" : navOpen ? "position: initial;" : "" %>
+               <%= navOpen ? "flex: 0 0 300px;" : "position: absolute; z-index: 0; " %>
+               <%= mobileRes ? "position: absolute; z-index: 0;" : navOpen ? "position: initial; z-index: 10" : "" %>
             }
             #pageContent {
-               <%= navOpen ? "" : "margin-top: 95px;" %>
+               <%= navOpen ? "" : "margin-top: 70px;" %>
             }
          </style>
 
-         <div id="pageContent">
+         <div id="pageContent" class="pageContent">
          </div>
 
       </div>

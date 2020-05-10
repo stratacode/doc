@@ -3,12 +3,13 @@
       String section = ""; 
       boolean menuVisible = false;
    %>
+    <span id="titleLogoComponent" abstract="true"><span id="logoButton" class="logo" clickEvent="=: menuVisible = !menuVisible"><img class="navMenuIcon" src="/images/layeredLogo28.png" style="vertical-align:middle"/></span>
+   <a href="index.html" class="productLink">
+      <span class="productTitle">StrataCode</span>
+   </a></span>
    <div id="navbarPanel" class="navbarPanel">
       <div id="navbar" class="navbar" exec="server">
-          <span id="logoButton" class="logo" clickEvent="=: menuVisible = !menuVisible"><img class="navMenuIcon" src="/images/layeredLogo28.png" style="vertical-align:middle"/></span>
-         <a href="index.html" class="productLink">
-            <span class="productTitle">StrataCode</span>
-         </a>
+         <span id="titleLogo" extends="titleLogoComponent"/>
          <ul id="nav" class="nav">
             <li> <a href="articles/" class=':= section.equals("articles") ? "sectionSelected": ""'>Articles</a></li>
             <li> <a href="examples/" class=':= section.equals("examples") ? "sectionSelected": ""'>Examples</a></li>
@@ -24,6 +25,7 @@
             .nav {
                display: <%= menuVisible ? "block" : "none" %>;
                position: absolute;
+               z-index: 15;
                top: 42px;
                left: 0px;
                background-color: #04333F;
@@ -35,7 +37,10 @@
 
    <p/>
 
-   <div id="copyright" orderValue="1">
-     &copy; 2020 Jeffrey Vroom
+   <div id="pageFooter" orderValue="1">
+     <span id="titleLogo" extends="titleLogoComponent"/>
+     <span class="copyright">
+         &copy; 2020 Jeffrey Vroom
+     </span>
    </div>
 </div>

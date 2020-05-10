@@ -9,9 +9,57 @@
 
 ## Dynamic Runtime
 
-See [this article](../articles/dynamicRuntime.html) for a high-level view of goals and what the dynamic runtime is used for.  This section describes the details for how it's implemented for developers and framework builders.
+The StrataCode build system, command-line interface, test scripts are all built using the dynamic runtime. It consists of a library that is part of the 'scc' command that can optionally be included in the runtime version of the system. All applications run with scc have access to the dynamic runtime. It's also possible to compile applications with scc and run them separately from a generated shell script or packages jar file. If no dynamic runtime features are required in the application, it only uses the scrt.jar file that does not include the dynamic runtime. If it needs the dynamic runtime, it includes scc.jar.
 
-An application running under the dynamic runtime has access to the LayeredSystem which is currently running.  If you want your code to run only in compiled mode, without the dynamic runtime, or in Javascript, use only the methods in the static classes [DynUtil](/javadoc/sc/dyn/DynUtil.html) and [PTypeUtil](/javadoc/sc/type/PTypeUtil.html).  These classes provide basic reflection and let you use many of the features of the LayeredSystem which you might need in framework-level code that you want to use without the LayeredSystem and the rest of the dynamic runtime.  You can get and set properties, invoke methods, etc. in a way that works for dynamic types, or compiled types even in Javascript or without the LayeredSystem.
+## Marking layers and classes dynamic
+
+Both layers and types in StrataCode can be run in compiled or dynamic mode. A type in a dynamic layer is by default dynamic. If a type in a dynamic layer modifies a type in a compiled layer, the type is also made dynamic. 
+
+## Dynamic layers
+
+Although you can mark a layer explicitly as dynamic with the keyword, it's more flexible to choose the set of dynamic layers when running the appliation. That way, it can be easily run in either mode without changing the source file.
+
+For the scc command, use the -dyn command line option before layers to be run as dynamic. In IntelliJ, place these layers in the dynamic layers section.
+
+If the dynamic layer extends other layers, those will also be made dynamic unless they are marked as 'compiledOnly'. That makes it easier to run a set of application code in dynamic mode but sometimes can cause unwanted layers to be made dynamic. Just put those layers before the -dyn option or in IntelliJ list them as compiled layers, or set 'compiledOnly=true' in it's layer definition file.
+
+Use the -vl option to list the layers and see where the line is between compiled and dynamic in the stack.
+
+## Dynamic types
+
+To make a type permanently dynamic, give it the dynamic keyword before 'class', or put it in a dynamic layer.
+
+Some types will not work in dynamic mode. For example, it might interact with a framework that is not aware of the dynamic type system. For these types, set @CompilerSettings(compiledOnly=true) to force that class to be compiled even if it's in a dynamic layer.
+
+Dynamic types in general will not have a Java class generated for them unless that class extends a compiled class. In order to bridge the gap between the compiled type system and dynamic types, a dynamic stub is generated that represents the required compiled interface using calls to dynamic methods. For example, this lets a dynamic type override the toString() method that's part of the inherited 'Object' contract. If a dynamic type overrides toString(), a stub is generated that includes the toString() method as a call to invoke the dynamic method. As the code for that dynamic toString() method is refreshed, the stub does not have to change and any instances automatically pick up the new version.
+
+## Refreshing changes to code
+
+One of the main benefits of using the dynamic runtime is that it can look for changes made to source files while the application is running. The web framework has an option to do a 'refresh' before rendering each page. It will find any changed source files that go into that application and try to apply them. When the types involved are dynamic, or only property changes are being made, the changes are made on-the-fly. If changes to a compiled feature are detected, a warning message is printed and frameworks can alert the user a recompile/restart is required.
+
+Unfortunately it's not always possible to make the 'refresh' seamless when the code that is changed holds state (i.e. there are instances of the classes that are being changed). The goal of the dynamic runtime is to provide the hooks so that frameworks can make those types of changes that are common - updating a web template, changing property values or data binding expressions, adding new fields, sub-types, etc. that support rapid prototyping and great development tooling experiences.
+
+Java has a number of ways of solutions for reloading classes but that approach really only works for stateless applications.
+
+## Debugging dynamic runtime
+
+Unfortunately there's no IntellIJ debugger support directly for the dynamic runtime code yet. If you need language level debugging, it's best to compile the code and debug it there first. If you are dealing with code that works in compiled mode but not in dynamic mode, it's not too hard to debug but you need to know a bit about the API for code first and need the source for the dynamic runtime itself.
+
+## API for code
+
+The dynamic runtime includes a general purpose API for reading, modifying, and executing code right from the AST or "abstract syntax tree" - essentially, the domain model for code. The most important class is the ILanguageModel implementation for a given source code file. Concrete classes are JavaModel, SCModel, Template, and SQLFileModel. JavaModel is the base class for the other languages because they all convert themselves to a JavaModel during the transformation process.
+
+Each JavaModel has a list of TypeDeclarations: ClassDeclaration, ModifyDeclaration, InterfaceDeclaration. Those classes have a 'body' property that is a list of Statements: MethodDefinition, FieldDefinition, etc. 
+
+All of these components fit into the language grammar. See JavaLanguage for the mapping from syntax to the public properties. When executing statements in the dynamic runtime, the invoke and eval methods are called. 
+
+## Runtime APIs for reflection
+
+An application running under the dynamic runtime has access to the LayeredSystem which is currently running. If code depends on LayeredSystem though, it only runs with the dynamic runtime present. 
+
+If you want your code to run in compiled mode only, without the dynamic runtime, or in Javascript, use only the methods in the static classes [DynUtil](/javadoc/sc/dyn/DynUtil.html) and [PTypeUtil](/javadoc/sc/type/PTypeUtil.html). These classes provide basic reflection and let you use many of the features of the LayeredSystem which you might need in framework-level code that you want to use without the LayeredSystem and the rest of the dynamic runtime.  You can get and set properties, invoke methods, etc. in a way that works for dynamic types, or compiled types even in Javascript or without the LayeredSystem.
+
+## Live dynamic types
 
 When you have the dynamic runtime, you have an important option to choose for classes - should the system track "live dynamic types".  When this is true for a type, code is added to the generated version of the constructor to register each instance for a given class.  APIs can then provide the list of instances of these of these managed dynamic types, and update these instances in response to code changes like a property change. 
 
@@ -22,14 +70,6 @@ Set the liveDynamicTypes flag globally with an 'scc' command line option, on a s
 ## IDynObject
 
 All dynamic objects implement the [IDynObject](/javadoc/sc/dyn/IDynObject.html) interface.  When one dynamic object extends a class which is already dynamic, it will use the IDynObject implementation of it's base class and unless "needsCompiledClass" is true, it will not even generate a Java class of its own.  When a dynamic class extends a compiled class, a dynamic stub class is generated.  This class implements IDynObject and stores the type and properties for that instance.   When a class neither extends a compiled class, or another dynamic class an instance of DynObject is created to store the type and properties.
-
-## Dynamic Layers
-
-You can make a layer dynamic in one of two ways.  Use the dynamic keyword before the layer name in the layer definition file.  It will be dynamic whenever it's used.  You can also use the -dyn option on the command line.  Any layers after the -dyn option will be made dynamic by default unless they are marked as "compiledOnly" in the layer definition file.  In addition, any layers extended by those -dyn layers are also made dynamic unless they are compiled only (use -dynone so only the specified layers are dynamic).   Dynamic layers always follow compiled layers in the layer stack, so it's not allowed to extend a dynamic layer from a compiled layer.
-
-## Dynamic Types
-
-A type can be made dynamic by defining it or modifying it in a dynamic layer, or by using the dynamic keyword before the 'class' or 'object' when you define it in the layer.  
 
 <% ) %>
 

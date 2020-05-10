@@ -2,6 +2,7 @@
 <%! 
     boolean mobileRes := Window.window.innerWidth / Window.window.devicePixelRatio < 1000;
     boolean navOpen := !mobileRes; 
+    pageVisitCount =: navOpen = !mobileRes;
 %>
 
 <body>
@@ -19,12 +20,12 @@
 
       <div id="mainSection">
          <div id="pageIndex" class="pageIndex">
-            <div><img src="/images/menu-toast.png" class="navMenuIcon" clickEvent="=: navOpen = !navOpen"> Articles</div>
+            <div class="pageIndexTitle"><img src="/images/menu-toast.png" class="navMenuIcon" clickEvent="=: navOpen = !navOpen"> Articles</div>
             <div id="pageIndexMenu" class="pageIndexMenu" exec="server">
                <div extends="ArticleIndex" title="Leveraging your code" url="codeLeverage.html"/>
                <div extends="ArticleIndex" title="Motivation for layers" url="aboutLayers.html"/>
                <div extends="ArticleIndex" title="Copied code, plugins and IOC" url="copyOrNot.html"/>
-               <div extends="ArticleIndex" title="Layered build and packaging system" url="buildAndPackaging.html"/>
+               <div extends="ArticleIndex" title="Layered builds" url="buildAndPackaging.html"/>
                <div extends="ArticleIndex" title="Java to javascript" url="javaToJavascript.html"/>
                <div extends="ArticleIndex" title="Synchronization using layers" url="syncWithLayers.html"/>
                <div extends="ArticleIndex" title="Persistence using layers" url="persistWithLayers.html"/>
@@ -41,15 +42,15 @@
                <%= navOpen ? "flex: 0 0 300px;" : "display: none;" %>
             }
             .pageIndex {
-               <%= navOpen ? "flex: 0 0 300px;" : "position: absolute; " %>
-               <%= mobileRes ? "position: absolute;" : navOpen ? "position: initial;" : "" %>
+               <%= navOpen ? "flex: 0 0 300px; z-index: 0;" : "position: absolute; z-index: 0;" %>
+               <%= mobileRes ? "position: absolute; z-index: 0;" : navOpen ? "position: initial; z-index: 10;" : "" %>
             }
             #pageContent {
-               <%= navOpen ? "" : "margin-top: 95px;" %>
+               <%= navOpen ? "" : "margin-top: 70px;" %>
             }
          </style>
 
-         <div id="pageContent">
+         <div id="pageContent" class="pageContent">
          </div>
       </div>
    </div>

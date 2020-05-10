@@ -13,7 +13,6 @@
 Status of various StrataCode components based on current testing: 
 
 * Note: some names and interfaces may change based on feedback
-* not yet tested with jdk9-11
 
 ## code-processor
 * beta: parselets, java support, sc, sct, schtml formats
