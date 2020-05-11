@@ -10,23 +10,16 @@
 
 ## StrataCode's Parsing, AST Modelling, Transpilation and Code Generation/Formatting Framework
 
-The StrataCode language framework, called "Parselets" has been engineered from the ground up to make it faster and easier to write code which parses and updates code.  It's efficient for building code analysis tools, code-preprocessors (like StrataCode), structured code editing features like those found in IDEs, and transpilers: language converters like the Java to Javascript converter in StrataCode.  It contains all of the core features so you can build an IDE for your language in way less code than other approaches.
+Parselets supports development of code that needs to read and write code in different formats.
+It supports code analysis tools, code-preprocessors (like StrataCode), code editing and IDE features, and transpilers that convert one format to another. 
 
-With parselets, your grammars are written in Java using a declarative syntax.  You can reuse grammars in flexible ways: extending one grammar from another, embedding one grammar inside of another, modifying some aspect of a copy of a grammar for handling a format change.  Unlike many parsing solutions out there, there's no generated code for the parsing phase so debugging grammars or building special cases is straightforward.  
-
-The features of parsing, building rich model of the code (ASTs), transformation of these code models from one language variant to the other, and re-generation (or formatting) of the code in the new language easier to implement with less code.  It's also perhaps the only code parsing engine which let's you make incremental changes to the code model, and have those changes incrementally update the resulting code.
-
-Parselets implements provides ways for developers to make grammars fast as well.  You can use indexing choices where possible, and enable selective caching of results that may be re-parsed.
+With parselets, grammars are built from Java code using a declarative syntax to programmatically wire together parselets.  Parselets can be extended, overridden, copied, modified, etc. There's no generated code for the parsing phase so it's possible to override behavior with a sub-class. To make parsing fast, use efficient grammars, enable caching, and use an IndexedChoice.
 
 Here's an image of the StrataCode architecture showing parselets and the languages that use it.  
 
 <br><img src="../images/arch.jpg" width="640" style="border: solid 1px #0">
 
-The Parselets code base does not directly depend on layers, data binding, but the dynamic/compiled runtime but has been tested through the implementation of this features.
-
-Parselets are built using a type of recursive descent grammar, known as a "parsing expression grammar" or PEG.  In addition to the PEG grammar used for parsing, you can provide class and slot mappings for matched entities which are to be retained in the model.  Parselets use those mappings to construct the code model from the parsed output: the semantic model of the language.  These objects are high level types like "ClassDeclaration", "IdentifierExpression".  The grammar imposes some limitations on the interface of these types, but altogether the result is very usable and readable and it's easy to trace how a property is produced from the underlying language, or vice versa.  
-
-In a few cases, do we do additional processing on the types during initialization so the API is more natural.  For example, expressions are parsed initially into a linear list, which is converted into a tree so we model proper precedance rules. 
+Parselets are built using a type of recursive descent grammar, known as a "parsing expression grammar" or PEG.  In addition to the PEG grammar used for parsing, provide class and slot mappings to build the AST. These objects can be high level types like ClassDeclaration, IdentifierExpression. The grammar imposes some limitations on the interface of these types, but altogether the result is very usable and readable and it's easy to trace how a property is produced from the underlying language, or vice versa.  
 
 The grammar to model mapping becomes a guide to understanding the model, a validator to validate the model, and a bi-directional mapping to the code all-in-one. 
 
@@ -36,67 +29,10 @@ The mapping between the two is maintained automatically, even as the semantic mo
 
 As you define the model mappings to your grammar, care must be taken to preserve enough information in the model for bi-directional transformations.  If your grammar does not generate a model which preserves enough information, it can still be parsed but cannot be re-formatted using the same grammar.
 
-Spacing and other elements which are not included in the code model still can be formatted as code algorithmically.  These parselets return special parse nodes during the 'generate' phase to re-generate the code.  When the parse node needs to be turned into a string, it is formatted.  At this time, the context is used to choose the right indentation, spacing, etc. 
+Spacing and other elements which are not included in the code model still can be formatted as code by inserting behavioral parse-nodes that can be expanded on another pass when all of the context to do is available. 
 
-## Parsing Efficiency
-
-Though PEG parsers are not as efficient as LL(*) or LR grammars, the StrataCode parser optimizes search where possible using indexed choices nodes.  We've demonstrated that you can implement very efficient grammars that parse and generate lots of code quickly.  For those cases where it's convenient to use parse partial values, you can enable caching on a parselet to cache the intermediate results to avoid NxN operation.  For example, the HTML parser first parses the grammar as a tree tag, then parses it as an open tag without a close.  All of the intermediate results are cached making this relatively fast.
-
-I believe further parsing efficiency can be obtained from the same grammar through generating fragments of more efficient grammars and using them to parse those parselets when that generated code is available.  Or because most parsing is performed on files you've parsed before, saving breadcrumbs to speed up the parse the next time.
-
-## Parsing Invalid Code
-
-Parselets has very good error reporting for syntax errors.  It also has support for generating partial models when your model does not strictly match the formal grammar.  This is not only useful for building syntax highlighting and code completion in IDEs, but also for dealing gracefully with errors found in input files.   
-
-Parselets are designed so that you first parse a file without the enablePartialValues flag set for performance and only when you find an invalid file, create the partial model from the invalid file by setting it to true and reparsing the model. During this operation the parselets use additional properties to enable the more flexible parsing.  They also generate whatever model fragment they can from the data they match.  All suitable parse errors have a partialValue property which contains the partial model.
-
-Note: parsing invalid models in two passes may not be fundamentally necessary but it safeguards against the possibility that a bug in the partial parsing rules end up creating the wrong grammar on a valid file.  There is also additional overhead to build the partial models and to skip invalid text making the enablePartialValues pass slower than the original.  Since most code we parse is valid, our feeling is that its beneficial to parse it as though it's valid first and only re-parse it using relaxed rules when you suspect it has errors.
-
-When you parse with enablePartialValues=true mode, your parselet can include additional metadata to improve the partial-parse's ability to continue when there's an error.  For a missing operator like a semicolon, you can have the partial parse just continue on in one of two ways.  Either a sequence can set the SKIP_ON_ERROR flag, or a parent sequence can set the skipOnErrorSlot.   If there's an error parsing either the entire sequence (for SKIP_ON_ERROR) or that slot of the parent sequence for skipOnErrorSlot, it will be ignored.  In it's place an ErrorParseNode is inserted that matches no text.  The Parser object records a list of errorParseNodes so you can detect that this model has errors but otherwise a valid model is returned in this situation.
-
-Either a repeating OrderedChoice or a repeating Sequence can set the skipOnErrorParselet.  The skipOnErrorParselet is used when a parent Sequence encounters an error parsing the next child after the child with the skipOnErrorParselet.  In this case, the parseExtendedErrors method of the previous child is called to re-parse but using the skipOnErrorParselet to skip over errors.  If it can skip over errors and match the exit parselet, a new extended match is returned.  This list will return one or more matches of the skipOnErrorParselet.   These results are represented by an ErrorParseNode containing the matched text.
-
-This construct lets you easily terminate String literals that cross a newline or omit an invalid expression till the next semicolon.  
-
-So far, with these three constructs we've built acceptable IDE experiences for several languages, all using declarative grammars.  It's easy to further tune the experience by further refining the grammars, not by writing tricky code dealing with token streams.
-
-## PEG Parsers
-
-Like other PEG parsers, both the lexical and grammar aspects of the language are defined using the same set of rules.  The state table approach requires an unambiguous context-free definition of the grammar and requires a global regeneration of the state table whenever a new language element is added.  Shift-reduce conflicts are difficult to eliminate.  Lexical scanning is very much context-dependent and so requires a separate language and phase of the parsing.  With recursive descent, the grammar is much simpler.  For challenging situations, just write code for the "match", "accept" and "format" methods of the parselet.  
-
-Breaking it down in simple terms, for parsing, you test rules the input stream, while walking the graph created by nested parselets.  For parslets, while you are doing this, you are simultaneously two parallel trees - the parse node tree, and the abstract syntax tree or AST using grammar rules.  
-
-In formatting, changes made to the AST tree invalidate parts of the parse-node tree, then later regenerate those parts from the AST values.  This requires that enough information is preserved in the AST or an error is generated.  
-
-For both parsing and formatting, methods can be overriden just by subclassing the parselet.  Overall we've found that you can develop new code processing algorithms much more quickly in this approach and performance is acceptable and easily tunable as required.
-
-The downside of PEG grammars is that they can be slow for some grammars.  This occurs when you face difficult problems which require trying to parse large sections over again in different ways like parsing a file with lots of mismatching open and and close braces.  A real world example is in HTML parser, to parse the tag tree with a mix of tags which might or might not have a close tag.  There are a few ways these problems can be handled - either through caching of matched tags to simplify the search for the end tag, or doing a first pass to find the tags, and another pass to parse the hierarchy.
-
-## Annotating Grammars to Build the Semantic Model
-
-Once your parser successfully parses a file, you can add annotations to that grammar so that it automatically generates the AST.
-
-For these semantic model annotations, you associate a Java class with a particular grammar node (parselet).  When the node matches an instance of that class is returned as it's semantic value.  Features of that parselet, the values of the matched sub parselets, are assigned as properties of that class.  
-
-Only some parselets define specific Java classes which they produce.
-
-Some simple parselets just return their string value as the semantic value.  Others simple parselets omit their value - for example a comment or white space.  
-
-A nested parselet, one built out of sub-parselets, can designate a specfiic child's value up as it's own.  It may set add properties on that returned value before returning it.  
-
-Child parselets can indicate in their annotations that they set properties on a yet-to-be-produced parent node.  For these, the parent must marks the child's slot as including the properties of the child (the '*' symbol).  The child parselet omits the class in it's description.  It sets properties normally.  
-
-Type checking of the AST objects is done using the JavaBean pattern.  You can use fields or getX and setX methods.
-
-## Formatting the Semantic Model as Code
-
-Using those same annotations, the StrataCode parsing framework takes your language model and turns it back into code as long as it has enough information to do so.  This makes it easy to do any type of code read, modify, write operation.
-
-In general, this has similar performance characteristics to the parsing.  The model classes are used to choose the right slot going in the opposite direction this time.  Each parselet is required to first determine if it matches the semantic model, and if so it generates the parse nodes required to match that model.  It does that by walking down the tree.  In many cases, this is a quick test because the Java class does not match.  Some required value that should be there isn't etc.  
-
-This algorithm supports incremental updates to the parse-node tree as the model changes using two algorithms.  You can update the parse-node tree in real time, as the properties are changed, or invalidate parse nodes as the model is changed, then re-validate the parse-node tree at a later time.  This latter algorithm can be faster when you are making more than one change to the same code.
-
-One the parse-tree is generated, it is formatted.  It's as this stage which any algorithmically inserted parse-nodes must be turned into a text region.  This is used for indentation, white-space, etc.
+In some cases, the AST generated by StrataCode is not a complete model of the underlying language. In these cases custom logic must be written to add the additional information.  
+For example, expressions are parsed initially into a linear list, which is converted into a tree with the proper precedance rules.
 
 ## Organizing StrataCode Parselets
 
@@ -114,11 +50,11 @@ Each parselet can either accept or reject the input string by matching against. 
 
 The StrataCode grammar is based on just a few simple core parselet base-classes that do the heavy lifting of both parsing and code formatting:
 
-* a symbol which matches a single character or consecutive sequence of characters
-* a symbol choice which matches one of a set of characters or sequences of characters
-* a sequence which matches a list of other rules chained together
-* an ordered choice which takes a list of other language elements and tries to match them in a 
-* an indexed choice - a more efficient way to implement a choice where a prefix string unambiguously selects a potential match.  If there is no indexed match, an ordered choice of parselets can be used as a fallback.
+* Symbol: matches a single character or consecutive sequence of characters 
+* SymbolChoice: matches one of a set of characters or sequences of characters
+* Sequence: matches a list of other rules chained together
+* OrderedChoice: takes a list of other language elements and tries to match them in a 
+* IndexedChoice: a more efficient way to implement a choice where a prefix string unambiguously selects a potential match.  If there is no indexed match, an ordered choice of parselets can be used as a fallback.
 
 Each parselet provides an "accept" method which you override to reject the string parsed by that
 framework.  This provides an easy way to customize the matching logic using Java code.
@@ -132,7 +68,7 @@ You can set various flags on each parselet to customize how that parselets match
 the matching string is not used as the semantic value for the node.  In other words, the semantic value is null always.
 * NOERROR - if lack of a match should suppress the generation of an error.
 
-One technical limitation of the recursive descent algorithm is that it cannot handle "left recursive" definitions - in other words, when you have a sequence, the first node in that sequence cannot be a reference back to the node itself.  Or in other words, the first node in the sequence must match and consume some text before it tries to match a recursive definition.  I have not found this to be a real limitation in practice.
+One technical limitation of the recursive descent algorithm is that it cannot handle "left recursive" definitions - in other words, when you have a sequence, the first node in that sequence cannot be a reference back to the node itself.  Or in other words, the first node in the sequence must match and consume some text before it tries to match a recursive definition.
 
 ## Defining Semantic Values
 
@@ -494,6 +430,22 @@ As you make changes to the model object using the SemanticNode.setProperty, Sema
   * For the format operation, a FormatContext is created.  This is used to track the stack of parse nodes which are currently being processed.  For each parent parse node, we track the index of the child which is being processed.  From a given parselet's format method, this means that we can walk that tree to figure out the given parse-node's context.  What characters are before or after it in the stream and what semantic value is before/after it in the model.  From that we can make good determinations about whether to include spaces or not. 
 
 The format context also keeps track of certain options to suppress spacing and to suppress newlines.  This allows a parent parselet to modify the behavior of a given spacing parse node or newline parse node without creating a new definition of its children. 
+
+## Parsing Efficiency
+
+Though PEG parsers are not as efficient as LL(*) or LR grammars, the StrataCode parser optimizes search where possible using indexed choices nodes. For cases when reparsing is necessary, it's possible to cache intermediate results. Parselet grammars end up being fast enough, and there's a facility to cache parsed results to make them even faster. 
+
+## Parsing Invalid Code
+
+Parselets has very good error reporting for syntax errors.  It also has support for generating partial models when your model does not strictly match the formal grammar.  This is not only useful for building syntax highlighting and code completion in IDEs, but also for dealing gracefully with errors found in input files. There are additional properties: minContentSlot, skipOnErrorSlot, and skipOnErrorParselet to make error recovery easy to enable declaratively.
+
+### skipOnErrorParselet
+
+Either a repeating OrderedChoice or a repeating Sequence can set the skipOnErrorParselet.  The skipOnErrorParselet is used when a parent Sequence encounters an error parsing the next child after the child with the skipOnErrorParselet.  In this case, the parseExtendedErrors method of the previous child is called to re-parse but using the skipOnErrorParselet to skip over errors.  If it can skip over errors and match the exit parselet, a new extended match is returned.  This list will return one or more matches of the skipOnErrorParselet.   These results are represented by an ErrorParseNode containing the matched text.
+
+This construct lets you easily terminate String literals that cross a newline or omit an invalid expression till the next semicolon.  
+
+So far, with these three constructs we've built acceptable IDE experiences for several languages, all using declarative grammars.  It's easy to further tune the experience by further refining the grammars, not by writing tricky code dealing with token streams.
 
 <% ) %>
 

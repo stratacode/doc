@@ -26,10 +26,10 @@
                display: <%= menuVisible ? "block" : "none" %>;
                position: absolute;
                z-index: 15;
-               top: 42px;
+               top: 30px;
                left: 0px;
                background-color: #04333F;
-
+               font-size: 130%;
             }
          }
       </style>

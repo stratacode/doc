@@ -6,23 +6,23 @@
        <div id="pageContent" exec="server">
 
 <%= MarkDownPage.markDown(%>
-## Parsing and modifying code
+## Parselets: Parsing and modifying code
 
-Parsing code is a well understood problem.  Grammar rules match the input text and when matched produce values created from the text they match.  These values are assembled into an "abstract syntax tree" (or AST) which stores the information you need in a structured representation.  
+StrataCode is built using a custom parser/formatter called Parselets. It's based on a PEG grammar that consists of four basic types of matchers - Sequence, OrderedChoice, Symbol, and SymbolChoice. Each grammar is built from instances of these four base classes, or higher level classes that extend these called Parselets. Each parselet has additional metadata it can specify to do more than just parse. They can create instances of a particular type of AST node, set properties on nodes, collect lists, and propagate values up the hierarchy. In this way, they build a very reasonable AST tree directly from the declarative grammar. 
 
-But when it comes to taking the AST and turning it back into code, with most libraries you start from scratch and write new code that expresses the inverse of those rules during the formatting (or transpilation) process.  For example, in IntelliJ, the most common way to 'patch in changes' is to generate a code fragment, parse it, and then replace that code fragment with an existing one.  When you throw away the original context, you lose comments, and other formatting constructs not preserved in the grammar that produces the AST.  Each type of editing operation on the AST produces more code.  And when you get down to the complexity of a typical AST, that means a ton of code to do the editing.
+Parselets also supports going in the reverse direction using the same grammar. The AST can be converted back to the code by reversing the rules it used to parse it. Further, it watches for changes to properties in these AST nodes and invalidates/revalidates the code version efficiently. So from a simple grammar, it produces a full on API for read, modify, write for that format that works incrementally, preserving even comments, spacing and information in elements that are not changed.
 
-StrataCode's parser, Parselets includes easy-to-add configuration for parsing and formatting models from a single grammar.  It parses code using a standard PEG parser.  And like a few of the newer parsers, you specify AST classes and slots for different parse-nodes, to directly create the AST from the grammar.  But unlike any other parsers I've seen, the same grammar lets you go in the reverse direction as well.  You can take the AST and re-generate (or reformat) the code.  This is particularly powerful when you are making incremental changes to the AST - as is required by a code-processing engine - to keep source code changes localized.  When you add or replace a statement, you don't affect the code around it.  It also becomes a great tool for building a transpiler, or code-preprocessor, or set of frameworks based on code-processing.
+StrataCode is entirely built on Parselets including grammars for Java, sc*, javascript, html, xml, the DDL aspects of postgresql, css, and more. 
 
-The Java to Javascript and StrataCode to Java transpilers are built with parselets.  This has helped make them robust, useful tools.
+The Java to Javascript and StrataCode to Java transpilers are built with parselets as is the IntelliJ plugin. 
 
-Parselets additionally supports error recovery when parsing a file that does not match the grammar.  You can tune the error-recovery by setting properties in the parselets.  The results are robust enough to be used in an IDE for partial file parsing and completion with reasonable error highlighting (as validated by the StrataCode IntelliJ plugin).  So it's great for building tools that manipulate code.
+Parselets supports error recovery when parsing a file that does not match the grammar as used in the IDE. 
 
 It also includes the ability to take diffs between one version of a file and the next and to do a fast 'reparse' of the AST - useful for fast editing of large files in the IDE.
 
-AST's can be efficiently serialized and restored. The parse-node tree is also efficiently serialized so when you reparse the same file, it's several times faster.
+AST's can be serialized and restored. The parse-node tree can also be serialized to speed up reparsing the same file.
 
-The features behind parselets made building the StrataCode IntelliJ plugin possible, and building the plugin helped parselets evolve into a capable environment.  Any language written in parselets can use those features making it much easier to build IDEs for new languages.  Unlike most plugins, the most challenging IDE features were built using parselets, and the same code that powers the management UI framework, and the dynamic runtime.  This makes the same features available in the code editing and navigation features found in the management UI and available for future IDE support.
+Grammars for parselets languages get a huge head start on building an IntelliJ plugin. There is some straightforward tuning that goes into making the 'partial values' parse more accurate. 
 
 <% ) %>
    </div>

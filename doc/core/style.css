@@ -164,7 +164,7 @@ pre {
 
    .capsuleSmall {
       width: 182px;
-      height: 225px;
+      height: 185px;
    }
    .capsuleMenu {
       width: 170px;
@@ -323,7 +323,7 @@ h2 {
    width: 100%;
    height: 420px;
    margin-top: 20px;
-   margin-bottom: 20px;
+   margin-bottom: 0px;
    text-align:center;
 /*
     background-image: linear-gradient(#28479eb8, #e8b575fa);   */
@@ -399,18 +399,22 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
 }
 
 .infoBox {
-   padding-top: 25px;
+   padding-top: 70px;
+}
+
+.infoBoxLink {
+   text-decoration: underline;
 }
 
 .graphicBox {
-   padding-top: 55px;
+   padding-top: 70px;
 }
 
 .infoBox, .graphicBox {
    background-color: #FFFFFF; 
    padding-left: 1%;
    padding-right: 1%;
-   padding-bottom: 10px;
+   padding-bottom: 50px;
    margin-right: 0.8%;
    /* border: 1px solid #112255; */
    display: flex;
@@ -424,13 +428,22 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
    margin-top: 25px;
 }
 
-.infoBoxBody, .mainContentBody, .pageContent {
+.infoBoxLinkBody, .infoBoxBody, .mainContentBody, .pageContent {
    line-height: 150%;
 }
 
-.infoBoxBody a {
+.infoBoxLinkBody a {
    text-decoration: none;
    color: #000;
+}
+
+.infoBoxBody a {
+   color: #000;
+}
+
+.infoBoxLinkBody a:hover {
+   text-decoration: none;
+   color: #333333;
 }
 
 @media (min-width: 1230px) {
@@ -445,7 +458,7 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
    .infoBoxImage {
    }
 
-   .infoBoxBody {
+   .infoBoxBody, .infoBoxLinkBody {
        max-width: 380px;
        padding-right: 25px;
    }
@@ -473,7 +486,7 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
   .infoBoxImage {
   }
 
-  .infoBoxBody {
+  .infoBoxBody, .infoBoxLinkBody {
       max-width: 350px;
       padding-right: 25px;
   }
@@ -498,7 +511,7 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
   .tagBox {
       width: 100%;
   }
-  .infoBoxBody, .infoBoxGraphicBody {
+  .infoBoxBody, .infoBoxGraphicBody, .infoBoxLinkBody {
       width: 100%;
   }
 }
@@ -512,7 +525,7 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
   .graphicBox {
       width: 100%;
    }
-  .infoBoxBody, .infoBoxGraphicBody {
+  .infoBoxBody, .infoBoxGraphicBody, .infoBoxLinkBody {
       max-width: 100%;
   }
   .infoBoxImage {
@@ -520,7 +533,7 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
   .tagBox {
       width: 100%;
   }
-  .infoBoxBody, .infoBoxGraphicBody {
+  .infoBoxBody, .infoBoxGraphicBody, .infoBoxLinkBody {
       width: 100%;
   }
 }
@@ -908,11 +921,13 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
 
 #exampleContent, #pageContent {
    margin-left: 0px;
+   margin-right: 40px;
    min-height: 30%;
    padding-top: 25px;
    padding-left: 1%;
    padding-right: 1%;
    padding-bottom: 1%;
+   max-width: 950px;
 
    flex: 1 1 auto;
 }
@@ -964,7 +979,7 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
    positition: relative;
    width:auto;
    font-weight:bold;
-   /* font-size:larger;*/
+   font-size: 115%;
    color:#444;
    padding-top: 3px;
    padding-bottom: 3px;
@@ -982,12 +997,12 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
 
 .capsuleMenuItem {
    cursor: pointer;
-   margin-bottom: 8px;
    padding-top: 4px;
    padding-left: 5px;
    padding-right: 4px;
    padding-bottom: 4px;
    border-left: solid 3px #fff;
+   text-decoration: underline;
 }
 
 .capsuleMenuItemSelected {

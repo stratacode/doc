@@ -34,7 +34,7 @@ With this design, the framework can also help manage versions and compatibility,
 Thinking about client/server programming as synchronization first requires two important concepts that are fairly commonly used already:
 
 * identify when an object has a unique id versus when it's part of the value of another object.
-* for objects with an id, ensure the protocol respects the "highlander principle' - guaranteeing a single instance with the same id in each process. Sometimes these types of objects are called entities.
+* for objects with an id, ensure the protocol respects the "highlander principle" - guaranteeing a single instance with the same id in each process. Sometimes these types of objects are called entities.
 
 Code can access variables that point to entities declaratively and be assured of getting the right version of that instance. Any property changes will be validated and committed. Like with many powerful declarative abstractions, synchronization helps with offline, data update conflicts, retries, and more. 
 

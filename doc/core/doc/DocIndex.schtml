@@ -4,8 +4,9 @@
 <body>
    <div id="content"><div id="mainSection">
        <div id="pageContent">
-           Use this overview, select a document from the menu, 
-           or the <a href="/javadoc/">api doc</a>.
+           For a quick summary of major features, select a topic below.<p/>
+           For details, use the Documentation menu.<p/>
+           Browse the <a href="/javadoc/">api doc</a>.
            <p>
            <div id="docOverview">
               <%! Capsule.CapsuleContent currentContent; %>

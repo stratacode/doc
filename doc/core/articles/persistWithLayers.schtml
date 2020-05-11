@@ -133,6 +133,10 @@ The DB layer supports findBy queries on these dynamic properties, and data bindi
 
 <%= MarkDownPage.markDown(%>
 
+### Enum columms
+
+Either generate Postgresql enums from Java enums, or use the Java enum's integer value in the DB.
+
 ### Mixing data sources
 
 Each class can be assembled from more than one data source - perhaps a mix of in-memory data, data in a Postgresql DB, data in a NoSQL store, and a secrets DB. The application code can largely be unaware of how the properties are stored. Layers allow the movement of a property from one data store to another through a configuration change.

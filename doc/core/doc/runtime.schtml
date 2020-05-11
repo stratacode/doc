@@ -8,61 +8,6 @@
 
 <%= MarkDownPage.markDown(%>
 
-## How we do it today
-
-Today, to build a complete multi-process system requires coordinating, many programs each with it's own code and configuration: package management systems to install the dependencies for each process, build tools to build the custom applications, building machine images, configuring machines, databases, load balancers, and more. 
-
-Each tool in this stack has its own way of defining configuration, plugging in code, it's own set of management UIs, and command line tools for managing the state and resources.
-
-Development and operational workflows, the tools, and frameworks along with the application feature themselves, cross-cut this tool matrix. Each tool supports ways of injecting configuration shared with the one below and exporting, sharing or generating assets used by the tools above. The dependencies in this overlapping configuration become more difficult to manage because they must be kept in sync between multiple separate programs.
-
-Not only that, many of these layers in our stack are platform specific, and these overlaps tie application features more tightly to specific platforms. What ideally would be a flexible stack of interchangeable pieces becomes a rigid web of dependencies from application features to specific platforms, rather than platform features. Changing platform features then involves untangling the web andrefactoring in a way that tends not to be incremental, but requires flag day that require global, accurate knowledge to get right.
-
-For a more complete and holistic way to model a multi-process system, we could use a single, layered configuration system to model everything. Overlaps then would be cleanly handled and kept in sync using a single static type system. There would be one management UI for all the persistent state and resources that could keep everything in sync. Changing platform features becomes a much more manageable task of changing out the feature layers and updating the system.
-
-## StrataCode build and packaging system
-
-Layers make a great way to manage project build configuration and allow you to build and run your applications in one step.  While you may initially just wrap an existing project in a layer, over time you'll probably find it helpful to move towards using 'scc' as your primarily build and configuration tool.  That's because in this approach, everything can be specified and updated incrementally without breaking existing published contracts.  You have more flexible ways of specifying dependencies, and managing 'transitive dependencies' using the layer stack.  And you'll have more flexible ways to manage different build/run configurations, all while preserving control and traceability using Java types in your build files.  These build files are also manageable with your IDE and are written in Java for flexibility and consistency. 
-
-With the layered approach, to build or run anything, the scc command is run with one or more layers. Those layers extend others, and a few simple rules help organize them into a well-organized stack, ordered to preserve dependencies. Framework layers in the stack fall to the bottom and are used to add processes, new runtime environments, resources, package dependencies, file types and more. This initial stack is then partitioned into separate processes - each defined with a runtime environment - e.g. java_Desktop, java_Server, and js (TODO: js should be split into js_Browser and js_Server when node.js is added). The layers in the initial stack are added to a runtime only if they belong. So the result is separate stacks for each runtime where some layers are in more than one and some are not.
-
-The scc command supports a full lifecycle of code-editing, code-updating, refresh, and restart to support fast live updates, incremental compiles, and management UIs that let a given environment edit itself when necessary.  
-
-It supports both compiled layers, for efficiency, static typed runtimes and dynamic layers for aspects of a system that might be changed at runtime. 
-
-Management UIs can be automatically assembled from declarative annotations added to configuration objects, and support live-code editing of the dynamic layers.
-
-Each layer provides a contract for a specific set of features - application features, framework features, databases, deployment configuration etc. This allows systems to be cleanly partitioned
-into slices, each of which maintains the 'intent' of a specific design feature, customization, etc. as a small set of files that modify what comes before them. Rather than copying a project and editing it, extend a previous layer and override only the files, properties, or extend the types of the previous layer.
-
-In this model, as system complexity grows, both framework and application layers can evolve independently. Complex layers can be split into more manageable pieces, or on the opposite, layers can be easily merged to simplify the project organization. These types of changes become easier allowing the project structure to evolve with less friction and technical debt as requirements change.
-
-So you can sync, build and/or run all processes with one command, regardless of how complex your system is and on how many systems it's deployed.  Layers control all of the variables including the deployment configuration.  The classPath for each of these is generated and all of the source files in the stack are processed, generating any code, compiling it and running it, and/or generating a script to run it without the dynamic runtime.  Testing is declarative, enabled via an option, so testing many configurations of the same system is easy.  
-
-All layers have a [layer definition file](layerDefinition.html), written in 'dynamic StrataCode' which specifies the 'extends' layers it requires to be below it in the stack.  This file can define components to add maven artifacts, add new file processors, adjust build/project settings, add to the classPath or source path, or import types for code in the layer and sub-layers.  Components in a sub-layer can override features in a base-layer in the same way that StrataCode lets you override features in application classes.
-
-With layers as your build and packaging system, you can:
-
-* Share code and configuration in different environments without copying.
-* One system for all ways we need to modularize things
-* Use one syntax for all types of code, and configuration, controlled by the same IDE.
-* Use one set of tools to manage the entire product lifecycle: developent, testing, deployment.
-* Choose when to compile in values (and eliminate the dependency on the dynamic runtime) or when to use runtime configuration for more flexibility.
-
-Any new build system needs to do a lot to be sufficient for this task.  StrataCode has the core capabilities and many of the needed integrations:
-
-* Work with standard Java tools (e.g. git, ant, maven) or can over time replace them
-* Support different runtime environments (e.g. servlets, android, javascript client/server, desktop, gwt)
-* Support different deployment environments (dev, stage, prod)
-* Universal one step build/run or multi-process deployments
-* Apply simple changes on the fly without a recompile restart
-* Rebuild only changed files for fast recompile, restart
-* Generate customized scripts to run or deploy code in production with few or no StrataCode dependencies
-* Update the generated application on the fly through setting properties, change code in dynamic layers, reloading classes in compiled layers (where possible without a restart), and detecting when a process restart is needed.
-* Manage multiple runtimes: java desktop and server, javascript, and android.  Share code between them easily.  
-* Easily add command line hooks for various phases
-* Rich command line interface to run code on all processes, or selectively choose a process for easy test-script and admin-scripts.
-
 ## Layered System - dynamic Java code processing
 
 The dynamic layered system powers both the 'scc' command and the IntelliJ plugin.  It provides a complete language processing environment, including parsing and model generation framework that supports robust Java emulation, incremental Java code-transformations with or without type resolution and code validation.  Grammars support a variety of formats, including Java, StrataCode, HTML, XML, and CSS.  At the API level, the LayeredSystem has a srcPath, an external classPath, a system classPath, and a classLoader.

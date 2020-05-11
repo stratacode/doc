@@ -14,6 +14,9 @@
              boolean containsPath(String url, String path) {
                 if (url == null || path == null)
                    return false;
+                if (path.length() == 0) {
+                   return url.endsWith("/doc/");
+                }
                 if (url.contains(path))
                    return true;
                 if (subDir != null && url.contains(subDir))
@@ -27,7 +30,7 @@
          <div id="pageIndex" class="pageIndex">
             <div class="pageIndexTitle"><img src="/images/menu-toast.png" class="navMenuIcon" clickEvent="=: navOpen = !navOpen"> Documentation</div>
             <div id="pageIndexMenu" class="pageIndexMenu" exec="server">
-               <div extends="DocIndex" title="Understanding StrataCode" url="understandingSC.html"/>
+               <div extends="DocIndex" title="Quick feature overview" url=""/>
                <div extends="DocIndex" title="Getting started" url="gettingStarted.html"/>
                <div extends="DocIndex" title="IntelliJ plugin" url="ide/overview.html" subDir="/ide/"/>
                <div extends="DocIndex" title="Components" url="components.html"/>
