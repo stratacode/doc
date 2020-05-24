@@ -13,9 +13,11 @@ by Jeff Vroom
 
 As a thought experiment, think about where you find the layer design pattern in software you use.  Here's a few I can think of: Java's classPath, "monkey patching", maven overlays, objective C 'mixins'.   
 
-Now let's think about the natural world and consider the places where "layered designs" occur.  You find layers in the structure of just about anything - organic or inorganic.  For a clear example, take a look at the structure of the brain.  Layers are a fundamental way complexity is organized in nature.  So we see layers in both the computational and natural worlds frequently and yet in modern programming languages, the pattern is not unified. Instead, layers appear here and there as ad-hoc features. In nature, layers form an essential organizational abstraction. Programmers today generally follow the one file, one type pattern and use modules to organize groups of types. 
+Now let's think about the natural world and consider the places where "layered designs" occur.  You find layers in the structure of just about anything - organic or inorganic.  For a clear example, take a look at the structure of the brain.  Layers are a fundamental way complexity is organized in nature.  So we see layers in both the computational and natural worlds frequently and yet in modern programming languages, the pattern is not unified. Instead, layers appear here and there as ad-hoc features. In nature, layers form an essential organizational abstraction. DNA is organized as a linear sequence that is used to build proteins of various forms.
 
-What if we modeled code more as an organic system, that mutates and evolves incrementally. Build plugins, and type-safe and traceable augmentation into a language, then use it for the build and run operations. What if we added layers as the foundational organizing concept instead of modules? 
+Programmers today generally follow the one file, one type pattern and use modules to organize groups of types. We don't have a traceable, linear sequence of codes that can see and override what comes before it, overlaying the next step on the previous. 
+
+What if we modeled code more as an organic system, that mutates and evolves incrementally. Build plugins, and type-safe and traceable augmentation into a language, then use it for the build and run operations. What if we added layers and the linear stack as the foundational organizing concept instead of modules and the dependency graph? 
 
 StrataCode attempts to answer that question by using layers to add a hinge point to our design flexibility for building and maintaining larger, and more complex systems more easily. Use layer oriented programming just like with modules when building new systems. Refactor aspects of code based on role:  domain model, persistence, UI for a more manageable design and reusable code. 
 
@@ -31,7 +33,7 @@ Like modules, layers package code and manage dependencies for assembling a progr
 
 Layers retain the benefits of encapsulation and are statically typed, adhering to the <a href="http://en.wikipedia.org/wiki/SOLID_(object-oriented_design)">SOLID principles</a> of O/O design.  They may replace or add to an object's interface or override but cannot (or it's a bad practice) to remove a previously defined contract.  They cannot depend on a layer that comes after them in the current list of layers which preserves the maintainability of large systems. 
 
-At the code level, like Java, code paths are traceable so the edit time errors catch most errors and navigation and changes are faster with find usages, refactoring and more. Layers are not really new and have been implemented in similar forms before: <a href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&cad=rja&ved=0CDYQFjAB&url=http%3A%2F%2Fdl.acm.org%2Fcitation.cfm%3Fid%3D1885647&ei=vLBRUsaBNaGqiAK7moCICA&usg=AFQjCNGUS5M8Ep_9HKm8GO_terTa9cMT_g&bvm=bv.53537100,d.cGE">Delta oriented programming</a>. Layers also make a great environment for developing product feature-lines.
+At the code level, like Java, code paths are traceable so the edit time errors catch most errors and navigation and changes are faster with find usages, refactoring and more. Layers are not really new and have been implemented in similar forms before: <a href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&cad=rja&ved=0CDYQFjAB&url=http%3A%2F%2Fdl.acm.org%2Fcitation.cfm%3Fid%3D1885647&ei=vLBRUsaBNaGqiAK7moCICA&usg=AFQjCNGUS5M8Ep_9HKm8GO_terTa9cMT_g&bvm=bv.53537100,d.cGE">Delta oriented programming</a>. Layers also make a great environment for developing product feature-lines, or feature-oriented programming.
 
 ## Modules and circular references
 
@@ -43,7 +45,7 @@ Not surprisingly, back in nature we find the organizational structure of DNA as 
 
 Once DNA is expressed in cells, a massive web of interdependencies evolves. In my intuitive sense, evolution unfolds in layers, like a protein rolling itself up, requiring a cadence and linear order to keep the complexity organized.
 
-In the programming world, we maintain code using a graph of dependent things - using include and extends as the fundamental operators. There's no univeral 'modify' and no universal ordering to keep things organized.
+In the programming world, we maintain code using a graph of dependent things - using include and extends as the fundamental operators. There's no univeral 'modify' and no universal ordering to buil up more complex structures, allow changes, enhancements, incremental replacements of features, and support the evolution of the system as it grows. With modules, programmers hand-wire together the entire organism but with layers it evolves.
 
 In nature, new things come along and modify what's there, in essence creating new types that modify types. Types are identifiable with some marker (or a type name). Nature is good at repurposing markers with modified versions and managing those modifications at many levels. 
 
@@ -51,7 +53,7 @@ In StrataCode these markers are a single name-space of types and instances. Laye
 
 ## Layers eliminate circular references 
 
-With layers, a downstream layer cannot refer to an upstream layer in the definition file (lots of upstream dependencies form from the stack form right after the stack has been defined). Although code dependencies are really only enforced at compilation time, it's easy to detect when code in a layer on the bottom refers to code in a layer above it from tools. It's best practice to ensure code dependencies only go in one way to preserve modularity as systems grow. 
+With layers, a downstream layer cannot refer to an upstream layer in the definition file (but lots of upstream dependencies do form from the stack form right after the stack has been defined). Although code dependencies are really only enforced at compilation time, it's easy to detect when code in a layer on the bottom refers to code in a layer above it from tools. It's best practice to ensure code dependencies only go in one way to preserve modularity as systems grow. 
 
 With layers, to avoid cyclic dependencies, just add the new feature in a new layer that extends both of the previous ones.
 It separates minor dependencies from the bulk of the code and allows downstream code to avoid this dependency if they don't need that new feature. The downstream code retains the independence of the rest of the upstream code without breaking APIs or compatibility. If you want existing clients to see this new module, the new layer is named "A" and the old "A" is renamed.  If you want to offer this as an opt-in feature, you give the new layer a new name and tell clients to point to that layer to get that feature.

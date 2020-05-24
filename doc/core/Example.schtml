@@ -1,7 +1,7 @@
 <html abstract="true">
    <%!
 
-   boolean mobileRes := Window.window.innerWidth / Window.window.devicePixelRatio < 1000;
+   boolean mobileRes := Window.window.innerWidth / Window.window.devicePixelRatio < 840;
    boolean navOpen := !mobileRes; 
 
    class ExampleInfo {

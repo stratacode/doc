@@ -41,7 +41,11 @@ Perhaps the most common use of extends is to extend a type that is another templ
 
 Here is a one page sample which demonstrates the extends attribute using the inner tag/classes "personTemplate":
 
+<% ) %>
+
 <%= sc.lang.HTMLLanguage.getHTMLLanguage().styleFile("test/js/simplePerson","PersonPage.schtml", false, false) %>
+
+<%= MarkDownPage.markDown(%>
 
 When you use the abstract="true" tag attribute, a class instead of an object is generated for that tag and the content is not itself inserted into the output.  
 

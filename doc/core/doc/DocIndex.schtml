@@ -192,8 +192,8 @@ in a "template string".
                      Supports most features just like Java for all of the sc formats. (<a href="ide/overview.html">more</a>)
                   </div>
                   <div id="scProgEdContent" extends="CapsuleContent">
-                     <div class="capsuleContentTitle">Program editor</div>
-                     <p> Include the program editor layers to run it alongside your application.  For swing:
+                     <div class="capsuleContentTitle">Management UI</div>
+                     <p> Include management UI layers for an auto-generated, customizable management UI to optionally add to an application.  For swing:
                       editor/swing/main and for the web framework include editor/js/mixin.</p>
                   </div>
                   <div id="scCmdlineContent" extends="CapsuleContent">

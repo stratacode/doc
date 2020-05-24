@@ -10,7 +10,9 @@
 
 ## DB framework
 
-The DB framework supports persistence of code objects using code-processing.
+The DB framework supports persistence of code objects using code-processing. Ordinary fields, or bean-style properties with getX and setX methods in the source are used to define a data model. That model is augmented in the generated code to consult a 'current transaction' to get or set pending changes. It gets converted to the SQL it needs. 
+
+Alternatively, the class can be entirely generated from a SQL DDL definition.
 
 To get started with Postgresql, extend the jdbc.pgsql, and jdbc.schemaManager layer for automatic schema management from a new layer. Mark any types in this layer that need a table with @DBTypeSettings. 
 
@@ -109,7 +111,7 @@ Create an instance:
     
     Product prod = new Product();
     prod.name = "foobar";
-    prod.dbInsert();
+    prod.dbInsert(false);
     System.out.println("My db assigned id is: " + prod.id);
 
 Update:
@@ -120,7 +122,7 @@ Update:
 Delete:
 
     Product prod = Product.dbTypeDesc.findById(37);
-    prod.dbDelete();
+    prod.dbDelete(false);
 
 ### Enumerated types
 

@@ -19,7 +19,7 @@ pre {
 }
 
 /** Rule for mobile screens */
-@media (min-resolution: 192dpi), (min-device-pixel-ratio: 2), (-webkit-min-device-pixel-ratio: 2) {
+@media (min-resolution: 192dpi) and (max-device-width: 1200px), (min-device-pixel-ratio: 2) and (max-device-width: 1200px), (-webkit-min-device-pixel-ratio: 2) and (max-device-width: 1200px) {
    body {
       font-size: 230%;
    }
@@ -109,6 +109,97 @@ pre {
 @media (max-resolution: 191dpi), (max-device-pixel-ratio: 1.99), (-webkit-max-device-pixel-ratio: 1.99)  {
    body {
       font-size: 100%;
+   }
+
+   .navbar {
+      padding-left: 45px;
+      padding-top: 5px;
+      padding-bottom: 6px;
+   }
+
+   .tagline {
+      margin-top: 106px;
+      font-size: 310%;
+      margin-bottom: 0px;
+   }
+
+   .taglineTwo {
+      font-size: 180%;
+      font-weight: bold;
+      margin-bottom: 36px;
+   }
+
+   .intro {
+      margin-bottom: 0px;
+      font-size: 120%;
+      max-width: 750px;
+   }
+
+
+   #mainSection {
+      padding-top: 30px;
+   }
+
+   .mobileImage75 {
+   }
+
+   .nav {
+      display: flex;
+      white-space: nowrap;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin-left: 20px;
+      margin-bottom: 0px;
+      margin-top: 5px;
+   }
+
+   .nav li {
+      display:inline;
+   }
+
+   .productTitle {
+      font-size: 210%;
+   }
+
+   .capsuleSmall {
+      width: 182px;
+      height: 185px;
+   }
+   .capsuleMenu {
+      width: 170px;
+   }
+   .capsuleMenuItem {
+      width: 160px;
+   }
+   .capsuleExpanded {
+      height: 500px;
+   }
+   .capsuleContent {
+      overflow: hidden;
+      width: 65%;
+      padding-top: 8px;
+      margin-left: 190px;
+   }
+   .closeIconSize {
+      width: 24px;
+      height: 24px;
+      vertical-align: -7px;
+   }
+
+   #content {
+   }
+
+   .jbIcon {
+      width: 50px;
+      height: 50px;
+   }
+}
+
+/** Retina displays */
+@media (min-device-pixel-ratio: 2.00) and (min-device-width:1200px), (-webkit-min-device-pixel-ratio: 2.00) and (min-device-width: 1200px)  {
+   body {
+      font-size: 125%;
    }
 
    .navbar {
@@ -446,7 +537,7 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
    color: #333333;
 }
 
-@media (min-width: 1230px) {
+@media (min-width: 1230px), (min-device-width: 1200px) {
    .infoBox {
         max-width: 30%;
    }
@@ -497,7 +588,7 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
 
 }
 
-@media (max-width: 1230px) and (min-width: 850px) and (min-resolution: 192dpi), (min-device-pixel-ratio: 1.99), (-webkit-min-device-pixel-ratio: 2.0) {
+@media (max-width: 1230px) and (min-width: 850px) and (min-resolution: 192dpi), (min-device-pixel-ratio: 2.0) and (max-device-width: 1200px), (-webkit-min-device-pixel-ratio: 2.0) and (max-device-width: 1200px) {
   .infoBox {
       flex-wrap: wrap;
   }

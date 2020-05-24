@@ -87,7 +87,8 @@ If "a.b" properties are used in @FindBy annotations, when 'b' has it's own table
 
 ### Easy to use apis
 
-All objects with the @DBTypeSettings annotation automatically implement the IDBObject interface and can access an underlying DBObject to store transactional state. The IDBObject interface provides dbInsert(), dbUpdate(), and dbDelete() methods. To insert a new instance, construct an object instance as normal, set all required properties and call dbInsert(). The id property is added automatically if not provided. 
+All objects with the @DBTypeSettings annotation automatically implement the IDBObject interface and can access an underlying DBObject to store transactional state. The IDBObject interface provides dbInsert(queued=t/f), dbUpdate(), and dbDelete(queued=t/f) methods. To insert a new instance, construct an object instance as normal, set all required properties and call dbInsert(false). Pass true to queue this operation to be committed with the current transaction.
+The id property is added to the model class if one is not specified with @IdSettings.
 
 Each class defines a DBTypeDescriptor instance to use for accessing information about the type or running persistent methods. This includes declarative queries, persistent properties, etc. There are also methods to find instances using a combination of properties, with sorting, and paging. The programming model becomes much easier to use due to the "only one instance" design.
 

@@ -71,6 +71,8 @@ Specifies the top level html page.
 
 * refreshBindings - set to true in the page to refresh all bindings in the page after user interaction or changes from the server are applied. This is a somewhat expensive option to enable when there are thousands of bindings in the page but a quick way to update the page when properties are missing change events and they are difficult to add.
 
+* pageVisitCount - An integer value that's incremented once when the page is loaded. Bind to this property to run events on the initial page load, either on the server for a server-only, client for a client-only app, or both for a client-server app.
+
 ## All tags: structural attributes
 
 These attributes which apply to any tag affect the code generation process: 
@@ -81,6 +83,7 @@ These attributes which apply to any tag affect the code generation process:
 * repeat - refers to a List or array of items.  The tag is replicated once for each item.  Use repeatVarName to specify the name of the variable to store the array element.
 * repeatVarName - used with repeat to define a variable name other than "repeatVar" to hold the value.
 * repeatWrapper - used with repeat to specify the extends class for the repeat wrapper class
+* repeatIndex - for each tag inside of a repeat a bindable property set to the index of that tag
 * replaceWith - used with an expression that evaluates to another tag object (usually a separate tag template). Use this to switch between completely different versions of content that occupy the same space. If the expression evaluates to null, the owner tag is rendered instead. 
 * serverContent - set this to true on a tag object you do not want rendered in the client. It's similar but slightly different than exec="server". When you set exec="server", when building the client version this object is omitted entirely so it won't be present when rendering the initial .html file. Use serverContent so that this tag object but not it's children are included in the content. Use serverContent in stubs inserted into the client tag objects to represent chunks of content where we should preserve the existing innerHTML of the DOM object when the parent is being re-rendered.
 * exec - set to either 'client', 'server' or 'default'. This attribute is helpful when a file is shared by both client and server processes but where the tag should be included in only one version of the page object. Use 'default' for the case where you want it in the client for client-only applications and the server for client-server applications.
@@ -91,6 +94,10 @@ These attributes which apply to any tag affect the code generation process:
 * scope - specifies the lifecycle of this tag object (similar to setting the @Scope annotation or using the 'scope' operator in sc), for example scope="session" or scope="request".
 * cache - turn on/off caching of content for the given tag (default is true).
 * visible - set to true for the tag to be displayed, false for it to be hidden. When a tag is not visible, if it has a child with the id="alt", that tag is displayed in it's place. Otherwise, the parent's body is re-rendered to omit this child if it was previously visible.
+* component - set to true to make this tag an @Component class in the generated code
+* stateless - set to true to for a tag to be put into 'stateless' mode. Otherwise, the tag is stateless if it does not have an id attribute or use any other behavior attributes like 'extends'.
+* bodyOnly - When bodyOnly=true, it only renders the content of the tag, not the tag/end tag. This is a bindable property so it can be changed to true/false on the fly. It's is useful for where you need some dynamic content to be part of the body directly of the parent element, or if you want to wrap/unwrap a tag in different modes.
+* changedCount - an integer property that is incremented each time the content of an input tag or text area is changed.
 
 ## DOM Events
 
