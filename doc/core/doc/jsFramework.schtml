@@ -41,7 +41,8 @@ The JSSettings annotation controls how your type is processed by the Javascript 
 * replaceWith: Replaces all references to this type to a different type in the generated Javascript code.
 * typeTemplate: Override the frameworks type template used to generate code for this type and subtypes
 * prefixAlias: Registers an alias for this types package to use as the prefix instead of the default convention of pkgA_pkgB_ 
-* dependentJSFiles: Comma separated list of jsLibFiles which this lib file depends on being included before it.  This sorts the order of the jsFiles property available to templates for generating the list of scripts to include.
+* usesJSFiles: Comma separated list of jsLibFiles which this lib file should include but does not change the loading order of JS files in the list.
+* extendsJSFiles: Comma separated list of jsLibFiles which this lib file has an extends or implements relationship with. These types must be loaded before the referencing type and so are put ahead in the JS files list that gets compiled into templates as the list of files to include.
 * jsModuleFile: Set this for library code which you want to group into a separate .js file.  By default, all .js files are loaded into one main .js file.
 
 The JSMethodSettings annotation is usually used for a type which set JSSettings.jsLibFiles.  There are times when the name of the Javascript method conflicts with a field that already exists.  For example, String.length is a field in Javascript but a method in Java.  So an annotation layer for java.lang.String sets JSMethodSettings on the length method to _length().  That method is added to javasys.js for the prototype of the built-in String class. 
