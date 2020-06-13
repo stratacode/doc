@@ -18,13 +18,15 @@ object UserSession {
 
    void save() {
       Connection conn = SQLUtil.newConnection();
+      PreparedStatement st = null;
+      ResultSet idRes = null;
       try {
-         PreparedStatement st = conn.prepareStatement("INSERT INTO user_session(remote_ip, headers) VALUES (?, ?) RETURNING id");
+         st = conn.prepareStatement("INSERT INTO user_session(remote_ip, headers) VALUES (?, ?) RETURNING id");
          st.setString(1, remoteIp);
          st.setString(2, headers);
 
          st.execute();
-         ResultSet idRes = st.getResultSet();
+         idRes = st.getResultSet();
          if (idRes.next()) {
             id = idRes.getInt(1);
          }
@@ -33,6 +35,8 @@ object UserSession {
          Context.getCurrentContext().log("Error saving user session: " + exc + " remoteIp: " + remoteIp + " " + headers);
       }
       finally {
+         SQLUtil.close(idRes);
+         SQLUtil.close(st);
          SQLUtil.close(conn);
       }
    }

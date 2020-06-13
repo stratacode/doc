@@ -17,15 +17,17 @@ class UserDownload {
 
    void save() {
       Connection conn = SQLUtil.newConnection();
+      PreparedStatement st = null;
+      ResultSet idRes = null;
       try {
-         PreparedStatement st = conn.prepareStatement("INSERT INTO user_download(session_id, download_file, download_version, license_version) VALUES (?, ?, ?, ?) RETURNING id");
+         st = conn.prepareStatement("INSERT INTO user_download(session_id, download_file, download_version, license_version) VALUES (?, ?, ?, ?) RETURNING id");
          st.setInt(1, sessionId);
          st.setString(2, downloadFile);
          st.setString(3, downloadVersion);
          st.setInt(4, licenseVersion);
 
          st.execute();
-         ResultSet idRes = st.getResultSet();
+         idRes = st.getResultSet();
          if (idRes.next()) {
             id = idRes.getInt(1);
          }
@@ -34,6 +36,8 @@ class UserDownload {
          Context.getCurrentContext().log("Error saving user download: " + exc + " sessionId: " + sessionId + " downloadFile: " + downloadFile);
       }
       finally {
+         SQLUtil.close(idRes);
+         SQLUtil.close(st);
          SQLUtil.close(conn);
       }
    }

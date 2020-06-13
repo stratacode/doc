@@ -16,8 +16,10 @@ class UserContactType {
 
    void save() {
       Connection conn = SQLUtil.newConnection();
+      PreparedStatement st = null;
+      ResultSet idRes = null;
       try {
-         PreparedStatement st = conn.prepareStatement(
+         st = conn.prepareStatement(
             "INSERT INTO user_contact_type(session_id, email, contact_type, last_update) VALUES (?, ?, ?, ?) ON CONFLICT(email) DO UPDATE set contact_type = EXCLUDED.contact_type, last_update = EXCLUDED.last_update RETURNING id");
          st.setInt(1, sessionId);
          st.setString(2, email);
@@ -25,7 +27,7 @@ class UserContactType {
          st.setTimestamp(4, new java.sql.Timestamp(System.currentTimeMillis()));
 
          st.execute();
-         ResultSet idRes = st.getResultSet();
+         idRes = st.getResultSet();
          if (idRes.next()) {
             id = idRes.getInt(1);
          }
@@ -34,6 +36,8 @@ class UserContactType {
          Context.getCurrentContext().log("Error saving user contact type: " + exc + " sessionId: " + sessionId + " email: " + email + " contactType: " + contactType);
       }
       finally {
+         SQLUtil.close(idRes);
+         SQLUtil.close(st);
          SQLUtil.close(conn);
       }
    }
