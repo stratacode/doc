@@ -31,6 +31,14 @@ For multi-valued associations, define a List property where the type of the elem
 
 Associations can use @DBPropertySettings(reverseProperty="reversePropName") to mark one side of a bi-directional relationship. Both sides of the relationship are marked as reversible and both properties will generate data binding events so that changes made in one direction can be automatically reflected in the other immediately.
 
+### JSON properties
+
+If a persistent property is a type that's not mapped with @DBTypeSettings using it's own table, it will be serialized as a JSON value object. These types should have a zero arg constructor. All non-transient bean properties are serialized into a JSON column for that property.
+
+If the property is a List of persistent types, by default it becomes a multi-table. But when the list is likely to be small, it's more efficient to set columnType="jsonb" so that it stores a list of references to the other table. 
+
+A List of strings or other primitive types is stored as a JSON array column.
+
 ### Defining types with scsql 
 
 It's also possible to define a class with sql create table statements. First extend the layer db.scsql from the project layer to support for source files in the scsql format.
@@ -140,15 +148,17 @@ It's also possible to queue up inserts and updates by setting flags in DBTypeDes
 
 One of the goals of the DB layer is to make it easier to write efficient persistence code. Caching can be enabled when it's needed without having to rearchitect without losing consistency. This same model paves the way for efficient, low-latency real time applications, better stats and monitoring and more.
 
-DB uses the "highlander principle" (from the old TV show) in that "there can be only one" instance for a given entity in a given process at a time. A central cache is used for any lookups, so subsequent queries for the same entity will update that entity raather than create a new copy, leaving the old one out of date. Changes made to that instance in a transaction are kept in a separate thread-local store visible only to that transaction until they are committed. Changes that come from these commits or that repopulate from the database become visible to other threads right away. 
+DB uses the "highlander principle" (from the old TV show) in that "there can be only one" instance for a given entity in a given process at a time. A central cache is used for any lookups, so subsequent queries for the same entity will update that entity rather than create a new copy, leaving the old one out of date. Changes made to that instance in a transaction are kept in a separate thread-local store visible only to that transaction until they are committed. Changes that come from these commits or that repopulate from the database become visible to other threads right away. 
 
 Although the API itself is threadsafe, it won't stop two threads from getting inconsistent views of data across a commit. Instead, it works more like the 'read committed' isolation level where two reads in a transaction might see different values if another thread happens at the same time. 
 
-Locking can be implemented at the 'scope' level to eliminate most race conditions at a higher level. 
+Locking can be implemented at the 'scope' level to eliminate common race conditions at a higher level, for example to prevent two requests from the same session from running at the same time. 
 
-To explicitly uncache an instance, call the DynUtil.dispose method (that also removes data binding listeners and removes the instance from any views in the management UI). 
+To explicitly uncache an instance, call the DynUtil.dispose method (that also removes data binding listeners and removes the instance from any views in the management UI). For objects stored in the ScopeContext, this happens automatically.
 
-TODO: note - we currently don't have a time-expiration or other means of removing items from the cache. If they are stored in a component, they'll be cleaned up when the component is cleaned up.  We could use a weak cache to store the instances but not sure how to make the getById lookup fast in that case. Maybe the frameworks should provide safe management of the caches by - have a cache owner/policy setup for each type. Register instances during the transaction and remove the from the cache after they are used and the transaction or thread completes. Or cache them in a scope that gets refreshed or marked stale periodically or like a session where it gets disposed automatically when no longer needed.
+TODO: note - we currently don't have a time-expiration or other means of removing items from the cache. If they are stored in a component, they'll be cleaned up when the component is cleaned up (e.g. the session is expired).  We could use a weak cache to store the instances but not sure how to make the getById lookup fast in that case. 
+
+Right now frameworks should provide safe management of the caches by ensuring components are owned by a scope context and the context expires at the right time. We could add other mechanisms like registering instances during the transaction and removing them from the cache after they are used and the transaction or thread completes. Or add other lifecycles like session that are periodically flushed if not used in a given time period (e.g. "product catalog scope" that defines a specific lifecycle for cached products and categories).
 
 ## Metadata apis
 
@@ -158,7 +168,7 @@ DBTypeDescriptor also provides access to an API useful for lower-level access to
 
 ## SQL manipulation APIs
 
-The DB framework is not a lot of code, but the code is very flexible. SQL commands are parsed and generate a SQLFileModel object that defines a list of SQLCommand, CreateTable, DropTable, etc. This API works both ways - as a way to extra info from the SQL model as well as to make incremental changes, or generate a new SQL model from scratch. There are apis to generate a new SQLFileModel that alters one set of commands to the other. 
+The DB framework is not a lot of code, but the code is flexible. SQL commands are parsed and generate a SQLFileModel object that defines a list of SQLCommand, CreateTable, DropTable, etc. This API works both ways - as a way to extra info from the SQL model as well as to make incremental changes, or generate a new SQL model from scratch. There are apis to generate a new SQLFileModel that alters one set of commands to the other. 
 
 <% ) %>
 

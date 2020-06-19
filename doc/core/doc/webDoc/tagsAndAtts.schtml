@@ -33,6 +33,7 @@ All tag classes inherit from the same Element class, but special tag classes add
 * value - controls the value attribute in HTML
 * disabled - controls the disabled attribute in HTML
 * checked - controls the checked attribute for those input types which use it
+* liveEdit - use 'on' so that each character is sync'd immediately, or 'change' so that the value is sync'd only after changing focus or hitting enter or 'off' for a batch style form, where values are sent only after another value is changed.
 
 ### Button tag
 
