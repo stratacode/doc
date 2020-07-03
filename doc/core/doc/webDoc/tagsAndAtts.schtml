@@ -27,6 +27,7 @@ All tag classes inherit from the same Element class, but special tag classes add
 * selectedIndex - reflects the selected index and usable in forward or reverse bindings.
 * selectedValue - also usable in forward or reverse directions, as an alternative to selectedIndex.  Set this to point to a value in the array or List for optionDataSource.  It will select that item by default.  When the value changes, it points to the currently selected value.
 * optionDataSource - set to the List to use for populating the option tags.
+* changeEvent - set each time the HTML 'change' event is fired, useful in reverse-only bindings to call a method, set a property or eval another expression.
 
 ### Input tag 
 
@@ -34,6 +35,7 @@ All tag classes inherit from the same Element class, but special tag classes add
 * disabled - controls the disabled attribute in HTML
 * checked - controls the checked attribute for those input types which use it
 * liveEdit - use 'on' so that each character is sync'd immediately, or 'change' so that the value is sync'd only after changing focus or hitting enter or 'off' for a batch style form, where values are sent only after another value is changed.
+* changeEvent - set each time the HTML 'change' event is fired, useful in reverse-only bindings to call a method
 
 ### Button tag
 
@@ -59,8 +61,17 @@ Just like Input but used for the button tag.
 ### Form tag
 
 * submitEvent - property set when the form is submitted. 
+* submitCount - integer property incremented each time form is submitted
+* submitInProgress - set to true when submitFormData() has been called and the browser is in the middle of the "POST" of the form data to the server. 
+* submitError - set to null for a successful submitFormData result or to the errorCode of the response if the POST to the specified URL fails.
 
-Call the submit() method on the server or client to submit the form programmatically.
+Call Form.submit() method on the server or client to submit the form programmatically. This just calls the dom elements 'submit' method that will typically go to the action page.
+
+Call Form.sendSubmitEvent() from test scripts or server code to simulate a form submit without navigating to the action page. 
+
+Call Form.submitFormData(String url) to send the FormData to the specified URL. This is in particular useful for file upload forms that should use a single-page application style. The result can be a subclass of sc.servlet.UploadPage, designed to support a simple form receiver for file upload (or other multi-part forms).
+
+All of the methods of submitting a form from code are supported in both server tags and client/server mode.
 
 ### Body, Head tags
 
