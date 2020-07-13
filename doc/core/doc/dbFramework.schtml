@@ -39,6 +39,10 @@ If the property is a List of persistent types, by default it becomes a multi-tab
 
 A List of strings or other primitive types is stored as a JSON array column.
 
+### Byte array
+
+For a Java property of type byte[] DB uses the postgresql bytea column type.
+
 ### Defining types with scsql 
 
 It's also possible to define a class with sql create table statements. First extend the layer db.scsql from the project layer to support for source files in the scsql format.
