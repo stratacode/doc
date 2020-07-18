@@ -85,7 +85,7 @@ Specifies the top level html page.
 
 * pageVisitCount - An integer value that's incremented once when the page is loaded. Bind to this property to run events on the initial page load, either on the server for a server-only, client for a client-only app, or both for a client-server app.
 
-## All tags: structural attributes
+## All tags: behavioral attributes
 
 These attributes which apply to any tag affect the code generation process: 
 
@@ -108,8 +108,18 @@ These attributes which apply to any tag affect the code generation process:
 * visible - set to true for the tag to be displayed, false for it to be hidden. When a tag is not visible, if it has a child with the id="alt", that tag is displayed in it's place. Otherwise, the parent's body is re-rendered to omit this child if it was previously visible.
 * component - set to true to make this tag an @Component class in the generated code
 * stateless - set to true to for a tag to be put into 'stateless' mode. Otherwise, the tag is stateless if it does not have an id attribute or use any other behavior attributes like 'extends'.
-* bodyOnly - When bodyOnly=true, it only renders the content of the tag, not the tag/end tag. This is a bindable property so it can be changed to true/false on the fly. It's is useful for where you need some dynamic content to be part of the body directly of the parent element, or if you want to wrap/unwrap a tag in different modes.
+* bodyOnly - Controls whether or not the start and end tag are draw. The default is 'false' to render both the start and end tag. When set to true, only the body is rendered - the start and end tag are omitted. This is a bindable property so it can be changed to true/false on the fly. It's is useful for where you need some dynamic content to be part of the body directly of the parent element, or if you want to wrap/unwrap a tag in different modes.
+* wrap - For repeat tags only, wrap determines whether the repeat tag itself is repeated, or whether it's rendered once and only the body of the tag is repeated. The default value is different for different tags. For most tags, wrap is false so that the tag with the repeat attribute is itself repeated. But for the dl and ul tags, only the body elements are repeated. For dl, typically the dd/dt pair of tags is repeated once for each element in the array.
 * changedCount - an integer property that is incremented each time the content of an input tag or text area is changed.
+* initScript, stopScript - used for components that use external Javascript (see Javascript Components)
+
+## Javascript components
+
+It's possible to use standard Javascript libraries with SC tag objects. Set the 'initScript' property to a JS code snippet to be executed when the component is first initialized. Set the 'stopScript' property to a script that is run code when the tag is removed from the DOM.
+
+Both tags are run where the 'this' object for the JS code snippet is set to the tagObject itself. That means you can call access the 'id' property, or set other properties on that object. 
+
+For examples, see the HtmlTextEditor components provided in the coreFrameworks bundle. 
 
 ## DOM Events
 
