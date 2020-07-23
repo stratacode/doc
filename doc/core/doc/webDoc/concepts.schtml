@@ -294,9 +294,17 @@ Listen to changes to window.innerWidth/innerHeight to receive notifications of t
 
 Use document to listen for global mouse events. See example.html.mouseMove.
 
+The document.activeElement like the similar DOM property helps with focus navigation, and is used to save/restore the focus after an focused element is refreshed. 
+
 javadoc: [Document](/javadoc/sc/lang/html/Document.html), 
 [Location](/javadoc/sc/lang/html/Location.html), 
 [Window](/javadoc/sc/lang/html/Window.html).
+
+## Page focus
+
+Call the focus() method on a tag object from either the client or the server to apply focus to that element.
+
+Use the document.activeElement property to see or change the focused element.
 
 ## Imports 
 

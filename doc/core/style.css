@@ -347,10 +347,8 @@ h2 {
 }
 
 .highlight {
-   padding: 2px;
-   font-size: 130%;
    font-weight: bold;
-   color: #0815D0;
+   color: #000557;
 }
 
 .code, code {
