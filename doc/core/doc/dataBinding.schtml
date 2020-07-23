@@ -16,9 +16,9 @@ Data binding expressions are converted into static method calls on the [Bind](/j
 
 There are three types of bindings:
 <% ) %>
-    <span class='highlight'>:=</span> &nbsp;forward: sets disabled based on the length of entryText<br>
-    <span class='highlight'>=:</span> &nbsp;reverse: calls addEntry when the form is submitted and submitCount is incremented<br>
-    <span class='highlight'>:=:</span> bidirectional: keeps entryText and value in sync.<br>
+    <span class='highlight'>:=</span> &nbsp;forward<br>
+    <span class='highlight'>=:</span> &nbsp;reverse<br>
+    <span class='highlight'>:=:</span> bidirectional<br>
 
 <%= MarkDownPage.markDown(%>
 Here's a simple example which uses:
@@ -27,35 +27,35 @@ Here's a simple example which uses:
 * A reverse binding to call FormManger.submitForm(entry) method when the submitEvent changes
 <% ) %>
 
-<div class="code">
-    <span class='keyword'>class</span> UserForm {<br>
- &nbsp;&nbsp;&nbsp;      String <span class="member">entry</span>;<br>
- &nbsp;&nbsp;&nbsp;      boolean <span class='member'>submitEnabled</span> <span class='highlight'>:=</span> <span class="member">entry</span> != null && TextUtil.length(<span class="member">entry</span>) &gt; 0;<br>
- &nbsp;&nbsp;&nbsp;      SubmitEvent <span class='member'>submitEvent</span>;<br>
- &nbsp;&nbsp;&nbsp;      <span class='member'>submitEvent</span> <span class='highlight'>=:</span> FormManager.submitEntry(<span class="member">entry</span>);<br>
-    }<br>
-</div>
+<pre class="code">
+    <span class='keyword'>class</span> UserForm {
+ &nbsp;&nbsp;&nbsp;      String <span class="member">entry</span>;
+ &nbsp;&nbsp;&nbsp;      boolean <span class='member'>submitEnabled</span> <span class='highlight'>:=</span> <span class="member">entry</span> != null && <span class="member">entry</span>.length() &gt; 0;
+ &nbsp;&nbsp;&nbsp;      SubmitEvent <span class='member'>submitEvent</span>;
+ &nbsp;&nbsp;&nbsp;      <span class='member'>submitEvent</span> <span class='highlight'>=:</span> FormManager.submitEntry(<span class="member">entry</span>);
+    }
+</pre>
 
 Here's an example using schtml which includes a bi-directional binding:
-<div class="code">
-     &lt;form submitEvent="<span class='highlight'>=:</span> addEntry()"&gt;<br>
-     &nbsp;&nbsp;&nbsp;   &lt;input type="text" value="<span class='highlight'>:=:</span> entryText" disabled="<span class='highlight'>:=</span> TextUtil.length(entryText) == 0"&gt;<br>
-     &lt;/form&gt;<br>
-</div>
+<pre class="code">
+     &lt;<span class="keyword">form</span> <span class="keyword">submitEvent</span>="<span class='highlight'>=:</span> addEntry()"&gt;
+     &nbsp;&nbsp;&nbsp;   &lt;<span class="keyword">input</span> <span class="keyword">type</span>="text" <span class="keyword">value</span>="<span class='highlight'>:=:</span> <span class="keyword">entryText</span>" <span class="keyword">disabled</span>="<span class='highlight'>:=</span> <span class="keyword">entryText</span>.length() == 0"&gt;
+     &lt;/<span class="keyword">form</span>&gt;
+</pre>
 <br>
 <%= MarkDownPage.markDown(%>
 
 ## Excel-like formula for Java properties
 
-Excel provides a grid of cells and lets you specify a formula or value for each cell which can refer to the other cells. StrataCode components that model with a single name-space of types and properties. Each property can have a value or a formula which can refer to other properties. The result is a quick way to convert normal Java expressions to binding expressions that can react and make an application more declarative. Rules can easily be moved into a downstream layer and customized by a different developer or replaced to create a new version.
+Excel provides a grid of cells that specify either a plain value, or a formula involving live expressions. StrataCode data binding adds the live expression capability to components with properties. The result is a quick way to convert normal Java expressions to binding expressions that can react and make an application more declarative. Layers allow configuration or binding expressions to be moved downstream, customized for a different developer or replaced to create a new version.
 
-Data binding expressions can include any Java expression. If necessary, the code generation will inject 'send event' calls into the setX methods for properties used in binding expressions. A warning is issued if some part of the expression does not send necessary events or not marked as bindable via annotations.  You can use data binding with any existing Java library, with methods or static functions and control behavior with annotation layers.
+Data binding expressions can use most any Java expression where changes are detected for properties, or arguments to methods, conditionals, etc. When necessary, the code generation process injects 'send event' calls into the setX methods for properties used.  A warning is issued if some part of the expression does not send necessary events or not marked as bindable via annotations. You can use data binding with existing Java libraries although sometimes you need to write wrapper classes or add these sendEvent calls to get reactive behavior. Annotations help guide the generated code when necessary.
 
-StrataCode's data binding system is based on experience with building large systems with data binding techniques.  To benefit the most from data binding, we've found that you can effectively expose a rich, easily configured layer of features and functionality in binding rules to cover a large share of the business rules.  For more complex rules, use intermediate properties to simplify or trigger a method which performs step-by-step computation. These techniques hide the more complex logic, keeping it separate from the declarative, configurable layer, but expose a very rich configurable set of properties and rules.  
+StrataCode's data binding system is based on experience with building large systems with data binding techniques.  To benefit the most from data binding, we've found that you can effectively expose a rich, easily configured layer of features and functionality in binding rules to cover a large share of the business rules.  For more complex rules, use intermediate properties to simplify an expression, or evaluate properties in a method figured when other properties change when logic requires "step-by-step" control. These techniques help encapsulate logic, rules, making code easy to read, and applications more configurable.
 
 With StrataCode layers, technical users can collaborate in multiple ways with developers.  No longer do developers have to design in customizability and managability up front or to make structural changes to add it later.  Instead, they can develop the cleanest, simplest code, knowing customization later will be an easy cut-and-paste, or just let downstream layers override their defaults.  And building customization apis is much easier because these layering and editing features are built-in to the runtime, IDE, and management UIs.  To create a "customization layer", a developer can cut and paste the relevant code into a new file using static typing.  It can be at that point handed off to another team - operations, marketing, etc.  
 
-In some situations, a developer will need to share a file with other team members.  StrataCode helps with this tool by providing automatic, incremental editing of source code layers from normal forms.  Comments, order of items in the file, are maintained creating 'diffable' changes.   Developers maintain the same level of control over important code assets while offloading the maintenance.
+In some situations, more than one developer needs to simultaneously work on code in the same file, because types can combine different aspects of the same feature. StrataCode helps developer workflows by making it straightforward to separate these aspects into separate files with a well-defined contract, assembling these pieces in the generated code. Comments, order of items in the file, are maintained making the generated code easy to read and debug. Developers maintain the same level of control over the assets they need and offload aspects to others.
 
 ## Examples of Data Binding
 
@@ -157,7 +157,7 @@ Implement raised/lowered border swap based on the selected state of the JToggleB
 
 <%= MarkDownPage.markDown(%>
 
-## Removing or Replacing Bindings
+## Removing or replacing bindings
 
 One of the challenges with programming with rules is turning off the old rule when you dispose the object.  StrataCode stores bindings with the objects they belong to.  When you dispose of the objects using a utility method provided, the bindings that object defines goes away as well.
 
@@ -169,7 +169,7 @@ When an object is disposed by StrataCode (DynUtil.dispose(Object obj)), it's bin
 
 StrataCode object instances created through the frameworks are disposed automatically.  For example, session scoped components will be have their bindings removed when the session expires, or elements of a 'repeatTag' are disposed when they are removed.
 
-## Sending Binding Events
+## Sending events
 
 Data binding rules run when properties change.  At the runtime level, there needs to be a "sendEvent" call made, usually in the setX method to signal a property change.  You have a few choices on how to add these events.   
 
@@ -183,26 +183,57 @@ Data binding rules run when properties change.  At the runtime level, there need
 
 To implement this pattern most effectively StrataCode uses code injection and compile-time validation of bindings to make the most powerful, bindable Java expressions available.  StrataCode detects which expressions cannot be made bindable and warns you at compile time.  You can control the warnings through easy annotations. It's easy to create bindable libraries of objects and methods to provide even more power in your dynamic relations including objects which trigger events to invalidate all methods on the instance, method pairs that implement complex bi-directional relationships.  When an expression is not bindable via event firing, you can mark bindings or objects to be refreshed - where the bindings are validated and only fired if their values have changed.  This is not as low-latency and scalable as event firing but a nice fallback to code injection.  In fact, many modern reactive frameworks only support this model and do hand waving at complex applications that use bindings (i.e. more than 10K bindings).   
 
-In StrataCode a data binding is simply an instance of an event listener created when that property is initialized.  It's registered with it's owning object so there's only one binding that defines the value for each property on the object.  The process of sending an event and firing a binding allocates no memory.
+In StrataCode a data binding is simply an instance of a 'binding' created when that property is initialized. The binding registers listeners for any properties that might affect it's state. For forward bindings, each property only has one binding at a time. If you add another forward binding for the same property, it replaces the old one. The process of sending an event and firing a binding allocates no memory.
+
+## Two step evaluation, eventual consistency
+
+For efficiency in larger binding graphs, each change first invalidates any bindings that are still valid. After the change has completed, it validates all invalid bindings and then updates the result. This reduces the chance a method is called with properties in an inconsistent state. Ultimately though, data binding uses an "eventually consistent" model so it's important to account for some patterns of inconsistency in getX/setX and methods triggered from bindings.
+
+## Event queuing
+
+APIs allow framework code to queue change events to avoid firing bindings during certain contexts. With the sync system for example, all incoming changes are applied and change events are queued up. At that point, all changes are first invalidated, the all re-validated to minimize method calls and other computation used in validating the binding.
+
+## Same value check
+
+Use @Bindable(sameValueCheck=true) on a property to cause the setX method to do an 'equal' test on the original value before sending a change. The default is to send the change event even if the setX is called with the same value. Because the binding objects caches the last value, it can often stop an unnecessary change from propagating even without the sameValueCheck=true.
+
+## Do later bindings
+
+Use @Bindable(doLater=true) to apply the binding after the current operation completes. This is a useful way to manage UI refresh in response to some user interaction for example, or to avoid re-validating some data structure multiple times or when the system is in the midst of propagating changes and is in a inconsistent state.  Use @Bindable(doLater=true,priority=10) or @Bindable(doLater=true,priority=-10) to control the order of doLaters. Higher priority doLater methods are called before lower priority ones. The web framework uses Element.REFRESH_TAG_PRIORITY (-5) as the 'refreshTags' priority. Use -6 or smaller to run code after the tags have been all been refreshed or the default of 0 to run before tags are refreshed.
+
+## Run bindings after a delay
+
+Use @Bindable(delay=10) to insert an integer number of milliseconds delay from when the binding is validated and ultimately the property is set for a forward binding or for a reverse when the expression is evaluated or reverse property set.
 
 ## Multi-threading
 
-There are a number of mechanisms in StrataCode that framework developers can use to provide the appearance of a safe, declarative, single-threaded environment for domain model objects that leverages multiple threads behind the scenes.  Before delivering user-interface events, framework code sets up a CurrentScopeContext - a list of all of the available ScopeContexts for the current thread.   StrataCode acquires the proper lock for each scope - either a read/write, or a read-only depending on how the current thread uses information in that scope. 
+Frameworks have a flexible set of APIs and features to give application code the appearance of a safe, declarative, single-threaded environment for domain model objects.  Behind the scenes, the framework code makes efficient use of multiple threads, including support for collaboration features where one client can receive change events from another. 
 
-When you need to use a binding expression which delivers change events to a different "CurrentScopeContext"  - you set the @Bindable(crossScope=true) annotation on the binding.   When a cross-scope binding is initialized, it's CurrentScopeContext is saved as the "initialization context".  Before applying the binding, the code will check if the CurrentScopeContext matches the "initialization context".  If not, it's put into a queue for that context.  If there's a waiter for that context, it will wake up and process it with the right locks.  If not, it waits till the next request with that context.
+Before delivering user-interface events, framework code sets up a CurrentScopeContext - a list of all of the available ScopeContexts for the current thread. Each context can require a read or write lock based on how the framework code allows that ScopeContext to be used. These locks are acquired on a "all or nothing basis" to avoid deadlocks. 
 
-TODO: Detect when we need crossScope binding?  Or just set it by default for certain frameworks that might have multi-threaded behavior?
+For the brower or a desktop application, there might only be one ScopeContext for the whole process (global). For the webFramework, there are a number of ScopeContexts to manage the multi-user, multi-purpose nature of client/server request handling. Although ScopeContexts can be added and customized, by default the webFramework supports a separate ScopeContext for each important category of state that reflects the way the server is used: global (shared by all requests), per-application (shared by all requests to some named application that represents a subset of the requests), per user-session, per application-user-session, per browser window, and per request.
+
+When these scope contexts are shared between end-users, it's possible to keep data structures synchronized enabling real-time collaboration using data binding and/or the sync framework. In essence, there will be overlapping types and layers where some subset of properties are set in one context and listened to by another. Mark these properties with @Bindable(crossStop=true). 
+
+Here's a basic description of how this is implemented.  When a cross-scope binding is initialized, it's CurrentScopeContext is retrieved from thread-local state and saved as the "initialization context" for the binding. Before applying the binding, the code will check if the CurrentScopeContext matches the "initialization context".  If not, it's put into a queue for that context.  If there's a waiter for that context, it will wake up and process it but only after acquiring the right locks. This ensures it won't start until the current operation completessince the modifier will have a lock required to change a property in the shared component. Once the locks are available, those events are delivered either via the sync system or sent to the client on its next request.
+
+TODO: It's possible to detect properties that need crossScope with just an extra thread-local lookup for each sendEvent, or provide an option to do this to validate if it's set properly. For now, this feature has not been used extensively so using it carefully until we have more code using it. Or just set it by default for certain frameworks that might have multi-threaded behavior but long-term it should be possible to make these collaborate scenarios manageable, thread-safe, and secure especially once we integrate with a multi-server sync service. 
 
 ## Debugging Problems
 
-You can enable tracing of all binding events to figure out what's happening at the fine-grained level.  It's best though to set @Bindable(trace=true) or @Bindable(verbose=true) on the properties you need to follow.  If you use -vb, you see a lot out output and have to search for the properties you need.  If you enable -vba, you get all setX traffic for all bindable properties which is a real lot, but maybe yields some insight if there's an error at the end.
+The first step is to set in the generated setX and getX methods. While it's possible to set breakpoints on the field, it's usually better to use the IntelliJ plugin and navigate from the source to the generated source and set the breakpoints there. If a sendEvent is supposed to fire another method, when you step over the sendEvent call it should stop in the other setX (unless queuing is enabled). If not, step into the sendEvent and you will quickly find the list of listeners. 
 
-It's possible for conflicting binding rules to be defined which generate infinite loops.  StrataCode catches those errors hopefully at compile time but if necessary at runtime.  It reports the list of bindings involved, whether in Java or Javascript and deactivates them.  When you enable tracing, it's easy to track down which bindings are at fault, as you trace the flow of values.  Currently this requires that you are the kind of programmer who can trace through code by reading log files.  
+You can enable tracing of all binding events using -vb to figure out what's happening at the fine-grained level without the debugger.  It may be best to reduce the volume of output and only set @Bindable(trace=true) or @Bindable(verbose=true) on the properties you need to follow. Enable -vba, to get all setX traffic for all bindable properties. 
+
+## Recursive bindings
+
+It's possible for conflicting binding rules to be defined which generate infinite loops. StrataCode catches some error at compile time, but not all. At runtime, it has a recursion limit and generates helpful diagnostics as to the bindings involved and deactivates them to avoid further problems that can become an obstacle in debugging. 
+
+By turning on tracing, it's also easy to track down which bindings are at fault, as you trace the flow of values. 
 
 See [debugging](debugging.html) for details.
 
 <% ) %>
-
 
      </div>
    </div></div>
