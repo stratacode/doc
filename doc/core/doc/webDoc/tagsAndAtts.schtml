@@ -129,6 +129,8 @@ Here is the list of event properties that are supported:
 
 clickEvent, dblClickEvent, mouseDownEvent mouseMoveEvent, mouseOverEvent, mouseOutEvent, mouseUpEvent, keyDownEvent, keyPressEvent, keyUPEvent, submitEvent, changeEvent, focusEvent, blurEvent, and a special combo event: mouseDownMoveUp for tracking click, drag, release.  
 
+It can sometimes be helpful to be notified of the size change for an element. Each tag object exposes bindable properties for: clientWidth, clientHeight, offsetWidth, offsetHeight, scrollWidth, and scrollHeight. 
+
 <% ) %>
 
      </div>

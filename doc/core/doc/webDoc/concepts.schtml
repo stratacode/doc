@@ -140,13 +140,15 @@ It's possible to define tag macros in their own file. Just like with Java, the c
 
 ## Inheriting attributes and content
 
-When one tag extends another it inherits or overrides the attributes of the super tag. By default, the body of the sub tag is merged with the inherited body but you can set tagMerge to append, prepend or replace the inherited content instead. The tagMerge attribute affects the default behavior for attributes as well. Use bodyMerge to specify a different mode for the body only. 
+When one tag extends another it inherits or overrides the attributes of the super tag. By default, the body of the sub tag is merged with the inherited body using the default value of bodyMerge="merge". Set the bodyMerge attribute to append, prepend or replace the body of the inherited tag instead. The bodyMerge attribute only affects the body. Attributes will continue to be inherited and overridden with any value of bodyMerge like they do by default.
 
-When using 'merge' mode for the body, any child tags of the sub tag are merged with child tags of the super tag if they have the same id. Tags with the same id inside of the body are themselves merged and so on. 
+When using the default bodyMerge="merge" mode for the body, any child tags of the sub tag are merged with child tags of the super tag if they have the same id. Tags with the same id inside of the body are themselves merged and so on. Singleton tags like head, body, and html will always merge or replace the previous one so the page does not end up with more than one. 
 
 When merging tags, use the orderValue attribute to change the order of tags. The default orderValue is 0, so set orderValue to 1 for a tag to be placed after all other tags in that body, and -1 for the tag to be placed before all other tags.
 
-It's best to use explicit id attributes with sub-tags used in this merge operation. Sometimes, the default id causes a tag to be merged when unintended causing content to be lost. Either use tagMerge='append' or set an id on either the super tag or the sub tag so they are not merged.
+To replace a tag, there are two options. Use the attribute tagMerge="replace" to replace the tag object at compile time. In this case, both the attributes and body of the downstream tag replace those of the upstream one. The value of the tagMerge cannot point to an expression since it's evaluated at compile time.
+
+The other way to replace a tag is at runtime using the replaceWith attribute which can be set at runtime with an expression. In this case, when the vaue of replaceWith is null, the original tag is rendered. Otherwise, the tagObject pointed to by the replaceWith expression is rendered in its place.
 
 Be careful not to extend a div tag from an input tag or another case where the tag implementation class does not match. 
 
