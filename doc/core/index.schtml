@@ -43,7 +43,7 @@
       </div>
       <div id="bindBoxGraphic" extends="GraphicBox">
          <span class="infoBoxGraphicBody">
-            <div class="infoBoxHeader">Forward</div>
+            <div class="infoBoxHeader">Forward binding</div>
             <img src="/images/forwardBindExamp.png" class="infoBoxImage"><br/>
             <div class="infoBoxHeader">Reverse + bi-directional</div>
             <img src="/images/reverseBindExamp.png" class="infoBoxImage"><br/>
@@ -56,7 +56,7 @@
          <span class="infoBoxLinkBody"><a href="/doc/components.html">
             <div class="infoBoxTitle">Next gen components</div>
                Wire together components using properties. Use @Component for graphs with recursive relationships and multi-step initialization. The same source code works in both compiled and dynamic modes, all statically typed. 
-               Automatic getX/setX, events, parent/child, and flexible declarative lifecycle to provide a thread-safe sandbox for components. Reduce framework dependencies in application code by injecting them using annotations and code-templates. Framework dependencies exist only in framework specific layers and in the generated code leaving application code free to be reused elsewhere.<span style="text-decoration: underline">Learn more</span>.
+               Automatic getX/setX, events, parent/child, and flexible declarative lifecycle to provide a thread-safe sandbox for components. Reduce framework dependencies in application code by injecting them using annotations and code-templates. Framework dependencies are isolated to framework layers and generated code allowing application code to be freely reused.<span style="text-decoration: underline">Learn more</span>.
          </a></span>
       </div>
 
@@ -241,7 +241,7 @@
    A preview release of StrataCode is now available. Contact <a href="about.html">Jeff Vroom</a> (jeff@jvroom.com) for a download code. For those who like developing frameworks, it's a relatively small, readable, maintainable code base with no core dependencies. 
    </p>
    <p>
-   We'd like to make a sustainable developer's tool that has some way to compensate the developers who build great tools. We are looking for projects to build with StrataCode, investors, and partners.
+   StrataCode will be used to build a customizable platform for building applications and integrations. It might also be suitable as a developer's tool if there's interest. We are looking for projects to build with StrataCode, investors, and partners.
    </p>
    <p>
    Some features are not production ready (<a href="status.html">see status</a>), but we believe it is a great tool and set of frameworks for building apps from scratch. At first it will require a fairly high level of support from Jeff. It would also be useful to refactor large existing Java code bases, supporting continual evolution during the refactoring process. It can also be used to build or upgrade an existing SaaS platform, or build your own language oriented tools in Java. 

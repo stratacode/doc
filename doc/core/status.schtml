@@ -23,7 +23,7 @@ Status of various StrataCode components based on current testing:
 Beta quality for basic Java features. Not much testing of lambdas. Refresh of changes is pre-alpha but works for property changes, add field, add/remove class, and method changes.
 
 ## frameworks
-* beta: data binding, components, properties, sync (although it's missing large collection support), java-to-js web framework (although missing some apis you might need, they are easy to add) 
+* beta: data binding, components, properties, sync, java-to-js web framework (although missing some apis you might need, they are easy to add) 
 * alpha/pre-alpha: cross-scope bindings for collaboration, web security, request scope, server tags, merging layers of schtml
 
 ## management ui:
@@ -31,13 +31,13 @@ Beta quality for basic Java features. Not much testing of lambdas. Refresh of ch
 * missing 'find' page, delete, more refinement overall and more customizability
 
 ## intellij plugin:
-* beta except for: find-usages/refactoring (feature missing inheritance, field to getX/setX mapping). Editing of layer definition files (sometimes requires an IDE restart or flush caches), debugger sometimes breaks in generated code and messes up for some block transitions, and anonymous class breakpoints only work when setting in the generated code, editing scr files 
+* beta except for: find-usages/refactoring (misses somes references across inherited types, and getX/setX mapping). Editing of layer definition files (often requires an IDE restart or flush caches), debugger sometimes breaks in generated code, messes up source mapping for some block transitions, and anonymous class breakpoints only work when setting in the generated code, editing of 'scr' files has some problems showing false errors.
 
 ## Java to Javascript
 
-The Java to Javascript converter is beta quality for Java 6 features. Because most Java code depends on runtime libraries that may not be available, it's not a seamless way to run any Java code in the browser. The test suite contains over 200K lines of Java that's converted without workarounds, JDK classes added as needed. Currently it uses the Apache java utilities which support only Java 1.6. Java 1.8 Lambdas have been implemented in the code-gen by converting to inner classes, but that conversion has not been tested due to the missing libraries. Anonymous classes that use variables from the enclosing method are not supported.
+The Java to Javascript converter is beta quality for Java 6 features. Many of the original JDK libraries are supported (ArrayList, HashMap, LinkedHashMap etc.). The test suite contains over 200K lines of Java that's converted without workarounds. We will add additional JDK classes as needed. Currently it uses the Apache java utilities which support only Java 1.6. Java 1.8 Lambdas have been implemented in the code-gen by converting to inner classes, but that conversion has not been tested due to the missing libraries. Anonymous classes that use variables from the enclosing method are not supported.
 
-The converter uses a relatively high level of emulation of native Java classes to keep download size manageable. It's easy to replace any class with a native version using an annotation. Right now, the code is still readable and no optimizations to remove unused code so lots of future optimization potential even though performance is not bad. 
+The converter uses a relatively high level of emulation of native Java classes to keep download size manageable. It's possible to replace a class with a native version using an annotation. Right now, the code is still readable and no optimizations to remove unused code so lots of future optimization potential even though performance is not bad. 
 
 All number types in Java (int, float, Integer, etc) are converted to Javascript's single number type. A cast to an int type will insert a call to Math.floor, the most important features of BigDecimal are supported and it's possible to wrap those integers that really need to be integers but that works is not complete.
 
@@ -45,7 +45,7 @@ Currently, the entire JS app is downloaded after the page is rendered but the la
 
 ## DB framework
 
-Pre-alpha. Unit tests are running for the import features against a single Postgresql database and in-memory mode (no database).
+Alpha/Beta. We've build a fairly complete store builder using the DB framework using relationships, schema-migration, transactions, caching, etc. Stored procedure support, and more general 'binding queries' have been unit tested in simple cases but need more work to be complete.
 
 ## Android
 

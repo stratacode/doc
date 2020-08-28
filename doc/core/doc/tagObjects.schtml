@@ -31,7 +31,7 @@ the corresponding object hierarchy will be:
          }
       }
 
-No object is created for the p tag - that is added as content to the <html> page.
+No object is created for the p tag - that is added as content to the html page.
 
 By default, the tag object extends a Java class found by mapping the tag name (e.g. body, form, etc.) into a class name, then finding the first Class of that name in a list of packages (the system.tagPackageList).  For example, the class "sc.lang.html.Body" is the default for instances of the body tag because sc.lang.html is in the list of packages.  If a class does not exist for a given tag, and it does not use other dynamic features such as specifying it's own 'id' attribute, it and its enclosed elements become static content added to the parent tag's body.
 
