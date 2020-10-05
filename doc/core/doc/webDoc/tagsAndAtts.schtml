@@ -131,6 +131,28 @@ clickEvent, dblClickEvent, mouseDownEvent mouseMoveEvent, mouseOverEvent, mouseO
 
 It can sometimes be helpful to be notified of the size change for an element. Each tag object exposes bindable properties for: clientWidth, clientHeight, offsetWidth, offsetHeight, scrollWidth, and scrollHeight. 
 
+## URL annotation
+
+The URL annotation is set on an html page tag object to expose that page as a web URL. In the default html.schtml framework layer, it is set on the HtmlPage tagObject used by default for pages that contain an html tag.
+
+* pattern - set on an html page tagObject to expose it with a web address. It can be a fixed string for fixed URLs, or contain variables that can be mapped onto properties of the page object. When the URL is requested, the property on the tag object is populated. And while the page's tag object is active, if the property is changed, the page's URL in the browser is updated. 
+
+* dynContent - set this to false for pages that do not need the typical setup for a dynamic page. For example a page that is downloading a static file can set this to true for a faster and simpler request handling process.
+
+* resource - set to true for css, images other files that are assets of the main page object. A resource that is generated dynamically won't create a new application scope based on the URL but instead uses the application of it's referring page.
+
+* mimeType - set the mime type for the response of this tagObject
+
+* subTypesOnly - use this in framework layers to define an @URL annotation that applies to instances of subclass only. This attribute is used for example by the HtmlPage.schtml in the html.schtml framework layer to establish the default for how html pages are handled.
+
+* realTime - set to true or false to turn on or off the auto-sync behavior in a page that lets the page use real time features. It always makes sense to set this on the logout page or any other page that terminates the session explicitly. Otherwise the page creates a new anonymous session as part of the next sync.
+
+* testURLs - a list of test URL paths to use from test scripts from this page. Use this for URLs that take parameters to provide default values for those parameters that make sense in an automated test. They only affect the code when testMode is true in the application. These URLs are available from the layeredSystem via a list of URLPath objects and used by the TestPageLoader in the web framework for a quick way to assemble automated tests and to create a navigation page for testing the application.  Because @URL can be set in a testing layer to modify pages in a base-layer, it's possibe to create custom test configurations by modiyfing the @URL annotation to add testURLs that apply for a specific testing layer.
+
+* testScripts - a list of test scripts to run as part of an automated test script for this page. Once the page is loaded, the list of test scripts is run in order. If there is a single test script with the name "none", that page is omitted from the auto-test.
+
+
+
 <% ) %>
 
      </div>

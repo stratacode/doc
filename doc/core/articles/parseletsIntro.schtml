@@ -8,21 +8,25 @@
 <%= MarkDownPage.markDown(%>
 ## Parselets: Parsing and modifying code
 
-StrataCode is built using a custom parser/formatter called Parselets. It's based on a PEG grammar that consists of four basic types of matchers - Sequence, OrderedChoice, Symbol, and SymbolChoice. Each grammar is built from instances of these four base classes, or higher level classes that extend these called Parselets. Each parselet has additional metadata it can specify to do more than just parse. They can create instances of a particular type of AST node, set properties on nodes, collect lists, and propagate values up the hierarchy. In this way, they build a very reasonable AST tree directly from the declarative grammar. 
+StrataCode is built using its own parser/formatter called Parselets. It supports PEG grammars consisting of four matcher types: Sequence, OrderedChoice, Symbol, and SymbolChoice. Each grammar is built from instances of these four base classes, or higher level classes that extend these called Parselets. Each parselet has additional metadata it can specify to do more than just parse. They can create instances of a particular type of AST node, set properties on nodes, collect lists, and propagate values up the hierarchy. In this way, they build a very reasonable AST tree directly from the declarative grammar. 
 
-Parselets also supports going in the reverse direction using the same grammar. The AST can be converted back to the code by reversing the rules it used to parse it. Further, it watches for changes to properties in these AST nodes and invalidates/revalidates the code version efficiently. So from a simple grammar, it produces a full on API for read, modify, write for that format that works incrementally, preserving even comments, spacing and information in elements that are not changed.
+Parselets also can go in the reverse direction by formatting source code given an AST using the same grammar rules it used to parse it. It can also respond to change made to AST nodes and make the same incremental changes back in the source code. 
 
-StrataCode is entirely built on Parselets including grammars for Java, sc*, javascript, html, xml, the DDL aspects of postgresql, css, and more. 
+So from one simple grammar, it produces a full on API for read, modify, write for that format. When changes to the AST are localized, changes to the file are localized, preserving the surrounding comments and not altering the formatting. 
 
-The Java to Javascript and StrataCode to Java transpilers are built with parselets as is the IntelliJ plugin. 
+StrataCode is entirely built on Parselets including grammars for Java, all of the sc formats, javascript, html, xml, the DDL aspects of postgresql, css, and more. 
 
-Parselets supports error recovery when parsing a file that does not match the grammar as used in the IDE. 
+The Java to Javascript and StrataCode to Java transpilers are built with parselets as is the IntelliJ plugin. Writing IDE support for a new format is a lot faster with Parselets than other mechanisms as so many features are built-in into the grammar, or supported by general purpose AST node classes.
 
-It also includes the ability to take diffs between one version of a file and the next and to do a fast 'reparse' of the AST - useful for fast editing of large files in the IDE.
+In particular, parselets supports error recovery when parsing a file that does not match the grammar as used in the IDE. Although crude at first, it can be tuned by setting additional properties in the grammar.
 
-AST's can be serialized and restored. The parse-node tree can also be serialized to speed up reparsing the same file.
+It also includes the ability to take diffs between one version of a file and the next and to do a fast 'reparse' of the AST - useful for fast editing of large files in the IDE. (TODO: this feature is experimental and not enabled by default in the IntelliJ plugin)
 
-Grammars for parselets languages get a huge head start on building an IntelliJ plugin. There is some straightforward tuning that goes into making the 'partial values' parse more accurate. 
+Parselet grammars are not designed to be as fast as table-driven parsers but can be tuned using indexed choice primitives or custom parse and generate methods. For the sc formats performance is pretty good without having done much work on performance tuning overall.
+
+AST's and the layout of the parse-node tree can be serialized and restored to speed up the parsing operation on files that have not changed.  
+
+From the performance perspective, one tradeoff is that parse-node trees take up more memory to store extra information to aid in the incremental generation. There are a few optimizations still to be made that can reduce the amount of memory these parse-node trees take up, and they only need to really be in memory for the process of parsing a file initially and later transforming one incrementally.
 
 <% ) %>
    </div>

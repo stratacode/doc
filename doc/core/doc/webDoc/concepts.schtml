@@ -28,7 +28,7 @@ When a .schtml file starts with &lt;html&gt; it's treated as a top-level page an
 
 ## URLs, query parameters and mapping to properties of templates 
 
-At build time, the code generator collects a list of URLs defined by pages in the system. The @URL annotation identifies a page type and controls it's URL mapping. Set @URL(pattern="..") where the pattern can be a static string (see the UnitConverter example), or can be mapped to properties in the page object using specific type mappings defined in the PatternLanguage. For example, use this @URL pattern to set an integer blogId and a String property called postShortName that must be a valid identifier:
+At build time, the code generator collects a list of URLs defined by pages in the system. The @URL annotation identifies a page type and controls it's URL mapping. Set @URL(pattern="..") where the pattern can be a static string (see the UnitConverter example), or can be mapped to properties in the page object. See the [Pattern](/javadoc/sc/lang/pattern/Pattern.html) and the [Pattern language](/javadoc/sc/lang/PatternLanguage.html) for the list of property types. Each type defines both how properties are parsed and formatted using Parselets, but also using a hard-coded implementation that runs in the browser. For example, use this @URL pattern to set an integer blogId and a String property called postShortName that must be a valid identifier:
 
        @URL(pattern="/blog/[{blogId=integerLiteral}/][{postShortName=identifier}/]")
 
@@ -38,15 +38,29 @@ Requested like:
 
 Use the @QueryParam annotation on a top-level page property to map it to a query parameter in the URL.
 
-See the [simpleBlog example](../examples/simpleBlog.html) for use of @QueryParam and @URL based parameters using patterns.
+See the [simpleBlog example](../examples/simpleBlog.html) for use of @QueryParam and @URL based parameters using patterns. It's possible to set properties of the template page and use them in the URL and vice versa, in a declarative way that works with the back button and bookmarks to navigate you to the right screen even on stateful pages.
 
-If the .schtml page does not include an @URL annotation, but the top level tag is 'html', the page object that's generated extends the default HtmlPage base class defined in the html.schtml layer. The @URL annotation is then inherited by all templates that include an html tag. Because HtmlPage does not specify a pattern, the file name is used instead with the extension .html (see the Template resultSuffix property). So PageName.schtml is access via PageName.html. The layer's configuration sets or inherits the path prefix to prepend for files in it's directory. By default, files are accessed from their path relative to the layer's directory. So .schtml files in the layer directory are accessed as /fileName.html.
+When properties are changed, the javascript history object is used to change the location bar to reflect the new state so bookmarks will restore the new state of those properties. The [History](/javadoc/sc/sc/lang/html/History.html) api can be used on either the client or the server from Java to add a new history entry, or go back to a previous one.
 
-## Reactive versus procedural tags
+If the .schtml page does not include an @URL annotation, but the top level tag is 'html', it will automatically be mapped to a URL using the default framework layers. This works as follows. The html tag is mapped to the class HtmlPage which has the @URL annotation with the "subTypesOnly" value, meaning that it will not have a page on its own, but that sub types will be exposed as URLs. Because the @URL annotation on HtmlPage does not specify a pattern attribute, the relative path name (or "templatePathName") of the file with the .html suffix is used (or as configured by Template.resultSuffix).
 
-When a tag only uses logic that can be converted to binding expressions, the generated code can incrementally refresh attributes and the body as properties change. Otherwise, the tag must be refreshed in code when its contents change. 
+So PageName.schtml is access via PageName.html. The layer's configuration sets or inherits the path prefix to prepend for files in it's directory. By default, files are accessed from their path relative to the layer's directory. So .schtml files in the layer directory are accessed as /fileName.html.
 
-To make a tag reactive, use fields in the tag object, not local variables (i.e. use &lt;%! not &lt;% to define a variable value used in the tag body). If you need conditional logic, use the ? expression, not an if statement. Use the repeat attribute instead of a loop.
+## Testing web pages
+
+The @URL annotation also specifies a list of testURLs that are used in the TestPageLoader as part of the -tv/-tw options to scc. It's easy to validate that all pages load successfully without errors and capture the HTML, javascript console, and server log all rendered in a "testMode" that removes dates and more. When messages contain non-repeatable data, the sctest.logFilter layer is used to remove or replace those lines so that it's easy to generate verifiable tests based on readable log output. 
+
+The -tv/-tw options also will look for a test script next to each schtml file that is named "testPageName.scr". If that file exists, the TestPageLoader will open the page using a scopeContextName that refers to the page URL, then run the test script in the context of that scope context name. Commands in that script can be run against the client, server, or both for clientServer mode pages setting the cmd.targetRuntime property. The same test scripts typically work (or can be made to work) in both serverOnly and clientServer mode without change making it much easier to test both modes in an automated way. Because .scr files are editable in the IDE, it's easy to build them and maintain them as the code changes. 
+
+## Reactive, procedural, and content tags
+ 
+Tags in an schtml page are converted into code in one of three ways. Reactive tags are turned into tag objects using binding expressions to update the start tag text and/or the tag's body. For a tag to be reactive, it should have some dynamic content and not use procedural features of the language like an if statement, for loop or local variable state. Procedural tags are converted into an output method that takes a StringBuilder called 'out' and an optional context parameter. A tag that is purely static content will be included as a simple string in it's parent tag.
+
+When a tag is reactive, the generated code can incrementally refresh attributes and/or the body as properties change. It does this using a multi-pass strategy of invalidating the start tag txt or body, then later refreshing the invalid tags. 
+
+When a tag is procedural, the application uses an API to refresh the tag when it changes.
+
+To allow a tag to be reactive, use fields in the tag object, not local variables (i.e. use &lt;%! not &lt;% to define a variable value used in the tag body). If you need conditional logic, use the ? expression, not an if statement. Use the repeat attribute instead of a loop.
 
 Tag objects that rely on features that require stateful behavior must be defined in a reactive context. When in a procedural context, tag objects behave a lot like a traditional JSP in the features they offer. When an application requires a highly procedural rendering process, it makes sense to break out the declarative/reactive components into separate objects and use a render method to convert those objects into HTML.
 
@@ -54,11 +68,9 @@ TODO: Currently if a tag object has an 'id' it's required that it be defined in 
 
 ## Generating css using the .sccss format
 
-Because css contains so many ways to set styles on an element, over time big projects can become hard to maintain unless managed carefully. Using simple classes as selectors as the main approach makes it easier to trace from the html element to the styles it uses. Css does not really have variables or expressions. It's common to use a wrapper language to add these features and then generate css at build time.
-
 StrataCode does not yet have the ideal css wrapper language. We'd like to offer full 'find-usages and refactoring' support for styles, like you can do for Java and build in sensible variables, expressions, and other features using a compatible syntax to css itself.
 
-As a first step, the current .sccss extension uses the same base template language that sits underneath .schtml files (and other formats like .scxml) but generates css instead of html. It supports the same &lt;% %&gt; operators as .schtml but only one class is generated with one large outputBody method.
+As a step, the current .sccss extension uses the same base template language that sits underneath .schtml files (and other formats like .scxml) but generates css instead of html. It supports the same &lt;% %&gt; operators as .schtml but only one class is generated with one large outputBody method.
 
 These templates can either be evaluated in the server at build/compile time, or when the .css file is requested. In the browser, dynamic sccss files also can be updated on the fly as properties change. The model supports fully "isomorphic dynamic css" and will only improve with better integration of the concepts of layering and data binding are added to the syntax.
 
@@ -96,7 +108,9 @@ Here's an example:
 
 ## Relative URLs
 
-Many web frameworks require use of absolute URLs for all references. The web framework also supports relative URLs to improve the reusability, and management of components. For tag attributes that refer to URLs, like href and src, an absolute URL is rendered just as it was provided. But relative URLs will be rewritten using a function called getRelURL() that works even if the source template is included or extended from a template with a different top-level URL. It also reacts to changes made to the top-level page URL if your page needs to change it based on local navigation. 
+Many web frameworks require use of absolute URLs for all references within an application, but this makes it hard to build reusable modules and requires a lot of manual refactoring when things change. A URL that starts with "/" makes sense when referring to a global aspect of the application, but sometimes it makes sense to just refer to a path relative to the current file's context. 
+
+For this case, the web framework supports relative URLs to improve the reusability, and management of components. For tag attributes that refer to URLs, like href and src, an absolute URL is rendered just as it was provided. But relative URLs will be rewritten using a function called getRelURL() that works even if the source template is included or extended from a template with a different top-level URL. It also reacts to changes made to the top-level page URL if your page needs to change it based on local navigation. 
 
 TODO: We'd like to provide warnings in the IDE for URLs which cannot be resolved, offer navigation from the IDE for tag attributes and have a flag to display warnings for unresolveable URLs at build time. Detecting and avoiding broken links to internal pages is an important problem to get right.
 

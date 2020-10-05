@@ -56,9 +56,9 @@ Use real-time data for interactivity in customer facing applications, or to driv
 
 Query/URL parameters mapped via URL patterns map to properties in the tag object. Properties populated from the URL when the page is loaded, and URL updated as properties change. 
 
-### Window, document, location 
+### Window, document, location, history
 
-Synchronized objects available to Java on client or server to expose window dimensions, url properties, mouse/keyboard events, and focus.
+Synchronized objects available to Java on client or server to expose window dimensions, url properties, mouse/keyboard events, focus, and location bar navigation. Share code between single-page and multi-page styles seamlessly.
 
 ### Customizable base tag classes
 
@@ -76,7 +76,7 @@ Scope templates or components to the window (scope='window'), or the browser's s
 
 ### Command line, testing
 
-Use the command line interface for controlling and organizing multi-process applications. Target commands to specific processes, or send them to all processes. Build static typed test scripts and refactor them using the IDE.
+Use the command line interface for controlling and organizing multi-process applications. Target commands to specific processes, or send them to all processes. Build static typed test scripts and refactor them using the IDE. Run a quick automated tests of all pages using the -tv/-tw options, or define testFileName.scr to run a custom script for each page. Open multiple windows, target comments to windows using scopeContextName.
 
 <% ) %>
 
