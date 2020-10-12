@@ -12,44 +12,50 @@
 
 Status of various StrataCode components based on current testing: 
 
-* Note: some names and interfaces may change based on feedback
+* Note: feedback is welcome on improved names, missing features, api changes or suggestions for improvements.
 
-## code-processor
+## Code-processor
 * beta: parselets, java support, sc, sct, schtml formats
 * alpha: process-constraints, maven emulation, modelCache (may need to clear modelCache directory from time to time)
 * pre-alpha: incremental compilation (beyond using it to run an app with no file changes)
 
-## dynamic runtime
-Beta quality for basic Java features. Not much testing of lambdas. Refresh of changes is pre-alpha but works for property changes, add field, add/remove class, and method changes.
+## Dynamic runtime
+Beta quality for basic Java features when all code is dynamic or when dynamic code sits on top of compiled code. No real effort has been made to test lambdas expressions and Java8+ features in dynamic mode. 
 
-## frameworks
+Compiled classes extending dynanmic ones are not supported. Some compile time references to dynamic classes are implemented by changing the field or method call during code processing. 
+
+Refreshing changes made to source code on the fly only works for simple cases like property changes, add field, add/remove class, and method changes.
+
+## Frameworks
 * beta: data binding, components, properties, sync, java-to-js web framework (although missing some apis you might need, they are easy to add) 
 * alpha/pre-alpha: cross-scope bindings for collaboration, web security, request scope, server tags, merging layers of schtml
 
-## management ui:
+## Management ui:
 * alpha support for existing features
 * missing 'find' page, delete, more refinement overall and more customizability
 
-## intellij plugin:
+## Intellij plugin:
 * beta except for: find-usages/refactoring (misses somes references across inherited types, and getX/setX mapping). Editing of layer definition files (often requires an IDE restart or flush caches), debugger sometimes breaks in generated code, messes up source mapping for some block transitions, and anonymous class breakpoints only work when setting in the generated code, editing of 'scr' files has some problems showing false errors.
 
 ## Java to Javascript
 
-The Java to Javascript converter is beta quality for Java 6 features. Many of the original JDK libraries are supported (ArrayList, HashMap, LinkedHashMap etc.). The test suite contains over 200K lines of Java that's converted without workarounds. We will add additional JDK classes as needed. Currently it uses the Apache java utilities which support only Java 1.6. Java 1.8 Lambdas have been implemented in the code-gen by converting to inner classes, but that conversion has not been tested due to the missing libraries. Anonymous classes that use variables from the enclosing method are not supported.
+The Java to Javascript converter is beta quality for Java 6 features. Many of the typically used JDK classes are supported (ArrayList, HashMap, LinkedHashMap etc.), more can be added on request. The test suite contains over 200K lines of Java runs in the browser.  The utilities used are lightly modified copies of the Apache java classes from Java 1.6. Java 1.8 lambdas have been implemented in the code-gen by converting to inner classes, but that conversion has not been tested due to the missing libraries. 
 
-The converter uses a relatively high level of emulation of native Java classes to keep download size manageable. It's possible to replace a class with a native version using an annotation. Right now, the code is still readable and no optimizations to remove unused code so lots of future optimization potential even though performance is not bad. 
+Anonymous classes that use variables from the enclosing method are not yet supported.
+
+The converter uses a relatively high level of emulation of native Java classes to keep download size manageable. It's possible to replace a class with a native version using an annotation. Right now, the code is still readable and no optimizations to remove unused code, or write native JS in a condensed way so there is lots of future optimization potential, particularly for download size. 
 
 All number types in Java (int, float, Integer, etc) are converted to Javascript's single number type. A cast to an int type will insert a call to Math.floor, the most important features of BigDecimal are supported and it's possible to wrap those integers that really need to be integers but that works is not complete.
 
-Currently, the entire JS app is downloaded after the page is rendered but the layered organization would be a perfect way to separate subsets of layers to be progressively loaded. Just mark layers in your stack as 'download layers' and the rest could be automated. For large client applications, you'll be able to start interacting with the app with the base layers, while successive layers are downloaded. The static type system would help manage the dependencies to be sure each individual stack defined a valid application and framework hooks installed to help provide a smooth transition from one to the next.
+Currently, the entire JS app is downloaded after the page is rendered but the layered organization would be a great way to separate subsets of layers to be progressively loaded. Just mark layers in your stack as 'download layers' and the rest could be automated. For large client applications, you'll be able to start interacting with the app with the base layers, while successive layers are downloaded. The static type system would help manage the dependencies to be sure each individual stack defined a valid application and framework hooks installed to help provide a smooth transition from one to the next.
 
 ## DB framework
 
-Alpha/Beta. We've build a fairly complete store builder using the DB framework using relationships, schema-migration, transactions, caching, etc. Stored procedure support, and more general 'binding queries' have been unit tested in simple cases but need more work to be complete.
+Alpha/Beta. We've build a fairly complete store builder using the DB framework using relationships, schema-migration, transactions, caching, simple rule-based queries, and basic queries using a custom API. Support for parsing stored procedures, and automatically generating a Java api has been implemented with one or two unit tests but not yet used in any apps or examples.
 
 ## Android
 
-There's a prototype of an android framework that supported the unit converter and simple applications but has not been tested in a while.
+There's a prototype of an android framework that supported the unit converter and simple applications but has not been tested in a while. The android apis integrate very cleanly with the data binding system and so can be used with minimal wrapping code. 
 
 ## Futures
 

@@ -23,7 +23,7 @@
            I believe that layers are a missing fundamental pattern in this book in how we organize programs. They have many uses, particularly as systems grow. This project answers the question, what if libraries, frameworks and tools were built from the ground up using layers and code-processing? Even if you are not in the market for a new platform, you mind find something useful, whether it's one of the flexible libraries or a design pattern.
            </p> 
           <p>
-          See the <a href="/status.html">status</a> page for up-to-date information on quality. For me it's efficient to use to build anything and although I still find bugs and missing features, they are easy to find and fix.
+          See the <a href="/status.html">status</a> page for up-to-date information on quality and missing features.
           </p>
           <p>
           I'd very much appreciate <a href="../contact.html">feedback</a> and am looking for developers who'd like to help, projects to build, companies who'd like to use it, investors and partners in general.

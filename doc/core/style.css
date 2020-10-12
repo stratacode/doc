@@ -358,14 +358,14 @@ h2 {
 .code, code, .qcode {
    white-space: pre-wrap;
    color: #000; 
-   border: 1px solid #000047;
+   border: 1px solid #ddd;
    padding: 6px;
    display: block;
    margin-top: 2px;
    /* background-color: #EDF5FD; */
    background-color: #F5FAFF;
    max-height: 50em;
-   max-width: 90%;
+   max-width: 100%;
    overflow: auto;
    line-height: 130%;
 }
@@ -652,7 +652,8 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
 }
 
 .mainContentBody {
-   max-width: 900px;
+   max-width: 70ch;
+   min-height: 30em;
 }
 
 .videoContentBody {
@@ -736,10 +737,10 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
         /*border-bottom: 3px solid #28479e;*/
 }
 .nav a.active {
-    font-weight: bold;
-    /* border-bottom: 3px solid #7CB0F1;*/
-    border-bottom: 3px solid #d47a46;
-    }
+   font-weight: bold;
+   /* border-bottom: 3px solid #7CB0F1;*/
+   border-bottom: 3px solid #d47a46;
+}
 
 .layer1 {
    background-color: #F4C9A4; 
@@ -1013,10 +1014,11 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
    margin-right: 40px;
    min-height: 30%;
    padding-top: 25px;
-   padding-left: 1%;
+   padding-left: 2.5%;
    padding-right: 1%;
    padding-bottom: 1%;
-   max-width: 950px;
+   /* max-width: 950px; */
+   max-width: 70ch;
 
    flex: 1 1 auto;
 }
