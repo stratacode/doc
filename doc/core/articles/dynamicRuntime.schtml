@@ -49,7 +49,8 @@ The dynamic runtime is used to parse and run the build configuration - the layer
 
 ## Test scripts
 
-Test scripts and the command line interface also use the dynamic runtime and editable in IntelliJ.
+Test scripts and the command line interface also use the dynamic runtime and are editable in IntelliJ so that 'find usages' supports test script references as well.
+The scripting language also supports targeting one or more processes in the system with commands. It's easy for example to retrieve the Javascript log messages, call methods on client-side tag objects to simulate user-interaction and more. 
 
 <% ) %>
    </div>

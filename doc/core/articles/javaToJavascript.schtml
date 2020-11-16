@@ -1,5 +1,5 @@
 <html extends="ArticlePage">
-<head title="Java to JavaScript Converter"/>
+<head title="Web programming, Java to JS"/>
 
 <body>
    <div id="content"><div id="mainSection">
@@ -7,20 +7,34 @@
 
 <%= MarkDownPage.markDown(%>
 
+## No compromises web framework
+
+There are many approaches to building web applications today, and many great frameworks. Some are good at client-side rendering, and others that support server side rendering but it's hard to find one approach that can use either in a mix-and match way.
+
+StrataCode has tried to solve this problem as efficiently as possible. There is one template language and one coding style that implement web pages, or web components with different styles of server interaction.
+
+From the same stack of application layers, build:
+
+* Serverless apps where the application code runs entirely in the browser
+* Client/server apps where application code runs in both 
+* Server-only apps where the application code only runs on the server. This type of application used to mean page-by-page apps that had limited ability to implement the more interactive single page application styles, but there are a number of widely used frameworks that have successfully moved application code to the server, still implement a fully-interactive single-paged style. 
+
+## Language-level data binding 
+
+Most modern web frameworks have a strategy for detecting changes to model objects, and implementing 'rule-style' connectivity for binding model to view model, and view model to the UI components. The StrataCode languages implement data binding using code generation - converting simple fields into properties with getX/setX and the required sendEvent calls, plus a way to define forward, reverse, and bi-directional binding rules. That same approach is usable in schtml templatesfrom attribute expressions. When used with tag objects, a DOM library invalidates and rerenders tag objects for fast, incremental refresh. 
+
 ## Java to javascript converter
 
-Much of today's application development is happening in the browser and it's a big advantage to use the same language for client/server applications.  To address this need, StrataCode offers a robust conversion of Java to Javascript, generating readable, debuggable javascript that is close to what a Java programmer would have written anyway (i.e. using the same names in the same order, indented properly, etc).
+Much of today's application code is happening in the browser and it's a big advantage to use the same language for client/server applications.  To address this need, StrataCode offers a robust conversion of Java to Javascript, generating readable, debuggable javascript that is close to what a Java programmer would have written anyway (i.e. using the same names in the same order, indented properly, etc).
 
 Since layers can run on the client, server or both, StrataCode supports [isomorphic](http://nerds.airbnb.com/isomorphic-javascript-future-web-apps/) Java.  Web page requests generate HTML on the server so the browser draws it as quickly as possible.  The page then begins loading the javascript to perform any dynamic HTML updates.  You write the code once, StrataCode generates the client and server versions.  
 
 StrataCode provides schtml and sccss formats which extend html and css to allow dynamic updates.  Some pages are fully reactive - i.e. generated entirely from data binding, and others generate HTML from a mix of data binding and code.  If necessary, you can mix Java and HTML using the full power of Java.  You have inheritance, layers, data binding, tag macros, and java when you need it.  You can also enable synchronization and so run the same code in client-only, server-only, and client-server versions via different build configurations. Read more in the [documentation](../doc/webDoc/).
 
-It's also possible to use the Java to JS converter by itself.
-
-Here's an example.  This java implementation of selection sort:
+It's also possible to use the Java to JS converter without the web framework to convert ordinary Java code to Javascript.  Here's a Java version of selection sort:
 <% ) %>
    <%= sc.lang.JavaLanguage.INSTANCE.styleFile("example/simple", "SortTest.scj", false, false, true) %>
-   is converted to this javascript:
+   and here it is converted to javascript:
    <%= sc.lang.js.JSLanguage.INSTANCE.styleBuildFile("example/simple", "js", "js/types/example_simple_SortTest.js", false, false, true) %>
 
 <%= MarkDownPage.markDown(%>

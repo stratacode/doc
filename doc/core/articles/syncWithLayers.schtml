@@ -9,7 +9,7 @@
 
 ## Synchronization with layers
 
-by Jeff Vroom
+by Jeffrey Vroom
 
 One of the larger complicating factors in software design, performance, and maintenance begins when two programs need to communicate.  The developer needs to design or choose a protocol, perhaps adds versioning so it can be easily upgraded or changed.  They need to make it secure, reliable and possibly deal with retries in case of failure or handle the additional connection related errors that might occur.  
 
@@ -17,21 +17,21 @@ In my experience, quite a bit of code goes into solving this problem.  It's one 
 
 ## Client/server programming today
 
-Today client/server programmers commonly use remote procedure calls (RPC) with a serialization protocol like JSON to communicate with the server.  It's common that programmers will still write "wrapper code" to convert objects to and from JSON. This approach gives the most control, and provides traceable code paths so it's easy to debug and maintain but any domain model changes require updates to lots of code.
+Today client/server programmers commonly use remote procedure calls (RPC) with a serialization protocol like JSON to communicate with the server.  Sometimes programmers write "wrapper code" to convert objects to and from JSON, giving them the most control but adding more code to maintain or update when things change. 
 
-More automated frameworks generate the serialization code using annotations on methods and their parameters or use a declarative file to define the protocol which generates code for both client and server.  This approach reduces the amount of code developers have to write and provides more features with the downside of adding problems during debugging. It's complex to manage all of the uses of 'rpc' that an application might need for a complex domain model that is evolving quickly with lots of read/write APIs required. Not super fun to debug generated code that comes from some XML file but it's better than nothing. 
+More automated frameworks will generate the serialization code or metadata using annotations on methods and their parameters or use a declarative file to define the protocol which generates code for both client and server. This approach reduces the amount of code developers have to write and provides more features with the downside of adding problems during debugging. It's complex to manage all of the uses of 'rpc' that an application might need for a complex domain model that is evolving quickly with lots of read/write APIs required. Not super fun to debug generated code that comes from some XML file but it's better than nothing. 
 
-GraphQL and other approaches have tried to create a declarative abstraction that's more powerful than basic RPC with some success, but it's quite common to see an explosion of RPC wrapper methods on top of domain models dealing with each new case your UI needs. Next time your domain model changes, it's more work updating all of that code you wrote to call the RPC and update the results.
+Another approach is to add a new language for the client/server protocol like GraphQL. It is a much more powerful than basic RPC and has had some success with developers because it improves performance and reduces the number of RPC methods needed. It's another complete language to learn and integrate with on the client and can be challenging to support for some backends.
 
 ## Why synchronization?
 
-I think GraphQL is only a bandaid and that our tools could benefit from a different abstraction. Most client/server programming problems are really problems involving synchronizing data structures that live in different processes. There is really shared code and data and a complex, changing interaction involved with how and when different parts of this data structure are transfered, validated, updated, and ultimately committed to a database. 
+While GraphQL has in some ways reduced the impedance mismatch of client/server development, rather than add a new language, I think we can solve most problems more efficiently by organizing our code according to the layered abstraction.  Consider that most client/server programming problems are synchronizing the overlapping aspects of shared data structures. Rather than just viewing this boundary as a protocol, it makes more sense to model it as the shared code and data, including the rules for validating, transfering, committing, and error handling. 
 
-Instead of using RPC as the base abstraction, what if the system modelled the synchronized aspects of the types used by both applications. Organize the overlapping parts of the code on each side using a shared layer of properties, validation rules, and business logic. The part that make sense on both sides.  Rather than a separate language like GraphQL, use metadata to define the default strategy for transfering each type in one or both directions, using on-demand versus eager strategies and some way to override the defaults when needed.
+In essence, it's those slices of the code that make sense to be used on both sides on the protocol. Rather than a separate language like GraphQL, use layers to partition the server-only code and add metadata for properties and types to control how they are synchronized. For example, some properties might only transfer in one direction, or are loaded on demand. 
 
-With this design, the framework can also help manage versions and compatibility, and generate statically typed classes by transforming the original source. Errors are caught at edit time, or runtime, and debugging is done on the transformed version that is a lot more natural than code generated from XML or inserted into the byte code.
+With synchronization, the framework generates statically typed classes by transforming the original source. Errors are caught at edit time, or runtime, and debugging is done on the transformed version that is a lot more natural than code generated from XML or inserted into the byte code.
 
-Thinking about client/server programming as synchronization first requires two important concepts that are fairly commonly used already:
+Thinking about client/server programming as synchronization requires two important concepts that are fairly commonly used already:
 
 * identify when an object has a unique id versus when it's part of the value of another object.
 * for objects with an id, ensure the protocol respects the "highlander principle" - guaranteeing a single instance with the same id in each process. Sometimes these types of objects are called entities.
@@ -42,13 +42,15 @@ Code can access variables that point to entities declaratively and be assured of
 
 For most business problems, synchronization is a better fit as the foundation. RPC is used for building special cases and specifically 'operational requests', typically used when there are only value objects and no objects with an id involved. 
 
-To use synchronization, mark server types and properties as synchronized between client and server processes. Use metadata to override the defaults to limit sync to one-direction, to enable 'on-demand' fetching of a given property or instance, and more options. On the first request, the client receives the 'initial state' that includes any instances created that are not marked with on-demand.  
+To use synchronization, mark server types and properties as synchronized between client and server processes. Use metadata to override the defaults to limit sync to one-direction, to enable 'on-demand' fetching of a given property or instance, and more options. On the first request, the client receives the 'initial state' that includes the synchronized properties of objects referenced by the initial page.
 
-To make changes, a client can simply update synchronized properties, create new instances, or use explicit API calls to fetch properties. Changes are queued and sent to the server on the next 'sync'. The server applies those changes, and may return a batch of changes created in that operation, return with no changes, or wait if real-time is enabled. Sync maintains relationships between entities
+To make changes, the application code updates properties, creates instances, etc as normal. Remote data can be fetched declaratively using data binding expressions. Annotations allow control over when and how objects are serialized and explicit APIs can be used as needed.
 
-When a new object is created on the server in response to a client's request, it can automatically be sync'd to the client in the reply, or lazily fetched when it's first referenced by an object being sync'd to the client.  In many applications, wrapper code goes awayin favor of these annotations. 
+Changes are queued and sent to the server on the next 'sync'. The server applies those changes, and may return a batch of changes created in that operation, return with no changes, or wait if real-time is enabled. Sync maintains relationships between entities
 
-When RPC is needed, it works naturally on top of the sync framework as synchronized objects can be passed by reference, not value. 
+When a new object is created on the server in response to a client's request, it can automatically sync to the client in the reply, or the data is lazily fetched the first time it's accessed.  In many applications, wrapper code goes away and the serialization protocol, validation logic, and more code can be shared cleanly by the client and server. 
+
+When explicit RPC calls are needed, often they can be performed declaratively in data binding expressions and work in concert with synchronized objects.
 
 ## Organizing code in synchronization
 

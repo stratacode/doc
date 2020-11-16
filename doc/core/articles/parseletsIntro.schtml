@@ -10,7 +10,7 @@
 
 StrataCode is built using its own parser/formatter called Parselets. It supports PEG grammars consisting of four matcher types: Sequence, OrderedChoice, Symbol, and SymbolChoice. Each grammar is built from instances of these four base classes, or higher level classes that extend these called Parselets. Each parselet has additional metadata it can specify to do more than just parse. They can create instances of a particular type of AST node, set properties on nodes, collect lists, and propagate values up the hierarchy. In this way, they build a very reasonable AST tree directly from the declarative grammar. 
 
-Parselets also can go in the reverse direction by formatting source code given an AST using the same grammar rules it used to parse it. It can also respond to change made to AST nodes and make the same incremental changes back in the source code. 
+Parselets also can go in the reverse direction by formatting source code given an AST using the same grammar rules it used to parse it. It can even respond to changes made to AST nodes and make the same incremental changes back in the source code. 
 
 So from one simple grammar, it produces a full on API for read, modify, write for that format. When changes to the AST are localized, changes to the file are localized, preserving the surrounding comments and not altering the formatting. 
 

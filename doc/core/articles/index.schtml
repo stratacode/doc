@@ -5,31 +5,31 @@
    <div id="content"><div id="mainSection">
        <div id="pageContent">
            <h2>StrataCode Intro</h2>
-           by Jeff Vroom, 5/8/2020
+           by Jeffrey Vroom
            <p>
-           Thank you for reading more about StrataCode. This has been primarily a solo project, inspired by twenty years of building tools and frameworks for enterprise software companies. Like many programmers, I recognized the power of declarative patterns like HTML, CSS, and SQL to give architectural leverage when building systems.  I spent a lot of time designing and building platforms and frameworks that make application development easier with declarative features like data binding. In particular, how to prevent dependencies in the code from turning a nice modular structure into a giant hairball. It's like when you pile string into a drawer, it comes out a tangled mess. A given class in a complex system starts accumulating dependencies on code and at some point some direct or indirect dependency disrupts the nice module structure.
+           Thanks for reading as this is a big moment for me. I began working on StrataCode more than twelve years ago, after having spent the previous twenty years building frameworks and applications.
+           StrataCode extends the Java programming language adding layers, data binding, components, persistence, web applications, and real time data sync. All these language features are built using a code processor that converts StrataCode source into readable, debuggable Java and JS source code. The build produces complete multi-process system from a single stack of layers. The IntelliJ plugin lets Java programmers use these extensions with the familiar benefits of an IDE and static typing. Even though this has been primarily a solo project, there are numerous examples, libraries and integrations provided or get started by checking out the customizable ecommerce site-builder.
            </p>
            <p>
-           The second platform I helped design incorporated layers of configuration, to enable reuse without copying, and to ensure one-way dependencies between modules. The success of that platform led me to wonder if layers should be the primary organizing abstraction for both code and configuration.
-           </p>
+           The main reason I've worked on this project for so long is that I believe layers are an important abstraction for organizing code, that allow more manageable complexity as the project grows. It's possible to split a single type into slices to separate out an important dependency or feature, allowing the remaining code to be reused. Layers improve the refactorability of code, letting code move up the layer stack, possibly in a new base layer, without changing the resulting generated code. They provide built-in support for more manageable "feature-oriented programming". 
+           </p>           
            <p>
-           Before this project, I spent many years designing in teams, and committees, under time-pressure and with politics. The design for StrataCode built up in resistance to compromises made in previous platforms. I've taken the time to build it the right way, including the simplest code that solves the problem.
-           </p>
-           <p>
-           I believe in a "big book" of software design patterns, in the way that Paul Erdos talked of a big book of mathematical proofs. 
-           The most efficient platforms use patterns from the book, and express them with a balance of simplicity and flexibility. They consider the entire lifecycle of development - from rapid prototyping to refactoring of large code bases. They ensure traceability of code paths, readability of code, separation of concerns, compatibility as code evolves, and should model complete systems, not just one process at a time.
-           </p>
-           <p>
-           I believe that layers are a missing fundamental pattern in this book in how we organize programs. They have many uses, particularly as systems grow. This project answers the question, what if libraries, frameworks and tools were built from the ground up using layers and code-processing? Even if you are not in the market for a new platform, you mind find something useful, whether it's one of the flexible libraries or a design pattern.
+           Up until now, StrataCode has been a side project but it's finally ready to build systems productively, albeit with some help from me. It can help repackage existing code into layers for more customization, to bring parts of a server application into the browser, or to to refactor a monolith into a more agile code base. It's also a great tool for building platforms from scratch that are efficient, customizable, and maintainable with easy-to-read application code. Perhaps the most remarkable thing about it is how little code it takes to add support for new languages and formats by writing a Parselets grammar, or how easy to add framework level features through code processing.
            </p> 
-          <p>
-          See the <a href="/status.html">status</a> page for up-to-date information on quality and missing features.
+           <p>
+           I recognize that it's not easy for programmers to learn and use such a large, experimental project but even if you don't see a path to using it yourself, perhaps you'll find some useful pieces or it might inspire some new ways to think about software development. 
+           </p>
+           <p> 
+           Another reason I've spent so much time on StrataCode is that it has let me express my design philosophy for the best way to build software. Over many years writing code, I've been fortunate to have reviewed a lot of software projects, read a lot of incredible code, and learned by working with amazing engineers. That combined with my own experience building successful platforms motivated me through the years of debugging to refine my sense of the software design patterns that work best. They have become my interpretation of the "big book" (to borrow a phrase from the mathematician Paul Erdos). The big book contains only the most efficient patterns, and they are expressed as simply and elegantly as possible. They consider the entire lifecycle of development - from rapid prototyping to refactoring of large code bases and ensure readability of code, traceability of code paths, separation of code by dependencies, and support compatibility as code evolves. What software design patterns exist in your "big book" and can you find them all here?
           </p>
           <p>
-          I'd very much appreciate <a href="../contact.html">feedback</a> and am looking for developers who'd like to help, projects to build, companies who'd like to use it, investors and partners in general.
+          See the <a href="/status.html">status</a> page for up-to-date information on quality, known issues, and works in progress.
           </p>
           <p>
-          Read more about on how to <a href="codeLeverage.html">leveraging your code</a> or jump straight to the <a href="/doc/">documentation</a>, or <a href="/examples/">examples</a> to learn more. <a href="/download/">Download or signup for updates</a>.
+          Thanks for reading and I'd very much appreciate <a href="../contact.html">feedback</a> and am looking for developers to help, projects to build, companies, investors and partners in general.
+          </p>
+          <p>
+          Read more articles about StrataCode or go right to the <a href="/doc/">documentation</a>, or <a href="/examples/">examples</a> to learn more. <a href="/download/">Download or signup for updates</a>.
            </p>
            <p>
            &nbsp;
