@@ -1,8 +1,8 @@
 <html abstract="true">
    <%!
 
-   boolean mobileRes := Window.window.innerWidth / Window.window.devicePixelRatio < 840;
-   boolean navOpen := !mobileRes; 
+   boolean smallWindow := Window.window.screen.width < 500 || Window.window.innerWidth < 1070;
+   boolean navOpen := !smallWindow;
 
    class ExampleInfo {
       String exampleName; 
@@ -23,6 +23,7 @@
    }
 
    ExampleInfo[] allExamples = {
+       new ExampleInfo("Site builder", "Prototype of site builder with product and blog plugin layers", "siteBuilder.html"),
        new ExampleInfo("UnitConverter", "A simple converter between different metrics implemented on many systems.", "unitConverter.html"),
        new ExampleInfo("Todo List", "A todo list sample that demonstrates the web and sync frameworks.", "todoList.html"),
        new ExampleInfo("Expert System", "Simple real-world expert system - demonstrating separation of rules, content from the app.", "expertSystem.html"),
@@ -57,7 +58,7 @@
                }
                .exampleIndex {
                   <%= navOpen ? "flex: 0 0 300px;" : "position: absolute; z-index: 4; " %>
-                  <%= mobileRes ? "position: absolute; z-index: 4;" : navOpen ? "position: initial; z-index: initial;" : "" %>
+                  <%= smallWindow ? "position: absolute; z-index: 4;" : navOpen ? "position: initial; z-index: initial;" : "" %>
                }
                #exampleContent {
                   <%= navOpen ? "" : "margin-top: 70px;" %>

@@ -4,36 +4,109 @@
 <body>
    <div id="content"><div id="mainSection">
        <div id="pageContent">
-           <h2>StrataCode Intro</h2>
+           <div>
+              <img class="centerImageBlock" src="/images/rockLayers1.jpg"/>
+           </div>
+           <div class="blockSpacer"/>
+           <h2>StrataCode: layer oriented evolutionary modularization</h2>
+           <div class="blockSpacer"/>
            by Jeffrey Vroom
            <p>
-           Thanks for reading as this is a big moment for me. I began working on StrataCode more than twelve years ago, after having spent the previous twenty years building frameworks and applications.
-           StrataCode extends the Java programming language adding layers, data binding, components, persistence, web applications, and real time data sync. All these language features are built using a code processor that converts StrataCode source into readable, debuggable Java and JS source code. The build produces complete multi-process system from a single stack of layers. The IntelliJ plugin lets Java programmers use these extensions with the familiar benefits of an IDE and static typing. Even though this has been primarily a solo project, there are numerous examples, libraries and integrations provided or get started by checking out the customizable ecommerce site-builder.
+           In a way, this project started almost thirty years ago based on feedback from my first platform, an object-oriented visual programming environment called AVS/Express. It was successful enough that customers built large applications with many modules and connections.
+           But despite my best intentions, it was difficult to reuse parts.
+           </p>
+           <div>
+              <img class="centerImageBlock" src="/images/theHomer3.jpg"/>
+           </div>
+           <p>
+           To customize even the smallest aspect of an application required making a copy of the whole thing, or refactor adding more code for each configuration switch. I thought inheritance would be enough, but it wasn't. I realized what it needed was an ability to modify a given type in a different slice, or layer. This led to the <i>configuration layers</i> feature in ATG Dynamo, and that led to this long-term effort to answer the question of whether a layer oriented programming language can improve scalability, and customizability of software.
            </p>
            <p>
-           The main reason I've worked on this project for so long is that I believe layers are an important abstraction for organizing code, that allow more manageable complexity as the project grows. It's possible to split a single type into slices to separate out an important dependency or feature, allowing the remaining code to be reused. Layers improve the refactorability of code, letting code move up the layer stack, possibly in a new base layer, without changing the resulting generated code. They provide built-in support for more manageable "feature-oriented programming". 
-           </p>           
+           Now truth be told, I like building applications, not infrastructure. I would rather use someone else's framework than build my own, and never add a new format when a suitable one exists. I continued only because nothing else has come along that I like better. One can always work around the limitations in a platform, but I feel the great potential for layers to help developers architect more scalable and customizable platforms.
+           </p>
            <p>
-           Up until now, StrataCode has been a side project but it's finally ready to build systems productively, albeit with some help from me. It can help repackage existing code into layers for more customization, to bring parts of a server application into the browser, or to to refactor a monolith into a more agile code base. It's also a great tool for building platforms from scratch that are efficient, customizable, and maintainable with easy-to-read application code. Perhaps the most remarkable thing about it is how little code it takes to add support for new languages and formats by writing a Parselets grammar, or how easy to add framework level features through code processing.
+           To provide more context on why I think that way, let me refer to the recent <a href="https://shopify.engineering/shopify-monolith">article</a> from Shopify's architecture team on how they manage their 2.8M line monolithic process. 
+           </p>
+           <div>
+              <img class="centerImageBlock" src="/images/bamboo.jpg"/>
+           </div>
+           <p>
+           They succeeded in splitting it into two pieces that share common libraries: the storefront and the back-office, but have a small team on a long-term effort to refactor to create smaller packages. Since most code is needed by the back-office, most developers still share a pretty big monolith. Further splitting is not easy because the changes required are intrusive to the code: reversing dependency relationships using new interfaces and adapters, new plugin designs, and changing method calls to use publish/subscribe. Across a large codebase, these turn into either "flag day" changes or require a lot of new code alongside the old with a gradual switchover, then a process to remove the old code to finally remove the dependency. Either way, it's not easy, not adding much value for the customer and made all that much trickier with thousands of developers sharing the same repository.
+           </p>
+           <div>
+              <img class="centerImageBlock" src="/images/rockWall.jpg"/>
+           </div>
+           <p>
+           What I like about layers is that they allow developers to modularize an existing system in place, without changing API contracts. They support what I'll call <i>evolutionary modularization</i>, where the system keeps the benefits of the monolith: rapid prototypes and new feature development, but over time evolves seamlessly to support the modularization required as needs evolve. It allows code to move from file to file, layer to layer, bundle to bundle, process to process, mostly through cut and paste and without disrupting the downstream users. Java gets us part of the way there, layers are the missing design piece. 
+           </p>
+           <div>
+              <img class="centerImageBlock" src="/images/complexEntityDiagram.png"/>
+           </div>
+           <p>
+           The Shopify example demonstrates why this is so important. It's quite common for the monolith to be the best design, at least up until a point in the company's growth. There's never a great time to stop everything and do an "in place" refactoring that involves disrupting all development for a period of time. If developers try to predict future modularization needs upfront, they can over-modularize, for example by splitting even fine-grained, tightly-coupled features into separate microservices. In this process, they waste design and development time only to create more operational complexity and runtime overhead. 
            </p> 
            <p>
-           I recognize that it's not easy for programmers to learn and use such a large, experimental project but even if you don't see a path to using it yourself, perhaps you'll find some useful pieces or it might inspire some new ways to think about software development. 
+           The same thing is true when they try to predict customization points. How many of us have had to copy an XML, JSON, or YAML configuration file with so many values that we never change?
            </p>
-           <p> 
-           Another reason I've spent so much time on StrataCode is that it has let me express my design philosophy for the best way to build software. Over many years writing code, I've been fortunate to have reviewed a lot of software projects, read a lot of incredible code, and learned by working with amazing engineers. That combined with my own experience building successful platforms motivated me through the years of debugging to refine my sense of the software design patterns that work best. They have become my interpretation of the "big book" (to borrow a phrase from the mathematician Paul Erdos). The big book contains only the most efficient patterns, and they are expressed as simply and elegantly as possible. They consider the entire lifecycle of development - from rapid prototyping to refactoring of large code bases and ensure readability of code, traceability of code paths, separation of code by dependencies, and support compatibility as code evolves. What software design patterns exist in your "big book" and can you find them all here?
-          </p>
-          <p>
-          See the <a href="/status.html">status</a> page for up-to-date information on quality, known issues, and works in progress.
-          </p>
-          <p>
-          Thanks for reading and I'd very much appreciate <a href="../contact.html">feedback</a> and am looking for developers to help, projects to build, companies, investors and partners in general.
-          </p>
-          <p>
-          Read more articles about StrataCode or go right to the <a href="/doc/">documentation</a>, or <a href="/examples/">examples</a> to learn more. <a href="/download/">Download or signup for updates</a>.
+           <div>
+              <img class="centerImageBlock" src="/images/redwood.jpg"/>
+           </div>
+           <p>
+           With evolutionary modularization, the developer prototypes the design in one file, perhaps an HTML file enhanced with rules and a simple set of domain model classes added as inner types. At this stage, it's easy to change, easy to share and collaborate. Give a copy to the product manager who can make changes quickly to refine the business domain model just like you would a spreadsheet. When the project outgrows one file, the inner classes are moved to separate files where they can be reused. Annotations are added to customize persistence and APIs. When the directory becomes too large, it's easy to move files into sub-directories. When one aspect of the code needs to be used in an independent context, it is moved into a new layer. Again, this is transparent for the code in the downstream ecosystem since the published API contracts don't have to change at any step.
+           </p> 
+           <p>
+           Throughout this process all features are customizable in downstream layers and the IDE tracks all customizations like regular code. Other patterns used for developing pluggable code require the ability to predict what will need customization, and then the code to support it. Many do not report customizations via find-usages in the IDE.
            </p>
            <p>
-           &nbsp;
-           <p/>
+           As the project grows, at some point the monolithic process might need to be split. 
+           </p>
+           <div class="imageBlock">
+              <img class="centerImageBlock" src="/images/yshapedTree.jpg"/>
+              <div class="attributionBlock">
+                <span class="attributionText">
+                   A Joshua Tree by Bernard Gagnon, (<a href="https://creativecommons.org/licenses/by-sa/3.0">license</a>), cropped from (<a href="https://commons.wikimedia.org/wiki/File:Joshua_Tree_01.jpg">Wikimedia Commons</a>) 
+                </span>
+              </div>
+           </div>
+
+           <p>
+           Let's say a validation method also needs to run in the browser, or statistics gathering needs its own process for performance reasons. At that point, those parts of the classes needed by both sides are moved into a new shared layer. The shared layer helps define the API and allows some code like the domain model and validation to run on both sides. Some async remote method calls might need to be moved into a data binding expression to work.  For security, new annotations might be required. Importantly, this still allows the monolithic process to be built from the same code. That makes for an easier switchover and keeps development agility.
+           </p>
+           <p>
+           So with evolutionary modularization, ultimately the application evolves faster, with less code that is more flexible. Although there's a conceptual leap for the architect managing it all, it's not that different from what we do today. I'm hoping that there are at least a few out there who will understand why this is a game-changer. 
+           </p>
+           <p>
+           To implement layers and the rest of the features, StrataCode uses widely accepted best practices:
+           </p>
+           <ul>
+              <li>Code readability and debuggability are paramount. 
+              <li>Code paths should be traceable at edit time (e.g. static typing, find usages) and runtime (e.g. clean stack traces, easy breakpoints, and logging). 
+              <li>Keep application code separate from framework features without limiting how the application code is deployed. 
+           </ul>
+           <p>
+           These patterns help developers work faster and promote reusable code. That's why I believe they belong in software's version of "the big book" (borrowing the term Paul Erdős coined for math proofs).
+           </p>
+           <p>
+           It has not been an easy road, and I have devoted a lot of time to not only building a language that supports layers, but a number of frameworks and integrations that exploit their potential. I feel lucky that I've had the time and energy to validate these ideas and make a tool that feels flexible and useful with steadily improving quality. I don't have the desire to release something with lots of bugs, but it's hard to be sure without more developers.
+           </p>
+           <p>
+           The layers and the code-processor have now been tested in the IntelliJ plugin, the web framework, a Java to JS converter, data-sync, DB integrations, and more. The best starting point for a new app is the <a href="/example/siteBuilder.html">site builder</a>. It's a framework for custom web sites including blog and product plugins.
+           See also the rest of the <a href="/examples/">examples</a> and <a href="/doc/">documentation</a>.
+           </p>
+           <p>
+           Let me know if you have a project I can help you build (<a href="/contact">contact</a>). It's also ready for inspired developers, investors, and partners. Even if you don't see a way to use StrataCode yourself, perhaps you'll find some useful info on this site that might help guide your own software designs. 
+           </p>
+          <p>
+          See the <a href="/status.html">status</a> page for up-to-date information on the status of each major feature. 
+          </p>
+          <p>
+          Read more articles about StrataCode from the menu, or <a href="/download/">Download or signup for updates</a>.
+          </p>
+          <div class="blockSpacer"/>
+          <div>
+              <img class="centerImageBlock" src="/images/sunset.jpg"/>
+          </div>
+          <p/>
        </div>
    </div></div>
 </body>

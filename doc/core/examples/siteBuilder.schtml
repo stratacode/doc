@@ -1,0 +1,342 @@
+<html extends="Example">
+<head title="Site builder"/>
+
+<body>
+   <div id="content"><div id="mainSection">
+      <div id="exampleContent">
+         <div class="exampleTitle">Site builder example</div>
+            <i class="italicSmaller">For an overview of features, click through the slideshow</i>
+            <p/>
+
+         <div id="serverSection1">
+            <div id="introSlideshow">
+               <%! 
+                  String[] fileNames = {"sbImages/frontPage.png", "sbImages/productPage.png", "sbImages/checkout.png", 
+                                        "sbImages/manageOrders.png", 
+                                        "sbImages/manageProduct1.png","sbImages/manageProduct2.png", "sbImages/manageProduct3.png",  
+                                        "sbImages/manageSite.png", "sbImages/managePage.png", "sbImages/manageCategory.png", 
+                                        "sbImages/manageSku1.png", "sbImages/manageSku2.png", "sbImages/manageUsers.png",   "sbImages/manageMedia.png"};
+                  String[] fileDescs = {"Fully multi-tenant, supports building stores, blogs or plain content sites", 
+                                          "Products can have options, discounts, inventory", "Accounts, multiple addresses, saved payment info", 
+                                          "Back-office basic order tracking", 
+                                          "Product description supports HTML",
+                                          "Skus with options and inventory",
+                                          "Product media assigned to specific options",
+                                          "Create new sites, edit menu entries, currencies supported",
+                                          "Create site pages with slideshows, html, product, category, and post views",
+                                          "Assign products/posts to a specific category or matching rules using expressions with code-hints",
+                                          "Manage skus", "Create new option schemes", "Basic statistics and user management",
+                                          "Manage media including flexible customization of different resolutions"};
+                  int currentSlide = 0;
+                  void changeSlide(int ix) {
+                     if (ix >= 0 && ix < fileNames.length) {
+                        currentSlide = ix;
+                     }
+                  }
+               %>
+
+               <div id="slideRepeat" class=':= currentSlide == repeatIndex ? "currentSlide" : "hiddenSlide"' 
+                    repeat=":= fileNames" repeatVarName="fileName">
+                  <img src=":= fileName" class="slideImage"
+                       clickEvent="=: changeSlide(currentSlide+1)"/>
+                  <div class="slideDesc">
+                     <%= fileDescs[slideRepeat.this.repeatIndex] %>
+                  </div>
+               </div>
+               <div class="slideNavRow" id="slideNavRow">
+                  <span id="leftSlideArrow" class="leftSlideArrow" clickEvent="=: changeSlide(currentSlide - 1)">❮</span>
+                  <span class="centerSlideButtons">
+                     <span id="selectDot" class=':= repeatIndex == currentSlide ? "selectedDot" : "selectDot"'
+                           clickEvent="=: currentSlide = repeatIndex" repeat=":= fileNames"/>
+                  </span>
+                  <span id="rightSlideArrow" class="rightSlideArrow" clickEvent="=: changeSlide(currentSlide + 1)">❯</span>
+               </div>
+            </div>
+
+            <p/>
+            The site builder lets users build online stores, blogs or plain content web sites, complete with management UIs. It's a great example of how StrataCode can be used to create flexible, scalable SaaS platforms. Although not yet deployed, the code is readable, flexible and would make a great starting point for a scalable SaaS platform.
+            <p/>
+            
+
+            <div class="exampleTitle">Project architecture</div>
+            There are five main types of layers in the system. Each layer contains the code implementing a given feature that shares a common set of dependencies (e.g. database, server, file-system, HTML).
+            In this design, the code is partitioned based on best practices for a scalable platform, to support a larger downstream ecosystem of use-cases with customizations. In a typical application project and especially when prototyping, it's better to use as few layers as possible, even as few files as possible. 
+            <p/>
+            Within each layer are a set of types, properties, and methods. Each of these becomes a customization hook point - a plugin or point to grab onto for downstream components to inherit rich, evolving behavior. Once established, layers can grow, inherit features from downstream, and sometimes split apart into multiple layers or be merged back again. 
+            <div class="locTable">
+               <div class="locTableRow">
+                  <span class="fullColumnSpan">Types of layers</span>
+               </div>
+               <div class="locHeaderRow">
+                  <span class="medColumnSpan">layer type</span>
+                  <span class="lgColumnSpan">description</span>
+                  <span class="lgColumnSpan">included in</span>
+                  <span class="lgColumnSpan">depends on</span>
+               </div>
+               <div class="locTableRow">
+                  <span class="medColumnSpan">model</span>
+                  <span class="lgColumnSpan">domain model for feature</span>
+                  <span class="lgColumnSpan">client + server</span>
+                  <span class="lgColumnSpan">none</span>
+               </div>
+               <div class="locTableRow">
+                  <span class="medColumnSpan">view model</span>
+                  <span class="lgColumnSpan">platform independent UI</span>
+                  <span class="lgColumnSpan">client + server</span>
+                  <span class="lgColumnSpan">none </span>
+               </div>
+               <div class="locTableRow">
+                  <span class="medColumnSpan">server</span>
+                  <span class="lgColumnSpan">server parts</span>
+                  <span class="lgColumnSpan">server only</span>
+                  <span class="lgColumnSpan">file system + DB</span>
+               </div>
+               <div class="locTableRow">
+                  <span class="medColumnSpan">html</span>
+                  <span class="lgColumnSpan">UI parts</span>
+                  <span class="lgColumnSpan">client + server</span>
+                  <span class="lgColumnSpan">html</span>
+               </div>
+               <div class="locTableRow">
+                  <span class="medColumnSpan">html server</span>
+                  <span class="lgColumnSpan">html server specific code</span>
+                  <span class="lgColumnSpan">server only</span>
+                  <span class="lgColumnSpan">html, servlets</span>
+               </div>
+            </div>
+
+            <div class="exampleTitle">Project stats</div>
+            <p/>
+            The project is split into the major pieces: the domain model, the public website, and the back-office or management UI.
+            <p/>
+            The domain model code is reused everywhere with no significant dependencies. The amount of code is kept small because domain model logic is not replicated. 
+            <div class="locTable">
+               <div class="locTableRow">
+                  <span class="fullColumnSpan">Domain model<span class="italicSmaller">(lines of code)</span></span>
+               </div>
+               <div class="locHeaderRow">
+                  <span class="medColumnSpan">layer type</span>
+                  <span>content</span>
+                  <span>user</span>
+                  <span>product</span>
+                  <span>blog</span>
+                  <span><i>all</i></span>
+                  <span class="remainderColumn">description</span>
+               </div>
+               <div class="locTableRow">
+                  <span class="medColumnSpan">model</span>
+                  <span>310</span>
+                  <span>360</span>
+                  <span>1570</span>
+                  <span>100</span>
+                  <span>2340</span>
+                  <span class="remainderColumn">domain model, e.g. ManagedMedia, UserProfile, Product, BlogPost</span>
+               </div>
+            </div>
+
+            The view model layers are used in the client, server, and along with the server layers define the API, keeping HTML dependencies separate.
+
+            The html layers run in the client and server to support isomorphic applications. Code that deals with http specific things like cookies, request headers is very small and kept in a separate set of layers.
+            
+            <div class="locTable">
+               <div class="locTableRow">
+                  <span class="fullColumnSpan">Public website UI<span class="italicSmaller">(lines of code)</span></span>
+               </div>
+               <div class="locHeaderRow">
+                  <span class="medColumnSpan">layer type</span>
+                  <span>content</span>
+                  <span>user</span>
+                  <span>product</span>
+                  <span>blog</span>
+                  <span><i>all</i></span>
+                  <span class="remainderColumn">description</span>
+               </div>
+               <div class="locTableRow">
+                  <span class="medColumnSpan">view model</span>
+                  <span>780</span>
+                  <span>0</span>
+                  <span>370</span>
+                  <span>130</span>
+                  <span>1280</span>
+                  <span class="remainderColumn">UI model - e.g. NavMenu, UserView, ProductView, BlogPostView</span>
+               </div>
+               <div class="locTableRow">
+                  <span class="medColumnSpan">server</span>
+                  <span>510</span>
+                  <span>480</span>
+                  <span>1340</span>
+                  <span>250</span>
+                  <span>2580</span>
+                  <span class="remainderColumn">Server parts of model+view model - e.g. UserView.login(), ProductView.addToCart()</span>
+               </div>
+               <div class="locTableRow">
+                  <span class="medColumnSpan">html</span>
+                  <span>420</span>
+                  <span>210</span>
+                  <span>530</span>
+                  <span>230</span>
+                  <span>1390</span>
+                  <span class="remainderColumn">Html view, mostly schtml templates e.g. PageLayout, LoginView, ProductView</span>
+               </div>
+               <div class="locTableRow">
+                  <span class="medColumnSpan">html server</span>
+                  <span>150</span>
+                  <span>120</span>
+                  <span>0</span>
+                  <span>0</span>
+                  <span>270</span>
+                  <span class="remainderColumn">Html specific server code - e.g. MediaUploadPage, currentUserView (for request/cookie code)</span>
+               </div>
+               <div class="locTableRow locSummaryRow">
+                  <span class="medColumnSpan">total</span>
+                  <span>2170</span>
+                  <span>1170</span>
+                  <span>3810</span>
+                  <span>710</span>
+                  <span>7860</span>
+                  <span class="remainderColumn"></span>
+               </div>
+            </div>
+            <div class="locTable">
+               <div class="locTableRow">
+                  <span class="fullColumnSpan">Management UI<span class="italicSmaller">(lines of code)</span></span>
+               </div>
+               <div class="locHeaderRow">
+                  <span class="medColumnSpan">layer type</span>
+                  <span>content</span>
+                  <span>user</span>
+                  <span>product</span>
+                  <span>blog</span>
+                  <span><i>all</i></span>
+                  <span class="remainderColumn">description</span>
+               </div>
+               <div class="locTableRow">
+                  <span class="medColumnSpan">view model</span>
+                  <span>350</span>
+                  <span>0</span>
+                  <span>390</span>
+                  <span>240</span>
+                  <span>980</span>
+                  <span class="remainderColumn">View model for management UI - e.g. SiteManager, PageManager, ProductManager</span>
+               </div>
+               <div class="locTableRow">
+                  <span class="medColumnSpan">server</span>
+                  <span>1050</span>
+                  <span>90</span>
+                  <span>1850</span>
+                  <span>900</span>
+                  <span>3890</span>
+                  <span class="remainderColumn">Server part of view model - e.g. doSearch(), startCreatePage()</span>
+               </div>
+               <div class="locTableRow">
+                  <span class="medColumnSpan">html</span>
+                  <span>720</span>
+                  <span>180</span>
+                  <span>1360</span>
+                  <span>240</span>
+                  <span>2500</span>
+                  <span class="remainderColumn">View for management UI - e.g. PageManagerView, SiteManagerView, ProductManagerView</span>
+               </div>
+               <div class="locTableRow locSummaryRow">
+                  <span class="medColumnSpan">total</span>
+                  <span>2120</span>
+                  <span>280</span>
+                  <span>3600</span>
+                  <span>1380</span>
+                  <span>7370</span>
+                  <span class="remainderColumn"></span>
+               </div>
+            </div>
+            <div class="locTable">
+               <div class="locTableRow">
+                  <span class="fullColumnSpan">Project stats</span>
+               </div>
+
+               <div class="locTableRow ">
+                  <span class="medColumnSpan">total lines</span>
+                  <span>4290</span>
+                  <span>1450</span>
+                  <span>7410</span>
+                  <span>2090</span>
+                  <span>15230</span>
+               </div>
+
+               <div class="locTableRow ">
+                  <span class="medColumnSpan">num layers</span>
+                  <span>9</span>
+                  <span>9</span>
+                  <span>7</span>
+                  <span>7</span>
+                  <span>32</span>
+               </div>
+            </div>
+            <p>
+            The Site builder can be run in a number of different configurations:
+            </p>
+            <ul>
+               <li>with or without product, and blog</li>
+               <li>client/server or server only mode</li>
+               <li>run parts as dynamic for fast refresh</li>
+               <li>with or without the back-office UI</li>
+            </ul>
+
+            <h2>Getting started</h2>
+
+            Install postgresql on local machine, create user 'sctest' with password 'sctest' or configure the userName, password and other connection info in the layer definition file: user/dataSource/dataSource.sc. For an example of how to override properties of the data source without changing the original, see: product/demo/core/core.sc.
+            <p/>
+            How to run:
+            <code>
+               # Site builder with all features 
+               scc ec.demoMgr.serverOnly
+               scc ec.demoMgr.clientServer
+
+               # Without management UI
+               scc ec.demo.serverOnly
+               scc ec.demo.clientServer
+
+               # Site builder with product only
+               scc product.demoMgr.serverOnly
+               scc product.demoMgr.clientServer
+
+               # Site builder with blog only
+               scc blog.demoMgr.serverOnly
+               scc blog.demoMgr.clientServer
+
+               # To load the db for mapping postal code to city/state
+               scc user/postalCodeDB/loader
+
+               # To run in dynamic mode for faster compile, refresh (pre-alpha)
+               scc -dyn product.demo.serverOnly
+            </code>
+
+            <h2>Video demos</h2>
+
+            <div extends="VideoBox" title="Real time editing of product page and inventory" length="6 mins" date="Nov 2020" videoId="csExv-kY_mA">
+               <%! intro = %>
+                  In the SiteBuilder, changes made to products, blog posts, categories, skus, etc. in the management UI are reflected in real time on the live product pages. See this in action, and walk through the code that makes it happen.
+               <% ; %>
+            </div>
+
+            <div extends="VideoBox" title="Client/server mode" length="3 mins" date="Nov 2020" videoId="j_P23cqduVc">
+               <%! intro = %>
+                  See the storefront running in client/server mode, how layers organize into multiple processes, and how data-sync supports declarative code that runs in one process or split between client and server. 
+               <% ; %>
+            </div>
+
+            <div extends="VideoBox" title="Using layers to build plugins" length="5.5 mins" date="Nov 2020" videoId="RU6s9GKpuSw">
+               <%! intro = %>
+                  Layers in StrataCode support flexible ways to plug-in code and customize features. This demo walks through three different techniques used by the product feature. 
+               <% ; %>
+            </div>
+
+            <div extends="VideoBox" title="UserProfile code walk-through" length="5 mins" date="Nov 2020" videoId="Sn7cGowNGNw">
+               <%! intro = %>
+                  A code walk-through of the UserProfile object in the SiteBuilder. See the database and data sync mapping annotations, an example data binding expression used as a queryable property, declaratively defined query, and look at the generated code for debugging.
+               <% ; %>
+            </div>
+        </div>
+      </div>
+   </div></div>
+</body>
+
+</html>

@@ -10,19 +10,18 @@
       <div abstract="true" class="graphicBox" id="GraphicBox"/>
 
       <div class="tagBox" extends="InfoBox">
-         <div class="tagline">Master code complexity</div>
+         <div class="tagline">Scalable. Customizable.</div>
          <div class="taglineTwo">A new dimension in coding with layers and code-processing</div>
          <div class="intro">
-         Java extensions for data binding, components, and layers. An IntelliJ plugin and innovative frameworks and tools for building scalable, customizable platforms. 
+         StrataCode provides Java extensions for data binding, components, layers, and client/server sync. An IntelliJ plugin. Java to JS converter. Site builder framework with storefront and management UIs.
          </div>
-         <br/>
          <div id="actionButtons" class="actionButtons">
             <a href="/download/" class="actionButton">
                Download preview
             </a>
-            <a href="/download/" class="actionButton">
-               Subscribe 
-            </a>
+            <a href="/examples/siteBuilder.html" class="actionButton">
+               <span>Site builder</span> 
+            </a> 
             <a href="/videos.html" class="actionButton">
                Videos
             </a>
@@ -35,9 +34,9 @@
          <a href="/doc/dataBinding.html">
             <div class="infoBoxTitle">Data binding for Java expressions</div>
            Attach expressions to properties with three new operators for configurable rules that run anywhere. Bind to remote data sources in the browser. Call methods when properties change for seamless async method calls. Use for validation, database queries, UIs, management UIs, and more. Debuggable and scalable for programmers. Easy to customize by everyone else. <span style="text-decoration: underline">Learn more</span>.
-           <p/>
-           <img src="/images/bindingTypes.png" class="mobileImage75">
-           <br/>
+           <div class="infoBoxSubImage">
+              <img src="/images/bindingTypes.png" class="mobileImage75">
+           </div>
          </a>
          </span>
       </div>
@@ -188,67 +187,18 @@
 
       <hr class="boxSeparator"/>
 
-<!--
-      <div id="codeProcDetail" extends="BaseDetailBox">
-         <ul>
-            <li>Breath new life into old Java with code processing.
-            <li>Declarative grammars generate the language model (AST), and support property changes to update the code incrementally.
-            <li>Use the AST api to quickly transform code. Shared base classes provide IDE features, convert between languages.
-            <li>Framework hooks for generating components, properties, processing annotations, etc.
-            <li>Unlike byte-code processing, the generated code is readable and debuggable.
-         </ul>
-      </div>
-      <div id="sysDetail" extends="BaseDetailBox">
-         <ul>
-            <li>One stack of layers are organized into one or more processes. 
-            <li>Manage the entire build, run, refresh with a single command. 
-            <li>Overlapping layers provide the foundation for generated code to manage back and forth exchange of data. 
-            <li>Remote method calls are detected and handled automatically.
-         </ul>
-      </div>
-      <div id="webDetail" extends="BaseDetailBox">
-         <ul>
-            <li>Flexible way to build any web application.
-            <li>schtml templates bring the power of Java to web apps</li>
-            <li>Java to Javascript: readable JS code, usable JS APIs, debuggable without a simulator</li>
-            <li>Layered + isomorphic - run code on client, server or both with one syntax</li>
-            <li>Standard Java classes: ArrayList, HashMap, LinkedHashMap, etc.</li>
-            <li>Libraries, modules, automatic dependency detection and ordering</li>
-            <li>Fast 'refresh' of stateful apps with code patching, supports great management UIs</li>
-            <li>Data sync for seamless, rich featured, client/server app development</li>
-         </ul>
-      </div>
--->
-
-<!--
-      <div extends="BaseDetailBox" id="custDetail">
-         <ul>
-           <li>Photoshop-like layered organization of code, files, and data for manageability.
-           <li>Run apps using dynamic layers for on-the-fly updates. Compile layers for runtime speed.
-           <li>Build declarative management UIs on top of plain domain models that support not only management of instances, but customization of types as well.
-           <li>Create new layers, and cut and paste preserving apis.
-           <li>Break out 'feature layers' instead of  "one size fits all" development.
-           <li>Layers are modules that can also modify features, a built-in plugin capability you can expose for certain types.
-           <li>Layers also separate code for better workflows, testing, customization, A/B testing.  A complement to version control when it makes sense to keep changes separate.</li>
-           <li><a href="articles/aboutLayers.html">More on layers</a>.
-         </ul>
-      </div>
--->
    </div>
 
    <div class="mainContent"><div class="mainContentBody">
       <p>
-   A preview release of StrataCode is now available. Contact <a href="about.html">Jeff Vroom</a> (jeff@jvroom.com) for a download code. For those who like developing frameworks, it's a relatively small, readable, maintainable code base with no core dependencies. 
+   A preview release of StrataCode is now available. Contact <a href="about.html">Jeff Vroom</a> (jeff@jvroom.com) for a download code. For those who like developing frameworks, it's a relatively small, readable code base with no core dependencies. 
    </p>
    <p>
-   StrataCode will be used to build a customizable platform for building applications and integrations. It might also be suitable as a developer's tool if there's interest. We are looking for projects to build with StrataCode, investors, and partners.
+   StrataCode is now ready for developers, projects, investors and partners. 
    </p>
    <p>
-   Some features are not production ready (<a href="status.html">see status</a>), but we believe it is a great tool and set of frameworks for building apps from scratch. At first it will require a fairly high level of support from Jeff. It would also be useful to refactor large existing Java code bases, supporting continual evolution during the refactoring process. It can also be used to build or upgrade an existing SaaS platform, or build your own language oriented tools in Java. 
-     </p>
-     <p>
-     Read more in these <a href="articles/">articles</a>.
-     </p>
+   Read more in the <a href="articles/">introduction</a>.
+   </p>
    </div></div>
 </div>
 

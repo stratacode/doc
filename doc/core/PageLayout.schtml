@@ -21,7 +21,7 @@
          </ul>
       </div>
       <style type="text/css">
-         @media (min-resolution: 192dpi) and (max-device-width: 1200px), (min-device-pixel-ratio: 2) and (max-device-width: 1200px), (-webkit-min-device-pixel-ratio: 2) and (max-device-width: 1200px) {
+         @media (min-resolution: 192dpi) and (max-device-width: 1200px), (min-device-pixel-ratio: 2) and (max-device-width: 1200px), (-webkit-min-device-pixel-ratio: 2) and (max-device-width: 1200px), (max-width: 850px) {
             .nav {
                display: <%= menuVisible ? "block" : "none" %>;
                position: absolute;

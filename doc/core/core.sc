@@ -8,10 +8,14 @@ import sc.doc.templateSnippets;
 import sc.doc.Example;
 import sc.doc.PageLayout;
 import sc.doc.ArticlePage;
+import sc.doc.VideoBox;
+import sc.doc.MarkDownPage;
+
 import sc.doc.doc.DocPage;
 import sc.doc.doc.IdePage;
 import sc.doc.doc.WebDocPage;
-import sc.doc.MarkDownPage;
+
+
 
 /** 
  * The basic documentation layer.  It has components that require server features although some pages can partially run

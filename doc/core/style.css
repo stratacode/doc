@@ -24,6 +24,10 @@ pre {
       font-size: 230%;
    }
 
+   .tagBox {
+      height: 520px;
+   }
+
    .navbar {
       padding-left: 18px;
       padding-top: 3px;
@@ -43,12 +47,13 @@ pre {
    }
 
    .intro {
-      margin-bottom: 0px;
+      margin-bottom: 30px;
       font-size: 100%;
    }
 
    .navMenuIcon {
        height: 60px;
+       cursor:pointer;
    }
 
    #mainSection {
@@ -103,6 +108,58 @@ pre {
       width: 100px;
       height: 100px;
    }
+
+   .selectDot, .selectedDot {
+      width: 32px;
+      height: 32px;
+   }
+
+   .locTableRow span, .locHeaderRow span {
+       width: 130px; 
+      /* width: 10%; */
+   }
+
+   .locTableRow .medColumnSpan, .locHeaderRow .medColumnSpan {
+      width: 180px; 
+   }
+
+   .locTableRow .lgColumnSpan, .locHeaderRow .lgColumnSpan {
+      width: 250px; 
+      /* width: 20%; */
+   }
+
+   .locTableRow .fullColumnSpan, .locHeaderRow .fullColumnSpan {
+      width: 550px; 
+      /* width: 30%;   */
+   }
+
+   .locTableRow .remainderColumn, .locHeaderRow .remainderColumn {
+      /* width: 25%; */
+      width: 565px; 
+   }
+
+  .infoBoxImage {
+     width: 100%;
+  }
+
+  .infoBoxGraphicBody {
+     width: 100%;
+  }
+
+  #introSlideshow {
+     width: 100%;
+  }
+  .slideImage {
+     width: 100%;
+  }
+  .currentSlide {
+      height: 1100px; 
+  }
+
+  .exampleContent {
+     /* For siteBuilder page - need a way to set this for just text sections, but don't want it to apply to code samples in other examples */
+     /* text-size-adjust: initial; */
+  }
 }
 
 /** Rule for desktops screens */
@@ -111,6 +168,10 @@ pre {
       font-size: 100%;
    }
 
+   .tagBox {
+      height: 420px;
+   }
+
    .navbar {
       padding-left: 45px;
       padding-top: 5px;
@@ -130,7 +191,7 @@ pre {
    }
 
    .intro {
-      margin-bottom: 0px;
+      margin-bottom: 40px;
       font-size: 120%;
       max-width: 750px;
    }
@@ -141,21 +202,6 @@ pre {
    }
 
    .mobileImage75 {
-   }
-
-   .nav {
-      display: flex;
-      white-space: nowrap;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      margin-left: 20px;
-      margin-bottom: 0px;
-      margin-top: 5px;
-   }
-
-   .nav li {
-      display:inline;
    }
 
    .productTitle {
@@ -194,6 +240,77 @@ pre {
       width: 50px;
       height: 50px;
    }
+
+   .selectDot, .selectedDot {
+      width: 14px;
+      height: 14px;
+   }
+
+   .locTableRow span, .locHeaderRow span {
+      width: 75px;
+   }
+
+   .locTableRow .medColumnSpan, .locHeaderRow .medColumnSpan {
+      width: 140px; 
+      /* width: 15%; */
+   }
+
+   .locTableRow .lgColumnSpan, .locHeaderRow .lgColumnSpan {
+      width: 200px; 
+      /* width: 20%; */
+   }
+
+   .locTableRow .fullColumnSpan, .locHeaderRow .fullColumnSpan {
+      width: 280px; 
+      /* width: 30%;   */
+   }
+
+   .locTableRow .remainderColumn, .locHeaderRow .remainderColumn {
+      /* width: 25%; */
+      width: 350px; 
+   }
+
+  .infoBoxImage {
+     width: fit-content;
+  }
+
+  @media (min-width: 1530px) {
+     #introSlideshow {
+        width: 970px;
+     }
+     .slideImage {
+        width: fit-content;
+     }
+  }
+
+  @media (max-width: 1530px) and (min-width: 1230px) {
+     #introSlideshow {
+        width: 805px;
+     }
+     .slideImage {
+        width: 800px;
+     }
+  }
+  @media (max-width: 1230px) and (min-width: 850px) {
+     #introSlideshow {
+        width: 705px;
+     }
+     .slideImage {
+        width: 700px;
+     }
+  }
+  @media (max-width: 850px) {
+     #introSlideshow {
+        width: 605px;
+     }
+     .slideImage {
+        width: 600px;
+     }
+  }
+
+  .currentSlide {
+      height: 700px; 
+  }
 }
 
 /** Retina displays */
@@ -202,6 +319,10 @@ pre {
       font-size: 100%;
    }
 
+   .tagBox {
+      height: 420px;
+   }
+
    .navbar {
       padding-left: 45px;
       padding-top: 5px;
@@ -221,7 +342,7 @@ pre {
    }
 
    .intro {
-      margin-bottom: 0px;
+      margin-bottom: 40px;
       font-size: 120%;
       max-width: 750px;
    }
@@ -285,6 +406,34 @@ pre {
       width: 50px;
       height: 50px;
    }
+
+   .locTableRow span, .locHeaderRow span {
+      width: 120px; 
+      /* width: 10%; */
+   }
+
+   .locTableRow .medColumnSpan, .locHeaderRow .medColumnSpan {
+      width: 140px; 
+      /* width: 15%; */
+   }
+
+   .locTableRow .lgColumnSpan, .locHeaderRow .lgColumnSpan {
+      width: 200px; 
+      /* width: 20%; */
+   }
+
+   .locTableRow .fullColumnSpan, .locHeaderRow .fullColumnSpan {
+      width: 280px; 
+      /* width: 30%;   */
+   }
+
+   .locTableRow .remainderColumn, .locHeaderRow .remainderColumn {
+      /* width: 25%; */
+      width: 350px; 
+   }
+  .currentSlide {
+      height: 700px; 
+  }
 }
 
 #content {
@@ -332,13 +481,12 @@ pre {
   transition: color 0.25s ease-out;
 }
 
-
 h1 { 
-   /* font-size: 26px;  */
-   margin: 1em 0px 0.5em; 
    padding-top: 4px; 
-   border-top: 1px dotted #d5d5d5; 
+   font-size: 130%;
+   margin: 1em 0px 0.5em; 
 }
+
 h2 { 
    padding: 0px;
    padding-bottom: 3px;
@@ -410,7 +558,6 @@ h2 {
 
 .tagBox {
    width: 100%;
-   height: 420px;
    margin-top: 20px;
    margin-bottom: 0px;
    text-align:center;
@@ -439,6 +586,12 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
 .tagline, .taglineTwo, .intro {
    /* color: #000; */
     color: #dcdcdc;
+}
+
+
+.intro a {
+   text-decoration: none;
+   color: #dcdcdc;
 }
 
 .tagline {
@@ -487,10 +640,6 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
    font-weight: bold;
 }
 
-.infoBox {
-   padding-top: 70px;
-}
-
 .infoBoxLink {
    text-decoration: underline;
 }
@@ -503,7 +652,7 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
    background-color: #FFFFFF; 
    padding-left: 1%;
    padding-right: 1%;
-   padding-bottom: 50px;
+   /* padding-bottom: 50px; */
    margin-right: 0.8%;
    /* border: 1px solid #112255; */
    display: flex;
@@ -535,10 +684,28 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
    color: #333333;
 }
 
-@media (min-width: 1230px), (min-device-width: 1200px) {
+@media (min-width: 1530px) {
+/*
    .infoBox {
         max-width: 30%;
    }
+*/
+
+   .nav {
+      display: flex;
+      white-space: nowrap;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin-left: 20px;
+      margin-bottom: 0px;
+      margin-top: 5px;
+   }
+
+   .nav li {
+      display:inline;
+   }
+
 
    .graphicBox {
         max-width: 69%;
@@ -562,31 +729,67 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
        /* height: 190px; */
    }
 
+
+  .infoBox, .graphicBox {
+     padding-bottom: 50px;
+     padding-top: 70px;
+  }
+
+  #exampleContent, #pageContent {
+     max-width: 70ch;
+  }
 }
 
-@media (max-width: 1230px) and (min-width: 850px) and (max-resolution: 191dpi), (max-device-pixel-ratio: 1.99), (-webkit-max-device-pixel-ratio: 1.99dpi) {
-  .infoBox {
-     max-width: 700px;
-  }
+@media (max-width: 1530px) and (min-width: 1230px) {
+   .infoBox {
+       max-width: 30%;
+   }
 
-  .mobileImage75 {
-  }
+   .nav {
+      display: flex;
+      white-space: nowrap;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin-left: 20px;
+      margin-bottom: 0px;
+      margin-top: 5px;
+   }
 
-  .infoBoxImage {
-  }
+   .graphicBox {
+       max-width: 69%;
+   }
 
-  .infoBoxBody, .infoBoxLinkBody {
-      max-width: 350px;
-      padding-right: 25px;
-  }
+   .infoBoxImage {
+   }
+
+   .infoBoxBody, .infoBoxLinkBody {
+       max-width: 380px;
+       padding-right: 25px;
+   }
+
+   .infoBoxGraphicBody {
+   }
 
    .tagBox {
        width: 100%;
    }
+   .tagBox {
+       /* height: 190px; */
+   }
 
+
+  .infoBox, .graphicBox {
+     padding-bottom: 50px;
+     padding-top: 70px;
+  }
+
+  #exampleContent, #pageContent {
+     max-width: 70ch;
+  }
 }
 
-@media (max-width: 1230px) and (min-width: 850px) and (min-resolution: 192dpi), (min-device-pixel-ratio: 2.0) and (max-device-width: 1200px), (-webkit-min-device-pixel-ratio: 2.0) and (max-device-width: 1200px) {
+@media (max-width: 1230px) and (min-width: 850px) {
   .infoBox {
       flex-wrap: wrap;
   }
@@ -594,14 +797,37 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
       width: 100%;
    }
 
-  .infoBoxImage {
+   .nav {
+      display: flex;
+      white-space: nowrap;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin-left: 20px;
+      margin-bottom: 0px;
+      margin-top: 5px;
+   }
+
+  .tagBox {
      width: 100%;
   }
-  .tagBox {
-      width: 100%;
+  .infoBoxBody, .infoBoxLinkBody {
+     max-width: 35em;
   }
-  .infoBoxBody, .infoBoxGraphicBody, .infoBoxLinkBody {
-      width: 100%;
+
+  .infoBoxGraphicBody {
+  }
+
+  .infoBox, .graphicBox {
+     padding-bottom: 15px;
+     padding-top: 15px;
+  }
+  .infoBoxSubImage {
+      margin-left: 80px;
+   }
+
+   #exampleContent, #pageContent {
+     max-width: 70ch;
   }
 }
 
@@ -615,15 +841,24 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
       width: 100%;
    }
   .infoBoxBody, .infoBoxGraphicBody, .infoBoxLinkBody {
-      max-width: 100%;
+      max-width: 500px;
   }
   .infoBoxImage {
   }
   .tagBox {
       width: 100%;
   }
-  .infoBoxBody, .infoBoxGraphicBody, .infoBoxLinkBody {
-      width: 100%;
+
+  .infoBox, .graphicBox {
+     padding-bottom: 15px;
+     padding-top: 15px;
+  }
+  .infoBoxSubImage {
+      margin-left: 80px;
+   }
+
+   #exampleContent, #pageContent {
+     max-width: 70ch;
   }
 }
 
@@ -669,6 +904,10 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
    /* color: #134783;  */
    /* border-bottom: 0px;  */
    margin-left: 0px;
+}
+
+#titleLogo {
+   white-space: nowrap;
 }
 
 .productLink {
@@ -1018,7 +1257,7 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
    padding-right: 1%;
    padding-bottom: 1%;
    /* max-width: 950px; */
-   max-width: 70ch;
+   /* max-width: 70ch; */
 
    flex: 1 1 auto;
 }
@@ -1029,12 +1268,19 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
    padding-top: 2px;
 }
 
-.exampleTitle, .videoTitle, .exampleIndexTitle {
+.videoTitle, .exampleIndexTitle {
    font-weight: bold;
 }
 
-.videoTitle, .exampleTitle, .pageTitle {
+.pageTitle {
    font-size: 100%;
+   padding-bottom: 2px;
+   padding-top: 2px;
+}
+
+.videoTitle, .exampleTitle {
+   font-size: 110%;
+   font-weight: bold;
    padding-bottom: 2px;
    padding-top: 2px;
 }
@@ -1152,5 +1398,151 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
 
 .navMenuIcon {
    vertical-align: middle;
+   cursor:pointer;
 }
 
+
+.hiddenSlide {
+   display: none;
+}
+
+.slideNavRow {
+   background: transparent;
+   display: flex;
+   justify-content: center;
+   margin-top: 5px;
+   margin-bottom: 15px;
+}
+
+.selectDot, .selectedDot {
+   border-radius: 50%;
+   background-color: transparent;
+   border: 1px solid #ccc;
+   padding: 0;
+   color: #fff;
+   cursor: pointer;
+   display: inline-block;
+   margin-left: 2px;
+   margin-right: 2px;
+}
+
+.selectDot:hover {
+   background-color: #aaa;
+}
+
+.selectedDot {
+   background-color: #777;
+}
+
+.leftSlideArrow, .rightSlideArrow {
+   cursor:pointer;
+   font-size: 120%;
+   user-select: none;
+}
+
+.centerSlideButtons {
+   background: transparent;
+   padding-left: 5px;
+   padding-right: 5px;
+   padding-top: 4px;
+}
+
+.currentSlide {
+   /* height: 700px; */
+   display: flex;
+   align-items: flex-start;
+   justify-content: center;
+   flex-direction: column;
+   border: solid 1px #aaa;
+}
+
+.slideDesc {
+   margin-top: auto;
+   margin-bottom: 15px;
+   align-self: center;
+}
+
+.currentSlide img {
+   height: fit-content;
+   cursor:pointer;
+   overflow: auto;
+}
+
+.locTable {
+   display: flex;
+   flex-direction: column;
+   width: 100%;
+   margin-top: 5px;
+   margin-bottom: 10px;
+   padding-top: 2px;
+   border-top: solid 1px #ccc;
+}
+
+.locTableRow, .locHeaderRow {
+   display: flex;
+}
+
+.locHeaderRow {
+   background: #ccc;
+   padding-top: 3px;
+   padding-bottom: 3px;
+}
+
+.locTableRow span, .locHeaderRow span {
+   font-size: 85%;
+   padding-left: 3px;
+}
+
+.locTableRow .medColumnSpan, .locHeaderRow .medColumnSpan {
+   font-size: 90%;
+}
+
+.locTableRow .lgColumnSpan, .locHeaderRow .lgColumnSpan {
+   font-size: 90%;
+}
+
+.locTableRow .fullColumnSpan, .locHeaderRow .fullColumnSpan {
+   font-weight: bold;
+   font-size: 110%;
+   padding-bottom: 4px;
+   padding-top: 4px;
+}
+
+.locSummaryRow {
+  border-top: solid 1px #ccc;
+  border-bottom: solid 1px #ccc;
+  background: #eee;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.locTableRow .remainderColumn, .locHeaderRow .remainderColumn {
+   font-size: 90%;
+}
+
+.italicSmaller, .slideDesc {
+   font-style: italic;
+   font-size: 85%;
+   font-weight: normal;
+}
+
+#bindBox {
+   margin-top: 10px;
+}
+
+.imageBlock {
+   display: flex;
+   flex-direction: column;
+}
+.attributionBlock {
+   margin: 0px auto;
+}
+
+.attributionText {
+   font-size: 75%;
+   font-style: italic;
+}
+
+.blockSpacer {
+  padding-top: 20px;
+}

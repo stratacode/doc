@@ -5,10 +5,10 @@
    <div id="content"><div id="mainSection">
       <div id="exampleContent" exec="server">
 
-      <div class="exampleTitle">Management UI framework - code overview</div>
+      <div class="exampleTitle">Program editor UI framework - code overview</div>
 
       <p/>
-      The management UI framework builds management UIs directly from annotated domain models. Like most management UIs, it supports creation of new instances and changing properties. It also supports editing of configuration and rules by editing layers of code, supporting flexible workflows with developers in how to manage, customize, and update the system.
+      The program editor UI framework provides the ability to build code-level customization UIs on the fly by reflecting directly on the properties, methods, constructors supported by the domain objects. It also provides a crude management UI out of the box, creating instances, viewing life property values, updating instance properties or making changes to the code that initializes the property. It supports editing of data binding rules both by modifying code in place as well as by editing code in a new layer. It's a prototype demonstrating a more flexible workflows between developers, and those business users that would like more control in customizing logic in the system. 
       <p/> 
       There are two tree views to organize types and instances: one navigates the name space of types and instances directly. The other navigates types and instances by their organization in layers. 
       <p/> 
@@ -58,7 +58,7 @@
       <p>For the client/server version, the model essentially defines the overlapping parts - i.e. the info that's used on both the client and server. The model layer defines the domain model and the coreui layer defines the view model. These layers have no real framework dependencies and so can run anywhere. Most frameworks require some replication of the domain model and view model code for each UI framework or for specifying the service layer or data transfer layers. With this approach, the service and transfer classes are generated mainly just from the organization of the code. 
      </p>
       <p>
-      Here is the model layer of the EditorModel class, which manages the overall domain model for the management UI framework. It has the currently selected types and instances, the current layer and other layers that make up the selected types, access to the metadata of the types and propeties. This code is included in both client and server versions of the generated class.
+      Here is the model layer of the EditorModel class, which manages the overall domain model for the program editor UI framework. It has the currently selected types and instances, the current layer and other layers that make up the selected types, access to the metadata of the types and propeties. This code is included in both client and server versions of the generated class.
      </p>
 <%= sc.lang.SCLanguage.getSCLanguage().styleFile("editor/model","EditorModel.sc", false, false) %>
 

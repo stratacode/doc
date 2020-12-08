@@ -1,0 +1,23 @@
+<div class="videoBox" abstract="true">
+    <%! String videoId, title, length, date;
+        @sc.obj.HTMLSettings(returnsHTML=true)
+        String intro; 
+        String urlPath := "http://www.youtube.com/watch?v=" + videoId;
+        String imgSrc := "http://img.youtube.com/vi/" + videoId + "/1.jpg";
+      %>
+    <div id="videoBoxBody" class="videoContentBody">
+       <a class="videoLink" href='= urlPath'>
+          <% if (videoId != null) { %>
+          <img src='= imgSrc'>
+          <% } %>
+       </a>
+       <div class="videoBoxWithTitle">
+          <div class="videoTitle">
+             <a href="= urlPath"><%= title %> (<%= length %>, <%= date %>)</a>
+          </div>
+          <div id="introBox" class="introBox">
+             <%= intro %>
+          </div>
+       </div>
+    </div>
+</div>

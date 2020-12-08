@@ -1,6 +1,6 @@
 <html abstract="true">
 <%! 
-    boolean mobileRes := Window.window.innerWidth / Window.window.devicePixelRatio < 840;
+    boolean mobileRes := Window.window.screen.width < 500 || Window.window.innerWidth / Window.window.devicePixelRatio < 840;
     boolean navOpen := !mobileRes; 
     pageVisitCount =: navOpen = !mobileRes;
 %>

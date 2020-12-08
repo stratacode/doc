@@ -22,15 +22,15 @@ Status of various StrataCode components based on current testing:
 ## Dynamic runtime
 Beta quality for basic Java features when all code is dynamic or when dynamic code sits on top of compiled code. No real effort has been made to test lambdas expressions and Java8+ features in dynamic mode. 
 
-Compiled classes extending dynanmic ones are not supported. Some compile time references to dynamic classes are implemented by changing the field or method call during code processing. 
+Compiled classes extending dynamic ones are not supported. Some compile time references to dynamic classes are implemented by changing the field or method call during code processing. 
 
 Refreshing changes made to source code on the fly only works for simple cases like property changes, add field, add/remove class, and method changes.
 
 ## Frameworks
-* beta: data binding, components, properties, sync, java-to-js web framework (although missing some apis you might need, they are easy to add) 
+* beta: data binding, components, properties, sync, java-to-js web framework (if it's missing apis you need, they are easy to add contact us) 
 * alpha/pre-alpha: cross-scope bindings for collaboration, web security, request scope, server tags, merging layers of schtml
 
-## Management ui:
+## Program editor
 * alpha support for existing features
 * missing 'find' page, delete, more refinement overall and more customizability
 
@@ -39,13 +39,13 @@ Refreshing changes made to source code on the fly only works for simple cases li
 
 ## Java to Javascript
 
-The Java to Javascript converter is beta quality for Java 6 features. Many of the typically used JDK classes are supported (ArrayList, HashMap, LinkedHashMap etc.), more can be added on request. The test suite contains over 200K lines of Java runs in the browser.  The utilities used are lightly modified copies of the Apache java classes from Java 1.6. Java 1.8 lambdas have been implemented in the code-gen by converting to inner classes, but that conversion has not been tested due to the missing libraries. 
+The Java to Javascript converter is beta quality for Java 6 features. Many of the typically used JDK classes are supported (ArrayList, HashMap, LinkedHashMap etc.), more can be added as needed. The test suite contains over 200K lines of Java runs in the browser.  The utilities used are lightly modified copies of the Apache java classes from Java 1.6. Java 1.8 lambdas have been implemented in the code-gen by converting to inner classes, but that conversion has not been tested due to the missing libraries. 
 
 Anonymous classes that use variables from the enclosing method are not yet supported.
 
 The converter uses a relatively high level of emulation of native Java classes to keep download size manageable. It's possible to replace a class with a native version using an annotation. Right now, the code is still readable and no optimizations to remove unused code, or write native JS in a condensed way so there is lots of future optimization potential, particularly for download size. 
 
-All number types in Java (int, float, Integer, etc) are converted to Javascript's single number type. A cast to an int type will insert a call to Math.floor, the most important features of BigDecimal are supported and it's possible to wrap those integers that really need to be integers but that works is not complete.
+All number types in Java (int, float, Integer, etc) are converted to Javascript's single number type. A cast to an int type will insert a call to Math.floor, the most important features of BigDecimal are supported (requires the js.math layer) and it's possible to wrap those integers that really need to be integers but that works is not complete.
 
 Currently, the entire JS app is downloaded after the page is rendered but the layered organization would be a great way to separate subsets of layers to be progressively loaded. Just mark layers in your stack as 'download layers' and the rest could be automated. For large client applications, you'll be able to start interacting with the app with the base layers, while successive layers are downloaded. The static type system would help manage the dependencies to be sure each individual stack defined a valid application and framework hooks installed to help provide a smooth transition from one to the next.
 
