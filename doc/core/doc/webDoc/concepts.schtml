@@ -308,6 +308,8 @@ Set window.location.pathname to change the browser's URL from either the server 
 
 Listen to changes to window.innerWidth/innerHeight to receive notifications of the window resize. 
 
+Use window.screen.width and height to help detect mobile devices.
+
 Use document to listen for global mouse events. See example.html.mouseMove.
 
 The document.activeElement like the similar DOM property helps with focus navigation, and is used to save/restore the focus after an focused element is refreshed. 
@@ -315,6 +317,7 @@ The document.activeElement like the similar DOM property helps with focus naviga
 javadoc: [Document](/javadoc/sc/lang/html/Document.html), 
 [Location](/javadoc/sc/lang/html/Location.html), 
 [Window](/javadoc/sc/lang/html/Window.html).
+[Screen](/javadoc/sc/lang/html/Screen.html).
 
 ## Page focus
 
