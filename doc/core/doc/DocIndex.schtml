@@ -69,7 +69,7 @@ Person {
 }</pre>
                      <ul>
                        <li>x := y;  Defines a forward binding.  x, a property, is set when y, a java expression's value changes.</li>
-                       <li>x :=: y;  Defines a bi-directional binding.  x is set when y changes and y is set when x changes.  y must be an invertible Java expression, (i.e. 7 * z works but w * z gives an error).</li>
+                       <li>x :=: y;  Defines a bi-directional binding.  x is set when y changes and y is set when x changes.  y must be an invertible Java expression, (e.g. 7 * z works but w * z gives an error).</li>
                        <li>x =: y; Defines a reverse-only binding.  when x is set, y is set or evaluated.</li>
                        <li>(<a href="dataBinding.html">more</a>, <a extends="PackageLink" packageName="sc/bind"/>)</li>
                      </ul>

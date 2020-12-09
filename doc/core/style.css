@@ -483,15 +483,19 @@ pre {
 
 h1 { 
    padding-top: 4px; 
-   font-size: 130%;
+   font-size: 160%;
    margin: 1em 0px 0.5em; 
 }
 
 h2 { 
    padding: 0px;
    padding-bottom: 3px;
-   font-size: 120%;
+   font-size: 140%;
    margin: 0.5em 0 0.5em;
+}
+
+h3 {
+   margin-bottom: 10px;
 }
 
 .highlight {
@@ -1378,6 +1382,7 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
 
 .centerImageBlock {
    margin: 0px auto;
+   margin-top: 20px;
    display: block; 
    max-width: 90%;
 }
