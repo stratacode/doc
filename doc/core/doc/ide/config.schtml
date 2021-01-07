@@ -31,7 +31,7 @@ If you have the StrataCode source (scc-src.zip or access to the private git repo
 
 * Choose your JDK (1.8) and click Next
 * Enable Install layers from repository URL and use the default URL (https://github.com/stratacode/)
-* Enter a comma separated list of bundle names to install.  Enter a comma separated list including at least 'coreFramework, example'.  Add 'managementUI' to run the management UI examples.
+* Enter a comma separated list of bundle names to install.  Enter a comma separated list including at least 'coreFramework, example'.  Add 'siteBuilder', 'programEditor', 'doc' to add those bundles.
 
 <% ) %>
 
@@ -121,7 +121,8 @@ Make a StrataCode project directory with one or more bundles:
 Add additional layer bundles as well (inside of the 'bundles' directory):
 
       git clone https://github.com/stratacode/example.git
-      git clone https://github.com/stratacode/managementUI.git
+      git clone https://github.com/stratacode/programEditor.git
+      git clone https://github.com/stratacode/siteBuilder.git
 
 ### Create a new StrataCode IntelliJ module 
 

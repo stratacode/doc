@@ -18,7 +18,7 @@
               <img class="centerImageBlock" src="/images/theHomer3.jpg"/>
            </div>
            <p>
-           To customize even the smallest aspect of an application required making a copy or refactoring the code. I thought inheritance would be enough, but it wasn't. After a lot of thought, I realized that it needed an ability to modify a given type in a different slice, or layer. This led to the <i>configuration layers</i> feature in ATG Dynamo, and experience with that led to this long-term effort to answer the question of whether a layer oriented programming language can improve scalability, and customizability of software.
+           To customize even a small feature in an application required making a copy of the code or refactoring. I thought inheritance would be enough, but it wasn't.<sup><a href="#sup1" id="supRef1">1</a></sup> After a lot of thought, I realized that it needed an ability to modify a given type in a different slice, or layer. This led to the <i>configuration layers</i> feature in ATG Dynamo, and experience with that led to this long-term effort to answer the question of whether a layer oriented programming language can improve scalability, and customizability of software.
            </p>
            <p>
            Now truth be told, I like building applications, not infrastructure. I would rather use someone else's framework than build my own, and never add a new format when a suitable one exists. I continued on this project only because nothing else has come along that addresses this missing capability. One can always work around the limitations in a platform, but I feel the great potential for StrataCode and layers to help developers architect more scalable and customizable platforms.
@@ -32,24 +32,36 @@
               <img class="centerImageBlock" src="/images/bamboo.jpg"/>
            </div>
            <p>
-           It's common for a monolith to be the best design in the early stages, but as the system grows it may scale better with more separation. A large system benefits from more separable components, or partitioning into separate services with well-defined API boundaries. These attributes support larger teams, more customized downstream deployments, and improve operational scale and efficiency. But there's never a great time to stop everything and perform a large refactoring to make the changes. If developers try to predict future modularization needs upfront, they can over-modularize, for example by splitting even fine-grained, tightly-coupled features into separate microservices. In this process, they waste design and development time only to create more operational complexity and runtime overhead from the start. 
+           It's common for a monolith to be the best design in the early stages, but as the system grows, it scales better with more separation. Large systems benefit from more separable components or partitioning into separate services with well-defined API boundaries. These attributes support larger teams, more customized downstream deployments, and improve operational scale and efficiency. But there's never a great time to stop everything and perform major refactoring to make the changes. If developers try to predict future modularization needs upfront, they can over-modularize. They might make the mistake of splitting even fine-grained, tightly-coupled features into separate microservices. In this process, they waste design and development time only to create more operational complexity and runtime overhead from the start. 
            </p>
            <div>
               <img class="centerImageBlock" src="/images/complexEntityDiagram.png"/>
            </div>
            <h3>Second challenge: designing for customization</h3>
-           Programmers have a hard time trying to predict and design hooks for future customization. This includes choosing properties that are configurable, components that can be extended, plug-ins, and hooks. When developers can change the code, they can add a feature flag, but to support downstream developer based customizations, it's an important area of design. How many of us have had to copy an XML, JSON, or YAML configuration file with so many values that we never change? Or struggled to debug problems with an over-designed "inversion of control" component configuration? Or missed out on business due to a missing feature that could not be plugged in fast enough? It's all too easy for programmers to over-design or miss an important feature when designing for customization.
+           Programmers have a hard time trying to predict and design hooks for future customization by downstream developers.<sup><a href="#sup2" id="supRef2">1</a></sup> This includes choosing properties that are configurable, components that can be extended, plug-ins, and callbacks. How many of us have had to copy an XML, JSON, or YAML configuration file with so many values that we never change? Or struggled to debug problems with an over-designed "inversion of control" component configuration? Or needed to implement a feature that could not be plugged in easily to a 3rd party component? It's all too easy for programmers to over-design or miss an important feature when designing for customization.
            <div>
               <img class="centerImageBlock" src="/images/rockWall.jpg"/>
            </div>
            <h3>The solution: layers for evolutionary modularization</h3>
            Layers help address both of these challenges. First, for the tension between monoliths and microservices,
-           they allow developers to remodularize an existing system in place, without changing API contracts. They also support both monolith and microservice options from the same source code. They enable what I'll call <i>evolutionary modularization</i>, where the system keeps the agility of the monolith at first, and allows it to seamlessly evolve into the right modular structure. Code can move from file to file, layer to layer, bundle to bundle, process to process, mostly through cut and paste and without changing APIs and disrupting the downstream users. Java gets us part of the way there, layers are the missing design piece. 
+           they allow developers to remodularize an existing system in place, without changing API contracts. Build both the monolith and microservice configurations from the same source code. They enable what I'll call <i>evolutionary modularization</i>, where the system keeps the agility of the monolith at first, and allows it to seamlessly evolve into the best modular structure for any scale. Code can move from file to file, layer to layer, bundle to bundle, service to service, mostly through cut and paste and without changing APIs and disrupting the downstream code. Java and other languages support the first few steps, layers are the missing piece that support remodularizing large systems. 
            <div>
               <img class="centerImageBlock" src="/images/redwood.jpg"/>
            </div>
            <p>
-           With evolutionary modularization, the developer might prototype the design in one file, perhaps an HTML file enhanced with rules and a simple set of domain model classes added as inner types. At this stage, it's easy to change, easy to share and collaborate. Give a copy to the product manager who can make changes quickly to refine the business domain model just like you would a spreadsheet. When the project outgrows one file, the inner classes are moved to separate files where they can be reused. Annotations are added to customize persistence and APIs. When the directory becomes too large, it's easy to move files into sub-directories. When one aspect of the code needs to be used in an independent context, it is moved into a new layer. Again, this is transparent for the code in the downstream ecosystem since the published API contracts don't have to change at any step.
+           With evolutionary modularization, the developer might prototype the design in one file, perhaps an HTML file enhanced with rules and a simple set of domain model classes added as inner types. At this stage, it's easy to change, share and collaborate. Give a copy to the product manager who can make changes quickly to refine the business domain model just like you would a spreadsheet. When the project outgrows one file, the inner classes are moved to separate files where they can be reused. 
+           </p>
+           <div>
+              <img class="centerImageBlock" src="/images/splitFile.png"/>
+           </div>
+           <p>
+           Annotations are added to customize persistence and expose APIs. When the directory becomes too large, move files into sub-directories. When one aspect of the code needs to be used in an independent context, it is moved into a new module or layer. 
+           </p>
+           <div>
+              <img class="centerImageBlock" src="/images/splitModule.png"/>
+           </div>
+           <p>
+           With layers this is transparent for the code in the downstream ecosystem since the published API contracts don't have to change at any step.
           </p> 
            <h3>Splitting a monolithic service with layers</h3>
            As the project grows, at some point the monolithic service might need to be split. 
@@ -61,27 +73,49 @@
                 </span>
               </div>
            </div>
-
            <p>
-           Let's say a validation method also needs to run in the browser, or statistics gathering needs its own process for performance reasons. At that point, those parts of the classes needed by both sides are moved into a new shared layer. The shared layer helps define the API and allows some code like the domain model and validation to run on both sides. Some async remote method calls might need to be moved into a data binding expression to work. For security or performance, new annotations might be required. Importantly, this allows both the client/server and monolithic service to be built from the same code. That makes for an easier switchover and keeps development agility.
+           Let's say validation methods also need to run in the browser for usability,
+            or statistics gathering methods need their own process for performance reasons. 
+            At that point, those parts of the classes needed by both sides are moved into a new shared layer. The shared layer defines the API and allows some code like validation to run on both sides, in two different versions of the same class. 
+           </p>
+           <div>
+              <img class="centerImageBlock" src="/images/splitClientServer.png"/>
+              <img class="centerImageBlock" src="/images/splitMicroservices.png"/>
+           </div>
+           <p>
+            The split into two processes is not entirely seamless. Some async remote method calls might need to be moved into a data binding expression. For security or performance, new annotations can be added. Some code on the new process boundary might need to change. But these changes can be incremental as both the client/server and monolithic service are built from the same code. That makes for an easier switchover and preserves the development agility of the monolith even after the switch.
            </p>
            <h3>Layers for universal customizations</h3>
-           To solve the second problem, layers support code plug-ins for any feature using the type system. Developers are free'd from the design burden of predicting customization points. Instead, they use simpler designs that still provide downstream code the flexibility it needs. The type system and IDE track customizations like regular code, guiding both the developer maintaining the code, and the downstream customizer. 
+           To solve the second problem, developers are freed from the burden of designing and coding customization points. Instead they expose features as needed for downstream customization using layered code. This supports simpler designs that provide more downstream code flexibility.
+           The type system and IDE track customizations like regular code, guiding both the original product developer and the downstream developer that needs to customize the product.
            <p>
-           Put together, solving both problems allows applications built with layers to evolve faster, with less code that is more flexible. Although there's a conceptual leap for the architect managing it all, it's not that different from what we do today. I'm hoping that there are at least a few out there who will understand why this is a game-changer. 
+           Put together, solving both the monolith and customization design problems allows applications built with layers to evolve faster, with less code that is more flexible. Although there's a conceptual leap for the architect managing it all, it's not that different from what we do today. I'm hoping that there are at least a few out there who will understand why this is a game-changer. 
            </p>
-           <h3>The big book of software patterns</h3>
-           For these reasons, I believe layers belong in software's version of "the big book" (borrowing the term Paul Erdős coined for math proofs). I also followed my version of the big book to design layer-aware frameworks for common types of applications. The big book for me includes these principles:
+           <h3>Layers - the missing organizational tool for code</h3>
+           <p>
+           More than just solving these two challenges, layers provide a design flexibility that adapts to frameworks and external dependencies as they change. As new integrations, databases, or platforms are introduced, the code that can be reused in that context is reusable. Dependencies that must be separated are separable with copy/paste style refactoring that preserves existing contracts. Feature-oriented organization of code becomes natural for building product feature lines: more capability from engineering, more packaging options for marketing.
+           </p>
+           <h3>The <i>big book</i> of software patterns</h3>
+           For these reasons, I believe layers belong in software's version of <i>the big book</i> of essential patterns (borrowing the term Paul Erdős coined for math proofs). To me this book also contains these principles:
            <ul>
-              <li>Code readability and debuggability are paramount. 
+              <li>Code readability and debuggability are top considerations when coding
               <li>Code paths should be traceable at edit time (e.g. static typing, find usages) and runtime (e.g. clean stack traces, easy breakpoints, and logging). 
               <li>Keep application code separable from frameworks
-              <li>Use annotations, components, properties and data binding for a declarative skeleton, glued together by regular code
+              <li>Use annotations, components, properties and data binding expressions for a declarative skeleton, glued together by regular code. 
            </ul>
+           Using my version of the big book, I have spent a long time validating this approach by building layer-aware frameworks for reactive, declarative apps with the goal of building more scalable platforms.
            <h3>Project status</h3>
-           It has not been an easy road, but I feel lucky that I've had the time and energy to validate these ideas and make a tool that feels flexible and useful with steadily improving quality. I don't have the desire to release something with lots of bugs, but it's hard to be sure without more developers.
+           It has not been an easy road, but I feel lucky that I've had the time and energy to validate these ideas and make a tool that feels flexible and useful with steadily improving quality and performance. I don't have the desire to release something with lots of bugs, but it's hard to be sure without more developers.
            <p>
-           The layers and the code-processor have now been tested in the IntelliJ plugin, the web framework, a Java to JS converter, data-sync, database, and more. The best starting point for a new app is the <a href="/example/siteBuilder.html">site builder</a>. It's a framework for custom web sites including blog and product plugins.
+           <a href="/doc/modify.html">Layered extensions to Java</a> and the <a href="/articles/parseletsIntro.html">code-processor</a> have now been tested in the <a href="/doc/ide/overview.html">IntelliJ plugin</a>, the <a href="/articles/javaToJavascript.html">web framework</a>, a Java to JS converter, <a href="/articles/syncWithLayers.html">data-sync</a>, <a href="/articles/persistWithLayers.html">database integration</a>, and <a href="/doc/">more</a>. 
+           </p>
+           <p>
+           There's a <a href="/articles/dynamicRuntime.html">dynamic runtime</a> for fast round trips, build files and test scripts.
+           </p>
+           <p>
+           The <a href="/examples/siteBuilder.html">site builder</a> is an early version of a complete app development framework with blog and product plugins. 
+           </p>
+           <p>
            See also the rest of the <a href="/examples/">examples</a> and <a href="/doc/">documentation</a>.
            </p>
            <p>
@@ -98,6 +132,10 @@
               <img class="centerImageBlock" src="/images/sunset.jpg"/>
           </div>
           <p/>
+          <hr/>
+          <sup id="sup1" class="superScriptText">1. To refine a type with inheritance requires creating a new name for the subtype. During refactoring, this means references to instances need to use one or the other type name. Then it's possible casts have to be added to the new subtype. Sometimes, this goes smoothly but in complex situations it's a mess and a poor way to implement customization. A lot of work has gone into inversion-of-control frameworks, or frameworks will implement a lot of scaffolding code with interfaces and adapters to allow inheritance to be used for customization.
+          <a href="#supRef1">↩</a></sup><br/>
+          <sup id="sup2" class="superScriptText">2. When customizing a code base directly, without downstream developers, the feature flag is an easy and obvious solution. Because they only work when customizations are built-in to the original code, they are easy to maintain as long as there are not too many. To use them effectively, it's important to ensure all code-paths for a given feature are easily traceable (i.e. support a "find usages" tool that shows all affected code) and that too many feature flags don't overlap and pile up in the same function making a crazy maze of if statements<a href="#supRef2">↩</a></sup>
        </div>
    </div></div>
 </body>

@@ -11,7 +11,7 @@
 
 The 'scc' command provided by StrataCode provides many of the same capabilities as a standard build tool like maven or gradle, but project files are written using Java syntax and libraries along with the StrataCode extensions. A layer directory can either be structured as a standard project directory, or where it overlays its files on those inherited from it's base layers. It only needs to specify the files and configuration it wants to add or change from its base layers.
 
-In this way, each layer can have fewer files that have higher "customization intent" making the project easier to read. Using layers, it's an incremental process to break apart a module into more than one piece, for example factoring out all database or UI so that a new database or UI can be added.
+In this way, each layer can have fewer files that have higher <i>customization intent</i> making the project easier to read. Using layers, it's an incremental process to break apart a module into more than one piece, for example factoring out all database or UI so that a new database or UI can be added.
 
 ## Smarter code-processing
 

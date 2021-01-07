@@ -49,7 +49,8 @@ A StrataCode project contains one or more bundles of layers in the bundles direc
 Add additional layer bundles as well (inside of the 'bundles' directory):
 
       git clone https://github.com/stratacode/example.git
-      git clone https://github.com/stratacode/managementUI.git
+      git clone https://github.com/stratacode/siteBuilder.git
+      git clone https://github.com/stratacode/programEditor.git
 
 ## Installing scc source
 

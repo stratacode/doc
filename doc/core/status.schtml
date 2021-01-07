@@ -12,7 +12,7 @@
 
 Status of various StrataCode components based on current testing: 
 
-* Note: feedback is welcome on improved names, missing features, api changes or suggestions for improvements.
+* Note: we'd love your feedback on anything but particularly better names for things, missing features, api changes or suggestions for improvements or what license we should use for StrataCode, and the IntelliJ plugin.
 
 ## Code-processor
 * beta: parselets, java support, sc, sct, schtml formats
@@ -27,8 +27,8 @@ Compiled classes extending dynamic ones are not supported. Some compile time ref
 Refreshing changes made to source code on the fly only works for simple cases like property changes, add field, add/remove class, and method changes.
 
 ## Frameworks
-* beta: data binding, components, properties, sync, java-to-js web framework (if it's missing apis you need, they are easy to add contact us) 
-* alpha/pre-alpha: cross-scope bindings for collaboration, web security, request scope, server tags, merging layers of schtml
+* beta: data binding, components, properties, sync, server tags, java-to-js web framework (let us know if it's missing a useful api!) 
+* alpha/pre-alpha: cross-scope bindings for collaboration, web security, request scope, merging layers of schtml
 
 ## Program editor
 * alpha support for existing features
@@ -37,9 +37,13 @@ Refreshing changes made to source code on the fly only works for simple cases li
 ## Intellij plugin:
 * beta except for: find-usages/refactoring (misses somes references across inherited types, and getX/setX mapping). Editing of layer definition files (often requires an IDE restart or flush caches), debugger sometimes breaks in generated code, messes up source mapping for some block transitions, and anonymous class breakpoints only work when setting in the generated code, editing of 'scr' files has some problems showing false errors.
 
+## Java code processing
+
+The test suite for the parser and type-system validation is run against more than 1M lines of Java code from various open source projects, including one that heavily uses Lambdas. This aspect of the system has also been run in a commercial product on a number of commercial code bases. It does not detect all errors but does validate the type system mostly accurately. Some bugs with parameterized types missing errors.
+
 ## Java to Javascript
 
-The Java to Javascript converter is beta quality for Java 6 features. Many of the typically used JDK classes are supported (ArrayList, HashMap, LinkedHashMap etc.), more can be added as needed. The test suite contains over 200K lines of Java runs in the browser.  The utilities used are lightly modified copies of the Apache java classes from Java 1.6. Java 1.8 lambdas have been implemented in the code-gen by converting to inner classes, but that conversion has not been tested due to the missing libraries. 
+The Java to Javascript converter is beta quality for Java 6 features. Many of the typically used JDK classes are supported (ArrayList, HashMap, LinkedHashMap etc.), more can be added as needed. The test suite contains over 200K lines of Java that runs in the browser. The Java utilities source are lightly modified copies of the Apache java classes from Java 1.6. Java 1.8 lambdas have been implemented in the code-gen by converting to inner classes, but that conversion has not been tested due to the missing libraries. 
 
 Anonymous classes that use variables from the enclosing method are not yet supported.
 
@@ -47,11 +51,13 @@ The converter uses a relatively high level of emulation of native Java classes t
 
 All number types in Java (int, float, Integer, etc) are converted to Javascript's single number type. A cast to an int type will insert a call to Math.floor, the most important features of BigDecimal are supported (requires the js.math layer) and it's possible to wrap those integers that really need to be integers but that works is not complete.
 
-Currently, the entire JS app is downloaded after the page is rendered but the layered organization would be a great way to separate subsets of layers to be progressively loaded. Just mark layers in your stack as 'download layers' and the rest could be automated. For large client applications, you'll be able to start interacting with the app with the base layers, while successive layers are downloaded. The static type system would help manage the dependencies to be sure each individual stack defined a valid application and framework hooks installed to help provide a smooth transition from one to the next.
+Currently, the entire JS app is downloaded after the init HTML is rendered. The layered organization would be a great way to separate subsets of layers to be progressively loaded. Just mark layers in your stack as 'download layers' and the rest could be automated. For large client applications, you'll be able to start interacting with the app with the base layers, while successive layers are downloaded. The static type system would help manage the dependencies to be sure each individual stack defined a valid application and framework hooks installed to help provide a smooth transition from one to the next.
 
 ## DB framework
 
-Alpha/Beta. We've build a fairly complete store builder using the DB framework using relationships, schema-migration, transactions, caching, simple rule-based queries, and basic queries using a custom API. Support for parsing stored procedures, and automatically generating a Java api has been implemented with one or two unit tests but not yet used in any apps or examples.
+Alpha/Beta. This is the most recent framework integration. It has not been tested under load or at scale. There is a fairly complete store builder using the DB framework using relationships, schema-migration, transactions, caching, simple rule-based queries, and basic queries using a custom API. There are a few tests and one example of using stored procedures in the GeoIpInfo class used for mapping remote-ip address to a city database using a bit-mask indexed query.
+
+More features are required for managing cache sizes and more testing needs to be done to ensure the transaction isolation works properly in multi-threaded environments.
 
 ## Android
 
@@ -61,9 +67,9 @@ There's a prototype of an android framework that supported the unit converter an
 
 These are a few future ideas we have for ways to leverage StrataCode and layers:
 
-* Management UI customization for editing HTML UIs - navigate from UI to form view and code view, new tag, new attribute, resize for fixed position elements, etc. Direct manipulation of UI controls - e.g. setting styles, alignment rules, etc. right from the widget.
+* Program editor - build an editor for HTML UIs from UI to form view and code view, new tag, new attribute, resize for fixed position elements, etc. Direct manipulation of UI controls - e.g. setting styles, alignment rules, etc. right from the widget.
 
-* Layered persistence framework - add additional data sources and in-memory joins: efficient blob storage and secret store are the two that are needed for a complete implementation. Still need to finish the 'staging mode' implementation, where we generate a 'staging schema' that can be used to store changes made as part of a workflow. Those will be seamlessly merged into queries and other apis for testing purposes. This schema won't have the integrity constraints since it will be just a layer on top of the main database. More management UI integration, particularly with schema manager. Or maybe new properties are just marked as dyn columns so they go into the dynamic part of the tables?  Need to add 'find panel' to the management UI based on the DB findBy features.
+* DB persistence framework - add additional data sources and in-memory joins: efficient document/binary/column-oriented storage and secret store are the two that are needed for a complete implementation. Still need to finish the 'staging mode' implementation, where we generate a 'staging schema' that can be used to store changes made as part of a workflow. Those will be seamlessly merged into queries and other apis for testing purposes. This schema won't have the integrity constraints since it will be just a layer on top of the main database. More management UI integration, particularly with schema manager. Or maybe new properties are just marked as dyn columns so they go into the dynamic part of the tables?  Need to add 'find panel' to the management UI based on the DB findBy features.
 
 * Management of clusters of systems and router configuration. Today there's a cluster of tools that manage the entire lifecycle of application configuration, management, and deployment. Each step of the way has it's own way to organize, configure, and manage systems and lots of effort goes into integrating different aspects from code-changes, building, testing, and deploying, then adding necessary management UIs for the running system, and managing updates. StrataCode has the combination of features to manage overall organization and provide the tools for the complete process. Because it's based on code-generation, it can generate configuration files using system-wide awareness of the configuration. It can partition the system into multiple processes, with overlapping requirements and components. Layers allow seamless separation of deployment configuration to keep it secure. The declarative programming model that cuts across it all with built-in management UIs will make for a fast, manageable, configurable way to build multi-process systems. The routing logic and load balancing can be generated as well.
 

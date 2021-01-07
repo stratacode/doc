@@ -9,7 +9,7 @@ object UserSession {
       Context ctx = Context.getCurrentContext();
       String remoteIp = ctx.request.getHeader("X-Forwarded-For");
       if (remoteIp == null)
-         remoteIp = ctx.request.getRemoteAddr();
+         remoteIp = ctx.getRemoteIp();
       this.remoteIp = remoteIp;
       this.headers = ctx.getRequestDetail();
 

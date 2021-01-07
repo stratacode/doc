@@ -107,10 +107,9 @@ Using synchronization to manage state has a nice benefit for scaling web applica
 
 Synchronization is most efficient with a 'sticky session' environment, where clients requests return to the same server. This is also where caching is most effective since there's a continuous stream of requests from the same user, possibly accessing the same data. But when the server hosting a session fails, it's important to preserve the user's login state, and application context. Of course the session data could be replicated on another server, but the client is perhaps a more convenient way to preserve the synchronized state. When a client tries to sync and the server returns a 'session reset' response, it re-sends it's version of the initial state to the server. The server can restore the session and keep the user right where they left off.  The result is a seamless, high-end user experience with a low-cost from both coding and operation. 
 
-## Balancing performance coding effort
+## Balancing performance with coding effort
 
 The sync library is designed to allow developers to support a balance of reliability and efficiency all from a declarative model.  I believe ultimately it will be an easy way to produce scalable web applications with low latency, simpler database architectures, and cheaper infrastructure cost. Most high-end web applications are probably already caching data with some "out of process" tool. Because these cache processes are not limited in heap size, and are shared between server processes, they might still be useful. With the proper framework integration, they could be enabled with configuration using the sync system. But for applications where the shared cache, or a massive cache is not required, the sync system can provide lower latency and more efficiency with less code and fewer servers.
-l
 
 ## Falling back to stateless
 

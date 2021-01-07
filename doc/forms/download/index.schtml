@@ -34,17 +34,21 @@
             Please accept the <a clickEvent="=: mgr.agreementVisible = true">evaluation license agreement</a>
             <div id="agreementText" visible=":= mgr.agreementVisible">
                <p/>
-               This is an evaluation license for experimental software. For new versions of the software, the license is expected to change.
-
-               Permission is granted to use and redistribute the compiled sc.jar file and code generated from it freely. No license is granted to redistribute original source code downloaded from the system, managementUI, doc or test repositories or in the scc-src.zip file. Source in the example repository may be used freely. 
+               <b>StrataCode license agreement</b>
                <p/>
-               This is preview license and the terms are expected to change and may be more or less restrictive in the future.
+               Jeffrey Vroom, an individual software developer ("we") grants you (the "licensee") the right to use the StrataCode source code under the terms of this license agreement.
+               <p/>
+               It pertains to source code or compiled jar files downloaded from www.stratacode.com and source code accessed in the stratacode github repository.
+               <p/>
+               This is an evaluation license for experimental software that grants the licensee the rights to evaluate the software for a period of one year from the date of download. For new versions of the software, the license is expected to change and may be more or less restrictive in the future.
+               <p/>
+               You must obtain a different license for commercial use, or to redistribute the licensed source, or compiled jar files.
                <p/>
                By downloading the software, you agree to not decompile, reverse engineer, or process compiled class files except in using them as they are intended with the published java runtime standards.
                <p/>
                We do not indemnify this work against patent infringement claims from others.
                <p/>
-               Downloading the software implies agreement with the terms of this license.
+               Downloading the software implies agreement with the terms of this license. 
                <p/>
                <p>
                There is no cost to you for downloading the software.

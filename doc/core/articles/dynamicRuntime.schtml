@@ -9,7 +9,7 @@
 
 ## Dynamic runtime
 
-IDEs for statically typed languages continue to become more useful for managing complex, large scale projects. At the same time, dynamic languages like Javascript have always been and perhaps are increasingly more popular with programmers. They are especially productive at the beginning of a small project. Getting something done quickly wins out frequently over runtime efficiency in the short term, but scalability of teams, and maintainability of solutions will win long term. 
+IDEs for statically typed languages like Java are the best tools for managing complex, large scale projects. At the same time, dynamic languages like Javascript have always been and perhaps are increasingly more popular with programmers. They are especially productive at the beginning of a small project. Getting something done quickly wins out frequently over runtime efficiency in the short term, but scalability of teams, and maintainability of solutions will have an impact long term. 
 
 The dynamic runtime in StrataCode helps Java programmers achieve some of the benefits of more dynamic languages like Javascript, without sacrificing static typing or adding new syntax.  It's goals are to enable rapid prototyping of changes to even very large systems, support more powerful management UIs and offer live-coding, full-code customizations, to allow a seamless transition between "dynamic configuration" and "compiled-in configuration", to support the layer definition files used in the build and packaging system, and to enable powerful scripting.  
 
