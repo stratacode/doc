@@ -6,7 +6,7 @@
 %>
 
 <body>
-   <div id="content" extends="PageLayout" section="documentation">
+   <div id="content" extends="DocPageLayout" section="documentation">
 
       <div id="DocIndex" abstract="true" class=':= "pageIndexEntry " + (containsPath(pageURL, url) ? "pageIndexSelected" : "")'>
          <%! String title, url, pageURL := Window.window.location.href; 

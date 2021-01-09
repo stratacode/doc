@@ -9,11 +9,14 @@ import java.util.regex.Matcher;
 import java.util.Map;
 import java.util.HashMap;
 
+@Component
 scope<session> object downloadManager {
    public int PROD_SCC = 1;
    public int PROD_DEV = 2;
    public int PROD_SRC = 4;
    public int PROD_SC4IDEA = 8;
+
+   SiteContext docSite;
 
    final boolean requireDownloadCode = true;
    int validProductFlags = 0;
@@ -35,6 +38,42 @@ scope<session> object downloadManager {
    ContactType contactType = ContactType.None;
 
    boolean showRegisterBox = true;
+
+   static final String docPathName = "doc";
+
+   void init() {
+      docSite = SiteContext.findBySitePathName(docPathName);
+      if (docSite == null) {
+         System.out.println("Creating initial SiteContext for stratacode documentation");
+
+         MediaManager mediaMgr = MediaManager.findByManagerPathName(docPathName);
+         if (mediaMgr == null) {
+            mediaMgr = new MediaManager();
+            mediaMgr.managerPathName = docPathName;
+            mediaMgr.mediaBaseUrl = "/images/" + docPathName + "/";
+            mediaMgr.genBaseUrl = "/images/gen/" + docPathName + "/";
+
+            mediaMgr.dbInsert(false);
+         }
+
+         Userbase userbase = Userbase.findByAppName(Userbase.defaultAppName);
+         if (userbase == null) {
+            userbase = new Userbase();
+            userbase.initUserbase();
+            userbase.appName = Userbase.defaultAppName;
+            userbase.dbInsert(false);
+            userbase.trackAnonIp = false;
+         }
+
+         docSite = new SiteContext();
+         docSite.siteName = "StrataCode documentation";
+         docSite.sitePathName = docPathName;
+         docSite.mediaManager = mediaMgr;
+         docSite.userbase = userbase;
+
+         docSite.dbInsert(false);
+      }
+   }
 
    class DownloadProduct {
       String name;
@@ -135,9 +174,17 @@ scope<session> object downloadManager {
          invalidCode = false;
          return;
       }
+      UserSession session = currentUserView.getUserSession(docSite);
       Integer flags = downloadCodes.get(currentCode);
-      if (flags == null)
+      if (flags == null) {
          flags = 0;
+         if (session != null)
+            session.addSessionEvent(new InvalidCodeEvent(currentCode));
+      }
+      else {
+         if (session != null)
+            session.addSessionEvent(new CodeUnlockEvent(currentCode, flags));
+      }
 
       changeValidStatus(flags);
    }
@@ -146,6 +193,10 @@ scope<session> object downloadManager {
       acceptedLicense = true;
       agreementVisible = false;
       saveUser(true, false, false);
+
+      UserSession session = currentUserView.getUserSession(docSite);
+      if (session != null)
+         session.addSessionEvent(new LicenseAcceptEvent());
    }
 
    String emailRegex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
@@ -166,10 +217,14 @@ scope<session> object downloadManager {
    }
 
    void saveUser(boolean updateLicense, boolean updateEmail, boolean updateContact) {
-      UserSession session = UserSession;
+      UserView userView = currentUserView;
+
       if ((updateContact || updateEmail) && emailAddress != null && pattern.matcher(emailAddress).matches()) {
-         UserContactType uct = new UserContactType(session, emailAddress, contactType);
-         uct.save();
+         UserProfile user = userView.initUserForUserName(emailAddress);
+         if (updateContact)
+            user.contactType = contactType;
+         if (updateLicense)
+            user.acceptedLicense = acceptedLicense;
       }
 
       ArrayList<String> props = new ArrayList<String>();
@@ -181,5 +236,11 @@ scope<session> object downloadManager {
          props.add(" contactType=" + contactType);
       Context ctx = Context.getCurrentContext();
       ctx.log("Save user:" + props + ": " + ctx.requestDetail);
+   }
+
+   void pageEvent(String evName) {
+      UserSession session = currentUserView.getUserSession(docSite);
+      if (session != null)
+         session.addPageEvent(evName);
    }
 }

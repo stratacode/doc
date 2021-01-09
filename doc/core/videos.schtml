@@ -2,7 +2,7 @@
 <head title="StrataCode videos"/>
 
 <body>
-   <div id="content" extends="PageLayout">
+   <div id="content" extends="DocPageLayout">
       <div id="mainContent" class="mainContent"><div id="mainContentBody" class="mainContentBody">
          <div extends="VideoBox" title="StrataCode overview" length="6 min" date="Oct 2019" videoId="DpfIHbBkzV0">
             <%! intro = %>

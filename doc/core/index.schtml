@@ -3,7 +3,7 @@
 <head title="StrataCode"/>
 <body>
 
-<div id="content" extends="PageLayout">
+<div id="content" extends="DocPageLayout">
 
    <div id="mainPanel">
       <div abstract="true" class="infoBox" id="InfoBox"/>

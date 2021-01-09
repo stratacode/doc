@@ -15,9 +15,8 @@ import java.io.Closeable;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-public doc.forms extends doc.core, jetty.schtml, jdbc.pgsql {
-   object scformsDataSource extends DBDataSource {
-      provider = "postgresql";
+public doc.forms extends doc.core, user.html.serverMgr, jetty.schtml {
+   userDataSource {
       jndiName = "jdbc/scformsDB";
       dbName = "scforms";
       userName = "scserver";

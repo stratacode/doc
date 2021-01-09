@@ -1,13 +1,13 @@
 <%@
 %>
-<html exec="server">
+<html exec="server" pageVisitCount="=: mgr.pageEvent("/download")">
    <%!
       downloadManager mgr = downloadManager;
       ContactType contactType = ContactType.None;
    %>
 <body>
 
-<div id="content" extends="PageLayout" section="download">
+<div id="content" extends="DocPageLayout" section="download">
    <div id="mainContent" class="mainContent">
       <div id="downloadBox">
          <h2>Download StrataCode</h2>

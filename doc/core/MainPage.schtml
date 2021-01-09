@@ -1,7 +1,7 @@
 <html abstract="true">
 
 <body>
-   <div id="content" extends="PageLayout">
+   <div id="content" extends="DocPageLayout">
       <div id="mainContent" class="mainContent">
          <div id="mainContentBody" class="mainContentBody">
          </div>

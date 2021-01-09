@@ -37,7 +37,7 @@
 
 <body>
 
-   <div id="content" extends="PageLayout" section="examples">
+   <div id="content" extends="DocPageLayout" section="examples">
 
       <div id="mainSection">
          <div id="exampleIndex" class="exampleIndex">

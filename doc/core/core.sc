@@ -6,7 +6,7 @@ package sc.doc;
 import sc.doc.templateSnippets;
 
 import sc.doc.Example;
-import sc.doc.PageLayout;
+import sc.doc.DocPageLayout;
 import sc.doc.ArticlePage;
 import sc.doc.VideoBox;
 import sc.doc.MarkDownPage;

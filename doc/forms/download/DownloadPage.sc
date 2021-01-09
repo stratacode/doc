@@ -59,9 +59,19 @@ scope<request> class DownloadPage extends BasePage {
          return null;
       }
 
-      UserSession session = UserSession;
-      UserDownload uct = new UserDownload(session, fileName, version, LICENSE_VERSION);
-      uct.save();
+      UserView userView = currentUserView;
+
+      UserSession session = userView.getUserSession(downloadManager.docSite);
+      UserDownload uct = new UserDownload();
+      uct.user = userView.user;
+      uct.userSession = session;
+      uct.downloadFile = fileName;
+      uct.downloadVersion = version;
+      uct.licenseVersion = LICENSE_VERSION;
+      uct.dbInsert(true);
+
+      if (session != null)
+         session.addSessionEvent(new DownloadFileEvent(fileName));
 
       HttpServletResponse response = ctx.response;
       response.setContentType(mimeType);
