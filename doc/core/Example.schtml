@@ -26,6 +26,7 @@
        new ExampleInfo("Site builder", "Prototype of site builder with product and blog plugin layers", "siteBuilder.html"),
        new ExampleInfo("Unit converter", "A simple converter between different metrics implemented on many systems.", "unitConverter.html"),
        new ExampleInfo("Todo list", "A todo list sample that demonstrates the web and sync frameworks.", "todoList.html"),
+       new ExampleInfo("StrataCode.com", "The code for this website", "docExample.html"),
        new ExampleInfo("Expert system", "Simple real-world expert system - demonstrating separation of rules, content from the app.", "expertSystem.html"),
        new ExampleInfo("Program editor", "Written in swing and the web framework, showing more, layered code, data sync", "programEditor.html"),
        new ExampleInfo("Simple Blog", "Simple blog sample showing @QueryParam and @URL, multi-page versus single-page apps", "simpleBlog.html"),

@@ -1,0 +1,39 @@
+<html extends="Example">
+<head title="StrataCode.com example"/>
+
+<body>
+   <div id="content"><div id="mainSection">
+      <div id="exampleContent">
+         <div class="exampleTitle">StrataCode.com implementation</div>
+
+         <div id="serverSection1">
+            <p/>
+            StrataCode.com is built with StrataCode from the source on <a href="https://github.com/stratacode/doc">github</a>. It's a single layer bundle used to build two configurations for use on the site. One is a static html/javascript website to provide the majority of the content. The other part supports the download forms and analytics.
+<p/>
+The static website is built with this command:
+<code>scc -c doc/clientOnly</code>
+<br/>
+The -c option means "compile only". In the build directory, by default /usr/local/scMain/build/doc_clientOnly, will contain the 'web' directory that has the html and javascript files served by the web server (nginx). It includes Javascript to implement some of the dynamic navigation features. Other content sections that depend on server features but with tags using exec="server". In the static website, they are rendered at compile time. In the server only version, they are rendered by the server when the page is requested.  
+<p/>
+The dynamic version of the site supports the download forms and event tracking. It's built with a different original layer but uses the same layers for the content part of the site. 
+<code>scc -c doc/webConfig</code>
+The webConfig layer is in a private bundle called "deploy". It modifies the downloadManager class replacing the download codes to keep them secret. It also contains the ssl keys and other secure deployment info. This layer is defined with:
+<%= sc.lang.SCLanguage.INSTANCE.styleFile("doc/webConfig", "webConfig.sc", false, true) %>
+The development version can be compiled and run with just the doc.forms layer:
+<code>scc doc.forms</code>
+<p/>
+This command also generates a script called startSCJetty in the build directory to run the server standalone, without the dynamic runtime. The mode is more appropriate for a production deployment and has a smaller memory footprint.
+            <p/>
+The test suite contains a few more configurations for running the site:
+<p/>
+client/server with sync:
+<code>scc js.schtml js.sync doc.core</code>
+<p/>
+In dynamic mode for refresh after changes:
+<code>scc -dyn doc.core</code>
+         </div>
+      </div>
+   </div></div>
+</body>
+
+</html>
