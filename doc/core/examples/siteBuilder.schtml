@@ -282,9 +282,14 @@
 
             <h2>Getting started</h2>
 
-            Install postgresql on local machine, create user 'sctest' with password 'sctest' or configure the userName, password and other connection info in the layer definition file: user/dataSource/dataSource.sc. For an example of how to override properties of the data source without changing the original, see: product/demo/core/core.sc.
+            Install postgresql on local machine, create user 'sctest' with password 'sctest' or configure the userName, password and other connection info in the layer definition file: user/dataSource/dataSource.sc. 
+            The product.demo uses the default scprod database. The ec.demo version uses an extended db scecom, and the
+            blog.demo uses scblog. The first time you run a configuration, it will launch the schema wizard. Use the 'u' command
+            to update the database schema, then 'q' to exit the wizard.
             <p/>
-            How to run:
+            For an example of how to override properties of the data source without changing the original, see how the file: ec/demo/dataSource/dataSource.sc overrides the defaults in user/dataSource/dataSource.sc.
+            <p/>
+            How to run each configuration of the application:
             <code>
                # Site builder with all features 
                scc ec.demoMgr.serverOnly
@@ -302,10 +307,21 @@
                scc blog.demoMgr.serverOnly
                scc blog.demoMgr.clientServer
 
-               # To load the db for mapping postal code to city/state
-               scc user/postalCodeDB/loader
+               # To load the db for mapping postal code to city/state, geoIp database 
+               # for the scprod database
+               #
+               # To get geoIP download the GeoLite2 data created by MaxMind, available from 
+               # www.maxmind.com 
+               #
+               # See user/addressDB/loader/loader.sc for additional instructions
+               #
+               scc user/addressDB/loader
 
-               # To run in dynamic mode for faster compile, refresh (pre-alpha)
+               # Load the addressDB for the ec.demo configuration (the scecom database)
+               scc ec/demo/loader
+
+               # To run in dynamic mode for faster compile, refresh
+               #   see www.stratacode.com/status.html for known problems with this configuration
                scc -dyn product.demo.serverOnly
             </code>
 
