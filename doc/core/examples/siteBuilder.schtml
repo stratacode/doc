@@ -54,13 +54,13 @@
             </div>
 
             <p/>
-            The site builder lets users build online stores, blogs or plain content web sites, complete with management UIs. It's a great example of how StrataCode can be used to create flexible, scalable SaaS platforms. Although not yet deployed, the code is readable, flexible and would make a great starting point for a scalable SaaS platform.
+            The site builder lets users build online stores, blogs or plain content web sites, complete with management UIs. It's a great example of how StrataCode can be used to create flexible, scalable SaaS platforms. The user profile management is used for analytics in www.stratacode.com but otherwise it has not yet been deployed. The code is readable, flexible and would make a great starting point for a scalable SaaS platform. It's also a fun way to explore a layered code base with enough complexity to see how it works. The best way to explore is with the IntelliJ plugin. Use the 'layers view' or line-markers to navigate up and down the layer stack, or find-usages and goto definition to jump around. The project view lets you find the files and understand the directory organization.
             <p/>
             
 
             <div class="exampleTitle">Project architecture</div>
             There are five main types of layers in the system. Each layer contains the code implementing a given feature that shares a common set of dependencies (e.g. database, server, file-system, HTML).
-            In this design, the code is partitioned based on best practices for a scalable platform, to support a larger downstream ecosystem of use-cases with customizations. In a typical application project and especially when prototyping, it's better to use as few layers as possible, even as few files as possible. 
+            In this design, the code is partitioned based on best practices for a scalable platform, to support a larger downstream ecosystem of use-cases with customizations. In a typical application project and especially when prototyping, it's better to use as few layers as possible, even as few files as possible. This structure has evolved to some degree to support various use cases: content without users, users without content, optional management UI, optional site-builder components.
             <p/>
             Within each layer are a set of types, properties, and methods. Each of these becomes a customization hook point - a plugin or point to grab onto for downstream components to inherit rich, evolving behavior. Once established, layers can grow, inherit features from downstream, and sometimes split apart into multiple layers or be merged back again. 
             <div class="locTable">
