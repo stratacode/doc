@@ -35,7 +35,7 @@ It's also possible to use the Java to JS converter without the web framework to 
 <% ) %>
    <%= sc.lang.JavaLanguage.INSTANCE.styleFile("example/simple", "SortTest.scj", false, false, true) %>
    and here it is converted to javascript:
-   <%= sc.lang.js.JSLanguage.INSTANCE.styleBuildFile("example/simple", "js", "js/types/example_simple_SortTest.js", false, false, true) %>
+   <%= sc.lang.js.JSLanguage.INSTANCE.styleBuildFile("example/simple", "js", "js/types/example/simple/SortTest.js", false, false, true) %>
 
 <%= MarkDownPage.markDown(%>
 
