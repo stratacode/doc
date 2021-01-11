@@ -2,6 +2,9 @@ class CodeUnlockEvent extends SessionEvent {
    String code;
    int flags;
 
+   CodeUnlockEvent() {
+   }
+
    CodeUnlockEvent(String c, int flags) {
       code = c;
       this.flags = flags;

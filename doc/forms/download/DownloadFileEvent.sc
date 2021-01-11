@@ -4,6 +4,9 @@ class DownloadFileEvent extends SessionEvent {
       this.fileName = fileName;
    }
 
+   DownloadFileEvent() {
+   }
+
    String getEventName() {
       return "download";
    }

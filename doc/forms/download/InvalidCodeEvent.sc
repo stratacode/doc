@@ -5,6 +5,9 @@ class InvalidCodeEvent extends SessionEvent {
       code = c;
    }
 
+   InvalidCodeEvent() {
+   }
+
    String getEventName() {
       return "invalid code";
    }
