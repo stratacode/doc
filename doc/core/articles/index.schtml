@@ -18,7 +18,7 @@
               <img class="centerImageBlock" src="/images/theHomer3.jpg"/>
            </div>
            <p>
-           To customize even a small feature in an application required making a copy of the code or refactoring. I thought inheritance would be enough, but it wasn't.<sup><a href="#sup1" id="supRef1">1</a></sup> After a lot of thought, I realized that it needed an ability to modify a given type in a different slice, or layer. This led to the <i>configuration layers</i> feature in ATG Dynamo, and experience with that led to this long-term effort to answer the question of whether a layer oriented programming language can improve scalability, and customizability of software.
+           To customize even a small feature in an application required making a copy of the code or refactoring. I thought object-oriented inheritance would be enough, but it wasn't.<sup><a href="#sup1" id="supRef1">1</a></sup> After a lot of thought, I realized it was <i>layered inheritance</i> that it needed - the ability to modify a given type in a different slice, or layer. This led to the <i>configuration layers</i> feature in ATG Dynamo, and experience with that led to this long-term effort to answer the question of whether a layer-oriented programming language can improve scalability, and customizability of software.
            </p>
            <p>
            Now truth be told, I like building applications, not infrastructure. I would rather use someone else's framework than build my own, and never add a new format when a suitable one exists. I continued on this project only because nothing else has come along that addresses this missing capability. One can always work around the limitations in a platform, but I feel the great potential for StrataCode and layers to help developers architect more scalable and customizable platforms.
@@ -49,7 +49,7 @@
               <img class="centerImageBlock" src="/images/redwood.jpg"/>
            </div>
            <p>
-           With evolutionary modularization, the developer might prototype the design in one file, perhaps an HTML file enhanced with rules and a simple set of domain model classes added as inner types. At this stage, it's easy to change, share and collaborate. Give a copy to the product manager who can make changes quickly to refine the business domain model just like you would a spreadsheet. When the project outgrows one file, the inner classes are moved to separate files where they can be reused. 
+           With evolutionary modularization, the developer might prototype the design in one file, perhaps an HTML file with rules, mostly declarative code and a simple set of domain model classes added as inner types. At this stage, it's easy to change, share and collaborate. Give a copy to the product manager who can make changes quickly to refine the business domain model just like you would a spreadsheet. When the project outgrows one file, the inner classes are moved to separate files where they can be reused. 
            </p>
            <div>
               <img class="centerImageBlock" src="/images/splitFile.png"/>
@@ -83,17 +83,15 @@
               <img class="centerImageBlock" src="/images/splitMicroservices.png"/>
            </div>
            <p>
-            The split into two processes is not entirely seamless. Some async remote method calls might need to be moved into a data binding expression. For security or performance, new annotations can be added. Some code on the new process boundary might need to change. But these changes can be incremental as both the client/server and monolithic service are built from the same code. That makes for an easier switchover and preserves the development agility of the monolith even after the switch.
+            The split into two processes with layers is not entirely seamless. Some async remote method calls might need to be moved into a data binding expression. For security or performance, new annotations can be added. Some code on the new process boundary might need to change. But these changes can be incremental as both the client/server and monolithic service are built from the same code. That makes for an easier switchover and preserves the development agility of the monolith even after the switch.
            </p>
            <h3>Layers for universal customizations</h3>
-           To solve the second problem, developers are freed from the burden of designing and coding customization points. Instead they expose features as needed for downstream customization using layered code. This supports simpler designs that provide more downstream code flexibility.
+           To solve the second problem, developers are freed from the burden of designing and coding customization points. Instead they expose features as needed for downstream customization using layered code. This supports simpler designs that provide more flexibility.
            The type system and IDE track customizations like regular code, guiding both the original product developer and the downstream developer that needs to customize the product.
-           <p>
-           Put together, solving both the monolith and customization design problems allows applications built with layers to evolve faster, with less code that is more flexible. Although there's a conceptual leap for the architect managing it all, it's not that different from what we do today. I'm hoping that there are at least a few out there who will understand why this is a game-changer. 
-           </p>
            <h3>Layers - the missing organizational tool for code</h3>
+           The design freedom of layers allows applications to evolve faster, with less code that is more flexible. They also allow systems to adapt as frameworks and other dependencies change. Dependent code is separated into a new layer with cut and paste, preserving existing contracts. This way of organizing code supports product feature-lines: modules organized according to features defined by marketing.
            <p>
-           More than just solving these two challenges, layers provide a design flexibility that adapts to frameworks and external dependencies as they change. As new integrations, databases, or platforms are introduced, the code that can be reused in that context is reusable. Dependencies that must be separated are separable with copy/paste style refactoring that preserves existing contracts. Feature-oriented organization of code becomes natural for building product feature lines: more capability from engineering, more packaging options for marketing.
+           The challenge in applying layers effectively is understanding the basic design principles, and how to adjust the layers of code as the system evolves. Although there's a conceptual leap for the architect managing it all, it's not that different from what we do today for reusing code with plain object-oriented inheritance. I'm hoping that there are at least a few out there who will understand why this is a game-changer. 
            </p>
            <h3>The <i>big book</i> of software patterns</h3>
            For these reasons, I believe layers belong in software's version of <i>the big book</i> of essential patterns (borrowing the term Paul Erdős coined for math proofs). To me this book also contains these principles:
@@ -102,10 +100,11 @@
               <li>Code paths should be traceable at edit time (e.g. static typing, find usages) and runtime (e.g. clean stack traces, easy breakpoints, and logging). 
               <li>Keep application code separable from frameworks
               <li>Use annotations, components, properties and data binding expressions for a declarative skeleton, glued together by regular code. 
+              <li>Keep functional/declarative expressions relatively simple. Don't embed a rubix cube in the code for the sake of saving a few lines of code.
            </ul>
-           Using my version of the big book, I have spent a long time validating this approach by building layer-aware frameworks for reactive, declarative apps with the goal of building more scalable platforms.
+           Using my version of the big book, and experience building and using frameworks at AVS, ATG, and Adobe, I spent a lot of my free time validating this approach by building layer-aware frameworks for reactive, declarative apps with the goal of building more scalable platforms.
            <h3>Project status</h3>
-           It has not been an easy road, but I feel lucky that I've had the time and energy to validate these ideas and make a tool that feels flexible and useful with steadily improving quality and performance. I don't have the desire to release something with lots of bugs, but it's hard to be sure without more developers.
+           It has not been an easy road, but I feel lucky that I've had the time and energy to validate these ideas and make a tool that feels flexible and useful with steadily improving quality and performance. I don't have the desire to release something with lots of bugs, but it's hard to be sure without more developers. I like the idea of open sourcing parts where there's sufficient interest. 
            <p>
            <a href="/doc/modify.html">Layered extensions to Java</a> and the <a href="/articles/parseletsIntro.html">code-processor</a> have now been tested in the <a href="/doc/ide/overview.html">IntelliJ plugin</a>, the <a href="/articles/javaToJavascript.html">web framework</a>, a Java to JS converter, <a href="/articles/syncWithLayers.html">data-sync</a>, <a href="/articles/persistWithLayers.html">database integration</a>, and <a href="/doc/">more</a>. 
            </p>
@@ -116,7 +115,10 @@
            The <a href="/examples/siteBuilder.html">site builder</a> is an early version of a complete app development framework with blog and product plugins. 
            </p>
            <p>
-           See also the rest of the <a href="/examples/">examples</a> and <a href="/doc/">documentation</a>.
+           The <a href="/examples/programEditor.html">program editor</a> is an early version of a live-programming tool for viewing and editing layers, types, properties, binding-expressions and instances complete with swing and browser code editing.
+           </p>
+           <p>
+           See the <a href="/examples/todoList.html">todo list</a> and the rest of the <a href="/examples/">examples</a> and <a href="/doc/">documentation</a>.
            </p>
            <p>
            Let me know if you have a project I can help you build (<a href="/contact">contact</a>). It's also ready for inspired developers, investors, and partners. Even if you don't see a way to use StrataCode yourself, perhaps you'll find some useful info on this site that might help guide your own software designs. 

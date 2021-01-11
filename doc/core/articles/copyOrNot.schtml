@@ -57,7 +57,7 @@ With layers, knowing how easy it is to customize code later, write code that's s
 
 ## Assembling component graphs
 
-One of the reasons developers use an IOC framework is to allow configuration of arbitrary graphs of components. Sometimes, references between objects create cycles or upstream reference - where a component references one that points back to it. Java's field initialization cannot express that requirement and provides no easy workaround. With StrataCode, just add the @Component annotation to the class (or a sub-class) to indicate that it may have cyclic references.  It modifies the source code for this class to use a multi-stage initialization sequence.  Lots of code will "just work" but sometimes code must be moved from the constructor into the init or start methods. 
+One of the reasons developers use an IOC framework is to configure component graphs. Sometimes references between objects create cycles or upstream reference - where a component references one that points back to it. Java's field initialization cannot express that requirement and provides no easy workaround. With StrataCode, just add the @Component annotation to the class (or a sub-class) to indicate that it may have cyclic references.  It modifies the source code for this class to use a multi-stage initialization sequence.  Lots of classes will work after adding the annotation but sometimes code must be moved from the constructor into the init or start methods. 
 
 ## Runtime or compile time configuration?
 

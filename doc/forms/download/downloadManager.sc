@@ -243,4 +243,15 @@ scope<session> object downloadManager {
       if (session != null)
          session.addPageEvent(evName);
    }
+
+   void stop() {
+      validProductFlags = 0;
+      acceptedLicense = false;
+      agreementVisible = true;
+      invalidCode = false;
+      emailErrorText = "";
+      emailAddress = "";
+      contactType = ContactType.None;
+      showRegisterBox = true;
+   }
 }
