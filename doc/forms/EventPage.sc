@@ -54,7 +54,7 @@ class EventPage extends JSONPage {
                   }
                }
                if (event.close) {
-                  userView.windowClosed(event.wid);
+                  userView.windowClosed(event.wid, false);
                   windowId = event.wid;
                }
             }
