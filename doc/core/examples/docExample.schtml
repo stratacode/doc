@@ -6,7 +6,7 @@
       <div id="exampleContent">
          <div class="exampleTitle">StrataCode.com implementation</div>
 
-         <div id="serverSection1">
+         <div id="serverSection1" exec="server">
             <p/>
             StrataCode.com is built with StrataCode from the source on <a href="https://github.com/stratacode/doc">github</a>. It's a single layer bundle used to build two configurations for use on the site. One is a static html/javascript website to provide the majority of the content. The other part supports the download forms and analytics.
 <p/>
