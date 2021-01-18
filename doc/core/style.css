@@ -1564,3 +1564,20 @@ sup {
 .superScriptText {
    line-height: 100%;
 }
+
+.imageTextBox {
+   margin-top: 10px;
+   margin-bottom: 10px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+}
+
+.imageTextBox img {
+   width: fit-content;
+   height: fit-content;
+}
+
+.imageTextBox div {
+   padding-left: 10px;
+}

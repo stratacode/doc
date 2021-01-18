@@ -8,7 +8,12 @@
           <div id="mainContentBody">
        <p/>
 
-Jeffrey Vroom is StrataCode's primary contributor <a href="http://blog.jvroom.com">on the web</a>, or <a href="mailto:jeff@jvroom.com">by email - jeff@jvroom.com</a>. If you have any feedback, contact Jeff. 
+      <div class="imageTextBox">
+         <img src="/images/jeff2.jpg">
+         <div>
+            Jeffrey Vroom is StrataCode's primary contributor <a href="http://blog.jvroom.com">on the web</a>, or <a href="mailto:jeff@jvroom.com">by email - jeff@jvroom.com</a>. If you have any feedback, contact Jeff. 
+         </div>
+      </div>
 
 <!--
 <%= MarkDownPage.markDown(%>

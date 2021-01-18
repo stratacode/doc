@@ -7,13 +7,20 @@
        <div id="mainContent" exec="server">
           <div id="mainContentBody">
 
+<h3>About</h3>
+
+<div class="imageTextBox">
+   <img src="/images/jeff.jpg">
+   <div> 
+   Jeff Vroom, the author of StrataCode, has previously helped design and built three successful platforms: AVS, ATG/Dynamo, and Flex Data Services. The last ten years, while developing StrataCode he has worked as a Software Architecture consultant, writing code, reviewing and providing advice on software design.
+   <p/>
+   </div>
+</div>
+
+   His passion is readable, declarative, manageable, traceable code using typing, that produces cost-effective, efficient systems that are more adaptable to changing requirements.
+
 <%= MarkDownPage.markDown(%>
 
-### About
-
-Jeff Vroom, the author of StrataCode, has previously helped design and built three successful platforms: AVS, ATG/Dynamo, and Flex Data Services. The last ten years, while developing StrataCode he has worked as a Software Architecture consultant, writing code, reviewing and providing advice on software design.
-
-His passion is readable, declarative, manageable, traceable code using typing, that produces cost-effective, efficient systems that are more adaptable to changing requirements.
 
 ### Contributors
 

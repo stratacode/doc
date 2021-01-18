@@ -184,6 +184,8 @@ scope<session> object downloadManager {
       else {
          if (session != null)
             session.addSessionEvent(new CodeUnlockEvent(currentCode, flags));
+         else
+            System.err.println("*** No userSession for code unlock: " + currentCode);
       }
 
       changeValidStatus(flags);
@@ -197,6 +199,8 @@ scope<session> object downloadManager {
       UserSession session = currentUserView.getUserSession(docSite);
       if (session != null)
          session.addSessionEvent(new LicenseAcceptEvent());
+      else
+         System.err.println("*** No userSession for license accept"); 
    }
 
    String emailRegex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
@@ -207,12 +211,19 @@ scope<session> object downloadManager {
       Matcher matcher = pattern.matcher(emailAddress);
       this.emailAddress = emailAddress;
       this.contactType = contactType;
-      if (!matcher.matches())
+      if (!matcher.matches()) {
          emailErrorText = "Please enter a valid email address";
+         System.out.println("*** Invalid email address: " + emailAddress);
+      }
       else {
          emailErrorText = "";
          saveUser(false, true, true);
          showRegisterBox = false;
+         UserSession session = currentUserView.getUserSession(docSite);
+         if (session != null)
+            session.addSessionEvent(new UpdateEmailAndContact(emailAddress,contactType));
+         else
+            System.out.println("*** No userSession for updateContactInfo");
       }
    }
 
