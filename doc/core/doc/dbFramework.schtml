@@ -10,9 +10,13 @@
 
 ## DB framework
 
-The DB framework supports persistence of code objects using code-processing. Ordinary fields, or bean-style properties with getX and setX methods in the source are used to define a data model. That model is augmented in the generated code to consult a 'current transaction' to get or set pending changes. It gets converted to the SQL it needs. 
+The DB framework works a lot like most object-relational mapping technologies but works at a slightly higher level using code-processing.  Classes marked with the @DBTypeSettings annotation define a data model with fields, or bean-style properties with getX and setX methods. All of these are converted to bindable properties with getX/setX methods that have additional code in both the getX and setX method for persistence.
 
-Alternatively, the class can be entirely generated from a SQL DDL definition.
+It's also possible to start with a SQL DDL definition in a file with the .scsql suffix. In this case, the 'create table' statement is converted into the StrataCode class, and columns used for properties.
+
+Either way, the data model can be customized with layers, mixing both StrataCode and SQL definitions to form the complete data model.
+
+### Getting started
 
 To get started with Postgresql, extend the jdbc.pgsql, and jdbc.schemaManager layer for automatic schema management from a new layer. Mark any types in this layer that need a table with @DBTypeSettings. 
 
@@ -84,7 +88,7 @@ Use @DBPropertySettings(selectGroup="groupName") for fine-grained control over t
 
 A layer can modify a previous type, even if that type was defined with an scsql file. In this case, core aspects of a system can be custom coded in DDL and extensions can be made from application code. For example, adding properties a persistent type in a new layer adds a new column to the schema. If the table for the column was defined in scsql, the new column modifies the original sql to add the column. Perhaps more commonly, new properties are added to new tables but because DB uses a full parser/generator for the SQL code, it's very flexible in terms of how the SQL can be used in the application.
 
-Use the @SchemaSQL annotation to attach SQL commands to be included with this type. 
+Use the @SchemaSQL annotation to attach SQL commands to be included with this type. Use the value attribute for inline SQL, or use the file attribute to specify the file name of a file with the .ddl suffix. Use this to add SQL commands like indexes or stored procedures. The stored procedures added in this way will generate a Java method with a matching type signature to call it.
 
 ### Data sources
 
@@ -104,7 +108,7 @@ The wizard lets you see the new schema, the old deployed schema, as well as the 
 
 Once the schema wizard quits, it marks the schema as ready and the application can run as normal.
 
-For scripting purposes, command line options are available to update or accept the schema without running the wizard. 
+For scripting purposes, use the -schema:update or -schema:accept options to update or accept the schema without running the wizard. 
 
 The schema manager keeps track of the schema history in it's own set of tables stored next to the application tables - db_schema_*  Inside, it stores the new DDL, the alter script if any that was applied, plus other metadata. 
 

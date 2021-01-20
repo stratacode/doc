@@ -18,7 +18,7 @@
               <img class="centerImageBlock" src="/images/theHomer3.jpg"/>
            </div>
            <p>
-           To customize even a small feature in an application required making a copy of the code or refactoring. I thought object-oriented inheritance would be enough, but it wasn't.<sup><a href="#sup1" id="supRef1">1</a></sup> After a lot of thought, I realized it was <i>layered inheritance</i> that it needed - the ability to modify a given type in a different slice, or layer. This led to the <i>configuration layers</i> feature in ATG Dynamo, and experience with that led to this long-term effort to answer the question of whether a layer-oriented programming language can improve scalability, and customizability of software.
+           To customize even a small feature in an application required making a copy of the code or refactoring. I thought object-oriented inheritance would be enough, but it wasn't.<sup><a href="#sup1" id="supRef1">1</a></sup> After a lot of thought, I realized <i>layered inheritance</i> was needed - the ability to modify a given type in a different slice, or layer. This led to the <i>configuration layers</i> feature in ATG Dynamo, and experience with that led to this long-term effort to answer the question of whether a layer-oriented programming language can improve scalability, and customizability of software.
            </p>
            <p>
            Now truth be told, I like building applications, not infrastructure. I would rather use someone else's framework than build my own, and never add a new format when a suitable one exists. I continued on this project only because nothing else has come along that addresses this missing capability. One can always work around the limitations in a platform, but I feel the great potential for StrataCode and layers to help developers architect more scalable and customizable platforms.
@@ -44,7 +44,11 @@
            </div>
            <h3>The solution: layers for evolutionary modularization</h3>
            Layers help address both of these challenges. First, for the tension between monoliths and microservices,
-           they allow developers to remodularize an existing system in place, without changing API contracts. Build both the monolith and microservice configurations from the same source code. They enable what I'll call <i>evolutionary modularization</i>, where the system keeps the agility of the monolith at first, and allows it to seamlessly evolve into the best modular structure for any scale. Code can move from file to file, layer to layer, bundle to bundle, service to service, mostly through cut and paste and without changing APIs and disrupting the downstream code. Java and other languages support the first few steps, layers are the missing piece that support remodularizing large systems. 
+           they allow developers to remodularize an existing system in place, without changing API contracts. Build both the monolith and microservice configurations from the same source code. They enable what I'll call <i>evolutionary modularization</i>, where the system keeps the agility of the monolith at first, and allows it to seamlessly evolve into the best modular structure for any scale. 
+           <div>
+              <img class="centerImageBlock" src="/images/monoMicroDiag.png"/>
+           </div>
+           Code can move from file to file, layer to layer, bundle to bundle, service to service, mostly through cut and paste and without changing APIs and disrupting the downstream code. Java and other languages support the first few steps, layers are the missing piece that support remodularizing large systems. 
            <div>
               <img class="centerImageBlock" src="/images/redwood.jpg"/>
            </div>
@@ -86,7 +90,10 @@
             The split into two processes with layers is not entirely seamless. Some async remote method calls might need to be moved into a data binding expression. For security or performance, new annotations can be added. Some code on the new process boundary might need to change. But these changes can be incremental as both the client/server and monolithic service are built from the same code. That makes for an easier switchover and preserves the development agility of the monolith even after the switch.
            </p>
            <h3>Layers for universal customizations</h3>
-           To solve the second problem, developers are freed from the burden of designing and coding customization points. Instead they expose features as needed for downstream customization using layered code. This supports simpler designs that provide more flexibility.
+           To solve the second problem, layers free developers from the burden of designing and coding customization points. Instead they expose features as needed for downstream customization using layered code. This supports simpler designs that provide more flexibility.
+           <div>
+              <img class="centerImageBlock" src="/images/iocPluginDiag.png"/>
+           </div>
            The type system and IDE track customizations like regular code, guiding both the original product developer and the downstream developer that needs to customize the product.
            <h3>Layers - the missing organizational tool for code</h3>
            The design freedom of layers allows applications to evolve faster, with less code that is more flexible. They also allow systems to adapt as frameworks and other dependencies change. Dependent code is separated into a new layer with cut and paste, preserving existing contracts. This way of organizing code supports product feature-lines: modules organized according to features defined by marketing.
@@ -135,9 +142,9 @@
           </div>
           <p/>
           <hr/>
-          <sup id="sup1" class="superScriptText">1. To refine a type with inheritance requires creating a new name for the subtype. During refactoring, this means references to instances need to use one or the other type name. Then it's possible casts have to be added to the new subtype. Sometimes, this goes smoothly but in complex situations it's a mess and a poor way to implement customization. A lot of work has gone into inversion-of-control frameworks, or frameworks will implement a lot of scaffolding code with interfaces and adapters to allow inheritance to be used for customization.
+          <sup id="sup1" class="superScriptText">1. To refine a type with inheritance requires creating a new name for the subtype. During refactoring, this means references to instances need to use one or the other type name. Then it's possible casts have to be added to the new subtype. Sometimes, this goes smoothly but in complex situations it's a mess and a poor way to implement customization. Do a quick look around your code base and see how much code touches the inversion of control framework, or is actually scaffolding to support customizations. 
           <a href="#supRef1">↩</a></sup><br/>
-          <sup id="sup2" class="superScriptText">2. When customizing a code base directly, without downstream developers, the feature flag is an easy and obvious solution. Because they only work when customizations are built-in to the original code, they are easy to maintain as long as there are not too many. To use them effectively, it's important to ensure all code-paths for a given feature are easily traceable (i.e. support a "find usages" tool that shows all affected code) and that too many feature flags don't overlap and pile up in the same function making a crazy maze of if statements<a href="#supRef2">↩</a></sup>
+          <sup id="sup2" class="superScriptText">2. When customizing a code base directly, without downstream developers, the feature flag is an easy and obvious solution. Because they only work when customizations are built-in to the original code, they can be easy to maintain as long as there are not too many. To use them effectively, it's important to ensure all code-paths for a given feature are easily traceable (i.e. support a "find usages" tool that shows all affected code) and that too many feature flags don't overlap and pile up in the same function making a crazy maze of if statements<a href="#supRef2">↩</a></sup>
        </div>
    </div></div>
 </body>
