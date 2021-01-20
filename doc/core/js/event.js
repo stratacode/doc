@@ -47,6 +47,7 @@ window.addEventListener("load", function() {
    };
    initReq.send(JSON.stringify({
          u:window.location.pathname,
+         rf:document.referrer,
          sw:window.screen.width,
          sd:sc_maxScrollDepth,
          sh:window.screen.height

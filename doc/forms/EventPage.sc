@@ -12,6 +12,7 @@ class EventPage extends JSONPage {
    static class EventPageRequest {
       String u; // location.pathname of the window
       String n; // not used yet
+      String rf; // referrer
       int sw; // screen width
       int sh; // screen height
       int sd = -1; // scroll depth (%)
@@ -41,6 +42,7 @@ class EventPage extends JSONPage {
       ctx.addResponseCookies();
       int windowId = -1;
       if (user != null && site != null) {
+         ctx.referrer = event.rf;
          session = userView.getUserSession(site);
          if (session != null) {
             if (event.sid == null && event.u != null) {
