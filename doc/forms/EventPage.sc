@@ -33,16 +33,16 @@ class EventPage extends JSONPage {
 
    Object processInput(Object input) {
       EventPageRequest event = (EventPageRequest) input;
+      Context ctx = Context.getCurrentContext();
+      ctx.referrer = event.rf;
 
       SiteContext site = SiteContext.findBySitePathName(sc.doc.forms.download.downloadManager.docPathName);
       UserView userView = currentUserView;
       UserProfile user = userView.user;
       UserSession session = null;
-      Context ctx = Context.getCurrentContext();
       ctx.addResponseCookies();
       int windowId = -1;
       if (user != null && site != null) {
-         ctx.referrer = event.rf;
          session = userView.getUserSession(site);
          if (session != null) {
             if (event.sid == null && event.u != null) {
