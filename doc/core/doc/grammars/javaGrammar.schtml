@@ -1,0 +1,19 @@
+<%@ 
+import sc.util.FileUtil; 
+import sc.lang.JavaLanguage; 
+import sc.layer.LayeredSystem;
+%>
+
+<html extends="GrammarPage">
+<head title="Java grammar"/>
+<body>
+   <div id="content" section="doc">
+      <div id="mainContent" exec="server"><div id="mainContentBody">
+         <div class="filename">Parselet grammar for Java:</div>
+         <% 
+            out.append(JavaLanguage.getJavaLanguage().styleFile(null, FileUtil.concat(LayeredSystem.scSourcePath, "system/src/sc/lang/JavaLanguage.java")));
+         %>
+      </div></div>
+   </div>
+</body>
+</html>

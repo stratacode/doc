@@ -104,6 +104,10 @@ pre {
       font-size: 70%;
    }
 
+   .code, code {
+      width: 100%;
+   }
+
    .jbIcon {
       width: 100px;
       height: 100px;
@@ -503,10 +507,6 @@ h3 {
    color: #000557;
 }
 
-.code, code {
-   width: 100%;
-}
-
 .code, code, .qcode {
    white-space: pre-wrap;
    color: #000; 
@@ -517,7 +517,6 @@ h3 {
    /* background-color: #EDF5FD; */
    background-color: #F5FAFF;
    max-height: 50em;
-   max-width: 100%;
    overflow: auto;
    line-height: 130%;
 }
@@ -742,6 +741,10 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
   #exampleContent, #pageContent {
      max-width: 70ch;
   }
+
+  .code, code {
+     width: 120%;
+  }
 }
 
 @media (max-width: 1530px) and (min-width: 1230px) {
@@ -790,6 +793,10 @@ background-image: radial-gradient( circle 600px at 50% 70%,  #0b4967 0%, #04333F
 
   #exampleContent, #pageContent {
      max-width: 70ch;
+  }
+
+  .code, code {
+     width: 120%;
   }
 }
 

@@ -21,33 +21,33 @@ Traditional approaches to making Java dynamic go the whole way and make a dynami
 
 StrataCode can also recompile and reload classes on the fly, and can leverage those features in JVMs that support it.  But these approaches usually do not support stateful applications and so only work in fairly narrow use cases.  The goal here is to allow frameworks to capture 'add field', 'remove field' events.  To support "out of the box" updating of instances, methods, add class, remove class, etc so many uses cases will work to allow live tooling directly on your code. 
 
-## Managed runtimes
+### Managed runtimes
 
 When an application is running, the dynamic runtime can watch for code changes and supports an incremental 'refresh', even for many stateful components including desktop applications and web-applications that store info in the browser's session.  If changes only include new property values for reactive components, or stateless components, they are applied "on the fly" - without restarting.  In client/server mode, a patch is sent to update the client after the server has been updated.  More complex changes can require a recompile and restart. In this case, the management UI controls indicate that a restart is needed.  
 
-## Incremental, change-aware builds
+### Incremental, change-aware builds
 
 To speed up round trip times after code changes, incremental builds work in many cases. The ability to monitor code changes as they are made also helps to model complete systems. For example, to watch changes to database schemas and support a UI to upgrade the schema. 
 
 In the same way in the future, it can watch changes to machine image configuration and build new virtual machine images, or cluster configuration and update the cluster, all from a unified set of management UIs that manage the whole lifecycle of code and configuration.
 
-## Easy APIs for on-the-fly code changes
+### Easy APIs for on-the-fly code changes
 
 With Parselets, each language grammar supports the ability to not only read, but incrementally update code from the API.
 This is useful for building management UIs, IDEs and other tools that need to change values in code and configuration files. For example, to change the initializer for a property or to change the expression in a data binding rule, or replace a method. The APIs let you modify the AST as needed and the file is incrementally updated. Comments and formatting of the surrounding code is preserved.
 
-## Dynamic layers, classes, objects
+### Dynamic layers, classes, objects
 
 StrataCode also supports dynamic layers, classes and objects - a full simulation environment for running StrataCode/Java directly from the parsed language model (the AST). This mode of interpreting a class is optimized for "run once" code: small amounts of code or configuration that do not have long loops or need to execute many statements. Dynamic layers are useful for configuring components and application code to reduce time recompiling and restarting. It's also a great engine for running untrusted code because of the sandbox nature of the dynamic runtime. 
 
 The system has a moveable boundary between compiled and dynamic code, all with static typing. Find the right balance of runtime efficiency without long round-trip times even as the system grows.
 
 
-## Build configuration
+### Build configuration
 
 The dynamic runtime is used to parse and run the build configuration - the layer definition files that bootstrap the system. Although not a perfect Java emulation layer, most application code just runs without changes in both modes. Use Java syntax and the IntelliJ plugin for build files.
 
-## Test scripts
+### Test scripts
 
 Test scripts and the command line interface also use the dynamic runtime and are editable in IntelliJ so that 'find usages' supports test script references as well.
 The scripting language also supports targeting one or more processes in the system with commands. It's easy for example to retrieve the Javascript log messages, call methods on client-side tag objects to simulate user-interaction and more. 

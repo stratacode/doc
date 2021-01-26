@@ -8,25 +8,37 @@
 <%= MarkDownPage.markDown(%>
 ## Parselets: Parsing and modifying code
 
-StrataCode is built using its own parser/formatter called Parselets. It supports PEG grammars consisting of four matcher types: Sequence, OrderedChoice, Symbol, and SymbolChoice. Each grammar is built from instances of these four base classes, or higher level classes that extend these called Parselets. Each parselet has additional metadata it can specify to do more than just parse. They can create instances of a particular type of AST node, set properties on nodes, collect lists, and propagate values up the hierarchy. In this way, they build a very reasonable AST tree directly from the declarative grammar. 
+Parselets is a Java library for building parsers using ordinary Java code for rapid development. Add annotations to the grammar elements to assemble the <i>abstract syntax tree</i>, the API for classes, statements, variables or other parsed things. With Parselets, this API also supports changes to the model that update the source code. Localized changes in the model are localized in the code, preserving surrounding comments and formatting not stored in the AST.
 
-Parselets also can go in the reverse direction by formatting source code given an AST using the same grammar rules it used to parse it. It can even respond to changes made to AST nodes and make the same incremental changes back in the source code. 
+<img src="/images/code-proc.png" class="centerImageBlock"/>
 
-So from one simple grammar, it produces a full on API for read, modify, write for that format. When changes to the AST are localized, changes to the file are localized, preserving the surrounding comments and not altering the formatting. 
+The main benefit of Parselets over other parsers is how quick it is to develop new grammars and complete APIs for manipulating the contents of a given file format. With more annotations, grammars support great partial matches suitable for IDE editing. Easily support syntax highlighting, error detection and more features.
 
-StrataCode is entirely built on Parselets including grammars for Java, all of the sc formats, javascript, html, xml, the DDL aspects of postgresql, css, and more. 
+Like most PEG grammars, parselets are easily composed, extended, modified, etc. 
 
-The Java to Javascript and StrataCode to Java transpilers are built with parselets as is the IntelliJ plugin. Writing IDE support for a new format is a lot faster with Parselets than other mechanisms as so many features are built-in into the grammar, or supported by general purpose AST node classes.
+The [Java to Javascript converter](/articles/javaToJavascript.html) transforms a Java AST into a JS AST using shared parselets and base-classes. To convert a Java array to a JS array, just change the language and reformat. 
 
-In particular, parselets supports error recovery when parsing a file that does not match the grammar as used in the IDE. Although crude at first, it can be tuned by setting additional properties in the grammar.
+PEG parsers are composed of four basic types of matchers: a Symbol, SymbolChoice, Sequence, or OrderedChoice. There are parselet classes for each of these types and also IndexedChoice for a faster matching that's useful in some cases. Some language constructs are created directly from these primitives, others use subclasses like KeywordSpace inherited from a BaseLanguage. 
 
-It also includes the ability to take diffs between one version of a file and the next and to do a fast 'reparse' of the AST - useful for fast editing of large files in the IDE. (TODO: this feature is experimental and not enabled by default in the IntelliJ plugin)
+A Sequence parselet can specify an AST class to be created when that node is matched. The parts of the sequence map populate properties of that class. There's a descriptor string associated with the parselet that contains this mapping that looks like: "className(mapping1,mapping2)". Where the mapping strings can be empty to skip the value, the name of a property, * to inherit child mapping, or . to pass through the matched value. When className is not provided, the mapping can be '' for any slots that are included as part of the string semantic value. The value [] can be used to add that slot to an accumulated array value.
 
-Parselet grammars are not designed to be as fast as table-driven parsers but can be tuned using indexed choice primitives or custom parse and generate methods. For the sc formats performance is pretty good without having done much work on performance tuning overall.
+### Example grammars
+
+StrataCode is built on Parselets including a [base language](/doc/grammars/baseGrammar.html) for shared parselets like whitespace. There's a simple [pattern language](/doc/grammars/patternGrammar.html) used for bi-directional parameters in URLs. There's a [Java language grammar](/doc/grammars/javaGrammar.html), [SC language grammar](/doc/grammars/scGrammar.html), [SC template language](/doc/grammars/templGrammar.html), [schtml](/doc/grammars/htmlGrammar.html), [javascript](/doc/grammars/jsGrammar.html), xml, and a [sql ddl for Postgres](/doc/grammars/sqlGrammar.html).
+
+Many of these formats can be used from the IntelliJ plugin that's built on parselets.  
+
+### Performance
+
+Parselet grammars are not as fast as table-driven parsers but do use indexed choice primitives where possible. For the sc formats performance is pretty good without having done much work on performance tuning overall.
 
 AST's and the layout of the parse-node tree can be serialized and restored to speed up the parsing operation on files that have not changed.  
 
-From the performance perspective, one tradeoff is that parse-node trees take up more memory to store extra information to aid in the incremental generation. There are a few optimizations still to be made that can reduce the amount of memory these parse-node trees take up, and they only need to really be in memory for the process of parsing a file initially and later transforming one incrementally.
+Parse-node trees also take up more memory for the information used to do the incremental generation. There are a few optimizations still to be made to easily reduce the amount of memory these parse-node trees take up, and they only need to really be in memory for the process of parsing a file initially and later transforming one incrementally.
+
+### Doc
+
+Read more in the [doc](/doc/parser.html).
 
 <% ) %>
    </div>

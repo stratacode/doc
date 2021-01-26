@@ -7,29 +7,32 @@
 
 <%= MarkDownPage.markDown(%>
 
-## Layered builds
+## Layered build tool  
 
-The 'scc' command provided by StrataCode provides many of the same capabilities as a standard build tool like maven or gradle, but project files are written using Java syntax and libraries along with the StrataCode extensions. A layer directory can either be structured as a standard project directory, or where it overlays its files on those inherited from it's base layers. It only needs to specify the files and configuration it wants to add or change from its base layers.
+The 'scc' command provided by StrataCode provides many of the same capabilities as a standard build tool like maven or gradle but is designed a bit differently. On the surface, project files are written using Java syntax with StrataCode extensions. A layer directory can be either a typical monolithic project directory, or an overlay on top of the merged contents of the base layers. 
 
-In this way, each layer can have fewer files that have higher <i>customization intent</i> making the project easier to read. Using layers, it's an incremental process to break apart a module into more than one piece, for example factoring out all database or UI so that a new database or UI can be added.
+These overlay layers are best when each layer has fewer files and higher <i>customization intent</i>. The set of files help define why this layer exists - to help customize it from a previous configuration. 
 
-## Smarter code-processing
+A layer can extend other layers, add maven packages, set properties of the layer, and define methods that run in the: init, start, and validate. Where all layers are first initialized, then started, then validated.
 
-Using Parselets StrataCode can read and modify file formats much more easily than with other tools. This allows framework developers better ability to keep information in sync between different components, and provide full-lifecycle tools. For example, to track schema changes, or to determine when cluster configuration has changed and a production update should be deployed.
+<% ) %>
 
-## Multi process systems
+<%= sc.lang.SCLanguage.INSTANCE.styleFileNoTypeErrors("servlet/lib","lib.sc", true) %>
 
-Layers can add new processes to the system, and include constraints about where they run. On startup, the layer stack self-organizes into separate stacks, one for each process. Today, it supports automatically building client/server applications but with more integrations and fine-tuning it will support flexible backend service development and deployment.  Code-generation helps automate the RPC communication and lets you run the same application code in different process configurations.
+<%= MarkDownPage.markDown(%>
 
-## Consolidated management UIs
+### Evolutionary modularization
 
-StrataCode's UI framework lets framework developers build tools to help keep formats in sync and manage them. If you look at the large number of tools used in today's systems development, they all include some form of configuration, plugins, customization management. StrataCode can help integrate these systems and become the missing glue for more complete 'feature oriented systems', where features span the application, platform, and operational domains. For example, build, run and deploy a complete system from a list of layers: ecommerce, blog, themes, auto-scaling frameworks, operational config, hosting provide frameworks, etc.
+Using layers, it's an incremental process to break apart a module into more than one piece, for example factoring out all database or UI so that a new database or UI can be added. This allows you to start with a more monolithic design and refactor as parts need to be reused in a new configuration.
 
-From that set of layers, scc has all the information it needs to generate the package dependencies, build the application code, generate operational config from templates, build or update required virtual machine images, and configure the deployment. The management UI is assembled to manage all of the features, including the ability to help roll out updates. 
+### Code-processing
 
-The framework integrations necessary to realize this vision are not there yet and the support for more general multi-process systems needs more testing and likely some development. 
+Using [Parselets](/articles/parseletsIntro.html) StrataCode can read and modify file formats more easily than with other tools. With an API for the code, framework developers can keep information in sync between components, and provide full-lifecycle tools. For example, to track schema changes, or to determine when cluster configuration has changed and a production update should be deployed.
 
-Currently the DB framework does manage the complete lifecycle of a postgres database schema and we do support robust client/server applications from a single command.
+### Multi process systems
+
+Layers can define new processes for the system, and constrain the process they will run. On startup, the layer stack organizes into separate stacks, one for each process. Code-generation and data-sync support seamless RPC - run code as a monolith or as separate services as needed.
+
 <% ) %>
    </div>
 

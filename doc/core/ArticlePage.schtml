@@ -23,13 +23,13 @@
             <div class="pageIndexTitle"><img src="/images/menu-toast.png" class="navMenuIcon" clickEvent="=: navOpen = !navOpen"> Articles</div>
             <div id="pageIndexMenu" class="pageIndexMenu" exec="server">
                <div extends="ArticleIndex" title="StrataCode intro" url="index.html"/>
-               <div extends="ArticleIndex" title="Copied code, plugins and IOC" url="copyOrNot.html"/>
-               <div extends="ArticleIndex" title="Layered builds" url="buildAndPackaging.html"/>
                <div extends="ArticleIndex" title="Web framework and Java to JS" url="javaToJavascript.html"/>
                <div extends="ArticleIndex" title="Synchronization using layers" url="syncWithLayers.html"/>
+               <div extends="ArticleIndex" title="Parsing and modifying code" url="parseletsIntro.html"/>
+               <div extends="ArticleIndex" title="Layered builds" url="buildAndPackaging.html"/>
                <div extends="ArticleIndex" title="Persistence using layers" url="persistWithLayers.html"/>
                <div extends="ArticleIndex" title="Dynamic runtime" url="dynamicRuntime.html"/>
-               <div extends="ArticleIndex" title="Parsing and modifying code" url="parseletsIntro.html"/>
+               <div extends="ArticleIndex" title="Copied code, plugins and IOC" url="copyOrNot.html"/>
                <div extends="ArticleIndex" title="Microservices with layers" url="microservices.html"/>
                <div extends="ArticleIndex" title="Customizable enterprise systems" url="enterprise.html"/>
             </div>

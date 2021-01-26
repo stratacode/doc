@@ -7,122 +7,57 @@
 
 <%= MarkDownPage.markDown(%>
 
-## Synchronization with layers
+### Synchronization
 
-by Jeffrey Vroom
+StrataCode includes a data-sync library that expands upon RPC, adding a higher-level way to build client/server applications. The protocol is modelled from annotations attached to shared layers of code. The data-sync library tracks changes made to shared objects, and sends then across the wire in both ways in batches. These batches can also include method calls made. If a network connection fails, the sync will be retried when it reconnects. Because sync works both ways, it supports real-time updates from the server.
 
-One of the larger complicating factors in software design, performance, and maintenance begins when two programs need to communicate.  The developer needs to design or choose a protocol, perhaps adds versioning so it can be easily upgraded or changed.  They need to make it secure, reliable and possibly deal with retries in case of failure or handle the additional connection related errors that might occur.  
+Layers are a natural way to model the overlapping code and data involved in client/server. Shared layers runs on both client and server, others on the server only. The code processor generates two versions of each of the shared classes, one for each side along with metadata for performance and security. Shared layers can enable sync by default for all types in that layer, or it can be turned on at the class or property level. 
 
-In my experience, quite a bit of code goes into solving this problem.  It's one of the large contributors to "code that's not application logic" that developers spend time on - writing or debugging. 
+<img src="/images/syncArch.png" class="centerImageBlock"/>
 
-## Client/server programming today
+### How it works
 
-Today client/server programmers commonly use remote procedure calls (RPC) with a serialization protocol like JSON to communicate with the server.  Sometimes programmers write "wrapper code" to convert objects to and from JSON, giving them the most control but adding more code to maintain or update when things change. 
+At code-generation time, an addSyncInst call is added to the class init code along with runtime metadata derived from the annotations. Synchronized properties are made bindable with getX/setX methods and change events. 
 
-More automated frameworks will generate the serialization code or metadata using annotations on methods and their parameters or use a declarative file to define the protocol which generates code for both client and server. This approach reduces the amount of code developers have to write and provides more features with the downside of adding problems during debugging. It's complex to manage all of the uses of 'rpc' that an application might need for a complex domain model that is evolving quickly with lots of read/write APIs required. Not super fun to debug generated code that comes from some XML file but it's better than nothing. 
+At runtime, the system tracks all new instances created, destroyed and property changes. Changes are queued to be sent to the remote side on the next sync. When the sync request is successful, a shadow copy of the remote side is updated. Only changed values are sent across the wire. 
 
-Another approach is to add a new language for the client/server protocol like GraphQL. It is a much more powerful than basic RPC and has had some success with developers because it improves performance and reduces the number of RPC methods needed. It's another complete language to learn and integrate with on the client and can be challenging to support for some backends.
+The sync operation list can also include remote method calls and responses. This makes for more powerful RPC because synchronized objects can be passed by reference, not value and the return from a method call can return side-effects, not just the return value.
 
-## Why synchronization?
+A call to a remote method is detected at build time when code in one process tries to call a method defined in a different one. Synchronous remote method calls are replaced transparently in the generated code. Async remote method calls generate an error unless they are made from a data binding expression.
 
-While GraphQL has in some ways reduced the impedance mismatch of client/server development, rather than add a new language, I think we can solve most problems more efficiently by organizing our code according to the layered abstraction.  Consider that most client/server programming problems are synchronizing the overlapping aspects of shared data structures. Rather than just viewing this boundary as a protocol, it makes more sense to model it as the shared code and data, including the rules for validating, transfering, committing, and error handling. 
+Using remote methods in data binding expressions is particularly useful because it makes it easy to run code in either one process or in a client/server environment, just by changing the configuration. 
 
-In essence, it's those slices of the code that make sense to be used on both sides on the protocol. Rather than a separate language like GraphQL, use layers to partition the server-only code and add metadata for properties and types to control how they are synchronized. For example, some properties might only transfer in one direction, or are loaded on demand. 
+### Sync and scopes
 
-With synchronization, the framework generates statically typed classes by transforming the original source. Errors are caught at edit time, or runtime, and debugging is done on the transformed version that is a lot more natural than code generated from XML or inserted into the byte code.
+Components in StrataCode are organized based on their lifecycle, using [scopes](/doc/components.html). The web framework supports the scopes global, application, session, app-session, window, or request. Additional scopes can be created for multi-tenant data, or another class of information that's available within a well-defined current context.
 
-Thinking about client/server programming as synchronization requires two important concepts that are fairly commonly used already:
+When scopes are nested, events propagate from the lower-level scope to the higher level one providing easy, real-time collaboration. The system performs necessary locking to prevent two conflicting threads from running at the same time using read/write locks. So if you have a shared object between two scopes, changes made by one are queued and delivered to the other on the next thread that runs in the destination scope.  
 
-* identify when an object has a unique id versus when it's part of the value of another object.
-* for objects with an id, ensure the protocol respects the "highlander principle" - guaranteeing a single instance with the same id in each process. Sometimes these types of objects are called entities.
+One way this is particularly useful even for non-collaborative applications is in writing test scripts. The command line/test script can invoke methods to be called on a specific browser window. This allows it to easily script complex interactions, even those involving multiple participants.
 
-Code can access variables that point to entities declaratively and be assured of getting the right version of that instance. Any property changes will be validated and committed. Like with many powerful declarative abstractions, synchronization helps with offline, data update conflicts, retries, and more. 
+Another way scopes are helpful is providing configurable ways of managing state. For example, to preserve information on a page when the user refreshes a page use app-session scope. To reset the page information use window scope.
 
-## Sync concepts
+### Reliability and responsiveness
 
-For most business problems, synchronization is a better fit as the foundation. RPC is used for building special cases and specifically 'operational requests', typically used when there are only value objects and no objects with an id involved. 
+Using synchronization to manage state has a nice benefit for scaling web applications. There are a variety of scopes to cache data as needed for different purposes. These caches reduce the load on the database, and reduce the latency. 
 
-To use synchronization, mark server types and properties as synchronized between client and server processes. Use metadata to override the defaults to limit sync to one-direction, to enable 'on-demand' fetching of a given property or instance, and more options. On the first request, the client receives the 'initial state' that includes the synchronized properties of objects referenced by the initial page.
+### Recovering state on failure
 
-To make changes, the application code updates properties, creates instances, etc as normal. Remote data can be fetched declaratively using data binding expressions. Annotations allow control over when and how objects are serialized and explicit APIs can be used as needed.
+Synchronization works best with <i>sticky sessions</i>, where one client's requests return to the same server each time. This architecture improves the effectiveness of caching and makes systems scale better. 
 
-Changes are queued and sent to the server on the next 'sync'. The server applies those changes, and may return a batch of changes created in that operation, return with no changes, or wait if real-time is enabled. Sync maintains relationships between entities
+But when the server hosting a session fails, it's important to preserve the user's login state, and application context. Most web servers today do support replicating session state on another server, but data-sync provides another option. It stores that information on the client instead. When the client sees that it's session is gone, it re-sends this <i>reset state</i> to the server in addition to any requests it needs to perform.
 
-When a new object is created on the server in response to a client's request, it can automatically sync to the client in the reply, or the data is lazily fetched the first time it's accessed.  In many applications, wrapper code goes away and the serialization protocol, validation logic, and more code can be shared cleanly by the client and server. 
+### Stateless when needed
 
-When explicit RPC calls are needed, often they can be performed declaratively in data binding expressions and work in concert with synchronized objects.
+For stateless requests, use request scope where sync will send all state on each request.
 
-## Organizing code in synchronization
+### Examples
 
-Synchronization and layers allow code to be organized based on it's role in the client/server design. Code can be split into layers based on whether it runs on both the client and the server, or the server only, or client only. This is a nice way to break apart a design anyway to demarcate the code while sharing as much as possible. Since static typing is used, developers can navigate code and build code resilient to changes as code moves from one process to the next. The IDE provides edit time errors for referential integrity errors. 
+See these examples of applications built using synchronization: <a href="/examples/unitConverter.html">UnitConverter</a>, <a href="/examples/todoList.html">TodoList</a>, <a href="/examples/siteBuilder.html">Sitebuilder</a>, and <a href="/examples/programEditor.html">Program Editor</a>.
 
-## Automatic remote methods
+### Documentation
 
-Using layers to organize client server code offers benefits for RPC too.
-When the client refers to a method that's only defined in the server, the system knows it's a remote method. Framework code can generate code to implement the call, or flag an error before the application is run.
-
-## The synchronization library
-
-Synchronization is implemented with a fairly small library usable as an API or hooks can be inserted into the transformed application code. Metadata and method hooks required for synchronization is inserted in the transformed version, preserving readability and debuggability.  
-
-When a property is synchronized, it's automatically made bindable, converted into getX and setX methods where the setX fires a change event. Additionally, an addSyncInst call is inserted into the constructor or create method.
-
-## Sync features
-
-One of the advantages of declarative frameworks is the ability to enable/disable features with configuration. Details about the implementation is in the generated code, so it's still debuggable but does not affect the source itself.
-
-### Eliminate async response handlers
-
-With data binding and data sync together, the need for explicit asynchronous programming and function closures goes way down. Instead, expose methods that can be used in data binding expressions, or trigger method calls using binding change events. The code runs whether the method is in the same or a remote process. 
-
-Forward bindings are useful for running queries on the server.
-
-Reverse bindings are useful for invoking server remote methods.
-
-Bi-directional bindings are a simple way to keep client and server state in sync.
-
-When multiple changes fire at the same time, often due to chained bindings or methods run from a binding, the batch of changes is sent to the server and the stream of results are returned.  A set of properties are updated and the UI is updated in response to those changes.   
-
-The same data binding expressions will work in either a client/server environment, or single-process which makes it easier to reuse domain model code, even when the domain model has remote methods. This is particularly valuable when a business user is editing data-binding expressions that control some combination of client and server functionality.
-
-## Realtime, offline
-
-Synchronization as a pattern also works in both directions and can tolerate temporary network disconnects. The client queues up changes for the server and vice versa. When using polling, the client picks up any queued changes waiting for it.  When using a realtime connection, the client can see the results immediately.
-
-## Sync and scopes
-
-Synchronization is built on the "scope" mechanism in StrataCode where different objects can be configured to have different lifecycles via an annotation.  An object can be global to the system, global for each application (for frameworks that support more than one per process like a web server), one per browser session, one per application per browser session, one per browser window, or one per request.  You can create your own scopes for a situation where you have a 'current something' - e.g. current tenant for a multi-tenant application, or current product for a product display component.
-
-When scopes are nested, events propagate from the lower-level scope to the higher level one. The system performs necessary locking to prevent two conflicting threads from running at the same time using read/write locks. So if you have a shared object between two scopes, changes made by one are queued and delivered to the other on the next thread that runs in the destination scope.  
-
-For example, the StrataCode command line can run methods on a selected application window on the browser.  This makes it easy to write test scripts for client/server applications, even those that support collaborative features.  
-
-Test scripts can direct commands to the server or client or both. Test script logs are designed to record important, reproducible history for validation and diganostic purposes.  For example, the StrataCode html framework class TestPageLoader records the client javascript error log, the server log and the HTML output for the current page on both the client and the server.  
-
-## Reliability and responsiveness
-
-Using synchronization to manage state has a nice benefit for scaling web applications. There are a variety of scopes to cache data as needed for different purposes - global, session, or window.  When the server caches information, it avoids unnecessary database accesses and reduces response latency. Servers that need to scale frequently need to implement a separate caching layer but just like RPC it adds overhead to the development process and friction for when domain models change. With synchronization, caching options can be configured without code changes.
-
-## Recovering state on failure
-
-Synchronization is most efficient with a 'sticky session' environment, where clients requests return to the same server. This is also where caching is most effective since there's a continuous stream of requests from the same user, possibly accessing the same data. But when the server hosting a session fails, it's important to preserve the user's login state, and application context. Of course the session data could be replicated on another server, but the client is perhaps a more convenient way to preserve the synchronized state. When a client tries to sync and the server returns a 'session reset' response, it re-sends it's version of the initial state to the server. The server can restore the session and keep the user right where they left off.  The result is a seamless, high-end user experience with a low-cost from both coding and operation. 
-
-## Balancing performance with coding effort
-
-The sync library is designed to allow developers to support a balance of reliability and efficiency all from a declarative model.  I believe ultimately it will be an easy way to produce scalable web applications with low latency, simpler database architectures, and cheaper infrastructure cost. Most high-end web applications are probably already caching data with some "out of process" tool. Because these cache processes are not limited in heap size, and are shared between server processes, they might still be useful. With the proper framework integration, they could be enabled with configuration using the sync system. But for applications where the shared cache, or a massive cache is not required, the sync system can provide lower latency and more efficiency with less code and fewer servers.
-
-## Falling back to stateless
-
-When you really need a stateless environment, use 'request' scope at the page, or component level and the same models work but with more data transfered on each request. Data binding with RPC methods in a stateless environment is a nice alternative to existing stateless web frameworks.
-
-## Easier multi-process development
-
-There are many advantages to decoupling software components, as long as they can be efficiently managed independently.  We've all read about Microservices and the success of businesses like Amazon which made decoupling of systems a major priority.  But the downsides of a decoupled system are the design costs of choosing the pieces and the complexity of standing up a complete environment composed of many pieces.  Developers need a quick and reliable workflow where they can change code, build, run, and test even when they are touching code in more than one process.
-
-With StrataCode, all processes in a solution can be built from the same stack of layers.  The layer definition files are also the perfect place for the code that manages the deployment process by updating and restarting processes as necessary.  So for any project, just running 'scc list-of-layers' should be the way any type of technical user can run a specific program. It should not matter how many processes or environments are required to implement that operation.  
-Layers can handle all of the details - including all of the configuration specific to this user's environment. Because StrataCode itself is built on code-generation, supports maven, multiple processes, dependencies and more customizing it has the potential to be a more powerful tool for devops too. They can own production configuration layers which keep their environments separate from development, let them customize more aspects of the system, avoid copies, and use static typing for better code management of their assets.
-
-See these examples of basic applications built using synchronization: <a href="/examples/unitConverter.html">UnitConverter</a>, <a href="/examples/todoList.html">TodoList</a>, and <a href="/examples/programEditor.html">Program Editor</a>.
+Read more in the [doc](/doc/syncFramework.html)
 
 <% ) %>
    </div>

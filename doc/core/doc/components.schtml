@@ -8,7 +8,7 @@
 
 <%= MarkDownPage.markDown(%>
 
-## StrataCode Components
+## StrataCode components
 
 StrataCode has several features to make Java better at building 'components'.  This is an overloaded term, but here we use it to mean wired together graphs of objects with the goal of mostly declarative, statically typed applications.
 
@@ -24,7 +24,7 @@ While the syntax changes are small, framework developers can use carefully desig
 
 The same syntax is supported in the dynamic runtime by implementing the IDynChildManager and IDynObjManager interfaces. With a small amount of code, frameworks support both compiled and dynamic modes with refresh, plus all the features of layers for customization.
 
-## Simplifying Component Oriented Design
+### Simplifying component oriented design
 
 Traditional inversion of control frameworks (IOCs) require the developer to design the "configuration interface", that sits on top API. Should a feature be configurable in XML, annotations or just a plain old Java feature? Often this choice is related to whether you want to configure this feature at compile time or runtime, and the role the configuration will play long term, and who changes it: developers, QA, design, devops, marketing, etc.
 
@@ -44,7 +44,7 @@ It's not entirely seamless to move from regular Java classes to using StrataCode
 
 Since your original code is transformed in this process, maintaining the structure, and comments, it's relatively easy to figure out what's going on in the debugger as you can step through the entire construction process using either the original or generate code.
 
-## Creating Object Instances
+### Creating object instances
 
 StrataCode adds to the Java syntax a new keyword: "object" that works a lot like Scala's object keyword.  It defines a new variable and creates an instance for that variable automatically when it's accessed or through custom rules defined at code-generation time.  A framework developer has control over how the 'object' keyword is converted to Java by setting annotations and attaching custom code-templates to a type or base type. Annotation layers let framework developers customize even compile classes this way.  Each layer becomes a sandbox designed for customizing a particular type of asset.  
 
@@ -90,7 +90,7 @@ This defines an inner object, with a single instance created for each instance o
 
 Framework layers can use inner objects for the parent/child relationship by adding the "setParent" call or constructor parameters during code-generation.
 
-## Properties
+### Properties
 
 Java programmers have been traditionally advised to avoid exposing fields directly in APIs.  Instead the convention used in Java is to define two methods called getX and setX to implement a property called "x".  Programmers have to then call the getX or setX method instead of directly manipulating the field.  Later, the implementation of the property can change without affecting the calling code.  The pattern works well enough, but it's a lot more code to write and makes code less readable.
 
@@ -98,7 +98,7 @@ StrataCode formalizes the Java convention by selectively automating the getX/set
 
 Frameworks can customize the getX and setX code generated for properties to interact with framework code.  You can add logging, tracing, and validation hooks to groups of properties.  And unlike byte-code enhancement, you can debug those extensions easily.  
 
-## Properties With Data Binding
+### Properties with data binding
 
 The data binding system detects when properties are used in data binding expressions and generates getX and setX methods with the proper code to implement the binding.  The setX method will trigger a change event typically, or the getX method may force the lazy-evaluation of the binding (if that's ever needed).  The details of how this happens are managed in framework layers so application programmers and business users only see properties that may be attached to data binding rules.  They are provided efficient and powerful abstractions over properties which can adapt from framework to framework. 
 
@@ -110,7 +110,7 @@ In most cases, the default is what you need but there are ways to override the a
 
 Additionally, the conversion is disabled automatically for a field in it's own getX and setX methods.
 
-## Recursive References in Java
+### Recursive references in java
 
 Due to the design of the Java language, when you initialize a field with an expression, that expression can not refer to fields whose values are not yet defined - so called "forward references", or "recursive references".  If the fields in your object in any way are initialized to values which refer back to the owner object, your code will either not compile or just not work.  Component frameworks support recursive references by using a multi-step initialization process.  Objects are created and registered in the name space, then references are resolved, then initialization code can run that requires the object to be fully initialized.
 
@@ -120,23 +120,23 @@ That's probably why declarative languages like HTML support recursive references
 
 This split between "desired syntax" and "language behavior" in Java is thus lacking.  We need a great path for evolving code efficiently using one core syntax, that gives the Java developer better tools for supporting components with a more compatible syntax.  Today in Java's existing component frameworks, you move configuration back and forth between Java and XML, or at least pick a design that's more configuration heavy than optimal to avoid changing things down the road.  That's because most changes will affect published APIs which we want to avoid for most efficient development.
 
-## Recursive References in StrataCode using @Component
+### Recursive references in StrataCode using @Component
 
 StrataCode offers a nice solution for the Java programmer.  You can add the @Component annotation to your StrataCode class to change the generated Java code to allow that class to use recursive references.  StrataCode transforms your Java code to use a multi-step initialization sequence for such classes.  First it creates all instances in the reference graph and sets their member variables so the getX methods work.  Then the instance variables are assigned.  Then initialization code is run for any component classes reachable in the graph from this object. 
 
 For simple cases, there are no code changes required once you add @Component.  But for complex cases, you may need to move code from your constructor into an init() or start() method that's called alter, once all dependencies are satisfied.  Because these methods are all called automatically, you can just define an init() or start() method and put the code there.  If your framework already has an "init()" or "start()" method that conflicts, use IAltComponent and override _init() or _start().
 
-## Constructor properties
+### Constructor properties
 
 Normally a property assignment is initialized as part of the init code for the instance, or in the preInit method for an @Component. There is no guarantee these properties will be initialized before binding expressions run and so the value might be null, even when initialized. For important properties, where null checks become awkward, use constructor properties. This is set via an annotation: @CompilerSettings(constructorProperties="name1,name2"). The initialization value for a constructor property cannot refer to other properties of the instance since they will be run before the instance is created and passed to a generated constructor. This generated constructor is automatically propagated to all sub-objects that might inherit from a base object.
 
-## Issues/Warnings
+### Issues and warnings
 
 Note: When using @Component, the constructor code is run before reference properties are assigned unless they are constructor properties. It would be nice if by the time constructor code is run, all instance variables are at least assigned unless a recursive reference prevents it. 
 
 It would be nice to be able to configure the list of stages required for a given component class (e.g. init, start, validate, etc.)
 
-## Customizing Object Lifecycle
+### Scopes: customizing object lifecycle
 
 A declarative framework that only supports static objects only goes so far.  StrataCode makes the object lifecycle a customization "hinge point" so the same object operator can be used to create applications deployed where instances live with different lifecycles.  For example, deploy an application which runs with separate state for each window, versus a shared state keeping all windows for the same session in sync, or all windows sharing the same collaboration session in sync.  
 
