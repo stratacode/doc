@@ -1588,3 +1588,20 @@ sup {
 .imageTextBox div {
    padding-left: 10px;
 }
+
+#surveyView {
+   padding-top: 5px;
+}
+
+.surveyQ  {
+   margin-left: 20px;
+}
+
+.surveyBox {
+   margin-left: 5px;
+   margin-top: 10px;
+}
+
+.surveyTitle {
+   margin-bottom: 5px;
+}

@@ -9,7 +9,7 @@
 
 <div id="content" extends="DocPageLayout" section="download">
    <div id="mainContent" class="mainContent">
-      <div id="downloadBox">
+      <div id="pageContent">
          <h2>Download StrataCode</h2>
          <div id="enterCode" visible=":= mgr.requireDownloadCode && mgr.validProductFlags == 0">
            StrataCode is currently in a restricted preview.
@@ -22,6 +22,12 @@
               <p/>
            </div>
            No download code? Contact Jeff Vroom for availability (jeff@jvroom.com)
+
+
+           <div id="alt">
+              StrataCode and the IntelliJ plugin are available for evaluation
+              <br/>
+           </div>
          </div>
 
          <div visible=":= mgr.requireDownloadCode && mgr.validProductFlags != 0 && !mgr.acceptedLicense">
@@ -29,7 +35,7 @@
             <p/>
          </div>
 
-         <div visible=":= mgr.validProductFlags != 0">
+         <div id="licenseView" visible=":= mgr.validProductFlags != 0">
             <p/>
             <div visible=":= !mgr.acceptedLicense">
                Please accept the <a clickEvent="=: mgr.agreementVisible = true">evaluation license agreement</a>
@@ -58,7 +64,8 @@
                <p/>
                <input class="docInputTag" type="button" value="I agree" clickEvent="=: mgr.licenseAccepted()"/>
                <div id="alt">
-                  License accepted
+                  <i>License accepted</i>
+                  <p/>
                </div>
             </div>
          </div>
@@ -66,10 +73,10 @@
          <div visible=":= mgr.validProductFlags != 0 && mgr.acceptedLicense" id="download">
             Thank you for participating in the StrataCode preview!
             <p/>
-            <li repeat=":= mgr.downloadProducts" repeatVarName="downloadProduct">
+            <li id="downloadRepeat" repeat=":= mgr.downloadProducts" repeatVarName="downloadProduct">
                <%= downloadProduct.title %>
                <ul>
-                  <li repeat="= downloadProduct.downloadFiles" repeatVarName="fileInfo" cache="= sc.lang.html.CacheMode.Disabled">
+                  <li id="fileRepeat" repeat=":= downloadProduct.downloadFiles" repeatVarName="fileInfo" cache="= sc.lang.html.CacheMode.Disabled">
                      <a href='= "/download/getFile?productName=" + fileInfo.product.name + "&fileName=" + fileInfo.fileName + "&ext=" + fileInfo.ext + "&tag=" + fileInfo.tag + "&version=" + fileInfo.version + (fileInfo.subDir == null ? "" : "&subDir=" + fileInfo.subDir)' download>
                         <%= fileInfo.fileName + "." + fileInfo.ext %>
                      </a>
@@ -81,9 +88,61 @@
                   </li>
                </ul>
             </li>
+            <div id="enterAdditionalCode" visible=":= mgr.needsDownloadCode">
+              If you have a source download code, enter it here:
+              <input class="docInputTag" type="text" changeEvent="=: mgr.validateCode()" value=":=: mgr.currentCode"/>
+              <p/>
+              Want to evaluate the source too? Contact Jeff: jeff@jvroom.com
+              <div id="codeError" visible=":= mgr.invalidCode" class="formError">
+                 Invalid download code
+                 <p/>
+              </div>
+            </div>
             <p/>
             After downloading, see instructions at <a href="/doc/gettingStarted.html">getting started</a>
             <p/>
+         </div>
+
+         <div id="surveyView" visible=":= mgr.acceptedLicense && (mgr.questionAnswers.get("scLicense") == null || mgr.questionAnswers.get("sc4ideaLicense") == null)">
+            Before you go, two quick questions: 
+            <div class="surveyBox">
+               <div class="surveyTitle">Q1: Which licenses would be acceptable for StrataCode (scc)?</div>
+               <div class="surveyQ">
+                  <input type="checkbox" checked=':= DynUtil.equalObjects(mgr.questionAnswers.get("scLicense"), "notInterested")'
+                                         changeEvent="=: mgr.recordSurveyAnswer("scLicense", "notInterested", 0, checked)"/>
+                  Not interested
+               </div>
+               <div class="surveyQ">
+                  <input type="checkbox" checked=':= DynUtil.equalObjects(mgr.questionAnswers.get("scLicense"), "apacheOrGPL")'
+                                         changeEvent="=: mgr.recordSurveyAnswer("scLicense", "apacheOrGPL", 1, checked)"/>
+                  Apache or GPL licenses ok
+               </div>
+               <div class="surveyQ">
+                  <input type="checkbox" checked=':= DynUtil.equalObjects(mgr.questionAnswers.get("scLicense"), "apacheOnly")'
+                                         changeEvent="=: mgr.recordSurveyAnswer("scLicense", "apacheOnly", 2, checked)"/>
+                  Apache license only
+               </div>
+            </div>
+
+            <div class="surveyBox">
+               <div class="surveyTitle">Q2: Which licenses would be acceptable for the IntelliJ plugin (sc4idea)?</div>
+               <div class="surveyQ">
+                  <input type="checkbox" changeEvent="=: mgr.recordSurveyAnswer("sc4ideaLicense", "notInterested", 0, checked)"/>Not interested
+               </div>
+               <div class="surveyQ">
+                  <input type="checkbox" changeEvent="=: mgr.recordSurveyAnswer("sc4ideaLicense", "commercialOk", 1, checked)"/>Commercial product ok
+               </div>
+               <div class="surveyQ">
+                  <input type="checkbox" changeEvent="=: mgr.recordSurveyAnswer("sc4ideaLicense", "apacheOrGPL", 2, checked)"/>Open source only, Apache or GPL licenses ok
+               </div>
+               <div class="surveyQ">
+                  <input type="checkbox" changeEvent="=: mgr.recordSurveyAnswer("sc4ideaLicense", "apacheOnly", 3, checked)"/>Open source only, Apache license only
+               </div>
+            </div>
+         </div>
+
+         <div id="thankYouLicense" visible=':= mgr.questionAnswers.get("scLicense") != null && mgr.questionAnswers.get("sc4ideaLicense") != null'>
+            <div><i>Thank you for your answers!</i></div>
          </div>
 
          <div id="registerBox" visible=":= mgr.showRegisterBox">
@@ -111,8 +170,10 @@
             <input class="docInputTag" id="saveEmailButton" type="button" value="Save"
                   disabled=":= mgr.emailAddress.length() == 0"
                   clickEvent="=: mgr.updateEmail(emailField.value, contactType)"/>
+            <div><i>We won't share your email, easy unsubscribe</i></div>
 
             <div id="alt">
+               <p/>
                Thank you for registering: <%= mgr.emailAddress %> contact: <%= mgr.contactType %>
                (<a clickEvent="=: mgr.showRegisterBox = true">edit</a>)
             </div>

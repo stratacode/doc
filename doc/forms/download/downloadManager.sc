@@ -11,15 +11,18 @@ import java.util.HashMap;
 
 @Component
 scope<session> object downloadManager {
-   public int PROD_SCC = 1;
-   public int PROD_DEV = 2;
-   public int PROD_SRC = 4;
-   public int PROD_SC4IDEA = 8;
+   static public int PROD_SCC = 1;
+   static public int PROD_DEV = 2;
+   static public int PROD_SRC = 4;
+   static public int PROD_SC4IDEA = 8;
 
    SiteContext docSite;
 
-   final boolean requireDownloadCode = true;
-   int validProductFlags = 0;
+   // Set this to zero for a restricted preview where a download code is required
+   static int publicProductFlags = PROD_SCC | PROD_SC4IDEA;
+
+   final boolean requireDownloadCode = false;
+   int validProductFlags = publicProductFlags;
    String currentCode = "";
    Map<String,Integer> downloadCodes = new HashMap<String,Integer>();
    {
@@ -38,6 +41,10 @@ scope<session> object downloadManager {
    ContactType contactType = ContactType.None;
 
    boolean showRegisterBox = true;
+
+   static int numSurveyQuestions = 2;
+
+   Map<String,String> questionAnswers = new sc.util.HashMap<String,String>();
 
    static final String docPathName = "doc";
 
@@ -160,12 +167,24 @@ scope<session> object downloadManager {
       return res;
    }
 
+   @Bindable(manual=true)
+   public boolean getNeedsDownloadCode() {
+      if ((validProductFlags & PROD_SRC) == 0) {
+         return true;
+      }
+
+      if ((validProductFlags & PROD_SC4IDEA) == 0) {
+         return true;
+      }
+      return false;
+   }
+
    String rootDirectory = "/usr/local";
 
    void changeValidStatus(int flags) {
       validProductFlags = flags;
-      invalidCode = validProductFlags == 0;
       Bind.sendChangedEvent(this, "downloadProducts");
+      Bind.sendChangedEvent(this, "needsDownloadCode");
    }
 
    void validateCode() {
@@ -177,11 +196,13 @@ scope<session> object downloadManager {
       UserSession session = currentUserView.getUserSession(docSite);
       Integer flags = downloadCodes.get(currentCode);
       if (flags == null) {
-         flags = 0;
+         flags = publicProductFlags;
          if (session != null)
             session.addSessionEvent(new InvalidCodeEvent(currentCode));
+         invalidCode = true;
       }
       else {
+         invalidCode = false;
          if (session != null)
             session.addSessionEvent(new CodeUnlockEvent(currentCode, flags));
          else
@@ -265,4 +286,19 @@ scope<session> object downloadManager {
       contactType = ContactType.None;
       showRegisterBox = true;
    }
+
+   void recordSurveyAnswer(String questionName, String answerCode, int answerIx, boolean val) {
+      if (val) {
+         SurveyResponse sr = new SurveyResponse();
+         sr.userSession = currentUserView.getUserSession(docSite);
+         sr.user = currentUserView.user;
+         sr.questionCode = questionName;
+         sr.answerCode = answerCode;
+         sr.answerIndex = answerIx;
+         sr.dbInsert(true);
+         questionAnswers.put(questionName, answerCode);
+      }
+      System.out.println("*** Question: " + questionName + ": " + answerCode + " val: " + val);
+   }
+
 }

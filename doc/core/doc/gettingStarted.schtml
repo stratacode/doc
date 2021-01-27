@@ -15,11 +15,11 @@ StrataCode is intended for programmers with experience using Java.
 It requires: Java 8, Git, Unix (linux and mac - windows testing in progress),
 a machine with 4GB of memory and a fast processor for code-processing and compilation.
 
-## IntelliJ plugin
+### IntelliJ plugin
 
 To use StrataCode from IntelliJ, download a recent version of IntelliJ (either Community or Ultimate) and install the [IntelliJ plugin](ide/config.html) - a full featured IDE for StrataCode to build and run applications.
 
-## Command line - scc 
+### Command line - scc 
 
 To download the command line interface and libraries, download scc.zip [here](/download/). Unzip this file to create the /home/scc directory:
 
@@ -36,7 +36,7 @@ Test:
 
 Create a StrataCode project, and then run scc from the project directory with a list of layers.
 
-## Create a StrataCode project
+### Create a StrataCode project
 
 A StrataCode project contains one or more bundles of layers in the bundles directory:
 
@@ -52,7 +52,11 @@ Add additional layer bundles as well (inside of the 'bundles' directory):
       git clone https://github.com/stratacode/siteBuilder.git
       git clone https://github.com/stratacode/programEditor.git
 
-## Installing scc source
+### Java to Javascript converter
+
+See this [quickstart](/doc/javaToJavascript.html)
+
+### Installing scc source
 
 The code behind 'scc' is not open source but would make a great open source project if there's enough demand. It's a lot more fun to build when you have the source and we're looking for new partners to help so get in touch if you'd like to see more. With the source, run:
 
@@ -61,7 +65,7 @@ The code behind 'scc' is not open source but would make a great open source proj
       git clone https://github.com/stratacode/system.git .
       (or unzip the scc-src.zip)
 
-## Configure project to point to scc source
+### Configure project to point to scc source
 
 When using StrataCode with it's source code, it's best for the project build to use this source for the scc libraries, rather than than the copy bundled with the scc command.
 
@@ -77,7 +81,7 @@ cat &gt; conf/scSourcePath
 
 <%= MarkDownPage.markDown(%>
 
-## Running StrataCode examples
+### Running StrataCode examples
 
 From your /home/myProj directory run:
 
@@ -87,7 +91,7 @@ From your /home/myProj directory run:
 
 See [example layers](exampleLayers.html) for more examples.
 
-## Problems?
+### Problems?
 
 If you have problems after code changes, use the '-a' option to build all files or remove the layer's build directory in /home/myProj/build or the modelCache in ~/.stratacode/modelCache. 
 

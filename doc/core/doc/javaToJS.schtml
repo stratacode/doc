@@ -10,11 +10,15 @@
 
 ## Java to Javascript overview
 
-Here are the basics of using the framework layers built to convert Java to readable, customizable Javascript as a standalone converter without the web framework. 
+Here you can learn how to convert Java to readable Javascript in a customizable way, using a flexible framework builder.
 
-Currently the system has primarily been tested with the web framework, but there are a number of tests that run plain Java code in the browser. The download size could be reduced a lot by making more features "opt in", removing web framework code from the core, and code-gen optimizations to remove unused code from the generated result.
+It's built one very flexible and powerful web framework so far but has all of the building blocks for any custom environment.
+
+The download size can be reduced a lot by splitting up some of the existing framework layers so that it's only included if you use those features. 
 
 ## Getting Started
+
+This assumes you've installed the scc command in [getting started](/doc/gettingStarted.html).
 
 First install the coreFramework bundle of layers in the bundles directory. From this directory:
 
@@ -24,16 +28,16 @@ Put the StrataCode/bin directory in your path.  Create the file:
 
 <% ) %>
 
-<div class="filename">StrataCode/bundles/userLayers/sampleLayer/sampleLayer.sc</div>
+<div class="filename">/home/myProj/bundles/myBundle/myLayerGroup/myLayer.sc</div>
 <%= sc.lang.SCLanguage.INSTANCE.styleNoTypeErrors(null, null, %>
 @sc.js.JSSettings(jsModuleFile="js/sample.js")
-sampleLayer extends js.allInOne.main {
+myLayer extends js.allInOne.main {
 }
 <% ) %>
 
 The js.allInOne.main layer is a framework layer that supports running a traditional 'main' method in Javascript. 
 <p/>
-Put ordinary Java files in the sampleLayer directory, add a main with @sc.obj.MainSettings like this
+Put ordinary Java files in the myLayer directory, add a main with @sc.obj.MainSettings like this
 
 <div class="filename">Foo.java</div>
 <%= sc.lang.JavaLanguage.INSTANCE.style( %>
@@ -50,21 +54,21 @@ public class Foo {
 
 From this directory run:
 
-     scc -v -a sampleLayer
+     scc -v -a myLayerGroup.myLayer
 
 it should open the browser to an index page and the JS console will contain the "System.out.println" calls made in the code. 
 
-See the generated javascript file in the module declared above: js/sample.js file from "Source" view in the browser, or on the file system in the build directory: build/sampleLayer/web/js/sample.js.
+See the generated javascript file in the module declared above: js/sample.js file from "Source" view in the browser, or on the file system in the build directory: build/myLayerGroup_myLayer/web/js/sample.js.
 
-In this sample, the sampleLayer.sc file contains the @JSSettings annotation which affect how the files in that layer are converted to Javascript. All files in this layer are converted to JS and put into this module. All modules references by a given application are included automatically in the resulting page. Modules cannot extend classes in other moduls that already depend on the first module.
+In this sample, the myLayer.sc file contains the @JSSettings annotation which affect how the files in that layer are converted to Javascript. All files in this layer are converted to JS and put into this module. All modules references by a given application are included automatically in the resulting page. Modules cannot extend classes in other moduls that already depend on the first module.
 
 The 'main' class is added as an entry point during the build process and all referenced code is included in the "main.js" file, unless it's put into a module.
 
-Look in [bundles/coreFramework/js](https://github.com/stratacode/coreFramework/tree/master/js) for the layers that control the Java to JS conversion.  
+Look in [bundles/coreFramework/js](https://github.com/stratacode/coreFramework/tree/master/js) for the layers that control the Java to JS conversion. 
 
 TODO: The js.core layer could be split up to separate out the webFramework more cleanly to reduce the download size for java to js applications that don't use it.
 
-The sampleLayer extends the js.allInOne.main layer which puts all of the code in your project into a single set of Javascript files. The web framework uses js.appPerPage.main. There should be a set of framework layers for Node.js as well.
+The layer myLayerGroup.myLayer extends the js.allInOne.main layer which puts all of the code in your project into a single set of Javascript files. The web framework uses js.appPerPage.main. There should be a set of framework layers for Node.js as well.
 
 Read [the intro article](/articles/javaToJavascript.html)
 
@@ -90,7 +94,9 @@ There's a way to replace method and field names if there are any naming conflict
 
 * js/tags.js,  - not used in this sample - the SC web framework.  TODO: create a base-layer which does not include this and other SC framework JS files so the converter is usable without this dependency 
 
-* ./bundles/coreFramework/js/prebuild/JSTypeTemplate.sctjs - this is a Stratacode template file which is used to generate a JS class from a high-level code model object.  By replacing this template, you can change many aspects of the generated Javascript code, even how classes are defined. There is also handwritten code using these apis that might also need to be changed if this template is changed in an incompatible way. Other customizations can be done through annotations or by using the APIs provided in the StrataCode language runtime.
+* /home/myProj/bundles/coreFramework/js/prebuild/JSTypeTemplate.sctjs - this is a Stratacode template file which is used to generate a JS class from a high-level code model object.  By replacing this template, you can change many aspects of the generated Javascript code, even how classes are defined. There is also handwritten code using these apis that might also need to be changed if this template is changed in an incompatible way. Other customizations can be done through annotations or by using the APIs provided in the StrataCode language runtime.
+
+* /home/myProj/bundles/coreFramework/js/sys - the layer that contains the Java system files, used to build js/jvsys.js
 
 <% ) %>
 
