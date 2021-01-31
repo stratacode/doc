@@ -4,6 +4,30 @@
 <body>
    <div id="content" extends="DocPageLayout">
       <div id="mainContent" class="mainContent"><div id="mainContentBody" class="mainContentBody">
+
+            <div extends="VideoBox" title="Real time editing of product page and inventory" length="6 mins" date="Nov 2020" videoId="csExv-kY_mA">
+               <%! intro = %>
+                  In the SiteBuilder, changes made to products, blog posts, categories, skus, etc. in the management UI are reflected in real time on the live product pages. See this in action, and walk through the code that makes it happen.
+               <% ; %>
+            </div>
+
+            <div extends="VideoBox" title="Client/server mode" length="3 mins" date="Nov 2020" videoId="j_P23cqduVc">
+               <%! intro = %>
+                  See the storefront running in client/server mode, how layers organize into multiple processes, and how data-sync supports declarative code that runs in one process or split between client and server. 
+               <% ; %>
+            </div>
+
+            <div extends="VideoBox" title="Using layers to build plugins" length="5.5 mins" date="Nov 2020" videoId="RU6s9GKpuSw">
+               <%! intro = %>
+                  Layers in StrataCode support flexible ways to plug-in code and customize features. This demo walks through three different techniques used by the product feature. 
+               <% ; %>
+            </div>
+
+            <div extends="VideoBox" title="UserProfile code walk-through" length="5 mins" date="Nov 2020" videoId="Sn7cGowNGNw">
+               <%! intro = %>
+                  A code walk-through of the UserProfile object in the SiteBuilder. See the database and data sync mapping annotations, an example data binding expression used as a queryable property, declaratively defined query, and look at the generated code for debugging.
+               <% ; %>
+            </div>
          <div extends="VideoBox" title="StrataCode overview" length="6 min" date="Oct 2019" videoId="DpfIHbBkzV0">
             <%! intro = %>
                Overview of StrataCode design.  Download the presentation (<a href="scOverview.pdf">PDF</a>, <a href="scOverview-notes.pdf">with presenter notes</a>).

@@ -1,8 +1,8 @@
 <html abstract="true">
-<%! 
-    boolean mobileRes := Window.window.screen.width < 500 || Window.window.innerWidth / Window.window.devicePixelRatio < 840;
-    boolean navOpen := !mobileRes; 
-    pageVisitCount =: navOpen = !mobileRes;
+<%!
+   boolean smallWindow := Window.window.screen.width < 500 || Window.window.innerWidth < 1070;
+   boolean navOpen := !smallWindow;
+    pageVisitCount =: navOpen = !smallWindow;
 %>
 
 <body>
@@ -61,7 +61,7 @@
             }
             .pageIndex {
                <%= navOpen ? "flex: 0 0 300px;" : "position: absolute; z-index: 0; " %>
-               <%= mobileRes ? "position: absolute; z-index: 0;" : navOpen ? "position: initial; z-index: 10" : "" %>
+               <%= smallWindow ? "position: absolute; z-index: 0;" : navOpen ? "position: initial; z-index: 10" : "" %>
             }
             #pageContent {
                <%= navOpen ? "" : "margin-top: 70px;" %>

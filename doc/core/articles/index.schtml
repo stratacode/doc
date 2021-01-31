@@ -11,6 +11,10 @@
            <h1>StrataCode: layered code for evolutionary modularization</h1>
            <span style="font-size: 90%">by Jeffrey Vroom</span>
            <p>
+           <h3>Summary</h3>
+           Introducing a new language that supports type-safe layers of code. A type can be split into slices to allowing sharing of code between configurations with different dependencies. Supports a more gradual solution to the monolith versus microservices design choice and more flexible customization with less upfront scaffolding.
+           <p>
+           <h3>Intro</h3>
            The main idea behind this project started almost thirty years ago based on feedback from the first platform I designed, an object-oriented visual programming environment called AVS/Express. It was successful enough that customers used it to build large applications with many modules and connections.
            But despite my best intentions, it was difficult to reuse the parts of these large object graphs.
            </p>
@@ -21,10 +25,7 @@
            To customize even a small feature in an application required making a copy of the code or refactoring. I thought object-oriented inheritance would be enough, but it wasn't.<sup><a href="#sup1" id="supRef1">1</a></sup> After a lot of thought, I realized <i>layered inheritance</i> was needed - the ability to modify a given type in a different slice, or layer. This led to the <i>configuration layers</i> feature in ATG Dynamo, and experience with that led to this long-term effort to answer the question of whether a layer-oriented programming language can improve scalability, and customizability of software.
            </p>
            <p>
-           Now truth be told, I like building applications, not infrastructure. I would rather use someone else's framework than build my own, and never add a new format when a suitable one exists. I continued on this project only because nothing else has come along that addresses this missing capability. One can always work around the limitations in a platform, but I feel the great potential for StrataCode and layers to help developers architect more scalable and customizable platforms.
-           </p>
-           <p>
-           To provide more context on why I think that way, I'll present two challenges programmers face building systems then show how coding with layers changes the game.
+           One can always work around the limitations in a platform, but I feel the great potential for StrataCode and layers to help developers architect more scalable and customizable platforms. To provide more context on why I think that way, I'll present two challenges programmers face building systems then show how coding with layers changes the game.
            <h3>First challenge: monoliths and microservices</h3>
            To help understand the trajectory of monolithic development, let me refer to the recent <a href="https://shopify.engineering/shopify-monolith">article</a> from Shopify's architecture team on how they manage their 2.8M line monolithic service. There's no question the monolith has been successful for Shopify, but they are seeking more agility by creating more modular, resuable, separable components. They've made progress and are on a good path, but it is not easy because the changes required break compatibility across a large volume of code.
            </p>
@@ -96,7 +97,7 @@
            </div>
            The type system and IDE track customizations like regular code, guiding both the original product developer and the downstream developer that needs to customize the product.
            <h3>Layers - the missing organizational tool for code</h3>
-           The design freedom of layers allows applications to evolve faster, with less code that is more flexible. They also allow systems to adapt as frameworks and other dependencies change. Dependent code is separated into a new layer with cut and paste, preserving existing contracts. This way of organizing code supports product feature-lines: modules organized according to features defined by marketing.
+           The design freedom of layers allows applications to evolve faster, with less code that is more flexible. They also allow systems to adapt as frameworks and other dependencies change. Dependent code is separated into a new layer with cut and paste, preserving existing contracts. This way of organizing code supports [software product lines](https://link.springer.com/chapter/10.1007/978-3-642-15579-6_6#): modules organized according to features defined by marketing.
            <p>
            The challenge in applying layers effectively is understanding the basic design principles, and how to adjust the layers of code as the system evolves. Although there's a conceptual leap for the architect managing it all, it's not that different from what we do today for reusing code with plain object-oriented inheritance. I'm hoping that there are at least a few out there who will understand why this is a game-changer. 
            </p>
