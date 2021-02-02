@@ -19,6 +19,10 @@ class EventPage extends JSONPage {
       String sid; // set to the window id for second and subsequent events on the same window
       int wid;
       boolean close; // true when the window is closing
+
+      String toString() {
+         return "event: " + u + " " + sw + "x" + sh + " sessionId: " + sid + (close ? "(close)" : "");
+      }
    }
 
    static class EventPageResult {
@@ -52,13 +56,13 @@ class EventPage extends JSONPage {
             else {
                if (event.sid != null) {
                   if (!session.userMarker.equals(event.sid)) {
-                     System.err.println("*** mismatched userMarker in userSession");
+                     System.out.println("Warning: mismatched userMarker in userSession - new session: " + session.id + " with marker: " + session.userMarker + " old marker: " + event.sid + " for: " + event + " remote-ip: " + ctx.remoteIp + " ua: " + ctx.userAgent);
                   }
                }
                if (event.close) {
                   userView.windowClosed(event.wid, false);
-                  windowId = event.wid;
                }
+               windowId = event.wid;
             }
 
             // else - TODO: add other events to the api here
