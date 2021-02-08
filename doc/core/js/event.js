@@ -12,7 +12,8 @@ var sc_maxNumRequests = 20;
 
 function sc_updateScrollDepth() {
    var sh = sc_se.scrollHeight;
-   var wh = sc_se.clientHeight;
+   //var wh = sc_se.clientHeight;
+   var wh = window.innerHeight;
    var st = sc_se.scrollTop;
    sc_scrollDepth = Math.floor(100 * (st + wh) / sh);
    if (sc_scrollDepth > 100)
@@ -64,24 +65,30 @@ window.addEventListener("load", function() {
             console.error("Error response from tracking event request");
       }
    };
-   initReq.send(JSON.stringify({
+   var event = {
          u:window.location.pathname,
          rf:document.referrer,
          sw:window.screen.width,
          sd:sc_maxScrollDepth,
          sh:window.screen.height
-      }, null, 3));
+      };
+   // If the page is using either stags.js or the full runtime use the page's id - otherwise, this event creates a new one
+   if (typeof sc_windowId !== "undefined") {
+      event.wid = sc_windowId;
+      sc_wid = sc_windowId;
+   }
+   initReq.send(JSON.stringify(event, null, 3));
 });
 
 function sc_sendUpdate() {
    sc_sendPending = true;
    var initReq = sc_newRequest();
    initReq.onload = function(evt) {
+      sc_sendPending = false;
       var stat = initReq.status;
       if (stat == 200) {
          var resp = JSON.parse(initReq.responseText);
          sc_lastSendTime = new Date().getTime();
-         sc_sendPending = false;
          if ((sc_numRequests % 4) == 0) {
             sc_maxSendInterval *= 2;
             if (sc_maxSendInterval > sc_maxBackoffInterval)
@@ -97,11 +104,15 @@ function sc_sendUpdate() {
          var stat = initReq.status;
          if (stat != 200)
             console.error("Error response from tracking event request");
+         sc_sendPending = false;
       }
    };
    initReq.send(JSON.stringify({
+         u:window.location.pathname,
          sid:sc_sid,
          wid:sc_wid,
+         sw:window.screen.width,
+         sh:window.screen.height,
          sd:sc_maxScrollDepth
       }, null, 3));
 }
@@ -109,8 +120,11 @@ function sc_sendUpdate() {
 window.addEventListener("unload", function() {
    if (sc_sid) {
       navigator.sendBeacon("/form/event", JSON.stringify({
+         u:window.location.pathname,
          sid:sc_sid,
          wid:sc_wid,
+         sw:window.screen.width,
+         sh:window.screen.height,
          sd:sc_maxScrollDepth,
          close:true}));
    }

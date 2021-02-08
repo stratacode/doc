@@ -68,6 +68,7 @@ scope<request> class DownloadPage extends BasePage {
       uct.downloadFile = fileName;
       uct.downloadVersion = version;
       uct.licenseVersion = LICENSE_VERSION;
+      uct.downloadDate = new Date();
       uct.dbInsert(true);
 
       if (session != null)

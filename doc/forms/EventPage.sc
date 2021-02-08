@@ -17,7 +17,7 @@ class EventPage extends JSONPage {
       int sh; // screen height
       int sd = -1; // scroll depth (%)
       String sid; // set to the window id for second and subsequent events on the same window
-      int wid;
+      int wid = -1;
       boolean close; // true when the window is closing
 
       String toString() {
@@ -50,10 +50,16 @@ class EventPage extends JSONPage {
          session = userView.getUserSession(site);
          if (session != null) {
             if (event.sid == null && event.u != null) {
-               session.addPageEvent(event.u);
-               windowId = Window.window.windowId;
+               windowId = event.wid != -1 ? event.wid : Window.window.windowId;
+               session.addPageEvent(event.u, windowId);
             }
             else {
+               if (event.u != null) {
+                  PageEvent pe = session.getPageEvent(event.u, event.wid);
+                  if (pe == null) {
+                     session.addPageEvent(event.u, event.wid); // When we fail over or the session is expired
+                  }
+               }
                if (event.sid != null) {
                   if (!session.userMarker.equals(event.sid)) {
                      System.out.println("Warning: mismatched userMarker in userSession - new session: " + session.id + " with marker: " + session.userMarker + " old marker: " + event.sid + " for: " + event + " remote-ip: " + ctx.remoteIp + " ua: " + ctx.userAgent);

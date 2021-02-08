@@ -273,7 +273,7 @@ scope<session> object downloadManager {
    void pageEvent(String evName) {
       UserSession session = currentUserView.getUserSession(docSite);
       if (session != null)
-         session.addPageEvent(evName);
+         session.addPageEvent(evName, 0);
    }
 
    void stop() {
