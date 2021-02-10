@@ -13,21 +13,18 @@
 
 TODO: these instructions probably need some updating but they are based on the normal instructions for debugging an IntelliJ plugin. 
 
-* Enable the Groovy plugin
-* Install the IntelliJ PluginDev plugin
-* Get a copy of the community source for IntelliiJ
-* Create an sc4idea module (or import the one here)
+* Clone https://github.com/stratacode/sc4idea 
+* From IntelliJ's "Project Structure" dialog, go to modules and import the sc4idea.iml file 
 * Create a new SDK of type "Plugin" (in "Project Structure", select "SDKs" and "+")  
-* Add the source of the intelliJ community editor to the source path of that plugin
+* (optional - to debug the IntelliJ source too) Get a copy of the community source for IntelliiJ - check the 'About' for the precise built tag of the version of IntelliJ you are running so the source and binaries match up. Add the source of the intelliJ community editor to the source path of that plugin
 
-* Make sc4idea depend on the "sc" module for the StrataCode source, or create a Library in IntelliJ called sclib that points to the sc.jar file
+* Make sc4idea depend on the "sc" module for the StrataCode source (or create a Library in IntelliJ called sclib that points to the sc.jar file)
 
-* create a run configuration of type "plugin" for sc4idea
+* Create a run configuration of type "plugin" for sc4idea
 
 To deploy the plugin: 
 
-* in Project View, right click on the sc4idea module and select the Prepare plugin module for deployment menu.  The results are in the sc4idea/sc4idea.jar or sc4idea.zip depending on whether or not the sc.jar is a dependency.  
-
+* in Project View, right click on the sc4idea module and select the Prepare plugin module for deployment menu.  The results are in the sc4idea/sc4idea.jar or sc4idea.zip depending on whether or not the sc.jar is a dependency. Note however that the sc4idea.zip is built from scc not intelliJ. See the system/bin/makeSC4Idea script for details
 
 NOTE:
 

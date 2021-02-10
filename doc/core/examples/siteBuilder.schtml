@@ -292,20 +292,20 @@
             How to run each configuration of the application:
             <code>
                # Site builder with all features 
-               scc ec.demoMgr.serverOnly
-               scc ec.demoMgr.clientServer
+               scc -a ec.demoMgr.serverOnly
+               scc -a ec.demoMgr.clientServer
 
                # Without management UI
-               scc ec.demo.serverOnly
-               scc ec.demo.clientServer
+               scc -a ec.demo.serverOnly
+               scc -a ec.demo.clientServer
 
                # Site builder with product only
-               scc product.demoMgr.serverOnly
-               scc product.demoMgr.clientServer
+               scc -a product.demoMgr.serverOnly
+               scc -a product.demoMgr.clientServer
 
                # Site builder with blog only
-               scc blog.demoMgr.serverOnly
-               scc blog.demoMgr.clientServer
+               scc -a blog.demoMgr.serverOnly
+               scc -a blog.demoMgr.clientServer
 
                # To load the db for mapping postal code to city/state, geoIp database 
                # for the scprod database
@@ -315,14 +315,14 @@
                #
                # See user/addressDB/loader/loader.sc for additional instructions
                #
-               scc user/addressDB/loader
+               scc -a user/addressDB/loader
 
                # Load the addressDB for the ec.demo configuration (the scecom database)
-               scc ec/demo/loader
+               scc -a ec/demo/loader
 
                # To run in dynamic mode for faster compile, refresh
                #   see www.stratacode.com/status.html for known problems with this configuration
-               scc -dyn product.demo.serverOnly
+               scc -a -dyn product.demo.serverOnly
             </code>
 
             <h2>Video demos</h2>
