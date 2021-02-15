@@ -12,8 +12,7 @@
 
 StrataCode is intended for programmers with experience using Java.
 
-It requires: Java 8, Git, Unix (linux and mac - windows testing in progress),
-a machine with 4GB of memory and a fast processor for code-processing and compilation.
+It requires: Java 8 or 11, Git, Unix (linux and mac - windows testing in progress), a machine with 4GB of memory and a fast processor for code-processing and compilation.
 
 ### IntelliJ plugin
 

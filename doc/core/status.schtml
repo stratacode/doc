@@ -9,12 +9,13 @@
 
 <%= MarkDownPage.markDown( %>
 ## Status of StrataCode features
-
 Status of various StrataCode components based on current testing: 
 
 * Note: we'd love your feedback on anything but particularly better names for things, missing features, api changes or suggestions for improvements or what license we should use for StrataCode, and the IntelliJ plugin.
 
 ## Code-processor
+All Java 9 language features should work in the .sc formats. The 'var' keyword is not yet supported. The scc command can be run with either Java 8 or Java 11 and generates apps using Java 8 class file format.
+
 * beta: parselets, java support, sc, sct, schtml formats
 * alpha: process-constraints, maven emulation, modelCache (may need to clear modelCache directory from time to time)
 * pre-alpha: incremental compilation (beyond using it to run an app with no file changes)
@@ -63,17 +64,17 @@ More features are required for managing cache sizes and more testing needs to be
 
 There's a prototype of an android framework that supported the unit converter and simple applications but has not been tested in a while. The android apis integrate very cleanly with the data binding system and so can be used with minimal wrapping code. 
 
+Get in touch if you'd like to use android and Jeff will update the framework to use an up-to-date version of the SDK.
+
 ## Futures
 
 These are a few future ideas we have for ways to leverage StrataCode and layers:
 
-* Program editor - build an editor for HTML UIs from UI to form view and code view, new tag, new attribute, resize for fixed position elements, etc. Direct manipulation of UI controls - e.g. setting styles, alignment rules, etc. right from the widget.
+* Complete the program editor: build an editor for HTML UIs from UI to form view and code view, new tag, new attribute, resize for fixed position elements, etc. Direct manipulation of UI controls - e.g. setting styles, alignment rules, etc. right from the widget.
 
-* DB persistence framework - add additional data sources and in-memory joins: efficient document/binary/column-oriented storage and secret store are the two that are needed for a complete implementation. Still need to finish the 'staging mode' implementation, where we generate a 'staging schema' that can be used to store changes made as part of a workflow. Those will be seamlessly merged into queries and other apis for testing purposes. This schema won't have the integrity constraints since it will be just a layer on top of the main database. More management UI integration, particularly with schema manager. Or maybe new properties are just marked as dyn columns so they go into the dynamic part of the tables?  Need to add 'find panel' to the management UI based on the DB findBy features.
+* Enhance the DB framework: add additional data sources and in-memory joins: efficient document/binary/column-oriented storage and secret store are the two that are needed for a complete implementation. Still need to finish the 'staging mode' implementation, where we generate a 'staging schema' that can be used to store changes made as part of a workflow. Those will be seamlessly merged into queries and other apis for testing purposes. This schema won't have the integrity constraints since it will be just a layer on top of the main database. More management UI integration, particularly with schema manager. Or maybe new properties are just marked as dyn columns so they go into the dynamic part of the tables?  Need to add 'find panel' to the management UI based on the DB findBy features.
 
-* Management of clusters of systems and router configuration. Today there's a cluster of tools that manage the entire lifecycle of application configuration, management, and deployment. Each step of the way has it's own way to organize, configure, and manage systems and lots of effort goes into integrating different aspects from code-changes, building, testing, and deploying, then adding necessary management UIs for the running system, and managing updates. StrataCode has the combination of features to manage overall organization and provide the tools for the complete process. Because it's based on code-generation, it can generate configuration files using system-wide awareness of the configuration. It can partition the system into multiple processes, with overlapping requirements and components. Layers allow seamless separation of deployment configuration to keep it secure. The declarative programming model that cuts across it all with built-in management UIs will make for a fast, manageable, configurable way to build multi-process systems. The routing logic and load balancing can be generated as well.
-
-* If the concepts here catch on, would it make sense to provide a marketplace for businesses to have access to more configurable, customizable, reliable, secure software on inexpensive monthly source code subscriptions, rolled up amongst all the layers they use. Separate software from the cloud but find a way to pay for maintenance. Perhaps a public benefit organization for trusted developers who are fairly compensated from the subscription revenue they earn by building code, and supporting layers they contribute to.
+* Framework layers for systems management: Add new framework layers to abstract system's management: setup of machine images, setup and management of virtual machines, deployment and update of code. The idea is to wrap existing tools with one system that supports a universal layered configuration. This will remove the overlaps and gaps that existing when these systems are configured and managed without a single unified configuration system based on 'systems feature layers'. This will help us build systems in a way that keep application code and deployment features separate but still have a unified set of admin and management interfaces to deal with each custom system.
 
 <% ) %>
         </div>
