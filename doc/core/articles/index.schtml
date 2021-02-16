@@ -35,11 +35,12 @@
            <p>
            It's common for a monolith to be the best design in the early stages, but as the system grows, it scales better with more separation. Large systems benefit from more separable components or partitioning into separate services with well-defined API boundaries. This also permits more customized downstream deployments and improves operational scale and efficiency. But there's never a great time to stop everything and perform major refactoring to make the changes. If developers try to predict future modularization needs upfront, they can over-modularize. They might make the mistake of splitting even fine-grained, tightly-coupled features into separate microservices. Or even if the services are well designed, they spend design and development time only to create more operational complexity and runtime overhead that does not pay off until much later.
            </p>
+           Here's a hypothetical diagram to illustrate this point. The monolith starts out with an advantage in the rate of feature development, but some time in the future might arrive at the same feature set as a microservices version but with a slower rate going forward: 
            <div>
               <img class="centerImageBlock" src="/images/monoMicroDiag.png"/>
            </div>
            <h3>Second challenge: designing for customization</h3>
-           It's difficult for programmers to accurately predict and design hooks for future customization by downstream developers.<sup><a href="#sup2" id="supRef2">1</a></sup> This includes choosing the properties that are configurable, the components that can be extended and designing the interfaces for plug-ins, and callbacks. How many of us have had to copy an XML, JSON, or YAML configuration file with so many values that never change? Or struggled to debug problems with an over-designed <i>inversion of control</i> component configuration? Or needed to implement a feature that could not be plugged in easily to a 3rd party component? It's all too easy for programmers to over-design or miss an important feature when designing for customization.
+           Before describing how layers help with this tradeoff, let me describe another tendency that I've seen that contributes to friction during software development. It's difficult for programmers to accurately predict and design hooks for future customization by downstream developers, testing, and operations.<sup><a href="#sup2" id="supRef2">1</a></sup> This includes choosing the properties that are configurable, the components that can be extended and designing the interfaces for plug-ins, and callbacks. How many of us have had to copy an XML, JSON, or YAML configuration file with so many values that never change? Or struggled to debug problems with an over-designed <i>inversion of control</i> component configuration? Or needed to implement a feature that could not be plugged in easily to a 3rd party component? It's all too easy for programmers to over-design or miss an important feature when designing for customization.
            <div>
               <img class="centerImageBlock" src="/images/rockWall.jpg"/>
            </div>
@@ -60,7 +61,7 @@
               <img class="centerImageBlock" src="/images/splitFile.png"/>
            </div>
            <p>
-           Annotations are added to customize persistence and expose APIs. When the directory becomes too large, move files into sub-directories. When one aspect of the code needs to be used in an independent context, it is moved into a new layer. Initially, the layer is just like a module with shared settings and imports.
+           Annotations are added to customize persistence and expose APIs. When the directory becomes too large, move files into sub-directories. When one aspect of the code needs to be used in an independent context, it is moved into a new layer. Initially, the layer is like a module but with some extras like default annotations and imports.
            </p>
            <div>
               <img class="centerImageBlock" src="/images/splitModule.png"/>
@@ -79,9 +80,9 @@
               </div>
            </div>
            <p>
-           Let's say validation methods also need to run in the browser for usability,
+           Let's say validation rules and methods also need to run in the browser for usability,
             or statistics gathering methods need their own process for performance reasons. 
-            At that point, those parts of the classes needed by both sides are moved into a new shared layer. The shared layers implicitly define the set of remote types. The set of server methods called from the shared layers help determine remote API. Validation and other code in the shared layers runs on both sides, in two different versions of the same class. 
+            At that point, those parts of the classes needed by both sides are moved into a new shared layer. The shared layers implicitly define the set of remote types. The set of server methods called from the shared layers help determine remote API. Validation and other code in the shared layers runs on both sides, in two different versions of the same class.
            </p>
            <div>
               <img class="centerImageBlock" src="/images/splitClientServer.png"/>
@@ -125,7 +126,7 @@
            There's a <a href="/articles/dynamicRuntime.html">dynamic runtime</a> for fast round trips, build files and test scripts.
            </p>
            <p>
-           The <a href="/examples/siteBuilder.html">site builder</a> is an early version of a complete app development framework with blog and product plugins. See the [demo videos](/videos.html) for a code walk-through of these concepts using IntelliJ.
+           The <a href="/examples/siteBuilder.html">site builder</a> is an early version of a complete app development framework with blog and product plugins built in around 15K lines and 32 layers. Initially built as server only (sending HTML changes over the wire to a small fixed JS client) later split to also support client/server mode. See the [demo videos](/videos.html) for a code walk-through of these concepts using IntelliJ.
            </p>
            <p>
            The <a href="/examples/programEditor.html">program editor</a> is an early version of a live-programming tool for viewing and editing layers, types, properties, binding-expressions and instances complete with swing and browser code editing.
