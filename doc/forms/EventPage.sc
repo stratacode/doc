@@ -61,7 +61,10 @@ class EventPage extends JSONPage {
                   }
                }
                if (event.sid != null) {
-                  if (!session.userMarker.equals(event.sid)) {
+                  if (session.userMarker == null) {
+                     System.out.println("No session userMarker in userSession - new session: " + session.id + " with marker: " + session.userMarker + " old marker: " + event.sid + " for: " + event + " remote-ip: " + ctx.remoteIp + " ua: " + ctx.userAgent);
+                  }
+                  else if (!session.userMarker.equals(event.sid)) {
                      System.out.println("Warning: mismatched userMarker in userSession - new session: " + session.id + " with marker: " + session.userMarker + " old marker: " + event.sid + " for: " + event + " remote-ip: " + ctx.remoteIp + " ua: " + ctx.userAgent);
                   }
                }
