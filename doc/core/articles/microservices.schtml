@@ -65,7 +65,7 @@ If the two need to communicate using APIs, we can detect that it's a remote meth
 
 To deploy microservices, it's common to have a central dispatcher service which delegates the client request to the appropriate service. StrataCode manages the entire system at build time and so can join together the entire process connectivity diagram at build time, to generate the new dispatcher config.
 
-To break up a large code base deployed as a monolithic service, the first step is to refactor and that can be a large task that takes a long time to complete. It's typical that the original code base continues to need new features and maintainance so the refactored code base is chasing a moving target. It might take a lot longer than it should due to the churn this situation causes.
+To break up a large code base deployed as a monolithic service, the first step is to refactor and that can be a large task that takes a long time to complete. It's typical that the original code base continues to need new features and maintenance so the refactored code base is chasing a moving target. It might take a lot longer than it should due to the churn this situation causes.
 
 With StrataCode's robust, type-safe splitting and merging the initial refactoring does not have to change APIs or the end result. It can be deployed as the monolith right away as it's possible to ensure the generated result matches the original. This refactored code base then is available for new features while the same layers are reassembled into separate services as well. Both versions can run side-by-side until the new version is demonstrably better in every way. The old monolithic deployment model can stick around as a short-cut for developers since it's built from the same code.
 

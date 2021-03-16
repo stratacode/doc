@@ -251,11 +251,17 @@ scope<session> object downloadManager {
    void saveUser(boolean updateLicense, boolean updateEmail, boolean updateContact) {
       UserView userView = currentUserView;
 
+      UserProfile user;
       if ((updateContact || updateEmail) && emailAddress != null && pattern.matcher(emailAddress).matches()) {
-         UserProfile user = userView.initUserForUserName(emailAddress);
+         user = userView.initUserForUserName(emailAddress);
          if (updateContact)
             user.contactType = contactType;
-         if (updateLicense)
+      }
+      else if (updateLicense) {
+         if (userView.user == null)
+            userView.initNewUser();
+         user = userView.user;
+         if (user != null)
             user.acceptedLicense = acceptedLicense;
       }
 
