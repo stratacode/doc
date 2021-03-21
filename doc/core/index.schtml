@@ -191,7 +191,7 @@
 
    <div class="mainContent"><div class="mainContentBody">
       <p>
-   StrataCode is open source, readable code. Great for framework developers.
+   StrataCode is <a href="https://github.com/stratacode">open source</a>, readable code. Great for framework developers, or beginners wanting to build code processors.
    </p>
    <p>
    Read more in the <a href="articles/">introduction</a>.

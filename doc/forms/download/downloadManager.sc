@@ -19,7 +19,7 @@ scope<session> object downloadManager {
    SiteContext docSite;
 
    // Set this to zero for a restricted preview where a download code is required
-   static int publicProductFlags = PROD_SCC | PROD_SC4IDEA;
+   static int publicProductFlags = PROD_SCC | PROD_SC4IDEA | PROD_SRC;
 
    final boolean requireDownloadCode = false;
    int validProductFlags = publicProductFlags;
@@ -32,7 +32,10 @@ scope<session> object downloadManager {
    }
    boolean agreementVisible = false;
 
-   boolean acceptedLicense = false;
+   /** Set to true for an explicit acceptLicense */
+   static final boolean needsAcceptLicense = false;
+
+   boolean acceptedLicense = !needsAcceptLicense;
    boolean invalidCode = false;
 
    String emailErrorText = "";
@@ -213,7 +216,7 @@ scope<session> object downloadManager {
    }
 
    void licenseAccepted() {
-      acceptedLicense = true;
+      acceptedLicense = !needsAcceptLicense;
       agreementVisible = false;
       saveUser(true, false, false);
 
