@@ -392,7 +392,7 @@ During the parsing phase, initially there is no semantic value defined.  Each pa
 
 The parse method goes through a pretty circuitous route but this is for maximum flexibility in code-reuse, extension and enhancement.  You start by calling parse on an instance of the Language you want to parse.  You can optionally specify a parselet.  This creates a Parser object to store state for the parse operation and calls its parse method.  That method sets up state for parselet and calls its parse method.  It will either the Parselet's parseResult or parseError method and return the result of that method.  These methods deal with most of the optional behavior.
 
-There are two main types of hierarchical parselets: the OrderedChoice and Sequence classes.  The OrderedChoice takes a list of chidren and returns the first one which matches.  The sequence requires that all of its children match (though of course some of those might be optional). 
+There are two main types of hierarchical parselets: the OrderedChoice and Sequence classes.  The OrderedChoice takes a list of children and returns the first one which matches.  The sequence requires that all of its children match (though of course some of those might be optional). 
 
 At the primitive level, there are Symbol and SymbolChoice.  We add IndexedChoice by extending OrderedChoice and just making the choice of the matching parselets more efficient by matching a prefix string.  Language constructs add higher level constructs such as Spacing, SemanticToken, out of these building blocks. 
 
