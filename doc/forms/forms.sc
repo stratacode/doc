@@ -15,7 +15,7 @@ import java.io.Closeable;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-public doc.forms extends doc.core, user.html.serverMgr, user.survey.model, jetty.schtml {
+public doc.forms extends doc.core, user.html.serverMgr, user.survey.model, doc.jsCvt, jetty.schtml {
    userDataSource {
       jndiName = "jdbc/scformsDB";
       dbName = "scforms";

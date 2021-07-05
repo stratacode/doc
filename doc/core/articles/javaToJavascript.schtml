@@ -7,10 +7,9 @@
 
 <%= MarkDownPage.markDown(%>
 
-## Flexible, efficient Java web applications
+### Online Java to Javascript converter
 
-The StrataCode webFramework is built with components, properties, data binding and templates. The same code runs on both client and server with a Java to Javascript 
-converter built with [Parselets](/articles/parseletsIntro.html). Web applications are built with the readable schtml file format for fast initial page loads, and efficient, incremental refresh.
+Use our free [online Java to Javascript](/javaToJS/online.html) converter, producing readable, JS code from Java source.
 
 ### Java to Javascript converter
 
@@ -23,6 +22,14 @@ converted to Javascript:
    <%= sc.lang.js.JSLanguage.INSTANCE.styleBuildFile("example/simple", "js", "js/types/example/simple/SortTest.js", false, false, true) %>
 
 <%= MarkDownPage.markDown(%>
+
+Java to Javascript converter is built with [Parselets](/articles/parseletsIntro.html), an easier way to build robust code-processing tools.
+
+### Flexible, efficient Java web applications
+
+Use the Java to JS converter with the StrataCode webFramework, built with components, properties, data binding and templates. The same code runs on both client and server.
+
+Web applications are built with the readable schtml file format for fast initial page loads, and efficient, incremental refresh.
 
 ### Template language
 
